@@ -40,7 +40,6 @@ namespace cu_grab
     public partial class MainWindow : Window
     {
 
-        String lcJsonUrl = @"http://www.rtve.es/infantil/buscador-clan/obtener-datos-programas.json";
         String p7JsonUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/";
 
            
@@ -49,13 +48,11 @@ namespace cu_grab
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
         enum Site {None, TenP, RTVEC }
         State curState = State.DisplayingNone;
-
-
+        Site curSite = Site.None;
         public MainWindow()
         {
             InitializeComponent();
-            Tenp.fillShowsList(objectList);
-            curState = State.DisplayingShows;
+            // Tenp.fillShowsList(objectList);
         }
     
         /// <summary>
@@ -110,6 +107,52 @@ namespace cu_grab
         {
             Tenp.cleanEpisodes(objectList);
             curState = State.DisplayingShows;  
+            selectedShow = "";
+        }
+
+        private void ButtonTenplay_Click(object sender, RoutedEventArgs e)
+        {
+            //First time selecting site
+            if(!Tenp.requested)
+            {
+                Tenp.fillShowsList(objectList);
+            }
+            // If they select it while we are currently on it just return to shows
+            else if (curSite == Site.TenP)
+            {
+                Shows_Pressed(null,null);
+                return;
+            }
+            // other time selecting site
+            else
+            {
+                Tenp.setTPActive(objectList);
+            }  
+            curState = State.DisplayingShows;
+            curSite = Site.TenP;
+            selectedShow = "";
+        }
+
+        private void ButtonRTVEC_Click(object sender, RoutedEventArgs e)
+        {
+            //First time selecting site
+            if (!RTVEc.requested)
+            {
+                RTVEc.fillShowsList(objectList);
+            }
+            // If they select it while we are currently on it just return to shows
+            else if (curSite == Site.RTVEC)
+            {
+                Shows_Pressed(null, null);
+                return;
+            }
+            // other time selecting site
+            else
+            {
+                RTVEc.setRTVEcActive(objectList);
+            }
+            curState = State.DisplayingShows;
+            curSite = Site.RTVEC;
             selectedShow = "";
         }
     }

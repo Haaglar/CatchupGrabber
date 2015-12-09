@@ -19,6 +19,10 @@ namespace cu_grab
         public bool hasForeignVideos { get; set; }
         public string permalink { get; set; }
         public List<object> recommendAgesForChilds { get; set; }
+        public override string ToString()
+        {
+            return titulo;
+        }
     }
 
     public class ShowsClan

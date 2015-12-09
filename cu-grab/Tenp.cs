@@ -15,7 +15,7 @@ namespace cu_grab
     {
         private static RootObject shows;
         private static List<Episode> selectedShowEpisodes = new List<Episode>();
-
+        public static bool requested = false;
         /// <summary>
         /// Fillthe ListBox with the shows currently on Tenplay found from the search JSON.
         /// </summary>
@@ -34,6 +34,7 @@ namespace cu_grab
                 objectList.ItemsSource = shows.Shows;
             }
             resSearchJs.Close();
+            requested = true;
         }
         /// <summary>
         /// 
@@ -157,7 +158,10 @@ namespace cu_grab
                 }
             }
             return finalUrl;
-
+        }
+        public static void setTPActive(ListBox objectList)
+        {
+            objectList.ItemsSource = shows.Shows;
         }
     }
 }

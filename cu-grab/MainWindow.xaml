@@ -7,6 +7,9 @@
         <TextBlock x:Name="errorLabel" HorizontalAlignment="Left" Margin="35,307,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="40" TextWrapping="Wrap" Width="245" Text="Double click on a show, the double click on an episode to get."/>
         <ListBox x:Name="objectList" HorizontalAlignment="Left" Height="217" Margin="70,67,0,0" VerticalAlignment="Top" Width="382" MouseDoubleClick="oL_ItemPressed"/>
         <Button x:Name="toShows" Content="Shows" HorizontalAlignment="Left" Margin="348,307,0,0" VerticalAlignment="Top" Width="75" Click="Shows_Pressed"/>
+        <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
+        <Button Content="TenP" HorizontalAlignment="Left" Margin="47,395,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="RTVE Clan" HorizontalAlignment="Left" Margin="159,395,0,0" VerticalAlignment="Top" Width="75"/>
 
     </Grid>
 </Window>

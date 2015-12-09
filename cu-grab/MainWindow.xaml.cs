@@ -47,7 +47,9 @@ namespace cu_grab
         String tpURL = "http://tenplay.com.au";
         String selectedShow = "";
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
+        enum Site {None, TenP, RTVEC }
         State curState = State.DisplayingNone;
+
 
         public MainWindow()
         {

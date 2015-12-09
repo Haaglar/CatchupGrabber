@@ -4,14 +4,9 @@
         Title="cu-grab" Height="500" Width="500"
         ResizeMode="NoResize">
     <Grid>
-        <Label Content="URL: " HorizontalAlignment="Left" Margin="33,67,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="url_location" HorizontalAlignment="Left" Height="45" Margin="120,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="137"/>
-        <Label Content="File Location: " HorizontalAlignment="Left" Margin="33,129,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="file_to_save" HorizontalAlignment="Left" Height="45" Margin="120,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="137" GotFocus="Location_Select"/>
-        <Button Content="Download" HorizontalAlignment="Left" Margin="150,197,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <TextBlock x:Name="errorLabel" HorizontalAlignment="Left" Margin="33,244,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="40" TextWrapping="Wrap" Width="245">Please inupt the URL and location to save to or select a show and episode from the side</TextBlock>
-        <ListBox x:Name="objectList" HorizontalAlignment="Left" Height="217" Margin="278,67,0,0" VerticalAlignment="Top" Width="174" MouseDoubleClick="oL_ItemPressed"/>
-        <Button x:Name="toShows" Content="Shows" HorizontalAlignment="Left" Margin="322,320,0,0" VerticalAlignment="Top" Width="75" Click="Shows_Pressed"/>
+        <TextBlock x:Name="errorLabel" HorizontalAlignment="Left" Margin="35,307,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="40" TextWrapping="Wrap" Width="245" Text="Double click on a show, the double click on an episode to get."/>
+        <ListBox x:Name="objectList" HorizontalAlignment="Left" Height="217" Margin="70,67,0,0" VerticalAlignment="Top" Width="382" MouseDoubleClick="oL_ItemPressed"/>
+        <Button x:Name="toShows" Content="Shows" HorizontalAlignment="Left" Margin="348,307,0,0" VerticalAlignment="Top" Width="75" Click="Shows_Pressed"/>
 
     </Grid>
 </Window>

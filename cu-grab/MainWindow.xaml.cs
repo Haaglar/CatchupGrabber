@@ -62,16 +62,26 @@ namespace cu_grab
         /// <param name="e"></param>
         private void oL_ItemPressed(object sender, MouseButtonEventArgs e)
         {
-            switch (curState)
-            {
-                case State.DisplayingShows:
-                    selectedShow = Tenp.clickDisplayedShow(objectList);
-                    curState = State.DisplayingEpisodes;
+            //Handle sites
+            switch (curSite) 
+            { 
+                //Tenplay
+                case Site.TenP:
+                    switch (curState)
+                    {
+                        case State.DisplayingShows:
+                            selectedShow = Tenp.clickDisplayedShow(objectList);
+                            curState = State.DisplayingEpisodes;
+                            break;
+                        case State.DisplayingEpisodes:
+                            String name = Tenp.getSelectedName(objectList);
+                            String dlUrl = Tenp.getUrl(objectList);
+                            runFFmpeg(dlUrl, selectedShow + " " + name);
+                            break;
+                    }
                     break;
-                case State.DisplayingEpisodes:
-                    String name = Tenp.getSelectedName(objectList);
-                    String dlUrl = Tenp.getUrl(objectList);
-                    runFFmpeg(dlUrl, selectedShow + " " + name);
+                //RTVEC
+                case Site.RTVEC:
                     break;
             }
         }
@@ -105,9 +115,15 @@ namespace cu_grab
         /// <param name="e"></param>
         private void Shows_Pressed(object sender, RoutedEventArgs e)
         {
-            Tenp.cleanEpisodes(objectList);
-            curState = State.DisplayingShows;  
-            selectedShow = "";
+            switch(curSite)
+            {
+                case Site.TenP:
+                    Tenp.cleanEpisodes(objectList);
+                    curState = State.DisplayingShows;  
+                    selectedShow = "";
+                    break;
+            }
+            
         }
 
         private void ButtonTenplay_Click(object sender, RoutedEventArgs e)

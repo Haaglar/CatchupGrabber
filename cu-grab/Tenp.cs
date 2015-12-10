@@ -114,7 +114,7 @@ namespace cu_grab
             return selectedShowEpisodes[objectList.SelectedIndex].Name;
         }
         /// <summary>
-        /// 
+        /// Handles Clearing the episode list and reseting it back to the show list
         /// </summary>
         /// <param name="objectList"></param>
         public static void cleanEpisodes(ListBox objectList)

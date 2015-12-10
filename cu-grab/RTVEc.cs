@@ -16,9 +16,8 @@ namespace cu_grab
         private static ShowsClan value;
         private static EpisodesClan episodesClan;
         public static bool requested = false;
-        //idividual http://www.rtve.es/api/videos/2787795.json
         /// <summary>
-        /// 
+        /// Fills the listbox with the JSON from RTVEClan search 
         /// </summary>
         /// <param name="objectList"></param>
         public static void fillShowsList(ListBox objectList)
@@ -40,7 +39,7 @@ namespace cu_grab
             requested = true;
         }
         /// <summary>
-        /// 
+        /// Sets the object list to the episodes for RTVEClan
         /// </summary>
         /// <param name="objectList"></param>
         public static void setRTVEcActive(ListBox objectList)
@@ -48,7 +47,7 @@ namespace cu_grab
             objectList.ItemsSource = value.infoBuscador;
         }
         /// <summary>
-        /// 
+        /// Handles clicking on a show and setting the listbox to the episodes for the show. 
         /// </summary>
         /// <param name="objectList"></param>
         public static String clickDisplayedShow(ListBox objectList)
@@ -75,24 +74,43 @@ namespace cu_grab
             resTematicasJs.Close();
             return selectedShow;
         }
+        /// <summary>
+        /// Gets the url for the selected object in the list
+        /// </summary>
+        /// <param name="objectList"></param>
+        /// <returns></returns>
+        public static String getUrl(ListBox objectList)
+        {
+            WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/ztnr/movil/thumbnail/default/videos/" + episodesClan.page.items[objectList.SelectedIndex].id + ".png");
+            reqTematicasJs.Headers.Add("Refferer", episodesClan.page.items[objectList.SelectedIndex].htmlUrl);
+            WebResponse resTematicasJs = reqTematicasJs.GetResponse();
+            string base64 = "";
+            using (StreamReader srjs = new StreamReader(resTematicasJs.GetResponseStream(), System.Text.Encoding.UTF8))
+            {
+                base64 = srjs.ReadToEnd();
+            }
+            resTematicasJs.Close();
+            return getUrlFromPNGUrl(base64);
+        }
 
         /// <summary>
         /// TODO Replace this with time method
         /// </summary>
-        public static void getUrlFromPNGUrl()
+        private static String getUrlFromPNGUrl(String text)
         {
-            Regex rer = new Regex(@"tEXt(.*)#.([0-9]*)");
-            String text = File.ReadAllText(@"C:\Users\");
+
+            
+            Regex rer = new Regex(@"tEXt(.*)#.([0-9]*)"); //Search for the two piece of data that we need
             byte[] data = Convert.FromBase64String(text);
             String decodedString = Encoding.UTF8.GetString(data);
-            //remove junk data which messes up regex
+            //remove junk data which messes up regex, well most of it anyway
             decodedString = Regex.Replace(decodedString, @"[^\u0000-\u007F]", string.Empty);
             MatchCollection matchBand = rer.Matches(decodedString);
 
             //The different sections of the png to decode
             String group1 = matchBand[0].Groups[1].Value;
             String group2 = matchBand[0].Groups[2].Value;
-            //Port of the code found in youtube-dl, which its self based of stuff elsewhere.
+            //Port of the code found in youtube-dl, which its self based off stuff elsewhere.
             String alphabet = "";
             int e = 0, d = 0;
             foreach (char l in group1)
@@ -113,7 +131,7 @@ namespace cu_grab
             {
                 if (f == 0)
                 {
-                    lint = int.Parse(letter.ToString()) * 10;
+                    lint = int.Parse(letter.ToString()) * 10; //Char -> string -> int yep
                     f = 1;
                 }
 
@@ -133,6 +151,18 @@ namespace cu_grab
                     }
                 }
             }
+
+            return url;
+        }
+        /// <summary>
+        /// Handles Clearing the episode list and reseting it back to the show list
+        /// </summary>
+        /// <param name="objectList"></param>
+        public static void cleanEpisodes(ListBox objectList)
+        {
+
+            objectList.ItemsSource = value.infoBuscador;
+            episodesClan = null;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//A class for the Shows that are on letsclan
 namespace cu_grab
 {
     public class InfoBuscador

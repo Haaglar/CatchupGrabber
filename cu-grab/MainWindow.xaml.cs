@@ -26,10 +26,9 @@ namespace cu_grab
      * TODO: 
      * Error handling!
      * Make a attractive GUI
-     * Use API, for descriptions and stuff instead of crawling
+     * Use API, for descriptions and stuff instead of crawling on tenplay
      * Other sites
-     *      rtvs
-     *          get episode list for entry
+     *      rtvec
      *          use a web proxy
      *          do stuff
      *      p7 maybe?   
@@ -42,18 +41,16 @@ namespace cu_grab
     {
 
         String p7JsonUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/";
-        Regex rer = new Regex(@"tEXt(.*)#.([0-9]*)");
         String tpURL = "http://tenplay.com.au";
         String selectedShow = "";
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
         enum Site {None, TenP, RTVEC }
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
+
         public MainWindow()
         {
             InitializeComponent();
-            
-            // Tenp.fillShowsList(objectList);
         }
     
         /// <summary>
@@ -88,6 +85,11 @@ namespace cu_grab
                         case State.DisplayingShows:
                             selectedShow = RTVEc.clickDisplayedShow(objectList);
                             curState = State.DisplayingEpisodes;
+                            break;
+                        case State.DisplayingEpisodes:
+                            errorLabel.Text =  RTVEc.getUrl(objectList);
+                            //String dlUrl = Tenp.getUrl(objectList);
+                            //runFFmpeg(dlUrl, selectedShow + " " + name);
                             break;
                     }
                     break;
@@ -128,6 +130,11 @@ namespace cu_grab
                 case Site.TenP:
                     Tenp.cleanEpisodes(objectList);
                     curState = State.DisplayingShows;  
+                    selectedShow = "";
+                    break;
+                case Site.RTVEC:
+                    RTVEc.cleanEpisodes(objectList);
+                    curState = State.DisplayingShows;
                     selectedShow = "";
                     break;
 

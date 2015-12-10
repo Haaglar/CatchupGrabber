@@ -29,7 +29,8 @@ namespace cu_grab
      * Use API, for descriptions and stuff instead of crawling
      * Other sites
      *      rtvs
-     *          search Crawl api
+     *          get episode list for entry
+     *          use a web proxy
      *          do stuff
      *      p7 maybe?   
      */
@@ -41,8 +42,7 @@ namespace cu_grab
     {
 
         String p7JsonUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/";
-
-           
+        Regex rer = new Regex(@"tEXt(.*)#.([0-9]*)");
         String tpURL = "http://tenplay.com.au";
         String selectedShow = "";
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
@@ -52,6 +52,7 @@ namespace cu_grab
         public MainWindow()
         {
             InitializeComponent();
+            
             // Tenp.fillShowsList(objectList);
         }
     
@@ -82,6 +83,13 @@ namespace cu_grab
                     break;
                 //RTVEC
                 case Site.RTVEC:
+                    switch (curState)
+                    {
+                        case State.DisplayingShows:
+                            selectedShow = RTVEc.clickDisplayedShow(objectList);
+                            curState = State.DisplayingEpisodes;
+                            break;
+                    }
                     break;
             }
         }
@@ -122,6 +130,7 @@ namespace cu_grab
                     curState = State.DisplayingShows;  
                     selectedShow = "";
                     break;
+
             }
             
         }

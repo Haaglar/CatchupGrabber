@@ -71,6 +71,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Episode.cs" />
+    <Compile Include="EpisodesClan.cs" />
     <Compile Include="RTVEc.cs" />
     <Compile Include="Shows.cs" />
     <Compile Include="ShowsClan.cs" />

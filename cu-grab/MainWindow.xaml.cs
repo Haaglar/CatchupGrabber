@@ -51,6 +51,7 @@ namespace cu_grab
         public MainWindow()
         {
             InitializeComponent();
+           
         }
     
         /// <summary>
@@ -87,9 +88,9 @@ namespace cu_grab
                             curState = State.DisplayingEpisodes;
                             break;
                         case State.DisplayingEpisodes:
-                            errorLabel.Text =  RTVEc.getUrl(objectList);
-                            //String dlUrl = Tenp.getUrl(objectList);
-                            //runFFmpeg(dlUrl, selectedShow + " " + name);
+                            String name = RTVEc.getSelectedName(objectList);
+                            String url =  RTVEc.getUrl(objectList);
+                            standardDownload(url, selectedShow + " " + name + ".mp4");
                             break;
                     }
                     break;
@@ -116,8 +117,34 @@ namespace cu_grab
             }
             return exitCode;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url">The url to download from</param>
+        /// <param name="name">Name plus extension</param>
+        public void standardDownload(String url, String name)
+        {
+            using (WebClient webClient = new WebClient())
+            {
+                /*if (TextBoxProxy.Text != "")
+                {
+                    webClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                    webClient.Headers.Add("referer", TextBoxProxy.Text);
+                    byte[] video = webClient.UploadData(TextBoxProxy.Text + "/includes/process.php?action=update", "POST", System.Text.Encoding.UTF8.GetBytes("u=" + url + "&allowCookies=on"));
+                    File.WriteAllBytes(name, video);
+                }
+                else
+                {*/
+                webClient.DownloadProgressChanged += wc_DownloadProgressChanged;
+                webClient.DownloadFileAsync(new System.Uri(url),name);
+                //}
+            }
+        }
 
-        
+        void wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            ProgressBarDL.Value = e.ProgressPercentage;
+        }
         /// <summary>
         /// Cleanup function for returning to shows
         /// </summary>

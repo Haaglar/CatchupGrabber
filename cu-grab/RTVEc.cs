@@ -82,7 +82,7 @@ namespace cu_grab
         public static String getUrl(ListBox objectList)
         {
             WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/ztnr/movil/thumbnail/default/videos/" + episodesClan.page.items[objectList.SelectedIndex].id + ".png");
-            reqTematicasJs.Headers.Add("Refferer", episodesClan.page.items[objectList.SelectedIndex].htmlUrl);
+            //reqTematicasJs.Headers.Add("Referer", episodesClan.page.items[objectList.SelectedIndex].htmlUrl);
             WebResponse resTematicasJs = reqTematicasJs.GetResponse();
             string base64 = "";
             using (StreamReader srjs = new StreamReader(resTematicasJs.GetResponseStream(), System.Text.Encoding.UTF8))
@@ -163,6 +163,11 @@ namespace cu_grab
 
             objectList.ItemsSource = value.infoBuscador;
             episodesClan = null;
+        }
+
+        public static String getSelectedName(ListBox objectList)
+        {
+            return episodesClan.page.items[objectList.SelectedIndex].ToString();
         }
     }
 }

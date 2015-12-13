@@ -11,15 +11,20 @@ using System.Windows.Controls;
 
 namespace cu_grab
 {
-    public static class Tenp
+    public class Tenp
     {
-        private static RootObject shows;
-        private static List<Episode> selectedShowEpisodes = new List<Episode>();
-        public static bool requested = false;
+        private RootObject shows;
+        private List<Episode> selectedShowEpisodes = new List<Episode>();
+        private ListBox objectList;
+
+        public Tenp(ListBox oList)
+        {
+            objectList = oList;
+        }
         /// <summary>
         /// Fillthe ListBox with the shows currently on Tenplay found from the search JSON.
         /// </summary>
-        public static void fillShowsList(ListBox objectList)
+        public void fillShowsList()
         {
 
             WebRequest reqSearchJs = HttpWebRequest.Create("http://tenplay.com.au/web%20api/showsearchjson");
@@ -34,14 +39,14 @@ namespace cu_grab
                 objectList.ItemsSource = shows.Shows;
             }
             resSearchJs.Close();
-            requested = true;
+            
         }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="objectList"></param>
         /// <returns></returns>
-        public static String clickDisplayedShow(ListBox objectList)
+        public String clickDisplayedShow()
         {
             WebRequest reqShow = HttpWebRequest.Create("http://tenplay.com.au" + shows.Shows[objectList.SelectedIndex].ShowURL);
             WebResponse resShow = reqShow.GetResponse();
@@ -88,7 +93,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="objectList"></param>
         /// <returns></returns>
-        public static String getUrl(ListBox objectList)
+        public  String getUrl()
         {
             String BC_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId="; //url taken from and m3u8
             String PUB_ID = "&pubId=2199827728001"; //ID taken from any m3u8
@@ -109,7 +114,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="objectList"></param>
         /// <returns></returns>
-        public static String getSelectedName(ListBox objectList)
+        public  String getSelectedName()
         {
             return selectedShowEpisodes[objectList.SelectedIndex].Name;
         }
@@ -117,7 +122,7 @@ namespace cu_grab
         /// Handles Clearing the episode list and reseting it back to the show list
         /// </summary>
         /// <param name="objectList"></param>
-        public static void cleanEpisodes(ListBox objectList)
+        public void cleanEpisodes(ListBox objectList)
         {
             selectedShowEpisodes.Clear();
             objectList.ItemsSource = shows.Shows;
@@ -128,7 +133,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="m3u8"></param>
         /// <returns></returns>
-        public static String getHighestm3u8(StreamReader m3u8)
+        public String getHighestm3u8(StreamReader m3u8)
         {
             String line; // current line 
             String finalUrl = "";
@@ -159,7 +164,7 @@ namespace cu_grab
             }
             return finalUrl;
         }
-        public static void setTPActive(ListBox objectList)
+        public void setTPActive()
         {
             objectList.ItemsSource = shows.Shows;
         }

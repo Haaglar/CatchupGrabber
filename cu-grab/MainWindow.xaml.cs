@@ -43,7 +43,7 @@ namespace cu_grab
         enum Site { None, TenP, RTVEC }
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
-
+        Tenp tenPlay;
         public MainWindow()
         {
             InitializeComponent();
@@ -68,7 +68,7 @@ namespace cu_grab
                         case State.DisplayingShows:
                             try
                             {
-                                selectedShow = Tenp.clickDisplayedShow(objectList);
+                                selectedShow = tenPlay.clickDisplayedShow();
                                 curState = State.DisplayingEpisodes;
                             }
                             catch
@@ -80,8 +80,8 @@ namespace cu_grab
                         case State.DisplayingEpisodes:
                             try
                             {
-                                String name = Tenp.getSelectedName(objectList);
-                                String dlUrl = Tenp.getUrl(objectList);
+                                String name = tenPlay.getSelectedName();
+                                String dlUrl = tenPlay.getUrl();
                                 runFFmpeg(dlUrl, selectedShow + " " + name);
                             }
                             catch
@@ -185,7 +185,7 @@ namespace cu_grab
             switch(curSite)
             {
                 case Site.TenP:
-                    Tenp.cleanEpisodes(objectList);
+                    tenPlay.cleanEpisodes(objectList);
                     curState = State.DisplayingShows;  
                     selectedShow = "";
                     break;
@@ -202,11 +202,12 @@ namespace cu_grab
         private void ButtonTenplay_Click(object sender, RoutedEventArgs e)
         {
             //First time selecting site
-            if(!Tenp.requested)
+            if (tenPlay == null)
             {
                 try
                 {
-                    Tenp.fillShowsList(objectList);
+                    tenPlay = new Tenp(objectList);
+                    tenPlay.fillShowsList();
                 }
                 catch
                 {
@@ -222,7 +223,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
-                Tenp.setTPActive(objectList);
+                tenPlay.setTPActive();
             }  
             curState = State.DisplayingShows;
             curSite = Site.TenP;

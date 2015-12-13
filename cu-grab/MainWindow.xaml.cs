@@ -24,14 +24,12 @@ namespace cu_grab
 {
     /* Note: Requires FFmpeg
      * TODO: 
-     * Error handling!
+     * More proper error handling
+     * Async on proxy
      * Make a attractive GUI
      * Use API, for descriptions and stuff instead of crawling on tenplay
-     * Other sites
-     *      rtvec
-     *          use a web proxy
-     *          do stuff
-     *      p7 maybe?   
+     * p7, Get a good oauth library or something
+     *     
      */
 
     /// <summary>
@@ -40,18 +38,16 @@ namespace cu_grab
     public partial class MainWindow : Window
     {
 
-        String p7JsonUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/";
-        String tpURL = "http://tenplay.com.au";
         String selectedShow = "";
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
-        enum Site {None, TenP, RTVEC }
+        enum Site { None, TenP, RTVEC }
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
 
         public MainWindow()
         {
             InitializeComponent();
-           
+
         }
     
         /// <summary>
@@ -68,14 +64,30 @@ namespace cu_grab
                 case Site.TenP:
                     switch (curState)
                     {
+                        // Get episodes for the selected show
                         case State.DisplayingShows:
-                            selectedShow = Tenp.clickDisplayedShow(objectList);
-                            curState = State.DisplayingEpisodes;
+                            try
+                            {
+                                selectedShow = Tenp.clickDisplayedShow(objectList);
+                                curState = State.DisplayingEpisodes;
+                            }
+                            catch
+                            {
+                                errorLabel.Text = "Failed to get episode list for selected show";
+                            }
                             break;
+                        //Download Selected show
                         case State.DisplayingEpisodes:
-                            String name = Tenp.getSelectedName(objectList);
-                            String dlUrl = Tenp.getUrl(objectList);
-                            runFFmpeg(dlUrl, selectedShow + " " + name);
+                            try
+                            {
+                                String name = Tenp.getSelectedName(objectList);
+                                String dlUrl = Tenp.getUrl(objectList);
+                                runFFmpeg(dlUrl, selectedShow + " " + name);
+                            }
+                            catch
+                            {
+                                errorLabel.Text = "Failed to download episode";
+                            }
                             break;
                     }
                     break;
@@ -83,14 +95,31 @@ namespace cu_grab
                 case Site.RTVEC:
                     switch (curState)
                     {
+                        // Get episodes for the selected show
                         case State.DisplayingShows:
-                            selectedShow = RTVEc.clickDisplayedShow(objectList);
-                            curState = State.DisplayingEpisodes;
+                            try
+                            {
+                                selectedShow = RTVEc.clickDisplayedShow(objectList);
+                                curState = State.DisplayingEpisodes;
+                            }
+                            catch
+                            {
+                                errorLabel.Text = "Failed to get episode list for selected show";
+                            }
                             break;
+
+                        //Download Selected show
                         case State.DisplayingEpisodes:
-                            String name = RTVEc.getSelectedName(objectList);
-                            String url =  RTVEc.getUrl(objectList);
-                            standardDownload(url, selectedShow + " " + name + ".mp4");
+                            try
+                            {
+                                String name = RTVEc.getSelectedName(objectList);
+                                String url = RTVEc.getUrl(objectList);
+                                standardDownload(url, selectedShow + " " + name + ".mp4");
+                            }
+                            catch
+                            {
+                                errorLabel.Text = "Failed to download episode";
+                            }
                             break;
                     }
                     break;
@@ -137,6 +166,7 @@ namespace cu_grab
                 {*/
                 webClient.DownloadProgressChanged += wc_DownloadProgressChanged;
                 webClient.DownloadFileAsync(new System.Uri(url),name);
+                
                 //}
             }
         }
@@ -174,7 +204,14 @@ namespace cu_grab
             //First time selecting site
             if(!Tenp.requested)
             {
-                Tenp.fillShowsList(objectList);
+                try
+                {
+                    Tenp.fillShowsList(objectList);
+                }
+                catch
+                {
+                    errorLabel.Text = "Failed to get Episode listings";
+                }
             }
             // If they select it while we are currently on it just return to shows
             else if (curSite == Site.TenP)
@@ -197,7 +234,14 @@ namespace cu_grab
             //First time selecting site
             if (!RTVEc.requested)
             {
-                RTVEc.fillShowsList(objectList);
+                try
+                {
+                    RTVEc.fillShowsList(objectList);
+                }
+                catch
+                {
+                    errorLabel.Text = "Failed to get Episode listings";
+                }
             }
             // If they select it while we are currently on it just return to shows
             else if (curSite == Site.RTVEC)

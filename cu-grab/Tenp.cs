@@ -42,10 +42,9 @@ namespace cu_grab
             
         }
         /// <summary>
-        /// 
+        /// Handles clicking of a show
         /// </summary>
-        /// <param name="objectList"></param>
-        /// <returns></returns>
+        /// <returns>The name to the clicked show</returns>
         public String clickDisplayedShow()
         {
             WebRequest reqShow = HttpWebRequest.Create("http://tenplay.com.au" + shows.Shows[objectList.SelectedIndex].ShowURL);
@@ -89,10 +88,9 @@ namespace cu_grab
             
         }
         /// <summary>
-        /// Requests master URL
+        /// Get the download URL for FFmpeg
         /// </summary>
-        /// <param name="objectList"></param>
-        /// <returns></returns>
+        /// <returns>A url</returns>
         public  String getUrl()
         {
             String BC_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId="; //url taken from and m3u8
@@ -110,10 +108,9 @@ namespace cu_grab
 
         }
         /// <summary>
-        /// 
+        /// Get the name of the select show
         /// </summary>
-        /// <param name="objectList"></param>
-        /// <returns></returns>
+        /// <returns>Returns the Name of the selected episode</returns>
         public  String getSelectedName()
         {
             return selectedShowEpisodes[objectList.SelectedIndex].Name;
@@ -121,8 +118,7 @@ namespace cu_grab
         /// <summary>
         /// Handles Clearing the episode list and reseting it back to the show list
         /// </summary>
-        /// <param name="objectList"></param>
-        public void cleanEpisodes(ListBox objectList)
+        public void cleanEpisodes()
         {
             selectedShowEpisodes.Clear();
             objectList.ItemsSource = shows.Shows;
@@ -131,9 +127,9 @@ namespace cu_grab
         /// <summary>
         /// Gets the highest rendition from a master m3u8 (move to a general class)
         /// </summary>
-        /// <param name="m3u8"></param>
+        /// <param name="m3u8">A stream reader object containing </param>
         /// <returns></returns>
-        public String getHighestm3u8(StreamReader m3u8)
+        private String getHighestm3u8(StreamReader m3u8)
         {
             String line; // current line 
             String finalUrl = "";
@@ -164,6 +160,9 @@ namespace cu_grab
             }
             return finalUrl;
         }
+        /// <summary>
+        /// Sets it as the active List
+        /// </summary>
         public void setTPActive()
         {
             objectList.ItemsSource = shows.Shows;

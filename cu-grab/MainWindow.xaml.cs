@@ -20,12 +20,13 @@ using System.Windows.Shapes;
 using System.Xml;
 using System.Reflection;
 using System.Web.Script.Serialization;
+using System.ComponentModel;
 namespace cu_grab
 {
     /* Note: Requires FFmpeg
      * TODO: 
      * More proper error handling
-     * Async on proxy
+     * Async on proxy download
      * Make a attractive GUI
      * Use API, for descriptions and stuff instead of crawling on tenplay
      * p7, Get a good oauth library or something
@@ -44,10 +45,10 @@ namespace cu_grab
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
         Tenp tenPlay;
+        RTVEc rtveClan;
         public MainWindow()
         {
             InitializeComponent();
-
         }
     
         /// <summary>
@@ -99,7 +100,7 @@ namespace cu_grab
                         case State.DisplayingShows:
                             try
                             {
-                                selectedShow = RTVEc.clickDisplayedShow(objectList);
+                                selectedShow = rtveClan.clickDisplayedShow();
                                 curState = State.DisplayingEpisodes;
                             }
                             catch
@@ -110,10 +111,10 @@ namespace cu_grab
 
                         //Download Selected show
                         case State.DisplayingEpisodes:
-                            try
+                                try
                             {
-                                String name = RTVEc.getSelectedName(objectList);
-                                String url = RTVEc.getUrl(objectList);
+                                String name = rtveClan.getSelectedName();
+                                String url = rtveClan.getUrl();
                                 standardDownload(url, selectedShow + " " + name + ".mp4");
                             }
                             catch
@@ -127,9 +128,9 @@ namespace cu_grab
         }
     
         /// <summary>
-        /// 
+        /// Download HLS stream via ffmpeg
         /// </summary>
-        /// <param name="url">The rendition URL to download</param>
+        /// <param name="url">The URL to download, (Master or Rendition)</param>
         /// <param name="nameLocation">The file name and location (without file extension)</param>
         /// <returns>Returns FFmpegs error code</returns>
         public int runFFmpeg(string url, string nameLocation)
@@ -141,13 +142,15 @@ namespace cu_grab
             int exitCode;
             using (Process proc = Process.Start(ffmpeg))
             {
+                errorLabel.Text = "Downloading, please wait.";
                 proc.WaitForExit();
                 exitCode = proc.ExitCode;
             }
+            errorLabel.Text = "Download completed";
             return exitCode;
         }
         /// <summary>
-        /// 
+        /// Standard download for a file, note proxy download will slow down the application
         /// </summary>
         /// <param name="url">The url to download from</param>
         /// <param name="name">Name plus extension</param>
@@ -155,25 +158,34 @@ namespace cu_grab
         {
             using (WebClient webClient = new WebClient())
             {
-                /*if (TextBoxProxy.Text != "")
+                //Proxy is slow, will freeze application.
+                if (TextBoxProxy.Text != "")
                 {
+                    //Add required http
+                    String proxyAddress = TextBoxProxy.Text.StartsWith("http://") ? TextBoxProxy.Text : "http://" + TextBoxProxy.Text;
                     webClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                    webClient.Headers.Add("referer", TextBoxProxy.Text);
-                    byte[] video = webClient.UploadData(TextBoxProxy.Text + "/includes/process.php?action=update", "POST", System.Text.Encoding.UTF8.GetBytes("u=" + url + "&allowCookies=on"));
+                    webClient.Headers.Add("referer", proxyAddress);
+                    byte[] video = webClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", System.Text.Encoding.UTF8.GetBytes("u=" + url + "&allowCookies=on"));
+                    errorLabel.Text = "Downloading please wait";
                     File.WriteAllBytes(name, video);
+                    errorLabel.Text = "Download Complete";
                 }
                 else
-                {*/
-                webClient.DownloadProgressChanged += wc_DownloadProgressChanged;
-                webClient.DownloadFileAsync(new System.Uri(url),name);
-                
-                //}
+                {
+                    webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
+                    webClient.DownloadFileCompleted += webClient_AsyncCompletedEventHandler;
+                    webClient.DownloadFileAsync(new System.Uri(url),name);
+                }
             }
         }
 
-        void wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        void webClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             ProgressBarDL.Value = e.ProgressPercentage;
+        }
+        void webClient_AsyncCompletedEventHandler(object sender, AsyncCompletedEventArgs e)
+        {
+            errorLabel.Text = "Download Complete";
         }
         /// <summary>
         /// Cleanup function for returning to shows
@@ -185,12 +197,12 @@ namespace cu_grab
             switch(curSite)
             {
                 case Site.TenP:
-                    tenPlay.cleanEpisodes(objectList);
+                    tenPlay.cleanEpisodes();
                     curState = State.DisplayingShows;  
                     selectedShow = "";
                     break;
                 case Site.RTVEC:
-                    RTVEc.cleanEpisodes(objectList);
+                    rtveClan.cleanEpisodes();
                     curState = State.DisplayingShows;
                     selectedShow = "";
                     break;
@@ -211,7 +223,7 @@ namespace cu_grab
                 }
                 catch
                 {
-                    errorLabel.Text = "Failed to get Episode listings";
+                    errorLabel.Text = "Failed to get Episode listings for Tenplay.";
                 }
             }
             // If they select it while we are currently on it just return to shows
@@ -233,15 +245,16 @@ namespace cu_grab
         private void ButtonRTVEC_Click(object sender, RoutedEventArgs e)
         {
             //First time selecting site
-            if (!RTVEc.requested)
+            if (rtveClan == null)
             {
                 try
                 {
-                    RTVEc.fillShowsList(objectList);
+                    rtveClan = new RTVEc(objectList);
+                    rtveClan.fillShowsList();
                 }
                 catch
                 {
-                    errorLabel.Text = "Failed to get Episode listings";
+                    errorLabel.Text = "Failed to get Episode listings for RTVE Clan";
                 }
             }
             // If they select it while we are currently on it just return to shows
@@ -253,7 +266,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
-                RTVEc.setRTVEcActive(objectList);
+                rtveClan.setRTVEcActive();
             }
             curState = State.DisplayingShows;
             curSite = Site.RTVEC;

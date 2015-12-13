@@ -13,14 +13,19 @@ namespace cu_grab
 {
     class RTVEc
     {
-        private static ShowsClan value;
-        private static EpisodesClan episodesClan;
-        public static bool requested = false;
+        private ShowsClan value;
+        private EpisodesClan episodesClan;
+        private ListBox objectList;
+        public RTVEc(ListBox oList)
+        {
+            objectList = oList;
+        }
+
         /// <summary>
         /// Fills the listbox with the JSON from RTVEClan search 
         /// </summary>
         /// <param name="objectList"></param>
-        public static void fillShowsList(ListBox objectList)
+        public void fillShowsList()
         {
             WebRequest reqSearchJs = HttpWebRequest.Create(@"http://www.rtve.es/infantil/buscador-clan/obtener-datos-programas.json");
             WebResponse resSearchJs = reqSearchJs.GetResponse();
@@ -36,13 +41,12 @@ namespace cu_grab
             }
             objectList.ItemsSource = value.infoBuscador;
             resSearchJs.Close();
-            requested = true;
         }
         /// <summary>
         /// Sets the object list to the episodes for RTVEClan
         /// </summary>
         /// <param name="objectList"></param>
-        public static void setRTVEcActive(ListBox objectList)
+        public void setRTVEcActive()
         {
             objectList.ItemsSource = value.infoBuscador;
         }
@@ -50,7 +54,7 @@ namespace cu_grab
         /// Handles clicking on a show and setting the listbox to the episodes for the show. 
         /// </summary>
         /// <param name="objectList"></param>
-        public static String clickDisplayedShow(ListBox objectList)
+        public String clickDisplayedShow()
         {
             WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/api/tematicas/" + value.infoBuscador[objectList.SelectedIndex].id + "/videos.json");
             WebResponse resTematicasJs = reqTematicasJs.GetResponse();
@@ -79,7 +83,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="objectList"></param>
         /// <returns></returns>
-        public static String getUrl(ListBox objectList)
+        public String getUrl()
         {
             WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/ztnr/movil/thumbnail/default/videos/" + episodesClan.page.items[objectList.SelectedIndex].id + ".png");
             //reqTematicasJs.Headers.Add("Referer", episodesClan.page.items[objectList.SelectedIndex].htmlUrl);
@@ -96,10 +100,8 @@ namespace cu_grab
         /// <summary>
         /// TODO Replace this with time method
         /// </summary>
-        private static String getUrlFromPNGUrl(String text)
-        {
-
-            
+        private String getUrlFromPNGUrl(String text)
+        {    
             Regex rer = new Regex(@"tEXt(.*)#.([0-9]*)"); //Search for the two piece of data that we need
             byte[] data = Convert.FromBase64String(text);
             String decodedString = Encoding.UTF8.GetString(data);
@@ -158,14 +160,13 @@ namespace cu_grab
         /// Handles Clearing the episode list and reseting it back to the show list
         /// </summary>
         /// <param name="objectList"></param>
-        public static void cleanEpisodes(ListBox objectList)
+        public void cleanEpisodes()
         {
-
             objectList.ItemsSource = value.infoBuscador;
             episodesClan = null;
         }
 
-        public static String getSelectedName(ListBox objectList)
+        public String getSelectedName()
         {
             return episodesClan.page.items[objectList.SelectedIndex].ToString();
         }

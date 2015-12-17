@@ -26,7 +26,6 @@ namespace cu_grab
     /* Note: Requires FFmpeg
      * TODO: 
      * More proper error handling
-     * Async on proxy download
      * Make a attractive GUI
      * Use API, for descriptions and stuff instead of crawling on tenplay
      * p7, Get a good oauth library or something
@@ -111,7 +110,7 @@ namespace cu_grab
 
                         //Download Selected show
                         case State.DisplayingEpisodes:
-                                try
+                            try
                             {
                                 String name = rtveClan.getSelectedName();
                                 String url = rtveClan.getUrl();
@@ -150,31 +149,33 @@ namespace cu_grab
             return exitCode;
         }
         /// <summary>
-        /// Standard download for a file, note proxy download will slow down the application
+        /// Standard download for a file, note proxy download will be slow
         /// </summary>
         /// <param name="url">The url to download from</param>
         /// <param name="name">Name plus extension</param>
         public void standardDownload(String url, String name)
         {
-            using (WebClient webClient = new WebClient())
+            using (CookieAwareWebClient webClient = new CookieAwareWebClient())
             {
-                //Proxy is slow, will freeze application.
                 if (TextBoxProxy.Text != "")
                 {
+
                     //Add required http
                     String proxyAddress = TextBoxProxy.Text.StartsWith("http://") ? TextBoxProxy.Text : "http://" + TextBoxProxy.Text;
                     webClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                     webClient.Headers.Add("referer", proxyAddress);
-                    byte[] video = webClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", System.Text.Encoding.UTF8.GetBytes("u=" + url + "&allowCookies=on"));
-                    errorLabel.Text = "Downloading please wait";
-                    File.WriteAllBytes(name, video);
-                    errorLabel.Text = "Download Complete";
+                    //Make a blank request to example.com for cookies
+                    webClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", System.Text.Encoding.UTF8.GetBytes("u=" + "example.com" + "&allowCookies=on"));
+                    //Download the file
+                    webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
+                    webClient.DownloadFileCompleted += webClient_AsyncCompletedEventHandler;
+                    webClient.DownloadFileAsync(new System.Uri(proxyAddress + "browse.php?u=" + url + "&b=12&f=norefer"), name);
                 }
                 else
                 {
                     webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
                     webClient.DownloadFileCompleted += webClient_AsyncCompletedEventHandler;
-                    webClient.DownloadFileAsync(new System.Uri(url),name);
+                    webClient.DownloadFileAsync(new System.Uri(url), name);
                 }
             }
         }
@@ -272,5 +273,26 @@ namespace cu_grab
             curSite = Site.RTVEC;
             selectedShow = "";
         }
+
+        /// <summary>
+        /// Use to store Glype proxy info. Since we cant Async download when we need to post data at the same time.
+        /// Thanks to http://stackoverflow.com/questions/4740752/how-do-i-log-into-a-site-with-webclient
+        /// </summary>
+        public class CookieAwareWebClient : WebClient
+        {
+            public CookieAwareWebClient()
+            {
+                CookieContainer = new CookieContainer();
+            }
+            public CookieContainer CookieContainer { get; private set; }
+
+            protected override WebRequest GetWebRequest(Uri address)
+            {
+                var request = (HttpWebRequest)base.GetWebRequest(address);
+                request.CookieContainer = CookieContainer;
+                return request;
+            }
+        }
+
     }
 }

@@ -26,6 +26,7 @@ namespace cu_grab
     /* Note: Requires FFmpeg
      * TODO: 
      * More proper error handling
+     * A better state handler by creating a Base object for downloader classes to derive from and using Function overloading.
      * Make a attractive GUI
      * Use API, for descriptions and stuff instead of crawling on tenplay
      * p7, Get a good oauth library or something
@@ -113,7 +114,7 @@ namespace cu_grab
                             try
                             {
                                 String name = rtveClan.getSelectedName();
-                                String url = rtveClan.getUrl();
+                                String url = rtveClan.generateUrl();
                                 standardDownload(url, selectedShow + " " + name + ".mp4");
                             }
                             catch
@@ -275,7 +276,7 @@ namespace cu_grab
         }
 
         /// <summary>
-        /// Use to store Glype proxy info. Since we cant Async download when we need to post data at the same time.
+        /// A CookieAwareWebClient, used to store Glype proxy seesion info. Since we cant Async download when we need to post data at the same time.
         /// Thanks to http://stackoverflow.com/questions/4740752/how-do-i-log-into-a-site-with-webclient
         /// </summary>
         public class CookieAwareWebClient : WebClient

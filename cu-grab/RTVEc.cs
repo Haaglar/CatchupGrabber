@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -24,7 +25,6 @@ namespace cu_grab
         /// <summary>
         /// Fills the listbox with the JSON from RTVEClan search 
         /// </summary>
-        /// <param name="objectList"></param>
         public void fillShowsList()
         {
             WebRequest reqSearchJs = HttpWebRequest.Create(@"http://www.rtve.es/infantil/buscador-clan/obtener-datos-programas.json");
@@ -45,15 +45,15 @@ namespace cu_grab
         /// <summary>
         /// Sets the object list to the episodes for RTVEClan
         /// </summary>
-        /// <param name="objectList"></param>
         public void setRTVEcActive()
         {
             objectList.ItemsSource = value.infoBuscador;
         }
+
         /// <summary>
         /// Handles clicking on a show and setting the listbox to the episodes for the show. 
         /// </summary>
-        /// <param name="objectList"></param>
+        /// <returns>The name of the selected show</returns>
         public String clickDisplayedShow()
         {
             WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/api/tematicas/" + value.infoBuscador[objectList.SelectedIndex].id + "/videos.json");
@@ -81,7 +81,6 @@ namespace cu_grab
         /// <summary>
         /// Gets the url for the selected object in the list
         /// </summary>
-        /// <param name="objectList"></param>
         /// <returns></returns>
         public String getUrl()
         {
@@ -96,9 +95,41 @@ namespace cu_grab
             resTematicasJs.Close();
             return getUrlFromPNGUrl(base64);
         }
+        /// <summary>
+        /// Genrates a downloadURL for rtve clan
+        /// Based off work from rtvealacarta by itorres and personal research
+        /// </summary>
+        /// <returns>The url to download from</returns>
+        public String generateUrl()
+        {
+            //Create a phase conatining the video id and milliseconds since the unix epoch
+            DateTime dt = DateTime.Now;
+            DateTime epoch = new DateTime(1970, 1, 1);
+            String joined = episodesClan.page.items[objectList.SelectedIndex].id + "_es_" + (dt - epoch).TotalMilliseconds;
+            
+
+            RijndaelManaged aesEncrypt = new RijndaelManaged(); 
+            //Set up the key and phrase to encrypt
+            String passPhrase = "pmku579tg465GDjf1287gDFFED56788C"; // key for the "oceano"/"tablet url whoops
+            byte[] key = new System.Text.UTF8Encoding().GetBytes(passPhrase);
+            byte[] toEncrypt = new System.Text.UTF8Encoding().GetBytes(joined);
+
+            //Set up aes settings
+            aesEncrypt.BlockSize = 128;
+            aesEncrypt.IV = new byte[16];
+            aesEncrypt.Padding = PaddingMode.PKCS7;
+            aesEncrypt.Mode = CipherMode.CBC;
+            aesEncrypt.Key = key;
+            
+            // encrypt it
+            ICryptoTransform transform = aesEncrypt.CreateEncryptor();
+            byte[] encryptedText = transform.TransformFinalBlock(toEncrypt, 0, toEncrypt.Length);
+            return "http://www.rtve.es/ztnr/consumer/oceano/video/" + Convert.ToBase64String(encryptedText);
+        }
+
 
         /// <summary>
-        /// TODO Replace this with time method
+        /// Depreciate method for grabbing the URL (as it doesnt get the highest quality.)
         /// </summary>
         private String getUrlFromPNGUrl(String text)
         {    
@@ -159,7 +190,6 @@ namespace cu_grab
         /// <summary>
         /// Handles Clearing the episode list and reseting it back to the show list
         /// </summary>
-        /// <param name="objectList"></param>
         public void cleanEpisodes()
         {
             objectList.ItemsSource = value.infoBuscador;

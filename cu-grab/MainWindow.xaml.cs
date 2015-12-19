@@ -158,7 +158,10 @@ namespace cu_grab
         {
             using (CookieAwareWebClient webClient = new CookieAwareWebClient())
             {
-                if (TextBoxProxy.Text != "")
+                webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
+                webClient.DownloadFileCompleted += webClient_AsyncCompletedEventHandler;
+                errorLabel.Text = "Downloading please wait...";
+                if (TextBoxProxy.Text != "")//If they spullied a proxy
                 {
 
                     //Add required http
@@ -168,14 +171,11 @@ namespace cu_grab
                     //Make a blank request to example.com for cookies
                     webClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", System.Text.Encoding.UTF8.GetBytes("u=" + "example.com" + "&allowCookies=on"));
                     //Download the file
-                    webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
-                    webClient.DownloadFileCompleted += webClient_AsyncCompletedEventHandler;
+                    
                     webClient.DownloadFileAsync(new System.Uri(proxyAddress + "browse.php?u=" + url + "&b=12&f=norefer"), name);
                 }
                 else
                 {
-                    webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
-                    webClient.DownloadFileCompleted += webClient_AsyncCompletedEventHandler;
                     webClient.DownloadFileAsync(new System.Uri(url), name);
                 }
             }

@@ -35,9 +35,7 @@ namespace cu_grab
                 string jsonjs = srjs.ReadToEnd();
                 JavaScriptSerializer jss = new JavaScriptSerializer();
                 value = jss.Deserialize<ShowsClan>(jsonjs);
-                value.infoBuscador = value.infoBuscador.OrderBy(x => x.titulo).ToList(); //Maybe change to date published
-                
-                
+                value.infoBuscador = value.infoBuscador.OrderBy(x => x.titulo).ToList(); //Maybe change to date published 
             }
             objectList.ItemsSource = value.infoBuscador;
             resSearchJs.Close();
@@ -80,6 +78,7 @@ namespace cu_grab
         }
         /// <summary>
         /// Gets the url for the selected object in the list
+        /// Depricated, used generateUrl instead
         /// </summary>
         /// <returns></returns>
         public String getUrl()
@@ -110,7 +109,7 @@ namespace cu_grab
 
             RijndaelManaged aesEncrypt = new RijndaelManaged(); 
             //Set up the key and phrase to encrypt
-            String passPhrase = "pmku579tg465GDjf1287gDFFED56788C"; // key for the "oceano"/"tablet url whoops
+            String passPhrase = "pmku579tg465GDjf1287gDFFED56788C"; // key for the "oceano"/"tablet url whoops you never saw this :^)
             byte[] key = new System.Text.UTF8Encoding().GetBytes(passPhrase);
             byte[] toEncrypt = new System.Text.UTF8Encoding().GetBytes(joined);
 

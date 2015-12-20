@@ -1,7 +1,7 @@
 ﻿<Window x:Class="cu_grab.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="cu-grab" Height="500" Width="500"
+        Title="Catch-up Grabber" Height="500" Width="500"
         ResizeMode="NoResize">
     <Grid>
         <TextBlock x:Name="errorLabel" HorizontalAlignment="Left" Margin="295,418,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="54" TextWrapping="Wrap" Width="199" Text="Double click on a show, then double click on an episode to grab it."/>
@@ -12,6 +12,7 @@
         <TextBox x:Name="TextBoxProxy" HorizontalAlignment="Left" Height="23" Margin="295,326,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="156" />
         <Label Content="Gylpe Proxy:" HorizontalAlignment="Left" Margin="215,324,0,0" VerticalAlignment="Top" Height="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <ProgressBar x:Name="ProgressBarDL" HorizontalAlignment="Left" Height="28" Margin="82,268,0,0" VerticalAlignment="Top" Width="178"/>
+        <TextBlock x:Name="TextBlockDownloadStatus" HorizontalAlignment="Left" Margin="82,301,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="178"/>
 
     </Grid>
 </Window>

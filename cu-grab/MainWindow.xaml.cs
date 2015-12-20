@@ -49,6 +49,10 @@ namespace cu_grab
         public MainWindow()
         {
             InitializeComponent();
+            if(!File.Exists("FFmpeg.exe"))
+            {
+                MessageBox.Show("Catch-up Grabber requires FFmpeg to download from certain sites, please copy it into the working directory.");
+            }
         }
     
         /// <summary>
@@ -184,6 +188,7 @@ namespace cu_grab
         void webClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             ProgressBarDL.Value = e.ProgressPercentage;
+            TextBlockDownloadStatus.Text = (e.BytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
         }
         void webClient_AsyncCompletedEventHandler(object sender, AsyncCompletedEventArgs e)
         {
@@ -294,6 +299,5 @@ namespace cu_grab
                 return request;
             }
         }
-
     }
 }

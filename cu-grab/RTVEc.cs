@@ -109,7 +109,7 @@ namespace cu_grab
 
             RijndaelManaged aesEncrypt = new RijndaelManaged(); 
             //Set up the key and phrase to encrypt
-            String passPhrase = "pmku579tg465GDjf1287gDFFED56788C"; // key for the "oceano"/"tablet url whoops you never saw this :^)
+            String passPhrase = "pmku579tg465GDjf1287gDFFED56788C"; // key for the "oceano"/tablet url whoops you never saw this :^)
             byte[] key = new System.Text.UTF8Encoding().GetBytes(passPhrase);
             byte[] toEncrypt = new System.Text.UTF8Encoding().GetBytes(joined);
 

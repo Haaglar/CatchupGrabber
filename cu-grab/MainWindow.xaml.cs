@@ -154,7 +154,7 @@ namespace cu_grab
             return exitCode;
         }
         /// <summary>
-        /// Standard download for a file, note proxy download will be slow
+        /// Standard download for a file, note proxy download will be slow and appear unresponsive
         /// </summary>
         /// <param name="url">The url to download from</param>
         /// <param name="name">Name plus extension</param>
@@ -164,19 +164,16 @@ namespace cu_grab
             {
                 webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
                 webClient.DownloadFileCompleted += webClient_AsyncCompletedEventHandler;
-                errorLabel.Text = "Downloading please wait...";
-                if (TextBoxProxy.Text != "")//If they spullied a proxy
+                String proxyAddress = Properties.Settings.Default.GlypeProxySettingRTVE;
+                if (proxyAddress != "")//If they spullied a proxy
                 {
-
-                    //Add required http
-                    String proxyAddress = TextBoxProxy.Text.StartsWith("http://") ? TextBoxProxy.Text : "http://" + TextBoxProxy.Text;
+                    //Add standard post headers
                     webClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                     webClient.Headers.Add("referer", proxyAddress);
                     //Make a blank request to example.com for cookies
                     webClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", System.Text.Encoding.UTF8.GetBytes("u=" + "example.com" + "&allowCookies=on"));
                     //Download the file
-                    
-                    webClient.DownloadFileAsync(new System.Uri(proxyAddress + "browse.php?u=" + url + "&b=12&f=norefer"), name);
+                    webClient.DownloadFileAsync(new System.Uri(proxyAddress + "/browse.php?u=" + url + "&b=12&f=norefer"), name);
                 }
                 else
                 {
@@ -298,6 +295,12 @@ namespace cu_grab
                 request.CookieContainer = CookieContainer;
                 return request;
             }
+        }
+
+        private void ButtonSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Settings settingsWindow = new Settings();
+            settingsWindow.Show();
         }
     }
 }

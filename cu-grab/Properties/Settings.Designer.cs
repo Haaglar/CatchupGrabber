@@ -22,5 +22,17 @@ namespace cu_grab.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GlypeProxySettingRTVE {
+            get {
+                return ((string)(this["GlypeProxySettingRTVE"]));
+            }
+            set {
+                this["GlypeProxySettingRTVE"] = value;
+            }
+        }
     }
 }

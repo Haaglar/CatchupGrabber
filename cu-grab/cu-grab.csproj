@@ -73,6 +73,9 @@
     <Compile Include="Episode.cs" />
     <Compile Include="EpisodesClan.cs" />
     <Compile Include="RTVEc.cs" />
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shows.cs" />
     <Compile Include="ShowsClan.cs" />
     <Compile Include="Tenp.cs" />
@@ -88,6 +91,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

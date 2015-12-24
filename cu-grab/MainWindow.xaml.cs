@@ -25,12 +25,11 @@ namespace cu_grab
 {
     /* Note: Requires FFmpeg
      * TODO: 
+     * More sites :)
      * More proper error handling
-     * A better state handler by creating a Base object for downloader classes to derive from and using Function overloading.
      * Make a attractive GUI
      * Use API, for descriptions and stuff instead of crawling on tenplay
      * p7, Get a good oauth library or something
-     *     
      */
 
     /// <summary>
@@ -44,6 +43,7 @@ namespace cu_grab
         enum Site { None, TenP, RTVEC }
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
+        DownloadAbstract dlAbs;
         Tenp tenPlay;
         RTVEc rtveClan;
         public MainWindow()
@@ -62,70 +62,40 @@ namespace cu_grab
         /// <param name="e"></param>
         private void oL_ItemPressed(object sender, MouseButtonEventArgs e)
         {
-            //Handle sites
-            switch (curSite) 
-            { 
-                //Tenplay
-                case Site.TenP:
-                    switch (curState)
+            switch (curState)
+            {
+                // Get episodes for the selected show
+                case State.DisplayingShows:
+                    try
                     {
-                        // Get episodes for the selected show
-                        case State.DisplayingShows:
-                            try
-                            {
-                                selectedShow = tenPlay.clickDisplayedShow();
-                                curState = State.DisplayingEpisodes;
-                            }
-                            catch
-                            {
-                                errorLabel.Text = "Failed to get episode list for selected show";
-                            }
-                            break;
-                        //Download Selected show
-                        case State.DisplayingEpisodes:
-                            try
-                            {
-                                String name = tenPlay.getSelectedName();
-                                String dlUrl = tenPlay.getUrl();
-                                runFFmpeg(dlUrl, selectedShow + " " + name);
-                            }
-                            catch
-                            {
-                                errorLabel.Text = "Failed to download episode";
-                            }
-                            break;
+                        selectedShow = dlAbs.clickDisplayedShow();
+                        curState = State.DisplayingEpisodes;
+                    }
+                    catch
+                    {
+                        errorLabel.Text = "Failed to get episode list for selected show";
                     }
                     break;
-                //RTVEC
-                case Site.RTVEC:
-                    switch (curState)
+                //Download Selected show
+                case State.DisplayingEpisodes:
+                    try
                     {
-                        // Get episodes for the selected show
-                        case State.DisplayingShows:
-                            try
-                            {
-                                selectedShow = rtveClan.clickDisplayedShow();
-                                curState = State.DisplayingEpisodes;
-                            }
-                            catch
-                            {
-                                errorLabel.Text = "Failed to get episode list for selected show";
-                            }
-                            break;
-
-                        //Download Selected show
-                        case State.DisplayingEpisodes:
-                            try
-                            {
-                                String name = rtveClan.getSelectedName();
-                                String url = rtveClan.generateUrl();
-                                standardDownload(url, selectedShow + " " + name + ".mp4");
-                            }
-                            catch
-                            {
-                                errorLabel.Text = "Failed to download episode";
-                            }
-                            break;
+                        String name = dlAbs.getSelectedName();
+                        String dlUrl = dlAbs.getUrl();
+                        switch (curSite)
+                        {
+                            case Site.TenP:
+                                runFFmpeg(dlUrl, selectedShow + " " + name);
+                                break;
+                            case Site.RTVEC:
+                                standardDownload(dlUrl, selectedShow + " " + name + ".mp4");
+                                break;
+                        }
+                       
+                    }
+                    catch
+                    {
+                        errorLabel.Text = "Failed to download episode";
                     }
                     break;
             }
@@ -165,7 +135,7 @@ namespace cu_grab
                 webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
                 webClient.DownloadFileCompleted += webClient_AsyncCompletedEventHandler;
                 String proxyAddress = Properties.Settings.Default.GlypeProxySettingRTVE;
-                if (proxyAddress != "")//If they spullied a proxy
+                if (proxyAddress != "")//If they suplied a proxy
                 {
                     //Add standard post headers
                     webClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
@@ -198,21 +168,12 @@ namespace cu_grab
         /// <param name="e"></param>
         private void Shows_Pressed(object sender, RoutedEventArgs e)
         {
-            switch(curSite)
+            if (dlAbs != null)
             {
-                case Site.TenP:
-                    tenPlay.cleanEpisodes();
-                    curState = State.DisplayingShows;  
-                    selectedShow = "";
-                    break;
-                case Site.RTVEC:
-                    rtveClan.cleanEpisodes();
-                    curState = State.DisplayingShows;
-                    selectedShow = "";
-                    break;
-
+                dlAbs.cleanEpisodes();
+                curState = State.DisplayingShows;
+                selectedShow = "";
             }
-            
         }
 
         private void ButtonTenplay_Click(object sender, RoutedEventArgs e)
@@ -244,6 +205,7 @@ namespace cu_grab
             curState = State.DisplayingShows;
             curSite = Site.TenP;
             selectedShow = "";
+            dlAbs = tenPlay;
         }
 
         private void ButtonRTVEC_Click(object sender, RoutedEventArgs e)
@@ -275,6 +237,7 @@ namespace cu_grab
             curState = State.DisplayingShows;
             curSite = Site.RTVEC;
             selectedShow = "";
+            dlAbs = rtveClan;
         }
 
         /// <summary>

@@ -70,6 +70,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DownloadAbstract.cs" />
     <Compile Include="Episode.cs" />
     <Compile Include="EpisodesClan.cs" />
     <Compile Include="RTVEc.cs" />

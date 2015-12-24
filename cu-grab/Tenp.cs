@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 namespace cu_grab
 {
-    public class Tenp
+    public class Tenp : DownloadAbstract
     {
         private RootObject shows;
         private List<Episode> selectedShowEpisodes = new List<Episode>();
@@ -24,7 +24,7 @@ namespace cu_grab
         /// <summary>
         /// Fillthe ListBox with the shows currently on Tenplay found from the search JSON.
         /// </summary>
-        public void fillShowsList()
+        public override void fillShowsList()
         {
 
             WebRequest reqSearchJs = HttpWebRequest.Create("http://tenplay.com.au/web%20api/showsearchjson");
@@ -45,7 +45,7 @@ namespace cu_grab
         /// Handles clicking of a show
         /// </summary>
         /// <returns>The name to the clicked show</returns>
-        public String clickDisplayedShow()
+        public override String clickDisplayedShow()
         {
             WebRequest reqShow = HttpWebRequest.Create("http://tenplay.com.au" + shows.Shows[objectList.SelectedIndex].ShowURL);
             WebResponse resShow = reqShow.GetResponse();
@@ -91,7 +91,7 @@ namespace cu_grab
         /// Get the download URL for FFmpeg
         /// </summary>
         /// <returns>A url</returns>
-        public  String getUrl()
+        public override String getUrl()
         {
             String BC_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId="; //url taken from and m3u8
             String PUB_ID = "&pubId=2199827728001"; //ID taken from any m3u8
@@ -111,14 +111,14 @@ namespace cu_grab
         /// Get the name of the select show
         /// </summary>
         /// <returns>Returns the Name of the selected episode</returns>
-        public  String getSelectedName()
+        public override String getSelectedName()
         {
             return selectedShowEpisodes[objectList.SelectedIndex].Name;
         }
         /// <summary>
         /// Handles Clearing the episode list and reseting it back to the show list
         /// </summary>
-        public void cleanEpisodes()
+        public override void cleanEpisodes()
         {
             selectedShowEpisodes.Clear();
             objectList.ItemsSource = shows.Shows;

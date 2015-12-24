@@ -12,7 +12,7 @@ using System.Windows.Controls;
 
 namespace cu_grab
 {
-    class RTVEc
+    public class RTVEc : DownloadAbstract
     {
         private ShowsClan value;
         private EpisodesClan episodesClan;
@@ -25,7 +25,7 @@ namespace cu_grab
         /// <summary>
         /// Fills the listbox with the JSON from RTVEClan search 
         /// </summary>
-        public void fillShowsList()
+        public override void fillShowsList()
         {
             WebRequest reqSearchJs = HttpWebRequest.Create(@"http://www.rtve.es/infantil/buscador-clan/obtener-datos-programas.json");
             WebResponse resSearchJs = reqSearchJs.GetResponse();
@@ -52,7 +52,7 @@ namespace cu_grab
         /// Handles clicking on a show and setting the listbox to the episodes for the show. 
         /// </summary>
         /// <returns>The name of the selected show</returns>
-        public String clickDisplayedShow()
+        public override String clickDisplayedShow()
         {
             WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/api/tematicas/" + value.infoBuscador[objectList.SelectedIndex].id + "/videos.json");
             WebResponse resTematicasJs = reqTematicasJs.GetResponse();
@@ -81,7 +81,7 @@ namespace cu_grab
         /// Depricated, used generateUrl instead
         /// </summary>
         /// <returns></returns>
-        public String getUrl()
+        public String getUrlOld()
         {
             WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/ztnr/movil/thumbnail/default/videos/" + episodesClan.page.items[objectList.SelectedIndex].id + ".png");
             //reqTematicasJs.Headers.Add("Referer", episodesClan.page.items[objectList.SelectedIndex].htmlUrl);
@@ -99,7 +99,7 @@ namespace cu_grab
         /// Based off work from rtvealacarta by itorres and personal research
         /// </summary>
         /// <returns>The url to download from</returns>
-        public String generateUrl()
+        public override String getUrl()
         {
             //Create a phase conatining the video id and milliseconds since the unix epoch
             DateTime dt = DateTime.Now;
@@ -189,13 +189,13 @@ namespace cu_grab
         /// <summary>
         /// Handles Clearing the episode list and reseting it back to the show list
         /// </summary>
-        public void cleanEpisodes()
+        public override void cleanEpisodes()
         {
             objectList.ItemsSource = value.infoBuscador;
             episodesClan = null;
         }
 
-        public String getSelectedName()
+        public override String getSelectedName()
         {
             return episodesClan.page.items[objectList.SelectedIndex].ToString();
         }

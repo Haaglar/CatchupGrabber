@@ -163,7 +163,7 @@ namespace cu_grab
         /// <summary>
         /// Sets it as the active List
         /// </summary>
-        public void setTPActive()
+        public override void setActive()
         {
             objectList.ItemsSource = shows.Shows;
         }

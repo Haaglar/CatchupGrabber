@@ -28,8 +28,15 @@ namespace cu_grab
      * More sites :)
      * More proper error handling
      * Make a attractive GUI
-     * Use API, for descriptions and stuff instead of crawling on tenplay
-     * p7, Get a good oauth library or something
+     * Use API, for descriptions and stuff instead of crawling on tenplay and p7
+     * p7,
+     * -for episode list
+     *      -use paginate rapidnofollow for urls
+     *      -replace the &amp; with &
+     *      -replace the number after collection to 1
+     *      -set pp = 100
+     *      -Iterate in html adding to list 
+     *      -Download using Standard FFmpeg method.
      */
 
     /// <summary>
@@ -40,12 +47,16 @@ namespace cu_grab
 
         String selectedShow = "";
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
-        enum Site { None, TenP, RTVEC }
+        enum Site { None, TenP, Plus7, RTVEC}
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
-        DownloadAbstract dlAbs;
+
+        //--Downloaderbstract Objects
+        DownloadAbstract dlAbs; //What will be currently selected
         Tenp tenPlay;
         RTVEc rtveClan;
+        Plus7 plus7;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -91,7 +102,6 @@ namespace cu_grab
                                 standardDownload(dlUrl, selectedShow + " " + name + ".mp4");
                                 break;
                         }
-                       
                     }
                     catch
                     {
@@ -176,6 +186,8 @@ namespace cu_grab
             }
         }
 
+        //-----------------TVCHANNEL BUTTONS START---------------//
+
         private void ButtonTenplay_Click(object sender, RoutedEventArgs e)
         {
             //First time selecting site
@@ -200,7 +212,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
-                tenPlay.setTPActive();
+                tenPlay.setActive();
             }  
             curState = State.DisplayingShows;
             curSite = Site.TenP;
@@ -232,13 +244,47 @@ namespace cu_grab
             // other time selecting site
             else
             {
-                rtveClan.setRTVEcActive();
+                rtveClan.setActive();
             }
             curState = State.DisplayingShows;
             curSite = Site.RTVEC;
             selectedShow = "";
             dlAbs = rtveClan;
         }
+
+        private void ButtonPlus7_Click(object sender, RoutedEventArgs e)
+        {
+            //First time selecting site
+            if (plus7 == null)
+            {
+                try
+                {
+                    plus7 = new Plus7(objectList);
+                    plus7.fillShowsList();
+                }
+                catch
+                {
+                    errorLabel.Text = "Failed to get episode listings for Plus7";
+                }
+            }
+            // If they select it while we are currently on it just return to shows
+            else if (curSite == Site.Plus7)
+            {
+                Shows_Pressed(null, null);
+                return;
+            }
+            // other time selecting site
+            else
+            {
+                plus7.setActive();
+            }
+            curState = State.DisplayingShows;
+            curSite = Site.Plus7;
+            selectedShow = "";
+            dlAbs = plus7;
+        }
+        //-----------------TVCHANNEL BUTTONS END---------------//
+
 
         /// <summary>
         /// A CookieAwareWebClient, used to store Glype proxy seesion info. Since we cant Async download when we need to post data at the same time.

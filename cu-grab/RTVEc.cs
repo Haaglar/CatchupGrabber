@@ -43,7 +43,7 @@ namespace cu_grab
         /// <summary>
         /// Sets the object list to the episodes for RTVEClan
         /// </summary>
-        public void setRTVEcActive()
+        public override void setActive()
         {
             objectList.ItemsSource = value.infoBuscador;
         }

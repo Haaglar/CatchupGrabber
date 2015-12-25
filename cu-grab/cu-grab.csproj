@@ -73,12 +73,14 @@
     <Compile Include="DownloadAbstract.cs" />
     <Compile Include="Episode.cs" />
     <Compile Include="EpisodesClan.cs" />
+    <Compile Include="Plus7.cs" />
     <Compile Include="RTVEc.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Shows.cs" />
     <Compile Include="ShowsClan.cs" />
+    <Compile Include="ShowsP7.cs" />
     <Compile Include="Tenp.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -31,11 +31,7 @@ namespace cu_grab
      * Use API, for descriptions and stuff instead of crawling on tenplay and p7
      * p7,
      * -for episode list
-     *      -use paginate rapidnofollow for urls
-     *      -replace the &amp; with &
-     *      -replace the number after collection to 1
-     *      -set pp = 100
-     *      -Iterate in html adding to list 
+     *      -create download link
      *      -Download using Standard FFmpeg method.
      */
 

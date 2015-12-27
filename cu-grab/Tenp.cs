@@ -94,8 +94,7 @@ namespace cu_grab
         public override String getUrl()
         {
             String BC_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId="; //url taken from and m3u8
-            String PUB_ID = "&pubId=2199827728001"; //ID taken from any m3u8
-
+            String PUB_ID = "&pubId=2376984108001"; //ID taken from any m3u8
             // Get standard m3u8from
             WebRequest reqm3u8 = HttpWebRequest.Create(BC_URL + selectedShowEpisodes[objectList.SelectedIndex].EpisodeID + PUB_ID);
             WebResponse resm3u8 = reqm3u8.GetResponse();
@@ -105,7 +104,6 @@ namespace cu_grab
             resm3u8.Close();
             srm3u8.Close();
             return url;
-
         }
         /// <summary>
         /// Get the name of the select show

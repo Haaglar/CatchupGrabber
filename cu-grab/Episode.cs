@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//Class for the epiosdes of a show on tenplay
+//Class for the epiosdes of a show on tenplay and plus7
 namespace cu_grab
 {
     public class Episode

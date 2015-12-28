@@ -91,6 +91,8 @@ namespace cu_grab
                         String dlUrl = dlAbs.getUrl();
                         switch (curSite)
                         {
+                            case Site.Plus7: //Add download for subtitles
+                                goto case Site.TenP;
                             case Site.TenP:
                                 runFFmpeg(dlUrl, selectedShow + " " + name);
                                 break;
@@ -130,7 +132,7 @@ namespace cu_grab
             return exitCode;
         }
         /// <summary>
-        /// Standard download for a file, note proxy download will be slow and appear unresponsive
+        /// Standard download for a file, note proxy download will be slow and appear unresponsive for a while
         /// </summary>
         /// <param name="url">The url to download from</param>
         /// <param name="name">Name plus extension</param>

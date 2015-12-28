@@ -15,10 +15,15 @@ namespace cu_grab
     public class Plus7 : DownloadAbstract
     {
 
-       String tvShowsUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/"; //Json object used to provide search suggestions
+       private String tvShowsUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/"; //Json object used to provide search suggestions
        private List<ShowsP7> showsP7;
        private List<Episode> selectedShowEpisodes = new List<Episode>();
+       private BCoveJson bCoveJson; //Json from the api request 
        private ListBox objectList;
+       //Stuff for downloading
+       private String apiUrl = "http://c.brightcove.com/services/json/player/media/?command=find_media_by_reference_id";
+       private String publisherId = "2376984108001";
+
         public Plus7(ListBox oList)
         {
             objectList = oList;
@@ -42,7 +47,7 @@ namespace cu_grab
         {
             String pageShow;
             WebRequest reqShow = HttpWebRequest.Create(showsP7[objectList.SelectedIndex].url);
-            using (WebResponse resShow = reqShow.GetResponse())
+            using (WebResponse resShow = reqShow.GetResponse()) //>using
             {
                 using (Stream responseStream = resShow.GetResponseStream())
                 {
@@ -80,8 +85,8 @@ namespace cu_grab
                 pageShow = pageShow.Substring(startPoint, endPoint - startPoint); //cut excess rubbish
             }
 
-            Regex regexLinks = new Regex(@"href=""//(.*/)"""); //Skip every second
-            Regex regexDesc = new Regex(@"collection-title-link-inner"">.*\n(.*)"); // Make sure to trim excess whitespace
+            Regex regexLinks = new Regex(@"href=""//(.*/)"""); 
+            Regex regexDesc = new Regex(@"collection-title-link-inner"">.*\n(.*)"); 
 
             MatchCollection matchDesc = regexDesc.Matches(pageShow);
             MatchCollection matchLinks = regexLinks.Matches(pageShow);
@@ -89,9 +94,9 @@ namespace cu_grab
             foreach (Match match in matchDesc)
             {
                 String url = matchLinks[i].Groups[1].Value;
-                String description = match.Groups[1].Value.Trim();
+                String description = match.Groups[1].Value.Trim(); // Trim excess whitespace cause otherwise itll look like rubbish 
                 selectedShowEpisodes.Add(new Episode(description, url));
-                i += 2;
+                i += 2;//Skip every second as theres a href on both the image and the content
             }
         
             //Store the current show name for file naming later
@@ -109,10 +114,61 @@ namespace cu_grab
         {
             return selectedShowEpisodes[objectList.SelectedIndex].Name;
         }
+        /// <summary>
+        /// Grabs the page, does some stuff (important part ported from p7-hls) and gets the URL
+        /// </summary>
+        /// <returns>The m3u8 url</returns>
         public override String getUrl() 
         {
-            return "";
+            //Get episode page data
+            String pageContent;
+            String url = selectedShowEpisodes[objectList.SelectedIndex].EpisodeID;
+            WebRequest reqShow = HttpWebRequest.Create("https://" + url);
+            using (WebResponse resShowUrl = reqShow.GetResponse())
+            {
+                using (Stream responseStreamUrl = resShowUrl.GetResponseStream())
+                {
+                    using (StreamReader srShowUrl = new StreamReader(responseStreamUrl, System.Text.Encoding.UTF8))
+                    {
+                        pageContent = srShowUrl.ReadToEnd();
+                    }
+                }
+            }
+            //Get Id from Url
+            Regex regRefId = new Regex(@"/([0-9]+)/");
+            String refID = regRefId.Matches(url)[0].Groups[1].Value;
+            // Get playerkey from page
+            Regex regPlayerKey = new Regex(@"rKey"" value=""(.*)""");
+            String playerKey = regPlayerKey.Matches(pageContent)[0].Groups[1].Value;
+            String jsonUrl = apiUrl + "&playerKey=" + playerKey + "&pubId=" + publisherId + "&refId=" + refID;
+
+            //Get and store the json data   
+            WebRequest reqShowJson = HttpWebRequest.Create(jsonUrl);
+            using (WebResponse resShowJson = reqShowJson.GetResponse())
+            {
+                using (Stream responseStreamJson = resShowJson.GetResponseStream())
+                {
+                    using (StreamReader srShowJson = new StreamReader(responseStreamJson, System.Text.Encoding.UTF8))
+                    {
+                        String showJson = srShowJson.ReadToEnd();
+                        JavaScriptSerializer jss = new JavaScriptSerializer();
+                        bCoveJson = jss.Deserialize<BCoveJson>(showJson);   
+                    }
+                }
+            }
+            //Get highest quality
+            int size = bCoveJson.FLVFullSize;
+            foreach(IOSRendition redition in bCoveJson.IOSRenditions)
+            {
+                if(redition.size == size)
+                {
+                    return redition.defaultURL;
+                }
+            }
+            //If we don't get the highest quality, return the master URL
+            return bCoveJson.FLVFullLengthURL;
         }
+        
         public override void cleanEpisodes() 
         {
             selectedShowEpisodes.Clear();

@@ -29,10 +29,6 @@ namespace cu_grab
      * More proper error handling
      * Make a attractive GUI
      * Use API, for descriptions and stuff instead of crawling on tenplay and p7
-     * p7,
-     * -for episode list
-     *      -create download link
-     *      -Download using Standard FFmpeg method.
      */
 
     /// <summary>
@@ -89,9 +85,9 @@ namespace cu_grab
                     {
                         String name = dlAbs.getSelectedName();
                         String dlUrl = dlAbs.getUrl();
-                        switch (curSite)
+                        switch (curSite) //Handle the correct download method for the option selected
                         {
-                            case Site.Plus7: //Add download for subtitles
+                            case Site.Plus7: 
                                 if (Properties.Settings.Default.DownloadSubtitlesSetting)
                                 {
                                     String subUrl = dlAbs.getSubtitles();
@@ -120,7 +116,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="url">The URL to download, (Master or Rendition)</param>
         /// <param name="nameLocation">The file name and location (without file extension)</param>
-        /// <returns>Returns FFmpegs error code</returns>
+        /// <returns>Returns FFmpeg's error code</returns>
         public int runFFmpeg(string url, string nameLocation)
         {
             //ffmpeg
@@ -142,6 +138,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="url">The url to download from</param>
         /// <param name="name">Name plus extension</param>
+        /// <param name="proxyAddress">A string url to a Glype proxy</param>
         public void standardDownload(String url, String name, String proxyAddress)
         {
             using (CookieAwareWebClient webClient = new CookieAwareWebClient())
@@ -174,6 +171,8 @@ namespace cu_grab
         {
             errorLabel.Text = "Download Complete";
         }
+
+        //-----------------BUTTONS START---------------//
         /// <summary>
         /// Cleanup function for returning to shows
         /// </summary>
@@ -188,9 +187,11 @@ namespace cu_grab
                 selectedShow = "";
             }
         }
-
-        //-----------------TVCHANNEL BUTTONS START---------------//
-
+        /// <summary>
+        /// Handles the action for when the Tenplay button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonTenplay_Click(object sender, RoutedEventArgs e)
         {
             //First time selecting site
@@ -223,6 +224,11 @@ namespace cu_grab
             dlAbs = tenPlay;
         }
 
+        /// <summary>
+        /// Handles the action for when the RTVEClan button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonRTVEC_Click(object sender, RoutedEventArgs e)
         {
             //First time selecting site
@@ -254,7 +260,11 @@ namespace cu_grab
             selectedShow = "";
             dlAbs = rtveClan;
         }
-
+        /// <summary>
+        /// Handles the actions for when the Plus7 button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonPlus7_Click(object sender, RoutedEventArgs e)
         {
             //First time selecting site
@@ -286,7 +296,18 @@ namespace cu_grab
             selectedShow = "";
             dlAbs = plus7;
         }
-        //-----------------TVCHANNEL BUTTONS END---------------//
+
+        /// <summary>
+        /// Handles the action for when the Setting button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Settings settingsWindow = new Settings();
+            settingsWindow.Show();
+        }
+        //-----------------BUTTONS END---------------//
 
 
         /// <summary>
@@ -307,12 +328,6 @@ namespace cu_grab
                 request.CookieContainer = CookieContainer;
                 return request;
             }
-        }
-
-        private void ButtonSettings_Click(object sender, RoutedEventArgs e)
-        {
-            Settings settingsWindow = new Settings();
-            settingsWindow.Show();
         }
     }
 }

@@ -28,6 +28,9 @@ namespace cu_grab
         {
             objectList = oList;
         }
+        /// <summary>
+        /// Fills showsP7 with data taken from the search feature on the P7 website
+        /// </summary>
         public override void fillShowsList()
         {
             WebRequest reqSearchJs = HttpWebRequest.Create(tvShowsUrl);
@@ -43,6 +46,10 @@ namespace cu_grab
             objectList.ItemsSource = showsP7;
             resSearchJs.Close();
         }
+        /// <summary>
+        /// Fills selectedShowEpisodes with episdes from the selected show
+        /// </summary>
+        /// <returns>The name of the selected Show</returns>
         public override String clickDisplayedShow()
         {
             String pageShow;
@@ -81,7 +88,7 @@ namespace cu_grab
             {
                 //If we dont need to load, remove the shit off the side (recommended crap) 
                 int startPoint = pageShow.IndexOf("class=\"g-xl-30-40 g-l-20-30 g-m-row g-main"); //Main content for shows
-                int endPoint = pageShow.IndexOf("class=\"g-xl-10-40 g-l-10-30 g-m-row g-rail");
+                int endPoint = pageShow.IndexOf("class=\"g-xl-10-40 g-l-10-30 g-m-row g-rail");   //Side reccommendations div
                 pageShow = pageShow.Substring(startPoint, endPoint - startPoint); //cut excess rubbish
             }
 
@@ -106,10 +113,14 @@ namespace cu_grab
             {
                 selectedShow = selectedShow.Replace(c, '-');
             }
-            //Update list and states
+            //Update list
             objectList.ItemsSource = selectedShowEpisodes;
             return selectedShow;
         }
+        /// <summary>
+        /// Gets the name of the current selected show
+        /// </summary>
+        /// <returns>The selected show's name</returns>
         public override String getSelectedName()
         {
             return selectedShowEpisodes[objectList.SelectedIndex].Name;
@@ -168,16 +179,25 @@ namespace cu_grab
             //If we don't get the highest quality, return the master URL
             return bCoveJson.FLVFullLengthURL;
         }
-        
+        /// <summary>
+        /// Handles Clearing the episode list and reseting it back to the show list
+        /// </summary>
         public override void cleanEpisodes() 
         {
             selectedShowEpisodes.Clear();
             objectList.ItemsSource = showsP7;
         }
+        /// <summary>
+        /// Sets the ListBox to be the episodelist for P7
+        /// </summary>
         public override void setActive()
         {
             objectList.ItemsSource = showsP7;
         }
+        /// <summary>
+        /// Gets the URL of the subtitles for the selected episode.
+        /// </summary>
+        /// <returns>The URL for the captions, returns a blank String if no Subtitles exist </returns>
         public override String getSubtitles()
         {
             if(bCoveJson.captions != null)

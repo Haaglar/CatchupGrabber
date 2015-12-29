@@ -165,5 +165,9 @@ namespace cu_grab
         {
             objectList.ItemsSource = shows.Shows;
         }
+        public override String getSubtitles()
+        {
+            return "";
+        }
     }
 }

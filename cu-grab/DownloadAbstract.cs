@@ -14,5 +14,6 @@ namespace cu_grab
         abstract public String getUrl();
         abstract public void cleanEpisodes();
         abstract public void setActive();
+        abstract public String getSubtitles();
     }
 }

@@ -178,5 +178,13 @@ namespace cu_grab
         {
             objectList.ItemsSource = showsP7;
         }
+        public override String getSubtitles()
+        {
+            if(bCoveJson.captions != null)
+            {
+                return bCoveJson.captions[0].URL;
+            }
+            return "";
+        }
     }
 }

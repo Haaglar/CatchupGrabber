@@ -23,6 +23,7 @@ namespace cu_grab
         {
             InitializeComponent();
             TextBoxRTVEClanProxy.Text = Properties.Settings.Default.GlypeProxySettingRTVE;
+            CheckBoxSubtitleSetting.IsChecked = Properties.Settings.Default.DownloadSubtitlesSetting;
         }
 
         private void ButtonSaveSettings_Click(object sender, RoutedEventArgs e)
@@ -35,6 +36,7 @@ namespace cu_grab
             }
             
             Properties.Settings.Default.GlypeProxySettingRTVE = proxyUnfiltered;
+            Properties.Settings.Default.DownloadSubtitlesSetting = CheckBoxSubtitleSetting.IsChecked ?? false;
             Properties.Settings.Default.Save();
             this.Close();
         }

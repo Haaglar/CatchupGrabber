@@ -34,5 +34,17 @@ namespace cu_grab.Properties {
                 this["GlypeProxySettingRTVE"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DownloadSubtitlesSetting {
+            get {
+                return ((bool)(this["DownloadSubtitlesSetting"]));
+            }
+            set {
+                this["DownloadSubtitlesSetting"] = value;
+            }
+        }
     }
 }

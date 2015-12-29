@@ -92,12 +92,18 @@ namespace cu_grab
                         switch (curSite)
                         {
                             case Site.Plus7: //Add download for subtitles
+                                if (Properties.Settings.Default.DownloadSubtitlesSetting)
+                                {
+                                    String subUrl = dlAbs.getSubtitles();
+                                    if(subUrl != "")
+                                        standardDownload(subUrl, selectedShow + " " + name + ".dfxp", "");
+                                }
                                 goto case Site.TenP;
                             case Site.TenP:
                                 runFFmpeg(dlUrl, selectedShow + " " + name);
                                 break;
                             case Site.RTVEC:
-                                standardDownload(dlUrl, selectedShow + " " + name + ".mp4");
+                                standardDownload(dlUrl, selectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeProxySettingRTVE);
                                 break;
                         }
                     }
@@ -136,13 +142,12 @@ namespace cu_grab
         /// </summary>
         /// <param name="url">The url to download from</param>
         /// <param name="name">Name plus extension</param>
-        public void standardDownload(String url, String name)
+        public void standardDownload(String url, String name, String proxyAddress)
         {
             using (CookieAwareWebClient webClient = new CookieAwareWebClient())
             {
                 webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
                 webClient.DownloadFileCompleted += webClient_AsyncCompletedEventHandler;
-                String proxyAddress = Properties.Settings.Default.GlypeProxySettingRTVE;
                 if (proxyAddress != "")//If they suplied a proxy
                 {
                     //Add standard post headers

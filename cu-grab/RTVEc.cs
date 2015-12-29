@@ -199,5 +199,9 @@ namespace cu_grab
         {
             return episodesClan.page.items[objectList.SelectedIndex].ToString();
         }
+        public override String getSubtitles()
+        {
+            return "";
+        }
     }
 }

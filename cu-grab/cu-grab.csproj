@@ -82,6 +82,7 @@
     <Compile Include="Shows.cs" />
     <Compile Include="ShowsClan.cs" />
     <Compile Include="ShowsP7.cs" />
+    <Compile Include="SubtitleConverter.cs" />
     <Compile Include="Tenp.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

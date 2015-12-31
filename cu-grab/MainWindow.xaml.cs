@@ -49,6 +49,7 @@ namespace cu_grab
         RTVEc rtveClan;
         Plus7 plus7;
 
+        SubtitleConverter subConv;
         public MainWindow()
         {
             InitializeComponent();
@@ -91,8 +92,12 @@ namespace cu_grab
                                 if (Properties.Settings.Default.DownloadSubtitlesSetting)
                                 {
                                     String subUrl = dlAbs.getSubtitles();
-                                    if(subUrl != "")
-                                        standardDownload(subUrl, selectedShow + " " + name + ".dfxp", "");
+                                    if (subUrl != "")
+                                    {
+                                        standardDownloadSub(subUrl, selectedShow + " " + name + ".dfxp", ""); //Thread locked cause yeah
+                                        subConv = new SubtitleConverter();
+                                        subConv.dfxpToStr(selectedShow + " " + name + ".dfxp");
+                                    }
                                 }
                                 goto case Site.TenP;
                             case Site.TenP:
@@ -110,7 +115,9 @@ namespace cu_grab
                     break;
             }
         }
-    
+        
+
+        //------------------Download methods------------------------//
         /// <summary>
         /// Download HLS stream via ffmpeg
         /// </summary>
@@ -171,6 +178,16 @@ namespace cu_grab
         {
             errorLabel.Text = "Download Complete";
         }
+
+
+        public void standardDownloadSub(String url, String name, String proxyAddress)
+        {
+            using (WebClient webClient = new WebClient())
+            {
+                webClient.DownloadFile(new System.Uri(url), name);
+            }
+        }
+        //Download methods end
 
         //-----------------BUTTONS START---------------//
         /// <summary>

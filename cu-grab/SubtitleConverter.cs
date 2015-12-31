@@ -14,9 +14,9 @@ namespace cu_grab
     {
         private class SubtitleCU
         {
-            List<DateTime> startTime;
-            List<DateTime> endTime;
-            List<String> content;
+            public List<DateTime> startTime;
+            public List<DateTime> endTime;
+            public List<String> content;
             public SubtitleCU()
             {
                 startTime = new List<DateTime>();
@@ -28,6 +28,10 @@ namespace cu_grab
                 startTime.Add(sTime);
                 endTime.Add(eTime);
                 content.Add(text);
+            }
+            public int getLength()
+            {
+                return content.Count;
             }
         }
 
@@ -60,18 +64,30 @@ namespace cu_grab
                 }
             }
         }
-        private void localToStr()
+        /// <summary>
+        /// Converts the local format to Subrip format
+        /// </summary>
+        /// <param name="path">The path containing the path to the location and name of the original file</param>
+        private void localToStr(String path)
         {
-
+            String subExport = "";
+            int length = subTitleLocal.getLength();
+            for (int i = 0; i < length; i++ )
+            {
+                String sTime = subTitleLocal.startTime[i].ToString("HH:mm:ss,fff");
+                String eTime = subTitleLocal.endTime[i].ToString("HH:mm:ss,fff");
+                subExport = subExport + (i + 1) + "\n" + sTime + " ---> " + eTime + "\n" + subTitleLocal.content[i] + "\n" + "\n";
+            }
+            System.IO.File.WriteAllText(path + ".srt",subExport);
         }
         /// <summary>
         /// Converts a dfxp sub to srt
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">The path containing the path to the dfxp file</param>
         public void dfxpToStr(String path)
         {
             dfxpToLocal(path);
-            localToStr();
+            localToStr(path);
         }
     }
 }

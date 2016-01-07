@@ -13,7 +13,7 @@
         <TextBlock x:Name="TextBlockDownloadStatus" HorizontalAlignment="Left" Margin="10,296,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="178"/>
         <Button x:Name="ButtonSettings" Content="Settings" HorizontalAlignment="Left" Margin="400,182,0,0" VerticalAlignment="Top" Width="75" Height="28" Click="ButtonSettings_Click"/>
         <Button x:Name="ButtonPlus7" Content="Plus7" HorizontalAlignment="Left" Margin="10,398,0,0" VerticalAlignment="Top" Width="75" Click="ButtonPlus7_Click"/>
-        <Button x:Name="ButtonRTVE" Content="RTVE" HorizontalAlignment="Left" Margin="90,398,0,0" VerticalAlignment="Top" Width="75" Click="ButtonRTVE_Click"/>
+        
 
     </Grid>
 </Window>

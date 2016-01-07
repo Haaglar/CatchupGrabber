@@ -39,7 +39,7 @@ namespace cu_grab
 
         String selectedShow = "";
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
-        enum Site { None, TenP, Plus7, RTVEClan, RTVE}
+        enum Site { None, TenP, Plus7, RTVEClan}
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
 
@@ -48,7 +48,7 @@ namespace cu_grab
         Tenp tenPlay;
         RTVEc rtveClan;
         Plus7 plus7;
-        RTVE rtve;
+
 
         SubtitleConverter subConv;
         public MainWindow()
@@ -104,7 +104,7 @@ namespace cu_grab
                             case Site.TenP:
                                 runFFmpeg(dlUrl, selectedShow + " " + name);
                                 break;
-                            case Site.RTVEClan: case Site.RTVE:
+                            case Site.RTVEClan:
                                 standardDownload(dlUrl, selectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeProxySettingRTVE);
                                 break;
                         }
@@ -314,43 +314,6 @@ namespace cu_grab
             selectedShow = "";
             dlAbs = plus7;
         }
-        /// <summary>
-        /// Handles the actions for when the RTVE button is pressed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonRTVE_Click(object sender, RoutedEventArgs e)
-        {
-            //First time selecting site
-            if (rtve == null)
-            {
-                try
-                {
-                    rtve = new RTVE(objectList);
-                    rtve.fillShowsList();
-                }
-                catch
-                {
-                    errorLabel.Text = "Failed to get episode listings for RTVE";
-                }
-            }
-            // If they select it while we are currently on it just return to shows
-            else if (curSite == Site.RTVE)
-            {
-                Shows_Pressed(null, null);
-                return;
-            }
-            // other time selecting site
-            else
-            {
-                rtve.setActive();
-            }
-            curState = State.DisplayingShows;
-            curSite = Site.RTVE;
-            selectedShow = "";
-            dlAbs = rtve;
-        }
-
         /// <summary>
         /// Handles the action for when the Setting button is pressed
         /// </summary>

@@ -314,10 +314,41 @@ namespace cu_grab
             selectedShow = "";
             dlAbs = plus7;
         }
-
+        /// <summary>
+        /// Handles the actions for when the RTVE button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonRTVE_Click(object sender, RoutedEventArgs e)
         {
-
+            //First time selecting site
+            if (rtve == null)
+            {
+                try
+                {
+                    rtve = new RTVE(objectList);
+                    rtve.fillShowsList();
+                }
+                catch
+                {
+                    errorLabel.Text = "Failed to get episode listings for RTVE";
+                }
+            }
+            // If they select it while we are currently on it just return to shows
+            else if (curSite == Site.RTVE)
+            {
+                Shows_Pressed(null, null);
+                return;
+            }
+            // other time selecting site
+            else
+            {
+                rtve.setActive();
+            }
+            curState = State.DisplayingShows;
+            curSite = Site.RTVE;
+            selectedShow = "";
+            dlAbs = rtve;
         }
 
         /// <summary>

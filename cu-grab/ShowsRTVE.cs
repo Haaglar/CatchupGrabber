@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace cu_grab
+namespace cu_grab.series.rtve
 {
 
     public class Channel
@@ -86,6 +86,10 @@ namespace cu_grab
         public string contentType { get; set; }
         public string imageSEO { get; set; }
         public string imgPinta { get; set; }
+        public override string ToString()
+        {
+            return name;
+        }
     }
 
     public class Page

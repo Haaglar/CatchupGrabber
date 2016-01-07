@@ -75,6 +75,7 @@
     <Compile Include="Episode.cs" />
     <Compile Include="EpisodesClan.cs" />
     <Compile Include="Plus7.cs" />
+    <Compile Include="RTVE.cs" />
     <Compile Include="RTVEc.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -82,6 +83,7 @@
     <Compile Include="Shows.cs" />
     <Compile Include="ShowsClan.cs" />
     <Compile Include="ShowsP7.cs" />
+    <Compile Include="ShowsRTVE.cs" />
     <Compile Include="SubtitleConverter.cs" />
     <Compile Include="Tenp.cs" />
     <Page Include="MainWindow.xaml">

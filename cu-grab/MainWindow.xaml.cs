@@ -39,7 +39,7 @@ namespace cu_grab
 
         String selectedShow = "";
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
-        enum Site { None, TenP, Plus7, RTVEC}
+        enum Site { None, TenP, Plus7, RTVEClan, RTVE}
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
 
@@ -48,6 +48,7 @@ namespace cu_grab
         Tenp tenPlay;
         RTVEc rtveClan;
         Plus7 plus7;
+        RTVE rtve;
 
         SubtitleConverter subConv;
         public MainWindow()
@@ -103,7 +104,7 @@ namespace cu_grab
                             case Site.TenP:
                                 runFFmpeg(dlUrl, selectedShow + " " + name);
                                 break;
-                            case Site.RTVEC:
+                            case Site.RTVEClan: case Site.RTVE:
                                 standardDownload(dlUrl, selectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeProxySettingRTVE);
                                 break;
                         }
@@ -262,7 +263,7 @@ namespace cu_grab
                 }
             }
             // If they select it while we are currently on it just return to shows
-            else if (curSite == Site.RTVEC)
+            else if (curSite == Site.RTVEClan)
             {
                 Shows_Pressed(null, null);
                 return;
@@ -273,7 +274,7 @@ namespace cu_grab
                 rtveClan.setActive();
             }
             curState = State.DisplayingShows;
-            curSite = Site.RTVEC;
+            curSite = Site.RTVEClan;
             selectedShow = "";
             dlAbs = rtveClan;
         }
@@ -314,6 +315,11 @@ namespace cu_grab
             dlAbs = plus7;
         }
 
+        private void ButtonRTVE_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         /// <summary>
         /// Handles the action for when the Setting button is pressed
         /// </summary>
@@ -346,5 +352,7 @@ namespace cu_grab
                 return request;
             }
         }
+
+
     }
 }

@@ -67,53 +67,56 @@ namespace cu_grab
         /// <param name="e"></param>
         private void oL_ItemPressed(object sender, MouseButtonEventArgs e)
         {
-            switch (curState)
+            if (e.OriginalSource is TextBlock) //Make sure that we double click an item not the scrollbar
             {
-                // Get episodes for the selected show
-                case State.DisplayingShows:
-                    try
-                    {
-                        selectedShow = dlAbs.clickDisplayedShow();
-                        curState = State.DisplayingEpisodes;
-                    }
-                    catch
-                    {
-                        errorLabel.Text = "Failed to get episode list for selected show";
-                    }
-                    break;
-                //Download Selected show
-                case State.DisplayingEpisodes:
-                    try
-                    {
-                        String name = dlAbs.getSelectedName();
-                        String dlUrl = dlAbs.getUrl();
-                        switch (curSite) //Handle the correct download method for the option selected
+                switch (curState)
+                {
+                    // Get episodes for the selected show
+                    case State.DisplayingShows:
+                        try
                         {
-                            case Site.Plus7: 
-                                if (Properties.Settings.Default.DownloadSubtitlesSetting)
-                                {
-                                    String subUrl = dlAbs.getSubtitles();
-                                    if (subUrl != "")
-                                    {
-                                        standardDownloadSub(subUrl, selectedShow + " " + name + ".dfxp", ""); //Thread locked cause yeah
-                                        subConv = new SubtitleConverter();
-                                        subConv.dfxpToStr(selectedShow + " " + name + ".dfxp");
-                                    }
-                                }
-                                goto case Site.TenP;
-                            case Site.TenP:
-                                runFFmpeg(dlUrl, selectedShow + " " + name);
-                                break;
-                            case Site.RTVEClan:
-                                standardDownload(dlUrl, selectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeProxySettingRTVE);
-                                break;
+                            selectedShow = dlAbs.clickDisplayedShow();
+                            curState = State.DisplayingEpisodes;
                         }
-                    }
-                    catch
-                    {
-                        errorLabel.Text = "Failed to download episode";
-                    }
-                    break;
+                        catch
+                        {
+                            errorLabel.Text = "Failed to get episode list for selected show";
+                        }
+                        break;
+                    //Download Selected show
+                    case State.DisplayingEpisodes:
+                        try
+                        {
+                            String name = dlAbs.getSelectedName();
+                            String dlUrl = dlAbs.getUrl();
+                            switch (curSite) //Handle the correct download method for the option selected
+                            {
+                                case Site.Plus7:
+                                    if (Properties.Settings.Default.DownloadSubtitlesSetting)
+                                    {
+                                        String subUrl = dlAbs.getSubtitles();
+                                        if (subUrl != "")
+                                        {
+                                            standardDownloadSub(subUrl, selectedShow + " " + name + ".dfxp", ""); //Thread locked cause yeah
+                                            subConv = new SubtitleConverter();
+                                            subConv.dfxpToStr(selectedShow + " " + name + ".dfxp");
+                                        }
+                                    }
+                                    goto case Site.TenP;
+                                case Site.TenP:
+                                    runFFmpeg(dlUrl, selectedShow + " " + name);
+                                    break;
+                                case Site.RTVEClan:
+                                    standardDownload(dlUrl, selectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeProxySettingRTVE);
+                                    break;
+                            }
+                        }
+                        catch
+                        {
+                            errorLabel.Text = "Failed to download episode";
+                        }
+                        break;
+                }
             }
         }
         

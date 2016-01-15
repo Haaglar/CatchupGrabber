@@ -12,6 +12,7 @@ namespace cu_grab
     
     public class SubtitleConverter
     {
+        //Internal sub format to allow easy conversion
         private class SubtitleCU
         {
             public List<DateTime> startTime;
@@ -23,6 +24,12 @@ namespace cu_grab
                 endTime = new List<DateTime>();
                 content = new List<String>();
             }
+            /// <summary>
+            /// Adds a specific entry to the subtitle
+            /// </summary>
+            /// <param name="sTime">The start time of the entry</param>
+            /// <param name="eTime">The end time of the entry</param>
+            /// <param name="text">The content of the entry</param>
             public void addEntry(DateTime sTime, DateTime eTime, String text)
             {
                 startTime.Add(sTime);
@@ -78,7 +85,7 @@ namespace cu_grab
                 String eTime = subTitleLocal.endTime[i].ToString("HH:mm:ss,fff");
                 subExport = subExport + (i + 1) + "\n" + sTime + " ---> " + eTime + "\n" + subTitleLocal.content[i] + "\n" + "\n";
             }
-            System.IO.File.WriteAllText(path + ".srt",subExport);
+            System.IO.File.WriteAllText(System.IO.Path.ChangeExtension(path, ".srt"),subExport);
         }
         /// <summary>
         /// Converts a dfxp sub to srt

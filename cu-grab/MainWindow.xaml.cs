@@ -39,7 +39,7 @@ namespace cu_grab
 
         String selectedShow = "";
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
-        enum Site { None, TenP, Plus7, RTVEClan}
+        enum Site { None, TenP, Plus7, RTVEClan, RTE}
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
 
@@ -48,7 +48,7 @@ namespace cu_grab
         Tenp tenPlay;
         RTVEc rtveClan;
         Plus7 plus7;
-
+        RTE rteIE;
 
         SubtitleConverter subConv;
         public MainWindow()

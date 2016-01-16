@@ -15,10 +15,14 @@ namespace cu_grab
     {
         private ListBox objectList;
         private List<RTEShows> rteShows;
+        private List<Episode> selectedShowEpisodes = new List<Episode>();
         public RTE(ListBox oList)
         {
             objectList = oList;
         }
+        /// <summary>
+        /// Fills the listbox with the JSON from rte search
+        /// </summary>
         public override void fillShowsList()
         {
             WebRequest reqSearchJs = HttpWebRequest.Create(@"https://www.rte.ie/player/shows.js?v=2");
@@ -28,7 +32,7 @@ namespace cu_grab
             {
                 string jsonjs = srjs.ReadToEnd(); 
                 int jslen = jsonjs.Length;
-                jsonjs = jsonjs.Substring(12, jslen - 12); // remove the "var shows = ["  at start and "]" at end
+                jsonjs = jsonjs.Substring(12, jslen - 12); // remove the "var shows = "
 
                 JavaScriptSerializer jss = new JavaScriptSerializer();
                 rteShows = jss.Deserialize<List<RTEShows>>(jsonjs);
@@ -37,13 +41,31 @@ namespace cu_grab
             objectList.ItemsSource = rteShows;
             resSearchJs.Close();
         }
+        /// <summary>
+        /// Sets the ListBox to RTE
+        /// </summary>
         public override void setActive()
         {
-            throw new NotImplementedException();
+            objectList.ItemsSource = rteShows;
         }
         public override string clickDisplayedShow()
         {
-            throw new NotImplementedException();
+            //Get page content
+            String pageShow;
+            WebRequest reqShow = HttpWebRequest.Create("https://www.rte.ie/player/lh/show/" + rteShows[objectList.SelectedIndex].id);
+            using (WebResponse resShow = reqShow.GetResponse()) //>using
+            {
+                using (Stream responseStream = resShow.GetResponseStream())
+                {
+                    using (StreamReader srShow = new StreamReader(responseStream, System.Text.Encoding.UTF8))
+                    {
+                        pageShow = srShow.ReadToEnd();
+                    }
+                }
+            }
+            //
+
+            return pageShow;
         }
         public override string getUrl()
         {
@@ -51,7 +73,8 @@ namespace cu_grab
         }
         public override void cleanEpisodes()
         {
-            throw new NotImplementedException();
+            selectedShowEpisodes.Clear();
+            objectList.ItemsSource = rteShows;
         }
         public override string getSelectedName()
         {

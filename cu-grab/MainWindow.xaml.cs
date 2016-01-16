@@ -317,6 +317,44 @@ namespace cu_grab
             selectedShow = "";
             dlAbs = plus7;
         }
+
+        /// <summary>
+        /// Handles the actions for when the RTE button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonRTE_Click(object sender, RoutedEventArgs e)
+        {
+            //First time selecting site
+            if (rteIE == null)
+            {
+                try
+                {
+                    rteIE = new RTE(objectList);
+                    rteIE.fillShowsList();
+                }
+                catch
+                {
+                    errorLabel.Text = "Failed to get episode listings for RTE";
+                }
+            }
+            // If they select it while we are currently on it just return to shows
+            else if (curSite == Site.RTE)
+            {
+                Shows_Pressed(null, null);
+                return;
+            }
+            // other time selecting site
+            else
+            {
+                rteIE.setActive();
+            }
+            curState = State.DisplayingShows;
+            curSite = Site.RTE;
+            selectedShow = "";
+            dlAbs = rteIE;
+        }
+
         /// <summary>
         /// Handles the action for when the Setting button is pressed
         /// </summary>
@@ -349,7 +387,5 @@ namespace cu_grab
                 return request;
             }
         }
-
-
     }
 }

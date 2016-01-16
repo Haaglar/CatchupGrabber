@@ -76,6 +76,7 @@
     <Compile Include="EpisodesClan.cs" />
     <Compile Include="Plus7.cs" />
     <Compile Include="RTE.cs" />
+    <Compile Include="RTEShows.cs" />
     <Compile Include="RTVEc.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>

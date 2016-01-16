@@ -63,8 +63,10 @@ namespace cu_grab
                     }
                 }
             }
-            //
-
+            //Crop stuff
+            int startPoint = pageShow.IndexOf("main-content-box-container indexpage-content-box"); // Start of episode list
+            int endPoint = pageShow.IndexOf("main-content-box-container  black");   //recommended rubbish
+            pageShow = pageShow.Substring(startPoint, endPoint - startPoint);
             return pageShow;
         }
         public override string getUrl()

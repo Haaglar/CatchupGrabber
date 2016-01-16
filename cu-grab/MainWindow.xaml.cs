@@ -87,6 +87,7 @@ namespace cu_grab
                     case State.DisplayingEpisodes:
                         try
                         {
+                            errorLabel.Text = "Downloading episode, please wait...";
                             String name = dlAbs.getSelectedName();
                             String dlUrl = dlAbs.getUrl();
                             switch (curSite) //Handle the correct download method for the option selected
@@ -103,7 +104,7 @@ namespace cu_grab
                                         }
                                     }
                                     goto case Site.TenP;
-                                case Site.TenP:
+                                case Site.TenP: case Site.RTE:
                                     runFFmpeg(dlUrl, selectedShow + " " + name);
                                     break;
                                 case Site.RTVEClan:

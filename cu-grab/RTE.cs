@@ -14,6 +14,9 @@ namespace cu_grab
 {
     public class RTE : DownloadAbstract
     {
+        private const String EpisodePlaylistUrl = @"https://www.rte.ie/rteavgen/getplaylist/?type=web&format=json&id=";
+        private const String CndUrl = @"http://cdn.rasset.ie";
+
         private ListBox objectList;
         private List<RTEShows> rteShows;
         private List<Episode> selectedShowEpisodes = new List<Episode>();
@@ -96,7 +99,29 @@ namespace cu_grab
         }
         public override string getUrl()
         {
-            throw new NotImplementedException();
+            //Construct URL
+            String urlJson = EpisodePlaylistUrl +  selectedShowEpisodes[objectList.SelectedIndex].EpisodeID;
+            String showJsonString;
+            WebRequest reqShow = HttpWebRequest.Create(urlJson);
+            using (WebResponse resShowUrl = reqShow.GetResponse())
+            {
+                using (Stream responseStreamUrl = resShowUrl.GetResponseStream())
+                {
+                    using (StreamReader srShowUrl = new StreamReader(responseStreamUrl, System.Text.Encoding.UTF8))
+                    {
+                        showJsonString= srShowUrl.ReadToEnd();
+                    }
+                }
+            }
+            //Get the hls url
+            Regex getHlsUrl = new Regex(@"hls_url""\: ""(.*?)""");
+            String urlSuffix = getHlsUrl.Matches(showJsonString)[0].Groups[1].Value;
+            String manifestHlsUrl = CndUrl + "/manifest" + urlSuffix;
+
+            //TODO: Get highest quality 
+
+            return manifestHlsUrl;
+            
         }
         public override void cleanEpisodes()
         {
@@ -105,11 +130,11 @@ namespace cu_grab
         }
         public override string getSelectedName()
         {
-            throw new NotImplementedException();
+            return selectedShowEpisodes[objectList.SelectedIndex].Name;
         }
         public override string getSubtitles()
         {
-            throw new NotImplementedException();
+            return "";
         }
     }
 }

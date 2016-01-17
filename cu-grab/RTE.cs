@@ -118,10 +118,49 @@ namespace cu_grab
             String urlSuffix = getHlsUrl.Matches(showJsonString)[0].Groups[1].Value;
             String manifestHlsUrl = CndUrl + "/manifest" + urlSuffix;
 
-            //TODO: Get highest quality 
-
-            return manifestHlsUrl;
+            return getHighestBitrate(manifestHlsUrl);
             
+        }
+        private String getHighestBitrate(String url)
+        {
+            WebRequest reqManifest = HttpWebRequest.Create(url);
+            using (WebResponse resManifest = reqManifest.GetResponse())
+            {
+                using (Stream responseStreamManifest = resManifest.GetResponseStream())
+                {
+                    using (StreamReader srShowManifest = new StreamReader(responseStreamManifest, System.Text.Encoding.UTF8))
+                    {
+                        String line; // current line 
+                        String finalUrl = "";
+                        Regex regexBandwidth = new Regex(@"(?<=\bBANDWIDTH=)([0-9]+)"); //Quality Selection
+                        int index = 0;
+                        int row = -1;
+                        long bandwidth = 0;
+                        long tmp = 0;
+                        //Get the highest quality link
+                        while ((line = srShowManifest.ReadLine()) != null)
+                        {
+                            if (row == index)
+                            {
+                                finalUrl = line;
+                            }
+                            index++;
+                            MatchCollection matchBand = regexBandwidth.Matches(line);
+                            if (matchBand.Count > 0)
+                            {
+                                tmp = int.Parse(matchBand[0].Value);
+                                if (tmp > bandwidth)
+                                {
+                                    row = index;
+                                    bandwidth = tmp;
+                                }
+                            }
+                        }
+                        return CndUrl + finalUrl; // Its a relative adress
+                    }
+                }
+            }
+           
         }
         public override void cleanEpisodes()
         {

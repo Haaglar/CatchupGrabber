@@ -65,7 +65,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void oL_ItemPressed(object sender, MouseButtonEventArgs e)
+        private void OL_ItemPressed(object sender, MouseButtonEventArgs e)
         {
             if (e.OriginalSource is TextBlock) //Make sure that we double click an item not the scrollbar
             {
@@ -75,7 +75,7 @@ namespace cu_grab
                     case State.DisplayingShows:
                         try
                         {
-                            selectedShow = dlAbs.clickDisplayedShow();
+                            selectedShow = dlAbs.ClickDisplayedShow();
                             curState = State.DisplayingEpisodes;
                         }
                         catch
@@ -88,27 +88,27 @@ namespace cu_grab
                         try
                         {
                             errorLabel.Text = "Downloading episode, please wait...";
-                            String name = dlAbs.getSelectedName();
-                            String dlUrl = dlAbs.getUrl();
+                            String name = dlAbs.GetSelectedName();
+                            String dlUrl = dlAbs.GetUrl();
                             switch (curSite) //Handle the correct download method for the option selected
                             {
                                 case Site.Plus7:
                                     if (Properties.Settings.Default.DownloadSubtitlesSetting)
                                     {
-                                        String subUrl = dlAbs.getSubtitles();
+                                        String subUrl = dlAbs.GetSubtitles();
                                         if (subUrl != "")
                                         {
-                                            standardDownloadSub(subUrl, selectedShow + " " + name + ".dfxp", ""); //Thread locked cause yeah
+                                            StandardDownloadSub(subUrl, selectedShow + " " + name + ".dfxp", ""); //Thread locked cause yeah
                                             subConv = new SubtitleConverter();
-                                            subConv.dfxpToStr(selectedShow + " " + name + ".dfxp");
+                                            subConv.DfxpToStr(selectedShow + " " + name + ".dfxp");
                                         }
                                     }
                                     goto case Site.TenP;
                                 case Site.TenP: case Site.RTE:
-                                    runFFmpeg(dlUrl, selectedShow + " " + name);
+                                    RunFFmpeg(dlUrl, selectedShow + " " + name);
                                     break;
                                 case Site.RTVEClan:
-                                    standardDownload(dlUrl, selectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeProxySettingRTVE);
+                                    StandardDownload(dlUrl, selectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeProxySettingRTVE);
                                     break;
                             }
                         }
@@ -129,7 +129,7 @@ namespace cu_grab
         /// <param name="url">The URL to download, (Master or Rendition)</param>
         /// <param name="nameLocation">The file name and location (without file extension)</param>
         /// <returns>Returns FFmpeg's error code</returns>
-        public int runFFmpeg(string url, string nameLocation)
+        public int RunFFmpeg(string url, string nameLocation)
         {
             //ffmpeg
             ProcessStartInfo ffmpeg = new ProcessStartInfo();
@@ -151,7 +151,7 @@ namespace cu_grab
         /// <param name="url">The url to download from</param>
         /// <param name="name">Name plus extension</param>
         /// <param name="proxyAddress">A string url to a Glype proxy</param>
-        public void standardDownload(String url, String name, String proxyAddress)
+        public void StandardDownload(String url, String name, String proxyAddress)
         {
             using (CookieAwareWebClient webClient = new CookieAwareWebClient())
             {
@@ -185,7 +185,7 @@ namespace cu_grab
         }
 
 
-        public void standardDownloadSub(String url, String name, String proxyAddress)
+        public void StandardDownloadSub(String url, String name, String proxyAddress)
         {
             using (WebClient webClient = new WebClient())
             {
@@ -204,7 +204,7 @@ namespace cu_grab
         {
             if (dlAbs != null)
             {
-                dlAbs.cleanEpisodes();
+                dlAbs.CleanEpisodes();
                 curState = State.DisplayingShows;
                 selectedShow = "";
             }
@@ -222,7 +222,7 @@ namespace cu_grab
                 try
                 {
                     tenPlay = new Tenp(objectList);
-                    tenPlay.fillShowsList();
+                    tenPlay.FillShowsList();
                 }
                 catch
                 {
@@ -238,7 +238,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
-                tenPlay.setActive();
+                tenPlay.SetActive();
             }  
             curState = State.DisplayingShows;
             curSite = Site.TenP;
@@ -259,7 +259,7 @@ namespace cu_grab
                 try
                 {
                     rtveClan = new RTVEc(objectList);
-                    rtveClan.fillShowsList();
+                    rtveClan.FillShowsList();
                 }
                 catch
                 {
@@ -275,7 +275,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
-                rtveClan.setActive();
+                rtveClan.SetActive();
             }
             curState = State.DisplayingShows;
             curSite = Site.RTVEClan;
@@ -295,7 +295,7 @@ namespace cu_grab
                 try
                 {
                     plus7 = new Plus7(objectList);
-                    plus7.fillShowsList();
+                    plus7.FillShowsList();
                 }
                 catch
                 {
@@ -311,7 +311,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
-                plus7.setActive();
+                plus7.SetActive();
             }
             curState = State.DisplayingShows;
             curSite = Site.Plus7;
@@ -332,7 +332,7 @@ namespace cu_grab
                 try
                 {
                     rteIE = new RTE(objectList);
-                    rteIE.fillShowsList();
+                    rteIE.FillShowsList();
                 }
                 catch
                 {
@@ -348,7 +348,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
-                rteIE.setActive();
+                rteIE.SetActive();
             }
             curState = State.DisplayingShows;
             curSite = Site.RTE;

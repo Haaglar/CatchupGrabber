@@ -25,7 +25,7 @@ namespace cu_grab
         /// <summary>
         /// Fills the listbox with the JSON from RTVEClan search 
         /// </summary>
-        public override void fillShowsList()
+        public override void FillShowsList()
         {
             WebRequest reqSearchJs = HttpWebRequest.Create(@"http://www.rtve.es/infantil/buscador-clan/obtener-datos-programas.json");
             WebResponse resSearchJs = reqSearchJs.GetResponse();
@@ -43,7 +43,7 @@ namespace cu_grab
         /// <summary>
         /// Sets the object list to the episodes for RTVEClan
         /// </summary>
-        public override void setActive()
+        public override void SetActive()
         {
             objectList.ItemsSource = value.infoBuscador;
         }
@@ -52,7 +52,7 @@ namespace cu_grab
         /// Handles clicking on a show and setting the listbox to the episodes for the show. 
         /// </summary>
         /// <returns>The name of the selected show</returns>
-        public override String clickDisplayedShow()
+        public override String ClickDisplayedShow()
         {
             WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/api/tematicas/" + value.infoBuscador[objectList.SelectedIndex].id + "/videos.json");
             WebResponse resTematicasJs = reqTematicasJs.GetResponse();
@@ -81,7 +81,7 @@ namespace cu_grab
         /// Depricated, used generateUrl instead
         /// </summary>
         /// <returns></returns>
-        public String getUrlOld()
+        public String GetUrlOld()
         {
             WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/ztnr/movil/thumbnail/default/videos/" + episodesClan.page.items[objectList.SelectedIndex].id + ".png");
             //reqTematicasJs.Headers.Add("Referer", episodesClan.page.items[objectList.SelectedIndex].htmlUrl);
@@ -92,14 +92,14 @@ namespace cu_grab
                 base64 = srjs.ReadToEnd();
             }
             resTematicasJs.Close();
-            return getUrlFromPNGUrl(base64);
+            return GetUrlFromPNGUrl(base64);
         }
         /// <summary>
         /// Genrates a downloadURL for rtve clan
         /// Based off work from rtvealacarta by itorres and personal research
         /// </summary>
         /// <returns>The url to download from</returns>
-        public override String getUrl()
+        public override String GetUrl()
         {
             //Create a phase conatining the video id and milliseconds since the unix epoch
             DateTime dt = DateTime.Now;
@@ -130,7 +130,7 @@ namespace cu_grab
         /// <summary>
         /// Depreciate method for grabbing the URL (as it doesnt get the highest quality.)
         /// </summary>
-        private String getUrlFromPNGUrl(String text)
+        private String GetUrlFromPNGUrl(String text)
         {    
             Regex rer = new Regex(@"tEXt(.*)#.([0-9]*)"); //Search for the two piece of data that we need
             byte[] data = Convert.FromBase64String(text);
@@ -189,17 +189,17 @@ namespace cu_grab
         /// <summary>
         /// Handles Clearing the episode list and reseting it back to the show list
         /// </summary>
-        public override void cleanEpisodes()
+        public override void CleanEpisodes()
         {
             objectList.ItemsSource = value.infoBuscador;
             episodesClan = null;
         }
 
-        public override String getSelectedName()
+        public override String GetSelectedName()
         {
             return episodesClan.page.items[objectList.SelectedIndex].ToString();
         }
-        public override String getSubtitles()
+        public override String GetSubtitles()
         {
             return "";
         }

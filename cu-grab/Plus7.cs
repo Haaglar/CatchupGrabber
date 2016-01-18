@@ -31,7 +31,7 @@ namespace cu_grab
         /// <summary>
         /// Fills showsP7 with data taken from the search feature on the P7 website
         /// </summary>
-        public override void fillShowsList()
+        public override void FillShowsList()
         {
             WebRequest reqSearchJs = HttpWebRequest.Create(tvShowsUrl);
             WebResponse resSearchJs = reqSearchJs.GetResponse();
@@ -50,7 +50,7 @@ namespace cu_grab
         /// Fills selectedShowEpisodes with episdes from the selected show
         /// </summary>
         /// <returns>The name of the selected Show</returns>
-        public override String clickDisplayedShow()
+        public override String ClickDisplayedShow()
         {
             String pageShow;
             WebRequest reqShow = HttpWebRequest.Create(showsP7[objectList.SelectedIndex].url);
@@ -121,7 +121,7 @@ namespace cu_grab
         /// Gets the name of the current selected show
         /// </summary>
         /// <returns>The selected show's name</returns>
-        public override String getSelectedName()
+        public override String GetSelectedName()
         {
             return selectedShowEpisodes[objectList.SelectedIndex].Name;
         }
@@ -129,7 +129,7 @@ namespace cu_grab
         /// Grabs the page, does some stuff (important part ported from p7-hls) and gets the URL
         /// </summary>
         /// <returns>The m3u8 url</returns>
-        public override String getUrl() 
+        public override String GetUrl() 
         {
             //Get episode page data
             String pageContent;
@@ -182,7 +182,7 @@ namespace cu_grab
         /// <summary>
         /// Handles Clearing the episode list and reseting it back to the show list
         /// </summary>
-        public override void cleanEpisodes() 
+        public override void CleanEpisodes() 
         {
             selectedShowEpisodes.Clear();
             objectList.ItemsSource = showsP7;
@@ -190,7 +190,7 @@ namespace cu_grab
         /// <summary>
         /// Sets the ListBox to be the episodelist for P7
         /// </summary>
-        public override void setActive()
+        public override void SetActive()
         {
             objectList.ItemsSource = showsP7;
         }
@@ -198,7 +198,7 @@ namespace cu_grab
         /// Gets the URL of the subtitles for the selected episode.
         /// </summary>
         /// <returns>The URL for the captions, returns a blank String if no Subtitles exist </returns>
-        public override String getSubtitles()
+        public override String GetSubtitles()
         {
             if(bCoveJson.captions != null)
             {

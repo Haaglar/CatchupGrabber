@@ -24,7 +24,7 @@ namespace cu_grab
         /// <summary>
         /// Fillthe ListBox with the shows currently on Tenplay found from the search JSON.
         /// </summary>
-        public override void fillShowsList()
+        public override void FillShowsList()
         {
 
             WebRequest reqSearchJs = HttpWebRequest.Create("http://tenplay.com.au/web%20api/showsearchjson");
@@ -45,7 +45,7 @@ namespace cu_grab
         /// Handles clicking of a show
         /// </summary>
         /// <returns>The name to the clicked show</returns>
-        public override String clickDisplayedShow()
+        public override String ClickDisplayedShow()
         {
             WebRequest reqShow = HttpWebRequest.Create("http://tenplay.com.au" + shows.Shows[objectList.SelectedIndex].ShowURL);
             WebResponse resShow = reqShow.GetResponse();
@@ -91,7 +91,7 @@ namespace cu_grab
         /// Get the download URL for FFmpeg
         /// </summary>
         /// <returns>A url</returns>
-        public override String getUrl()
+        public override String GetUrl()
         {
             String BC_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId="; //url taken from and m3u8
             String PUB_ID = "&pubId=2376984108001"; //ID taken from any m3u8
@@ -100,7 +100,7 @@ namespace cu_grab
             WebResponse resm3u8 = reqm3u8.GetResponse();
             StreamReader srm3u8 = new StreamReader(resm3u8.GetResponseStream(), System.Text.Encoding.UTF8);
 
-            String url = getHighestm3u8(srm3u8);
+            String url = GetHighestm3u8(srm3u8);
             resm3u8.Close();
             srm3u8.Close();
             return url;
@@ -109,14 +109,14 @@ namespace cu_grab
         /// Get the name of the select show
         /// </summary>
         /// <returns>Returns the Name of the selected episode</returns>
-        public override String getSelectedName()
+        public override String GetSelectedName()
         {
             return selectedShowEpisodes[objectList.SelectedIndex].Name;
         }
         /// <summary>
         /// Handles Clearing the episode list and reseting it back to the show list
         /// </summary>
-        public override void cleanEpisodes()
+        public override void CleanEpisodes()
         {
             selectedShowEpisodes.Clear();
             objectList.ItemsSource = shows.Shows;
@@ -127,7 +127,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="m3u8">A stream reader object containing </param>
         /// <returns></returns>
-        private String getHighestm3u8(StreamReader m3u8)
+        private String GetHighestm3u8(StreamReader m3u8)
         {
             String line; // current line 
             String finalUrl = "";
@@ -161,11 +161,11 @@ namespace cu_grab
         /// <summary>
         /// Sets it as the active List
         /// </summary>
-        public override void setActive()
+        public override void SetActive()
         {
             objectList.ItemsSource = shows.Shows;
         }
-        public override String getSubtitles()
+        public override String GetSubtitles()
         {
             return "";
         }

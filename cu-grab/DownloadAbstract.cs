@@ -8,12 +8,12 @@ namespace cu_grab
 {
     abstract public class DownloadAbstract
     {
-        abstract public String clickDisplayedShow();
-        abstract public void fillShowsList();
-        abstract public String getSelectedName();
-        abstract public String getUrl();
-        abstract public void cleanEpisodes();
-        abstract public void setActive();
-        abstract public String getSubtitles();
+        abstract public String ClickDisplayedShow();
+        abstract public void FillShowsList();
+        abstract public String GetSelectedName();
+        abstract public String GetUrl();
+        abstract public void CleanEpisodes();
+        abstract public void SetActive();
+        abstract public String GetSubtitles();
     }
 }

@@ -27,7 +27,7 @@ namespace cu_grab
         /// <summary>
         /// Fills the listbox with the JSON from rte search
         /// </summary>
-        public override void fillShowsList()
+        public override void FillShowsList()
         {
             WebRequest reqSearchJs = HttpWebRequest.Create(@"https://www.rte.ie/player/shows.js?v=2");
             WebResponse resSearchJs = reqSearchJs.GetResponse();
@@ -48,11 +48,15 @@ namespace cu_grab
         /// <summary>
         /// Sets the ListBox to RTE
         /// </summary>
-        public override void setActive()
+        public override void SetActive()
         {
             objectList.ItemsSource = rteShows;
         }
-        public override string clickDisplayedShow()
+        /// <summary>
+        /// Handles the click of a ListBox object
+        /// </summary>
+        /// <returns></returns>
+        public override string ClickDisplayedShow()
         {
             //Get page content
             String pageShow;
@@ -97,7 +101,7 @@ namespace cu_grab
             objectList.ItemsSource = selectedShowEpisodes;
             return selectedShow;
         }
-        public override string getUrl()
+        public override string GetUrl()
         {
             //Construct URL
             String urlJson = EpisodePlaylistUrl +  selectedShowEpisodes[objectList.SelectedIndex].EpisodeID;
@@ -118,10 +122,15 @@ namespace cu_grab
             String urlSuffix = getHlsUrl.Matches(showJsonString)[0].Groups[1].Value;
             String manifestHlsUrl = CndUrl + "/manifest" + urlSuffix;
 
-            return getHighestBitrate(manifestHlsUrl);
+            return GetHighestBitrate(manifestHlsUrl);
             
         }
-        private String getHighestBitrate(String url)
+        /// <summary>
+        /// Gets the highest bitrate from a m3u8 link
+        /// </summary>
+        /// <param name="url">URL of m3u8</param>
+        /// <returns>The highest bitrate redition URL</returns>
+        private String GetHighestBitrate(String url)
         {
             WebRequest reqManifest = HttpWebRequest.Create(url);
             using (WebResponse resManifest = reqManifest.GetResponse())
@@ -162,16 +171,16 @@ namespace cu_grab
             }
            
         }
-        public override void cleanEpisodes()
+        public override void CleanEpisodes()
         {
             selectedShowEpisodes.Clear();
             objectList.ItemsSource = rteShows;
         }
-        public override string getSelectedName()
+        public override string GetSelectedName()
         {
             return selectedShowEpisodes[objectList.SelectedIndex].Name;
         }
-        public override string getSubtitles()
+        public override string GetSubtitles()
         {
             return "";
         }

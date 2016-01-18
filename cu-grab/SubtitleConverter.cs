@@ -30,7 +30,7 @@ namespace cu_grab
             /// <param name="sTime">The start time of the entry</param>
             /// <param name="eTime">The end time of the entry</param>
             /// <param name="text">The content of the entry</param>
-            public void addEntry(DateTime sTime, DateTime eTime, String text)
+            public void AddEntry(DateTime sTime, DateTime eTime, String text)
             {
                 startTime.Add(sTime);
                 endTime.Add(eTime);
@@ -51,7 +51,7 @@ namespace cu_grab
         /// Converts a dfxp subtitle into the Catchup Grabbers subtitle format
         /// </summary>
         /// <param name="path">The path to the dfxp to convert</param>
-        private void dfxpToLocal(String path)
+        private void DfxpToLocal(String path)
         {
             using(XmlTextReader reader = new XmlTextReader(path))
             {
@@ -66,7 +66,7 @@ namespace cu_grab
                     DateTime.TryParse(end, out endTime);
                     String text = reader.ReadInnerXml();
                     text = text.Replace("<br /><br />", "\n").Replace("<br/><br/>", "\n").Replace("<br />", "\n").Replace("<br/>", "\n"); //Depends on the format remove all
-                    subTitleLocal.addEntry(beginTime, endTime, text);
+                    subTitleLocal.AddEntry(beginTime, endTime, text);
 
                 }
             }
@@ -75,7 +75,7 @@ namespace cu_grab
         /// Converts the local format to Subrip format
         /// </summary>
         /// <param name="path">The path containing the path to the location and name of the original file</param>
-        private void localToStr(String path)
+        private void LocalToStr(String path)
         {
             String subExport = "";
             int length = subTitleLocal.getLength();
@@ -91,10 +91,10 @@ namespace cu_grab
         /// Converts a dfxp sub to srt
         /// </summary>
         /// <param name="path">The path containing the path to the dfxp file</param>
-        public void dfxpToStr(String path)
+        public void DfxpToStr(String path)
         {
-            dfxpToLocal(path);
-            localToStr(path);
+            DfxpToLocal(path);
+            LocalToStr(path);
         }
     }
 }

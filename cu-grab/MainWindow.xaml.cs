@@ -366,27 +366,5 @@ namespace cu_grab
             Settings settingsWindow = new Settings();
             settingsWindow.Show();
         }
-        //-----------------BUTTONS END---------------//
-
-
-        /// <summary>
-        /// A CookieAwareWebClient, used to store Glype proxy seesion info. Since we cant Async download when we need to post data at the same time.
-        /// Thanks to http://stackoverflow.com/questions/4740752/how-do-i-log-into-a-site-with-webclient
-        /// </summary>
-        public class CookieAwareWebClient : WebClient
-        {
-            public CookieAwareWebClient()
-            {
-                CookieContainer = new CookieContainer();
-            }
-            public CookieContainer CookieContainer { get; private set; }
-
-            protected override WebRequest GetWebRequest(Uri address)
-            {
-                var request = (HttpWebRequest)base.GetWebRequest(address);
-                request.CookieContainer = CookieContainer;
-                return request;
-            }
-        }
     }
 }

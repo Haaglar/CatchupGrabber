@@ -71,6 +71,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BCoveJson.cs" />
+    <Compile Include="CUNetworkAssist.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="DownloadAbstract.cs" />
     <Compile Include="Episode.cs" />
     <Compile Include="EpisodesClan.cs" />

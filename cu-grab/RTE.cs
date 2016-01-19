@@ -61,6 +61,10 @@ namespace cu_grab
             //Get page content
             String pageShow;
             WebRequest reqShow = HttpWebRequest.Create("https://www.rte.ie/player/lh/show/" + rteShows[objectList.SelectedIndex].id);
+            using (CookieAwareWebClient webClient = new CookieAwareWebClient())
+            {
+
+            }
             using (WebResponse resShow = reqShow.GetResponse()) //>using
             {
                 using (Stream responseStream = resShow.GetResponseStream())

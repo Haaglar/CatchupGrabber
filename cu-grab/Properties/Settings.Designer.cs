@@ -50,12 +50,12 @@ namespace cu_grab.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string GlypeProxySettingRTE {
+        public string HTTPProxySettingRTE {
             get {
-                return ((string)(this["GlypeProxySettingRTE"]));
+                return ((string)(this["HTTPProxySettingRTE"]));
             }
             set {
-                this["GlypeProxySettingRTE"] = value;
+                this["HTTPProxySettingRTE"] = value;
             }
         }
     }

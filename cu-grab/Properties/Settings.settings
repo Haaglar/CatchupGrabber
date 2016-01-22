@@ -8,7 +8,7 @@
     <Setting Name="DownloadSubtitlesSetting" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="GlypeProxySettingRTE" Type="System.String" Scope="User">
+    <Setting Name="HTTPProxySettingRTE" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

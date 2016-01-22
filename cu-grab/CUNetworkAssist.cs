@@ -6,7 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace cu_grab
-{
+{   
+    //Will contain a list of network related classes
     class CUNetworkAssist
     {
     }

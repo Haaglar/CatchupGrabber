@@ -23,7 +23,7 @@ namespace cu_grab
         {
             InitializeComponent();
             TextBoxRTVEClanProxy.Text = Properties.Settings.Default.GlypeProxySettingRTVE;
-            TextBoxRTEProxy.Text = Properties.Settings.Default.GlypeProxySettingRTE;
+            TextBoxRTEProxy.Text = Properties.Settings.Default.HTTPProxySettingRTE;
             CheckBoxSubtitleSetting.IsChecked = Properties.Settings.Default.DownloadSubtitlesSetting;
         }
 
@@ -47,7 +47,7 @@ namespace cu_grab
                 if (proxyUnfiltered.EndsWith("/")) proxyUnfiltered = proxyUnfiltered.Remove(proxyUnfiltered.Length - 1);//Remove an ending / if it exits
             }
 
-            Properties.Settings.Default.GlypeProxySettingRTE = proxyUnfiltered;
+            Properties.Settings.Default.HTTPProxySettingRTE = proxyUnfiltered;
 
 
             //Checkbox for sub download

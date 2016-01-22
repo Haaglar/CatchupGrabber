@@ -60,21 +60,18 @@ namespace cu_grab
         {
             //Get page content
             String pageShow;
-            WebRequest reqShow = HttpWebRequest.Create("https://www.rte.ie/player/lh/show/" + rteShows[objectList.SelectedIndex].id);
-            using (CookieAwareWebClient webClient = new CookieAwareWebClient())
+            String proxyAddress = Properties.Settings.Default.HTTPProxySettingRTE;
+            String url = "http://www.rte.ie/player/lh/show/" + rteShows[objectList.SelectedIndex].id;
+            using (WebClient webClient = new WebClient())
             {
-
-            }
-            using (WebResponse resShow = reqShow.GetResponse()) //>using
-            {
-                using (Stream responseStream = resShow.GetResponseStream())
+                if (proxyAddress != "")//If they suplied a proxy
                 {
-                    using (StreamReader srShow = new StreamReader(responseStream, System.Text.Encoding.UTF8))
-                    {
-                        pageShow = srShow.ReadToEnd();
-                    }
+                    WebProxy proxy = new WebProxy(proxyAddress);
+                    webClient.Proxy = proxy;
                 }
+                pageShow = webClient.DownloadString(new System.Uri(url));
             }
+           
             //Crop stuff
             int startPoint = pageShow.IndexOf("main-content-box clearfix"); // Start of episode list (two occurances, want first anyway)
             int endPoint = pageShow.IndexOf("main-content-box-container  black");   //recommended rubbish

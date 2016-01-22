@@ -10,7 +10,7 @@
         <TextBlock HorizontalAlignment="Left" Margin="10,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="169" Height="26"><Run Text="Download subtitles if available"/><Run Text=":"/></TextBlock>
         <CheckBox x:Name="CheckBoxSubtitleSetting" Content="" HorizontalAlignment="Left" Margin="184,107,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="TextBoxRTEProxy" HorizontalAlignment="Left" Height="25" Margin="149,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="222"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12" Text="Glype proxy URL (RTE):"></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="10,61,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12"><Run Text="HTTP"/><Run Text=" proxy "/><Run Text="Address"/><Run Text=" (RTE):"/></TextBlock>
 
     </Grid>
 </Window>

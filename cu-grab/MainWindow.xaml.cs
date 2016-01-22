@@ -28,7 +28,7 @@ namespace cu_grab
      * More sites :)
      * More proper error handling
      * Make a attractive GUI
-     * Use API, for descriptions and stuff instead of crawling on tenplay and p7
+     * Use API, for descriptions and stuff instead of crawling on tenplay, p7 (OAuth) and possibly RTE(OAuth)
      */
 
     /// <summary>
@@ -39,7 +39,7 @@ namespace cu_grab
 
         String selectedShow = "";
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
-        enum Site { None, TenP, Plus7, RTVEClan, RTE}
+        enum Site {None, TenP, Plus7, RTVEClan, RTE}
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
 
@@ -67,7 +67,7 @@ namespace cu_grab
         /// <param name="e"></param>
         private void OL_ItemPressed(object sender, MouseButtonEventArgs e)
         {
-            if (e.OriginalSource is TextBlock) //Make sure that we double click an item not the scrollbar
+            if (e.OriginalSource is TextBlock || e.OriginalSource is Border) //Make sure that we double click an item not the scrollbar
             {
                 switch (curState)
                 {

@@ -62,6 +62,8 @@ namespace cu_grab
             String pageShow;
             String proxyAddress = Properties.Settings.Default.HTTPProxySettingRTE;
             String url = "http://www.rte.ie/player/lh/show/" + rteShows[objectList.SelectedIndex].id;
+            //Use a web client here for the proxy option as you cannot view get the episode list without having a IE address
+            //Also Glype or PHProxy proxies do not seem to work either
             using (WebClient webClient = new WebClient())
             {
                 if (proxyAddress != "")//If they suplied a proxy
@@ -85,13 +87,11 @@ namespace cu_grab
             MatchCollection matchID = regID.Matches(pageShow);
 
             //Add episodes to list
-            int i = 0;
-            foreach (Match match in matchName)
+            foreach (Tuple<Match, Match> match in matchName.Cast<Match>().Zip(matchID.Cast<Match>(), Tuple.Create)) //Join the two in a tuple
             {
-                String ID = matchID[i].Groups[1].Value;
-                String description = match.Groups[1].Value;
+                String description = match.Item1.Groups[1].Value;
+                String ID = match.Item2.Groups[1].Value;
                 selectedShowEpisodes.Add(new Episode(description, ID));
-                i++;
             }
             String selectedShow = rteShows[objectList.SelectedIndex].v;
             //Clean the name for windows
@@ -102,6 +102,10 @@ namespace cu_grab
             objectList.ItemsSource = selectedShowEpisodes;
             return selectedShow;
         }
+        /// <summary>
+        /// Gets the url for the selected episode
+        /// </summary>
+        /// <returns>The highest bitrate url for the seleected episode</returns>
         public override string GetUrl()
         {
             //Construct URL

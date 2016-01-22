@@ -86,9 +86,9 @@ namespace cu_grab
             }
             else
             {
-                //If we dont need to load, remove the shit off the side (recommended crap) 
-                int startPoint = pageShow.IndexOf("class=\"g-xl-30-40 g-l-20-30 g-m-row g-main"); //Main content for shows
-                int endPoint = pageShow.IndexOf("class=\"g-xl-10-40 g-l-10-30 g-m-row g-rail");   //Side reccommendations div
+                //If we dont need to load, remove the stuff off the side (recommended crap) so its cleaned for regex
+                int startPoint = pageShow.IndexOf("class=\"g-col-8 g-xl-30-40 g-l-20-30 g-m-row g-main"); //Main content for shows
+                int endPoint = pageShow.IndexOf("class=\"g-col-4 g-xl-10-40 g-l-10-30 g-m-row g-rail");   //Side reccommendations div
                 pageShow = pageShow.Substring(startPoint, endPoint - startPoint); //cut excess rubbish
             }
 

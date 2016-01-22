@@ -41,11 +41,6 @@ namespace cu_grab
 
             //Get RTE proxy
             proxyUnfiltered = TextBoxRTEProxy.Text;
-            if (proxyUnfiltered != "")
-            {
-                if (!proxyUnfiltered.StartsWith("http://")) proxyUnfiltered = "http://" + proxyUnfiltered;//Add nessesary http
-                if (proxyUnfiltered.EndsWith("/")) proxyUnfiltered = proxyUnfiltered.Remove(proxyUnfiltered.Length - 1);//Remove an ending / if it exits
-            }
 
             Properties.Settings.Default.HTTPProxySettingRTE = proxyUnfiltered;
 

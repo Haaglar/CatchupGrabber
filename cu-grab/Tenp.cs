@@ -15,12 +15,13 @@ namespace cu_grab
     {
         private RootObject shows;
         private List<Episode> selectedShowEpisodes = new List<Episode>();
-        private ListBox objectList;
 
-        public Tenp(ListBox oList)
-        {
-            objectList = oList;
-        }
+        /// <summary>
+        /// Standard constructor
+        /// </summary>
+        /// <param name="lBoxContent">The ListBox in which the content is displayed in</param>
+        public Tenp(ListBox lBoxContent) : base(lBoxContent){}
+        
         /// <summary>
         /// Fillthe ListBox with the shows currently on Tenplay found from the search JSON.
         /// </summary>
@@ -36,7 +37,7 @@ namespace cu_grab
                 JavaScriptSerializer jss = new JavaScriptSerializer();
                 shows = jss.Deserialize<RootObject>(jsonjs);
                 shows.Shows = shows.Shows.OrderBy(x => x.Name).ToList();
-                objectList.ItemsSource = shows.Shows;
+                listBoxContent.ItemsSource = shows.Shows;
             }
             resSearchJs.Close();
             
@@ -47,7 +48,7 @@ namespace cu_grab
         /// <returns>The name to the clicked show</returns>
         public override String ClickDisplayedShow()
         {
-            WebRequest reqShow = HttpWebRequest.Create("http://tenplay.com.au" + shows.Shows[objectList.SelectedIndex].ShowURL);
+            WebRequest reqShow = HttpWebRequest.Create("http://tenplay.com.au" + shows.Shows[listBoxContent.SelectedIndex].ShowURL);
             WebResponse resShow = reqShow.GetResponse();
 
             StreamReader srShow = new StreamReader(resShow.GetResponseStream(), System.Text.Encoding.UTF8);
@@ -74,7 +75,7 @@ namespace cu_grab
                 }
             }
             //Store the current show name for file naming later
-            String selectedShow = shows.Shows[objectList.SelectedIndex].Name;
+            String selectedShow = shows.Shows[listBoxContent.SelectedIndex].Name;
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {
@@ -83,7 +84,7 @@ namespace cu_grab
             resShow.Close();
             srShow.Close();
             //Update list and states
-            objectList.ItemsSource = selectedShowEpisodes;
+            listBoxContent.ItemsSource = selectedShowEpisodes;
             return selectedShow;
             
         }
@@ -96,7 +97,7 @@ namespace cu_grab
             String BC_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId="; //url taken from and m3u8
             String PUB_ID = "&pubId=2376984108001"; //ID taken from any m3u8
             // Get standard m3u8from
-            WebRequest reqm3u8 = HttpWebRequest.Create(BC_URL + selectedShowEpisodes[objectList.SelectedIndex].EpisodeID + PUB_ID);
+            WebRequest reqm3u8 = HttpWebRequest.Create(BC_URL + selectedShowEpisodes[listBoxContent.SelectedIndex].EpisodeID + PUB_ID);
             WebResponse resm3u8 = reqm3u8.GetResponse();
             StreamReader srm3u8 = new StreamReader(resm3u8.GetResponseStream(), System.Text.Encoding.UTF8);
 
@@ -111,7 +112,7 @@ namespace cu_grab
         /// <returns>Returns the Name of the selected episode</returns>
         public override String GetSelectedName()
         {
-            return selectedShowEpisodes[objectList.SelectedIndex].Name;
+            return selectedShowEpisodes[listBoxContent.SelectedIndex].Name;
         }
         /// <summary>
         /// Handles Clearing the episode list and reseting it back to the show list
@@ -119,7 +120,7 @@ namespace cu_grab
         public override void CleanEpisodes()
         {
             selectedShowEpisodes.Clear();
-            objectList.ItemsSource = shows.Shows;
+            listBoxContent.ItemsSource = shows.Shows;
         }
 
         /// <summary>
@@ -163,7 +164,7 @@ namespace cu_grab
         /// </summary>
         public override void SetActive()
         {
-            objectList.ItemsSource = shows.Shows;
+            listBoxContent.ItemsSource = shows.Shows;
         }
         public override String GetSubtitles()
         {

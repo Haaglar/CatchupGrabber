@@ -16,11 +16,12 @@ namespace cu_grab
     {
         private ShowsClan value;
         private EpisodesClan episodesClan;
-        private ListBox objectList;
-        public RTVEc(ListBox oList)
-        {
-            objectList = oList;
-        }
+
+        /// <summary>
+        /// Standard constructor
+        /// </summary>
+        /// <param name="lBoxContent">The ListBox in which the content is displayed in</param>
+        public RTVEc(ListBox lBoxContent) : base(lBoxContent) { }
 
         /// <summary>
         /// Fills the listbox with the JSON from RTVEClan search 
@@ -37,7 +38,7 @@ namespace cu_grab
                 value = jss.Deserialize<ShowsClan>(jsonjs);
                 value.infoBuscador = value.infoBuscador.OrderBy(x => x.titulo).ToList(); //Maybe change to date published 
             }
-            objectList.ItemsSource = value.infoBuscador;
+            listBoxContent.ItemsSource = value.infoBuscador;
             resSearchJs.Close();
         }
         /// <summary>
@@ -45,7 +46,7 @@ namespace cu_grab
         /// </summary>
         public override void SetActive()
         {
-            objectList.ItemsSource = value.infoBuscador;
+            listBoxContent.ItemsSource = value.infoBuscador;
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace cu_grab
         /// <returns>The name of the selected show</returns>
         public override String ClickDisplayedShow()
         {
-            WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/api/tematicas/" + value.infoBuscador[objectList.SelectedIndex].id + "/videos.json");
+            WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/api/tematicas/" + value.infoBuscador[listBoxContent.SelectedIndex].id + "/videos.json");
             WebResponse resTematicasJs = reqTematicasJs.GetResponse();
 
             using (StreamReader srjs = new StreamReader(resTematicasJs.GetResponseStream(), System.Text.Encoding.UTF8))
@@ -66,13 +67,13 @@ namespace cu_grab
                             
             }
 
-            String selectedShow = value.infoBuscador[objectList.SelectedIndex].titulo;
+            String selectedShow = value.infoBuscador[listBoxContent.SelectedIndex].titulo;
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {
                 selectedShow = selectedShow.Replace(c, '-');
             }
-            objectList.ItemsSource = episodesClan.page.items;
+            listBoxContent.ItemsSource = episodesClan.page.items;
             resTematicasJs.Close();
             return selectedShow;
         }
@@ -83,7 +84,7 @@ namespace cu_grab
         /// <returns></returns>
         public String GetUrlOld()
         {
-            WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/ztnr/movil/thumbnail/default/videos/" + episodesClan.page.items[objectList.SelectedIndex].id + ".png");
+            WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/ztnr/movil/thumbnail/default/videos/" + episodesClan.page.items[listBoxContent.SelectedIndex].id + ".png");
             //reqTematicasJs.Headers.Add("Referer", episodesClan.page.items[objectList.SelectedIndex].htmlUrl);
             WebResponse resTematicasJs = reqTematicasJs.GetResponse();
             string base64 = "";
@@ -104,7 +105,7 @@ namespace cu_grab
             //Create a phase conatining the video id and milliseconds since the unix epoch
             DateTime dt = DateTime.Now;
             DateTime epoch = new DateTime(1970, 1, 1);
-            String joined = episodesClan.page.items[objectList.SelectedIndex].id + "_es_" + (dt - epoch).TotalMilliseconds;
+            String joined = episodesClan.page.items[listBoxContent.SelectedIndex].id + "_es_" + (dt - epoch).TotalMilliseconds;
             
 
             RijndaelManaged aesEncrypt = new RijndaelManaged(); 
@@ -191,13 +192,13 @@ namespace cu_grab
         /// </summary>
         public override void CleanEpisodes()
         {
-            objectList.ItemsSource = value.infoBuscador;
+            listBoxContent.ItemsSource = value.infoBuscador;
             episodesClan = null;
         }
 
         public override String GetSelectedName()
         {
-            return episodesClan.page.items[objectList.SelectedIndex].ToString();
+            return episodesClan.page.items[listBoxContent.SelectedIndex].ToString();
         }
         public override String GetSubtitles()
         {

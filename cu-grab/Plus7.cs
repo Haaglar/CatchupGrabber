@@ -14,20 +14,21 @@ namespace cu_grab
 {
     public class Plus7 : DownloadAbstract
     {
+        private String tvShowsUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/"; //Json object used to provide search suggestions
+        private List<ShowsP7> showsP7;
+        private List<Episode> selectedShowEpisodes = new List<Episode>();
+        private BCoveJson bCoveJson; //Json from the api request 
 
-       private String tvShowsUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/"; //Json object used to provide search suggestions
-       private List<ShowsP7> showsP7;
-       private List<Episode> selectedShowEpisodes = new List<Episode>();
-       private BCoveJson bCoveJson; //Json from the api request 
-       private ListBox objectList;
-       //Stuff for downloading
-       private String apiUrl = "http://c.brightcove.com/services/json/player/media/?command=find_media_by_reference_id";
-       private String publisherId = "2376984108001";
+        //Stuff for downloading
+        private String apiUrl = "http://c.brightcove.com/services/json/player/media/?command=find_media_by_reference_id";
+        private String publisherId = "2376984108001";
 
-        public Plus7(ListBox oList)
-        {
-            objectList = oList;
-        }
+        /// <summary>
+        /// Standard constructor
+        /// </summary>
+        /// <param name="lBoxContent">The ListBox in which the content is displayed in</param>
+        public Plus7(ListBox lBoxContent) : base(lBoxContent){}
+       
         /// <summary>
         /// Fills showsP7 with data taken from the search feature on the P7 website
         /// </summary>
@@ -43,7 +44,7 @@ namespace cu_grab
                 showsP7 = jss.Deserialize<List<ShowsP7>>(jsonjs);
                 showsP7 = showsP7.OrderBy(x => x.title).ToList(); 
             }
-            objectList.ItemsSource = showsP7;
+            listBoxContent.ItemsSource = showsP7;
             resSearchJs.Close();
         }
         /// <summary>
@@ -53,7 +54,7 @@ namespace cu_grab
         public override String ClickDisplayedShow()
         {
             String pageShow;
-            WebRequest reqShow = HttpWebRequest.Create(showsP7[objectList.SelectedIndex].url);
+            WebRequest reqShow = HttpWebRequest.Create(showsP7[listBoxContent.SelectedIndex].url);
             using (WebResponse resShow = reqShow.GetResponse()) //>using
             {
                 using (Stream responseStream = resShow.GetResponseStream())
@@ -107,14 +108,14 @@ namespace cu_grab
             }
         
             //Store the current show name for file naming later
-            String selectedShow = showsP7[objectList.SelectedIndex].title;
+            String selectedShow = showsP7[listBoxContent.SelectedIndex].title;
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {
                 selectedShow = selectedShow.Replace(c, '-');
             }
             //Update list
-            objectList.ItemsSource = selectedShowEpisodes;
+            listBoxContent.ItemsSource = selectedShowEpisodes;
             return selectedShow;
         }
         /// <summary>
@@ -123,7 +124,7 @@ namespace cu_grab
         /// <returns>The selected show's name</returns>
         public override String GetSelectedName()
         {
-            return selectedShowEpisodes[objectList.SelectedIndex].Name;
+            return selectedShowEpisodes[listBoxContent.SelectedIndex].Name;
         }
         /// <summary>
         /// Grabs the page, does some stuff (important part ported from p7-hls) and gets the URL
@@ -133,7 +134,7 @@ namespace cu_grab
         {
             //Get episode page data
             String pageContent;
-            String url = selectedShowEpisodes[objectList.SelectedIndex].EpisodeID;
+            String url = selectedShowEpisodes[listBoxContent.SelectedIndex].EpisodeID;
             WebRequest reqShow = HttpWebRequest.Create("https://" + url);
             using (WebResponse resShowUrl = reqShow.GetResponse())
             {
@@ -171,10 +172,10 @@ namespace cu_grab
             int size = bCoveJson.FLVFullSize;
             foreach(IOSRendition redition in bCoveJson.IOSRenditions)
             {
-                if(redition.size == size)
-                {
-                    return redition.defaultURL;
-                }
+            if(redition.size == size)
+            {
+            return redition.defaultURL;
+            }
             }
             //If we don't get the highest quality, return the master URL
             return bCoveJson.FLVFullLengthURL;
@@ -185,14 +186,14 @@ namespace cu_grab
         public override void CleanEpisodes() 
         {
             selectedShowEpisodes.Clear();
-            objectList.ItemsSource = showsP7;
+            listBoxContent.ItemsSource = showsP7;
         }
         /// <summary>
         /// Sets the ListBox to be the episodelist for P7
         /// </summary>
         public override void SetActive()
         {
-            objectList.ItemsSource = showsP7;
+            listBoxContent.ItemsSource = showsP7;
         }
         /// <summary>
         /// Gets the URL of the subtitles for the selected episode.

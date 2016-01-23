@@ -16,14 +16,14 @@ namespace cu_grab
     {
         private const String EpisodePlaylistUrl = @"https://www.rte.ie/rteavgen/getplaylist/?type=web&format=json&id=";
         private const String CndUrl = @"http://cdn.rasset.ie";
-
-        private ListBox objectList;
         private List<RTEShows> rteShows;
         private List<Episode> selectedShowEpisodes = new List<Episode>();
-        public RTE(ListBox oList)
-        {
-            objectList = oList;
-        }
+
+        /// <summary>
+        /// Standard constructor
+        /// </summary>
+        /// <param name="lBoxContent">The ListBox in which the content is displayed in</param>
+        public RTE(ListBox lBoxContent) : base(lBoxContent){}
         /// <summary>
         /// Fills the listbox with the JSON from rte search
         /// </summary>
@@ -42,7 +42,7 @@ namespace cu_grab
                 rteShows = jss.Deserialize<List<RTEShows>>(jsonjs);
                 rteShows = rteShows.OrderBy(x => x.v).ToList(); //Order By name 
             }
-            objectList.ItemsSource = rteShows;
+            listBoxContent.ItemsSource = rteShows;
             resSearchJs.Close();
         }
         /// <summary>
@@ -50,7 +50,7 @@ namespace cu_grab
         /// </summary>
         public override void SetActive()
         {
-            objectList.ItemsSource = rteShows;
+            listBoxContent.ItemsSource = rteShows;
         }
         /// <summary>
         /// Handles the click of a ListBox object
@@ -61,7 +61,7 @@ namespace cu_grab
             //Get page content
             String pageShow;
             String proxyAddress = Properties.Settings.Default.HTTPProxySettingRTE;
-            String url = "http://www.rte.ie/player/lh/show/" + rteShows[objectList.SelectedIndex].id;
+            String url = "http://www.rte.ie/player/lh/show/" + rteShows[listBoxContent.SelectedIndex].id;
             //Use a web client here for the proxy option as you cannot view get the episode list without having a IE address
             //Also Glype or PHProxy proxies do not seem to work either
             using (WebClient webClient = new WebClient())
@@ -93,13 +93,13 @@ namespace cu_grab
                 String ID = match.Item2.Groups[1].Value;
                 selectedShowEpisodes.Add(new Episode(description, ID));
             }
-            String selectedShow = rteShows[objectList.SelectedIndex].v;
+            String selectedShow = rteShows[listBoxContent.SelectedIndex].v;
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {
                 selectedShow = selectedShow.Replace(c, '-');
             }
-            objectList.ItemsSource = selectedShowEpisodes;
+            listBoxContent.ItemsSource = selectedShowEpisodes;
             return selectedShow;
         }
         /// <summary>
@@ -109,7 +109,7 @@ namespace cu_grab
         public override string GetUrl()
         {
             //Construct URL
-            String urlJson = EpisodePlaylistUrl +  selectedShowEpisodes[objectList.SelectedIndex].EpisodeID;
+            String urlJson = EpisodePlaylistUrl +  selectedShowEpisodes[listBoxContent.SelectedIndex].EpisodeID;
             String showJsonString;
             WebRequest reqShow = HttpWebRequest.Create(urlJson);
             using (WebResponse resShowUrl = reqShow.GetResponse())
@@ -179,11 +179,11 @@ namespace cu_grab
         public override void CleanEpisodes()
         {
             selectedShowEpisodes.Clear();
-            objectList.ItemsSource = rteShows;
+            listBoxContent.ItemsSource = rteShows;
         }
         public override string GetSelectedName()
         {
-            return selectedShowEpisodes[objectList.SelectedIndex].Name;
+            return selectedShowEpisodes[listBoxContent.SelectedIndex].Name;
         }
         public override string GetSubtitles()
         {

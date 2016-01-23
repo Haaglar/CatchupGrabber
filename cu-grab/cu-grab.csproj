@@ -75,6 +75,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DownloadAbstract.cs" />
+    <Compile Include="DPlay.cs" />
     <Compile Include="Episode.cs" />
     <Compile Include="EpisodesClan.cs" />
     <Compile Include="Plus7.cs" />
@@ -86,6 +87,7 @@
     </Compile>
     <Compile Include="Shows.cs" />
     <Compile Include="ShowsClan.cs" />
+    <Compile Include="ShowsDPlay.cs" />
     <Compile Include="ShowsP7.cs" />
     <Compile Include="SubtitleConverter.cs" />
     <Compile Include="Tenp.cs" />

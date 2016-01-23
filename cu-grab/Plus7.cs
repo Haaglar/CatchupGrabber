@@ -172,10 +172,10 @@ namespace cu_grab
             int size = bCoveJson.FLVFullSize;
             foreach(IOSRendition redition in bCoveJson.IOSRenditions)
             {
-            if(redition.size == size)
-            {
-            return redition.defaultURL;
-            }
+                if(redition.size == size)
+                {
+                    return redition.defaultURL;
+                }
             }
             //If we don't get the highest quality, return the master URL
             return bCoveJson.FLVFullLengthURL;

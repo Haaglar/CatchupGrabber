@@ -105,7 +105,7 @@ namespace cu_grab
                                         }
                                     }
                                     goto case Site.TenP;
-                                case Site.TenP: case Site.RTE:
+                                case Site.TenP: case Site.RTE: case Site.DPlay:
                                     RunFFmpeg(dlUrl, selectedShow + " " + name);
                                     break;
                                 case Site.RTVEClan:
@@ -400,7 +400,5 @@ namespace cu_grab
             Settings settingsWindow = new Settings();
             settingsWindow.Show();
         }
-
-        
     }
 }

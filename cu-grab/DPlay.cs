@@ -19,6 +19,7 @@ namespace cu_grab
         private List<Episodes> episodesDPlay = new List<Episodes>();
         private static String EpisodeAjaxAddrp1 = @"http://it.dplay.com/api/v2/ajax/shows/";
         private static String EpisodeAjaxAddrp2 = @"/seasons/?show_id=";
+        private static String EpisodeAjaxAddrp3 = @"&items=52&sort=episode_number_desc&video_types=-clip"; //52 is the average season for a show
         private static String ShowsUrl = @"http://it.dplay.com/api/v2/ajax/modules?items=400&page_id=32&module_id=26&page=0";
 
 
@@ -40,7 +41,7 @@ namespace cu_grab
             
             JavaScriptSerializer jss = new JavaScriptSerializer();
             //Cause the resulting json is ~3.6MB we need to set this. 
-            //Yep every time you want to load all shows there its a ~3.6mb download, split into ~555kB chunks, and thats just text.
+            //Yep every time you want to load all shows there its a ~3.6MB download, split into ~555kB chunks, and thats just text.
             //Full of useless information such as image metadata and links for 10 different images for a single show, all linking the same image
             //Like dimensitions and crop, absolute waste of resources
             jss.MaxJsonLength = Int32.MaxValue; 
@@ -73,7 +74,7 @@ namespace cu_grab
             //Get json for episodes
             using (WebClient webClient = new WebClient())
             {
-                output = webClient.DownloadString(EpisodeAjaxAddrp1 + id + EpisodeAjaxAddrp2);
+                output = webClient.DownloadString(EpisodeAjaxAddrp1 + id + EpisodeAjaxAddrp2 + id + EpisodeAjaxAddrp3);
             }
 
             //Since i cant seem to parse the json data as its different between shows, Ill just abuse regex again
@@ -102,10 +103,56 @@ namespace cu_grab
             listBoxContent.ItemsSource = episodesDPlay;
             return selectedShow;
         }
+
         public override string GetUrl()
         {
-            throw new NotImplementedException();
+            String m3u8;
+            //Get Json
+            m3u8 = GetHighestBitrate(episodesDPlay[listBoxContent.SelectedIndex].EpisodeID);
+            return m3u8;
         }
+
+        private String GetHighestBitrate(String url)
+        {
+            WebRequest reqManifest = HttpWebRequest.Create(url);
+            using (WebResponse resManifest = reqManifest.GetResponse())
+            {
+                using (Stream responseStreamManifest = resManifest.GetResponseStream())
+                {
+                    using (StreamReader srShowManifest = new StreamReader(responseStreamManifest, System.Text.Encoding.UTF8))
+                    {
+                        String line; // current line 
+                        String finalUrl = "";
+                        Regex regexBandwidth = new Regex(@"(?<=\bBANDWIDTH=)([0-9]+)"); //Quality Selection
+                        int index = 0;
+                        int row = -1;
+                        long bandwidth = 0;
+                        long tmp = 0;
+                        //Get the highest quality link
+                        while ((line = srShowManifest.ReadLine()) != null)
+                        {
+                            if (row == index)
+                            {
+                                finalUrl = line;
+                            }
+                            index++;
+                            MatchCollection matchBand = regexBandwidth.Matches(line);
+                            if (matchBand.Count > 0)
+                            {
+                                tmp = int.Parse(matchBand[0].Value);
+                                if (tmp > bandwidth)
+                                {
+                                    row = index;
+                                    bandwidth = tmp;
+                                }
+                            }
+                        }
+                        return finalUrl; 
+                    }
+                }
+            }
+        }
+
         public override void CleanEpisodes()
         {
             episodesDPlay.Clear();
@@ -113,11 +160,11 @@ namespace cu_grab
         }
         public override string GetSelectedName()
         {
-            throw new NotImplementedException();
+            return episodesDPlay[listBoxContent.SelectedIndex].Name;
         }
         public override string GetSubtitles()
         {
-            throw new NotImplementedException();
+            return "";
         }
     }
 }

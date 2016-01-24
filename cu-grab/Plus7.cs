@@ -16,7 +16,7 @@ namespace cu_grab
     {
         private String tvShowsUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/"; //Json object used to provide search suggestions
         private List<ShowsP7> showsP7;
-        private List<Episode> selectedShowEpisodes = new List<Episode>();
+        private List<Episodes> selectedShowEpisodes = new List<Episodes>();
         private BCoveJson bCoveJson; //Json from the api request 
 
         //Stuff for downloading
@@ -103,7 +103,7 @@ namespace cu_grab
             {
                 String url = matchLinks[i].Groups[1].Value;
                 String description = match.Groups[1].Value.Trim(); // Trim excess whitespace cause otherwise itll look like rubbish 
-                selectedShowEpisodes.Add(new Episode(description, url));
+                selectedShowEpisodes.Add(new Episodes(description, url));
                 i += 2;//Skip every second as theres a href on both the image and the content
             }
         

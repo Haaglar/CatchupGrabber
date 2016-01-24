@@ -14,7 +14,7 @@ namespace cu_grab
     public class Tenp : DownloadAbstract
     {
         private RootObject shows;
-        private List<Episode> selectedShowEpisodes = new List<Episode>();
+        private List<Episodes> selectedShowEpisodes = new List<Episodes>();
 
         /// <summary>
         /// Standard constructor
@@ -71,7 +71,7 @@ namespace cu_grab
                     String valueFull = matchIdImage[0].Value;
                     String split = valueFull.Split('?')[1];
                     String final = IDSplit.Matches(split)[0].Value;
-                    selectedShowEpisodes.Add(new Episode(matchIdName[0].Value, final));
+                    selectedShowEpisodes.Add(new Episodes(matchIdName[0].Value, final));
                 }
             }
             //Store the current show name for file naming later

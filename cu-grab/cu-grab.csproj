@@ -76,7 +76,7 @@
     </Compile>
     <Compile Include="DownloadAbstract.cs" />
     <Compile Include="DPlay.cs" />
-    <Compile Include="Episode.cs" />
+    <Compile Include="Episodes.cs" />
     <Compile Include="EpisodesClan.cs" />
     <Compile Include="Plus7.cs" />
     <Compile Include="RTE.cs" />

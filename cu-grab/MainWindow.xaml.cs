@@ -177,8 +177,8 @@ namespace cu_grab
 
         void webClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            ProgressBarDL.Value = e.ProgressPercentage;
-            TextBlockDownloadStatus.Text = (e.BytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
+            progressBarDL.Value = e.ProgressPercentage;
+            textBlockDownloadStatus.Text = (e.BytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
         }
         void webClient_AsyncCompletedEventHandler(object sender, AsyncCompletedEventArgs e)
         {
@@ -357,6 +357,39 @@ namespace cu_grab
             dlAbs = rteIE;
         }
 
+        private void ButtonDPlay_Click(object sender, RoutedEventArgs e)
+        {
+            //First time selecting site
+            if (dplay == null)
+            {
+                try
+                {
+                    dplay = new DPlay(objectList);
+                    dplay.FillShowsList();
+                }
+                catch
+                {
+                    errorLabel.Text = "Failed to get episode listings for DPlay";
+                }
+            }
+            // If they select it while we are currently on it just return to shows
+            else if (curSite == Site.DPlay)
+            {
+                Shows_Pressed(null, null);
+                return;
+            }
+            // other time selecting site
+            else
+            {
+                dplay.SetActive();
+            }
+            curState = State.DisplayingShows;
+            curSite = Site.DPlay;
+            selectedShow = "";
+            dlAbs = dplay;
+        }
+
+
         /// <summary>
         /// Handles the action for when the Setting button is pressed
         /// </summary>
@@ -367,5 +400,7 @@ namespace cu_grab
             Settings settingsWindow = new Settings();
             settingsWindow.Show();
         }
+
+        
     }
 }

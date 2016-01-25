@@ -7,11 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace cu_grab
+namespace SubCSharp
 {
     
     public class SubtitleConverter
     {
+        //private byte[] DFXPHead = System.Text.Encoding.UTF8.GetBytes("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
         //Internal sub format to allow easy conversion
         private class SubtitleCU
         {
@@ -47,11 +48,12 @@ namespace cu_grab
         {
             subTitleLocal = new SubtitleCU();
         }
+        //-------------------------------------------------------------------------Read Formats---------------//
         /// <summary>
         /// Converts a dfxp subtitle into the Catchup Grabbers subtitle format
         /// </summary>
         /// <param name="path">The path to the dfxp to convert</param>
-        private void DfxpToLocal(String path)
+        private void ReadDFXP(String path)
         {
             using(XmlTextReader reader = new XmlTextReader(path))
             {
@@ -71,11 +73,48 @@ namespace cu_grab
                 }
             }
         }
+
+        //-------------------------------------------------------------------------Write Formats---------------//
+        private void WriteDFXP(String path)
+        {
+            FileStream fStream = new FileStream(path + "s", FileMode.Create, FileAccess.Write);
+            fStream.Flush();
+            XmlTextWriter writer = new XmlTextWriter(fStream, System.Text.Encoding.UTF8);
+            writer.Formatting = Formatting.Indented;
+            writer.Indentation = 2;
+
+            writer.WriteStartDocument();
+            writer.WriteStartElement("tt", "http://www.w3.org/ns/ttml");
+            writer.WriteStartElement("body");
+            writer.WriteStartElement("div");
+            writer.WriteAttributeString("xml","lang",null, "en");
+            int length = subTitleLocal.getLength();
+            for (int i = 0; i < length; i++)
+            {
+                String sTime = subTitleLocal.startTime[i].ToString("HH:mm:ss.ff");
+                String eTime = subTitleLocal.endTime[i].ToString("HH:mm:ss.ff");
+                String content =  subTitleLocal.content[i].Replace("\n","<br/>");
+                writer.WriteStartElement("p");
+                writer.WriteAttributeString("begin", sTime);
+                writer.WriteAttributeString("end", eTime);
+                writer.WriteAttributeString("xml", "id", null, "caption " + (i+1));
+
+                writer.WriteRaw(content);
+                writer.WriteEndElement();
+            }
+
+            writer.WriteEndElement();//div
+            writer.WriteEndElement();//Body
+            writer.WriteEndElement();//tt
+            writer.Flush();
+            //Write to file
+            fStream.Close();            
+        }
         /// <summary>
         /// Converts the local format to Subrip format
         /// </summary>
         /// <param name="path">The path containing the path to the location and name of the original file</param>
-        private void LocalToStr(String path)
+        private void WriteSRT(String path)
         {
             String subExport = "";
             int length = subTitleLocal.getLength();
@@ -85,16 +124,16 @@ namespace cu_grab
                 String eTime = subTitleLocal.endTime[i].ToString("HH:mm:ss,fff");
                 subExport = subExport + (i + 1) + "\n" + sTime + " ---> " + eTime + "\n" + subTitleLocal.content[i] + "\n" + "\n";
             }
-            System.IO.File.WriteAllText(System.IO.Path.ChangeExtension(path, ".srt"),subExport);
+            System.IO.File.WriteAllText(path,subExport);
         }
         /// <summary>
         /// Converts a dfxp sub to srt
         /// </summary>
         /// <param name="path">The path containing the path to the dfxp file</param>
-        public void DfxpToStr(String path)
+        public void DfxpToSrt(String path)
         {
-            DfxpToLocal(path);
-            LocalToStr(path);
+            ReadDFXP(path);
+            WriteSRT(System.IO.Path.ChangeExtension(path, "srt"));
         }
     }
 }

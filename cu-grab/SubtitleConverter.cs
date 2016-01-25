@@ -12,7 +12,6 @@ namespace SubCSharp
     
     public class SubtitleConverter
     {
-        //private byte[] DFXPHead = System.Text.Encoding.UTF8.GetBytes("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
         //Internal sub format to allow easy conversion
         private class SubtitleCU
         {
@@ -75,40 +74,49 @@ namespace SubCSharp
         }
 
         //-------------------------------------------------------------------------Write Formats---------------//
+        /// <summary>
+        /// Writs the current subtitle stored as a DFXP
+        /// </summary>
+        /// <param name="path">Output path for subtitle</param>
         private void WriteDFXP(String path)
         {
-            FileStream fStream = new FileStream(path + "s", FileMode.Create, FileAccess.Write);
-            fStream.Flush();
-            XmlTextWriter writer = new XmlTextWriter(fStream, System.Text.Encoding.UTF8);
-            writer.Formatting = Formatting.Indented;
-            writer.Indentation = 2;
-
-            writer.WriteStartDocument();
-            writer.WriteStartElement("tt", "http://www.w3.org/ns/ttml");
-            writer.WriteStartElement("body");
-            writer.WriteStartElement("div");
-            writer.WriteAttributeString("xml","lang",null, "en");
-            int length = subTitleLocal.getLength();
-            for (int i = 0; i < length; i++)
+            String output;
+            using (var ms = new MemoryStream())
             {
-                String sTime = subTitleLocal.startTime[i].ToString("HH:mm:ss.ff");
-                String eTime = subTitleLocal.endTime[i].ToString("HH:mm:ss.ff");
-                String content =  subTitleLocal.content[i].Replace("\n","<br/>");
-                writer.WriteStartElement("p");
-                writer.WriteAttributeString("begin", sTime);
-                writer.WriteAttributeString("end", eTime);
-                writer.WriteAttributeString("xml", "id", null, "caption " + (i+1));
+                using (XmlTextWriter writer = new XmlTextWriter(ms, System.Text.Encoding.UTF8))
+                {
+                    writer.Formatting = Formatting.Indented;
+                    writer.Indentation = 2;
 
-                writer.WriteRaw(content);
-                writer.WriteEndElement();
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("tt", "http://www.w3.org/ns/ttml");
+                    writer.WriteStartElement("body");
+                    writer.WriteStartElement("div");
+                    writer.WriteAttributeString("xml", "lang", null, "en");
+                    int length = subTitleLocal.getLength();
+                    for (int i = 0; i < length; i++)
+                    {
+                        String sTime = subTitleLocal.startTime[i].ToString("HH:mm:ss.ff");
+                        String eTime = subTitleLocal.endTime[i].ToString("HH:mm:ss.ff");
+                        String content = subTitleLocal.content[i].Replace("\n", "<br/>");
+                        writer.WriteStartElement("p");
+                        writer.WriteAttributeString("begin", sTime);
+                        writer.WriteAttributeString("end", eTime);
+                        writer.WriteAttributeString("xml", "id", null, "caption " + (i + 1));
+
+                        writer.WriteRaw(content);
+                        writer.WriteEndElement();
+                    }
+
+                    writer.WriteEndElement();//div
+                    writer.WriteEndElement();//Body
+                    writer.WriteEndElement();//tt
+                    writer.Flush();
+                    
+                }
+                output = Encoding.UTF8.GetString(ms.ToArray());
             }
-
-            writer.WriteEndElement();//div
-            writer.WriteEndElement();//Body
-            writer.WriteEndElement();//tt
-            writer.Flush();
-            //Write to file
-            fStream.Close();            
+            System.IO.File.WriteAllText(path, output.Replace("\r\n","\n")); //Cause XmlTextWrite writes windows formatting          
         }
         /// <summary>
         /// Converts the local format to Subrip format

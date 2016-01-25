@@ -15,6 +15,7 @@ namespace cu_grab
     {
         private RootObject shows;
         private List<Episodes> selectedShowEpisodes = new List<Episodes>();
+        private CUNetworkAssist netAssist = new CUNetworkAssist(); 
 
         /// <summary>
         /// Standard constructor
@@ -96,14 +97,8 @@ namespace cu_grab
         {
             String BC_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId="; //url taken from and m3u8
             String PUB_ID = "&pubId=2376984108001"; //ID taken from any m3u8
-            // Get standard m3u8from
-            WebRequest reqm3u8 = HttpWebRequest.Create(BC_URL + selectedShowEpisodes[listBoxContent.SelectedIndex].EpisodeID + PUB_ID);
-            WebResponse resm3u8 = reqm3u8.GetResponse();
-            StreamReader srm3u8 = new StreamReader(resm3u8.GetResponseStream(), System.Text.Encoding.UTF8);
-
-            String url = GetHighestm3u8(srm3u8);
-            resm3u8.Close();
-            srm3u8.Close();
+            // Get standard m3u8 from
+            String url = netAssist.GetHighestM3U8Address(BC_URL + selectedShowEpisodes[listBoxContent.SelectedIndex].EpisodeID + PUB_ID);
             return url;
         }
         /// <summary>
@@ -121,43 +116,6 @@ namespace cu_grab
         {
             selectedShowEpisodes.Clear();
             listBoxContent.ItemsSource = shows.Shows;
-        }
-
-        /// <summary>
-        /// Gets the highest rendition from a master m3u8 (move to a general class)
-        /// </summary>
-        /// <param name="m3u8">A stream reader object containing </param>
-        /// <returns></returns>
-        private String GetHighestm3u8(StreamReader m3u8)
-        {
-            String line; // current line 
-            String finalUrl = "";
-            Regex regexBandwidth = new Regex(@"(?<=\bBANDWIDTH=)([0-9]+)"); //Quality Selection
-            // TODO: Write this section better
-            int index = 0;
-            int row = -1;
-            long bandwidth = 0;
-            long tmp = 0;
-            //Get the highest quality link
-            while ((line = m3u8.ReadLine()) != null)
-            {
-                if (row == index)
-                {
-                    finalUrl = line;
-                }
-                index++;
-                MatchCollection matchBand = regexBandwidth.Matches(line);
-                if (matchBand.Count > 0)
-                {
-                    tmp = int.Parse(matchBand[0].Value);
-                    if (tmp > bandwidth)
-                    {
-                        row = index;
-                        bandwidth = tmp;
-                    }
-                }
-            }
-            return finalUrl;
         }
         /// <summary>
         /// Sets it as the active List

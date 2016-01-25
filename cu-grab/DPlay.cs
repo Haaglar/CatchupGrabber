@@ -19,10 +19,14 @@ namespace cu_grab
         private List<Episodes> episodesDPlay = new List<Episodes>();
         private static String EpisodeAjaxAddrp1 = @"http://it.dplay.com/api/v2/ajax/shows/";
         private static String EpisodeAjaxAddrp2 = @"/seasons/?show_id=";
-        private static String EpisodeAjaxAddrp3 = @"&items=52&sort=episode_number_desc&video_types=-clip"; //52 is the average season for a show
-        private static String ShowsUrl = @"http://it.dplay.com/api/v2/ajax/modules?items=400&page_id=32&module_id=26&page=0";
+        private static String EpisodeAjaxAddrp3 = @"&items=52&sort=episode_number_desc&video_types=-clip"; //52 is the average episodes for a show
+        private static String ShowsUrl = @"http://it.dplay.com/api/v2/ajax/modules?items=400&page_id=32&module_id=26&page=0"; //Show list
+        private CUNetworkAssist netAssist = new CUNetworkAssist(); 
 
-
+        /// <summary>
+        /// Defualt constructor
+        /// </summary>
+        /// <param name="lBoxContent">The ListBox in which it will display its List</param>
         public DPlay(ListBox lBoxContent) : base(lBoxContent) { }
 
 
@@ -62,7 +66,7 @@ namespace cu_grab
         {
             String output;
             //I would love to use the existing JSON for something other than the URL
-            //But its so poorly conveluted that its impossible to do so
+            //But its so conveluted that its impossible to do so
             using (WebClient webClient = new WebClient())
             {
                 output = webClient.DownloadString(showsDPlay.data[listBoxContent.SelectedIndex].url);
@@ -106,51 +110,8 @@ namespace cu_grab
 
         public override string GetUrl()
         {
-            String m3u8;
-            //Get Json
-            m3u8 = GetHighestBitrate(episodesDPlay[listBoxContent.SelectedIndex].EpisodeID);
+            String m3u8 = netAssist.GetHighestM3U8Address(episodesDPlay[listBoxContent.SelectedIndex].EpisodeID);
             return m3u8;
-        }
-
-        private String GetHighestBitrate(String url)
-        {
-            WebRequest reqManifest = HttpWebRequest.Create(url);
-            using (WebResponse resManifest = reqManifest.GetResponse())
-            {
-                using (Stream responseStreamManifest = resManifest.GetResponseStream())
-                {
-                    using (StreamReader srShowManifest = new StreamReader(responseStreamManifest, System.Text.Encoding.UTF8))
-                    {
-                        String line; // current line 
-                        String finalUrl = "";
-                        Regex regexBandwidth = new Regex(@"(?<=\bBANDWIDTH=)([0-9]+)"); //Quality Selection
-                        int index = 0;
-                        int row = -1;
-                        long bandwidth = 0;
-                        long tmp = 0;
-                        //Get the highest quality link
-                        while ((line = srShowManifest.ReadLine()) != null)
-                        {
-                            if (row == index)
-                            {
-                                finalUrl = line;
-                            }
-                            index++;
-                            MatchCollection matchBand = regexBandwidth.Matches(line);
-                            if (matchBand.Count > 0)
-                            {
-                                tmp = int.Parse(matchBand[0].Value);
-                                if (tmp > bandwidth)
-                                {
-                                    row = index;
-                                    bandwidth = tmp;
-                                }
-                            }
-                        }
-                        return finalUrl; 
-                    }
-                }
-            }
         }
 
         public override void CleanEpisodes()

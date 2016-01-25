@@ -18,6 +18,7 @@ namespace cu_grab
         private const String CndUrl = @"http://cdn.rasset.ie";
         private List<RTEShows> rteShows;
         private List<Episodes> selectedShowEpisodes = new List<Episodes>();
+        private CUNetworkAssist netAssist = new CUNetworkAssist(); 
 
         /// <summary>
         /// Standard constructor
@@ -126,55 +127,8 @@ namespace cu_grab
             Regex getHlsUrl = new Regex(@"hls_url""\: ""(.*?)""");
             String urlSuffix = getHlsUrl.Matches(showJsonString)[0].Groups[1].Value;
             String manifestHlsUrl = CndUrl + "/manifest" + urlSuffix;
-
-            return GetHighestBitrate(manifestHlsUrl);
+            return CndUrl + netAssist.GetHighestM3U8Address(manifestHlsUrl);
             
-        }
-        /// <summary>
-        /// Gets the highest bitrate from a m3u8 link
-        /// </summary>
-        /// <param name="url">URL of m3u8</param>
-        /// <returns>The highest bitrate redition URL</returns>
-        private String GetHighestBitrate(String url)
-        {
-            WebRequest reqManifest = HttpWebRequest.Create(url);
-            using (WebResponse resManifest = reqManifest.GetResponse())
-            {
-                using (Stream responseStreamManifest = resManifest.GetResponseStream())
-                {
-                    using (StreamReader srShowManifest = new StreamReader(responseStreamManifest, System.Text.Encoding.UTF8))
-                    {
-                        String line; // current line 
-                        String finalUrl = "";
-                        Regex regexBandwidth = new Regex(@"(?<=\bBANDWIDTH=)([0-9]+)"); //Quality Selection
-                        int index = 0;
-                        int row = -1;
-                        long bandwidth = 0;
-                        long tmp = 0;
-                        //Get the highest quality link
-                        while ((line = srShowManifest.ReadLine()) != null)
-                        {
-                            if (row == index)
-                            {
-                                finalUrl = line;
-                            }
-                            index++;
-                            MatchCollection matchBand = regexBandwidth.Matches(line);
-                            if (matchBand.Count > 0)
-                            {
-                                tmp = int.Parse(matchBand[0].Value);
-                                if (tmp > bandwidth)
-                                {
-                                    row = index;
-                                    bandwidth = tmp;
-                                }
-                            }
-                        }
-                        return CndUrl + finalUrl; // Its a relative adress
-                    }
-                }
-            }
-           
         }
         public override void CleanEpisodes()
         {

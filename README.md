@@ -6,6 +6,6 @@ Supports:
 + Tenplay
 + Plus7
 + RTE (HLS only)
-+ DPlay [ita] (HLS)
++ DPlay (Italian) (HLS)
 	
 Requires .NET 4.5 and FFmpeg to run

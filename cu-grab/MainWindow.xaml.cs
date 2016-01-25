@@ -21,6 +21,7 @@ using System.Xml;
 using System.Reflection;
 using System.Web.Script.Serialization;
 using System.ComponentModel;
+using SubCSharp;
 namespace cu_grab
 {
     /* Note: Requires FFmpeg
@@ -101,7 +102,7 @@ namespace cu_grab
                                         {
                                             StandardDownloadSub(subUrl, selectedShow + " " + name + ".dfxp", ""); //Thread locked cause yeah
                                             subConv = new SubtitleConverter();
-                                            subConv.DfxpToStr(selectedShow + " " + name + ".dfxp");
+                                            subConv.DfxpToSrt(selectedShow + " " + name + ".dfxp");
                                         }
                                     }
                                     goto case Site.TenP;
@@ -399,6 +400,12 @@ namespace cu_grab
         {
             Settings settingsWindow = new Settings();
             settingsWindow.Show();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            subConv = new SubtitleConverter();
+            
         }
     }
 }

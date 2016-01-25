@@ -401,11 +401,5 @@ namespace cu_grab
             Settings settingsWindow = new Settings();
             settingsWindow.Show();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            subConv = new SubtitleConverter();
-            
-        }
     }
 }

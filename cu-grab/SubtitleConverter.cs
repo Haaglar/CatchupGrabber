@@ -10,10 +10,12 @@ using System.Xml;
 
 namespace SubCSharp
 {
-    
     public class SubtitleConverter
     {
-        enum SState {Empty, Adding};
+        //State for WSRT & Webvvt reading
+        private enum SState {Empty, Adding, Iterating, Comment, Timestamp};
+        private String[] blankrray = new String[] { " " }; //Dont want to keep recreating it
+
         //Internal sub format to allow easy conversion
         private class SubtitleCU
         {
@@ -45,10 +47,8 @@ namespace SubCSharp
         }
 
         SubtitleCU subTitleLocal;
-        public SubtitleConverter()
-        {
-            subTitleLocal = new SubtitleCU();
-        }
+
+        public SubtitleConverter(){}
         //-------------------------------------------------------------------------Read Formats---------------//
         /// <summary>
         /// Converts a dfxp subtitle into the Catchup Grabbers subtitle format
@@ -103,15 +103,15 @@ namespace SubCSharp
 
             subTitleLocal.AddEntry(beginTime, endTime, tmp);
             //Main loop
-            foreach(String sub in split.Skip(1))
+            foreach(String sub in split.Skip(2))
             {
                 String[] splitc2 = sub.Split(new string[] { "\n" }, StringSplitOptions.None);
 
-                String[] time2 = Regex.Split(splitc2[1], " *--> *");           //May or may not have a space or more than 2 dashes
+                String[] time2 = Regex.Split(splitc2[0], " *--> *");           //May or may not have a space or more than 2 dashes
                 DateTime beginTime2;
                 DateTime endTime2;
-                beginTime2 = DateTime.ParseExact(time[0], "HH:mm:ss,fff", CultureInfo.InvariantCulture);
-                endTime2 = DateTime.ParseExact(time[1], "HH:mm:ss,fff", CultureInfo.InvariantCulture);
+                beginTime2 = DateTime.ParseExact(time2[0], "HH:mm:ss,fff", CultureInfo.InvariantCulture);
+                endTime2 = DateTime.ParseExact(time2[1], "HH:mm:ss,fff", CultureInfo.InvariantCulture);
 
                 String tmp2 = splitc2[1].TrimEnd();
                 foreach (String text in splitc2.Skip(2))
@@ -122,7 +122,80 @@ namespace SubCSharp
                 subTitleLocal.AddEntry(beginTime2, endTime2, tmp2);    
             }
         }
+        /// <summary>
+        /// Reads a WebVTT to the applications local format
+        /// </summary>
+        /// <param name="path">The path to the subtitle to convert</param>
+        private void ReadWebVTT(String path)
+        {
+            String raw = File.ReadAllText(path);
+            raw = raw.Replace("\r\n", "\n");    //Replace Windows format
+            raw = raw.Replace("\r", "\n");      //Replace old Mac format (it's in the specs to do so)
+            raw = raw.Trim();
+            var splited = raw.Split(new string[] { "\n" }, StringSplitOptions.None).ToList();
+            SState ss = SState.Empty; //Current state
+            if (!splited[0].StartsWith("WEBVTT")) return; //Not a valid WebVTT
+            DateTime beginTime = new DateTime();
+            DateTime endTime = new DateTime();
+            String textContent = "";
+            foreach (String line in splited.Skip(1)) //Iterate line by line
+            {
+                switch(ss)
+                {
+                    case(SState.Empty):
+                        String linetrim = line.TrimEnd();                              
+                        if(line.Equals(""))continue;                            //Run past newlines
+                        //Style is only allowed to appear before all cues, hence a separate test, 
+                        //unsure if you can have style and a :: value on same line, so test both  anyway
+                        if (subTitleLocal.getLength() == 0 && linetrim.Equals("STYLE") || linetrim.StartsWith("STYLE ")) 
+                        {
+                            ss = SState.Comment;                                //We want to skip like a note;
+                            goto case (SState.Comment);                         //Goto encouraged in in c# case :)
+                        }
+                        //WEBVTTComment, or region values we'll just skip
+                        if (line.Equals("NOTE") || linetrim.StartsWith("NOTE ") || linetrim.Equals("REGION"))    
+                        {
+                            ss = SState.Comment;
+                            goto case (SState.Comment);
+                        }
+                        if (line.Contains("-->")) goto case (SState.Timestamp); //As we dont care for Queue ID, test only for timestamp
+                        break;
 
+                    case(SState.Timestamp):
+                        //Split and parse the timestamp 
+                        String[] time = Regex.Split(line, " *--> *");
+                        //Parse the time, can only be one of 2 option, so try this one first
+                        bool tryBegin = DateTime.TryParseExact(time[0], "HH:mm:ss.fff", CultureInfo.InvariantCulture, DateTimeStyles.None, out beginTime);
+                        bool tryEnd = DateTime.TryParseExact(time[1], "HH:mm:ss.fff", CultureInfo.InvariantCulture, DateTimeStyles.None, out endTime);
+                        //If something went wrong, parse it differnetly;
+                        if (!tryBegin) DateTime.TryParseExact(time[0], "mm:ss.fff", CultureInfo.InvariantCulture, DateTimeStyles.None, out beginTime);
+                        if (!tryEnd) DateTime.TryParseExact(time[1], "mm:ss.fff", CultureInfo.InvariantCulture, DateTimeStyles.None, out endTime);
+                        ss = SState.Iterating;
+                        break;
+
+                    case(SState.Iterating):
+                        if(line.Equals("")) //Come to the end of the cue block so add it to the sub
+                        {
+                            String cleanedString = textContent.TrimEnd(); //Remove the additional newline we added
+                            subTitleLocal.AddEntry(beginTime, endTime, cleanedString);
+                            textContent = "";                             //Cleanup
+                            ss = SState.Empty;
+                        }
+                        else textContent += line + "\n"; //Otherwise just add to the cue content;
+                        break;
+
+                    case(SState.Comment): //We dont want notes so lets go here
+                        if (line.Equals("")) ss = SState.Empty;//Reached the end of the comment/style/region;
+                        break;    
+                }
+            }
+            if(ss == SState.Iterating) //End of file, add last if we were still going
+            {
+                String cleanedString = textContent.TrimEnd(); //Remove the additional newline we added
+                subTitleLocal.AddEntry(beginTime, endTime, cleanedString);
+            }
+            
+        }
         /// <summary>
         /// Converts a wsrt subtitle into the Catchup Grabbers subtitle format
         /// Old, Use ReadWSRT2 instead
@@ -159,7 +232,7 @@ namespace SubCSharp
             {
                 String[] splitc2 = sub.Split(new string[] { "\n" }, StringSplitOptions.None);
 
-                String[] time2 = Regex.Split(splitc2[1], " *--> *");           //May or may not have a space or more than 2 dashes
+                String[] time2 = Regex.Split(splitc2[0], " *--> *");           //May or may not have a space or more than 2 dashes
                 DateTime beginTime2;
                 DateTime endTime2;
                 beginTime2 = DateTime.ParseExact(time[0].Substring(0,12), "HH:mm:ss.fff", CultureInfo.InvariantCulture);
@@ -191,7 +264,6 @@ namespace SubCSharp
             String previous = "<blankstring>"; //Since need to handle first time option and can
             String subContent = "";
             SState ss = SState.Empty;
-            String[] blankrray = new String[]{ " " }; //Dont want to keep recreating it
             String cleanedString = "";
             foreach(String line in splited)
             {
@@ -304,12 +376,28 @@ namespace SubCSharp
                 String eTime = subTitleLocal.endTime[i].ToString("HH:mm:ss,fff");
                 subExport = subExport + (i + 1) + "\n" + sTime + " --> " + eTime + "\n" + subTitleLocal.content[i] + "\n" + "\n";
             }
-            System.IO.File.WriteAllText(path,subExport);
+            System.IO.File.WriteAllText(path, subExport);
         }
-
+        /// <summary>
+        /// Converts the local format to Subrip format
+        /// Similar to WriteSRT with an additional value added to the start;
+        /// </summary>
+        /// <param name="path"></param>
+        private void WriteWebVTT(String path)
+        {
+            String subExport = "WEBVTT\n\n";
+            int length = subTitleLocal.getLength();
+            for (int i = 0; i < length; i++)
+            {
+                String sTime = subTitleLocal.startTime[i].ToString("HH:mm:ss.fff");
+                String eTime = subTitleLocal.endTime[i].ToString("HH:mm:ss.fff");
+                subExport = subExport + (i + 1) + "\n" + sTime + " --> " + eTime + "\n" + subTitleLocal.content[i].Replace("\n\n","\n") + "\n" + "\n";
+            }
+            System.IO.File.WriteAllText(path, subExport);
+        }
         /// <summary>
         /// Converts the local format to WebSubrip format
-        /// Essentilly the same except using a different time format
+        /// Essentilly the same except as WriteSRT using a different time format
         /// </summary>
         /// <param name="path">The path to the location to save to</param>
         private void WriteWSRT(String path)
@@ -328,12 +416,13 @@ namespace SubCSharp
         /// Convert a subtitle, supports
         /// DFXP, SRT, WSRT;
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="output"></param>
+        /// <param name="input">The path to the subtitle to convert</param>
+        /// <param name="output">The path to the location to save, and file name/type to convert to</param>
         public void ConvertSubtitle(String input, String output)
         {
-            String extensionInput = System.IO.Path.GetExtension(input);
-            String extensionOutput = System.IO.Path.GetExtension(output);
+            subTitleLocal = new SubtitleCU();
+            String extensionInput = System.IO.Path.GetExtension(input).ToLower();
+            String extensionOutput = System.IO.Path.GetExtension(output).ToLower();
             switch (extensionInput) //Read file
             {
                 case (".dfxp"):
@@ -341,6 +430,9 @@ namespace SubCSharp
                     break;
                 case (".srt"):
                     ReadSRT(input);
+                    break;
+                case (".vtt"):
+                    ReadWebVTT(input);
                     break;
                 case(".wsrt"):
                     ReadWSRT2(input);
@@ -356,6 +448,9 @@ namespace SubCSharp
                     break;
                 case (".srt"):
                     WriteSRT(output);
+                    break;
+                case (".vtt"):
+                    WriteWebVTT(output);
                     break;
                 case (".wsrt"):
                     WriteWSRT(output);

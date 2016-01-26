@@ -13,6 +13,7 @@ namespace SubCSharp
     
     public class SubtitleConverter
     {
+        enum SState {Empty, Adding};
         //Internal sub format to allow easy conversion
         private class SubtitleCU
         {
@@ -124,6 +125,7 @@ namespace SubCSharp
 
         /// <summary>
         /// Converts a wsrt subtitle into the Catchup Grabbers subtitle format
+        /// Old, Use ReadWSRT2 instead
         /// </summary>
         /// <param name="path">Input path for the subtitle</param>
         private void ReadWSRT(String path)
@@ -132,7 +134,7 @@ namespace SubCSharp
             // Neeed to support addition info at http://annodex.net/~silvia/tmp/WebSRT/#slide1
             String raw = File.ReadAllText(path);
             raw = raw.Replace("\r\n", "\n");
-            String[] split = Regex.Split(raw, @"\n\n[0-9]+\n"); //Each etnry can be separted like this, a subtitle cannot contain a blank line followed by a line containing only a decimal number appartently
+            String[] split = Regex.Split(raw, @"\n\n[0-9]+\n"); //Each etnry can be separted like this
             //First case is a bit different as it has an extra row or maybe junk
             String case1 = split[0].TrimStart();
             String[] splitc1 = case1.Split(new string[] { "\n" }, StringSplitOptions.None);
@@ -171,6 +173,77 @@ namespace SubCSharp
                 tmp2 = Regex.Replace(tmp2, @"</*[0-9]+>","");
                 subTitleLocal.AddEntry(beginTime2, endTime2, tmp2);
             }
+
+        }
+        /// <summary>
+        /// Converts a wsrt subtitle into the Catchup Grabbers subtitle format
+        /// </summary>
+        /// <param name="path">Path to the WSRT file</param>
+        private void ReadWSRT2(String path)
+        {
+
+            String raw = File.ReadAllText(path);
+            raw = raw.Replace("\r\n", "\n");
+            raw = raw.Trim();
+            var splited = raw.Split(new string[] { "\n" }, StringSplitOptions.None).ToList();
+            DateTime beginTime = new DateTime();
+            DateTime endTime = new DateTime();
+            String previous = "<blankstring>"; //Since need to handle first time option and can
+            String subContent = "";
+            SState ss = SState.Empty;
+            String[] blankrray = new String[]{ " " }; //Dont want to keep recrating it
+            String cleanedString = "";
+            foreach(String line in splited)
+            {
+                switch(ss)
+                {
+                    case (SState.Empty): //First time
+                        if (line.Contains("-->"))
+                        {
+                            String[] time = Regex.Split(line, " *--> *");
+                            DateTime.TryParse(time[0], out beginTime);
+                            DateTime.TryParse(time[1].Split(blankrray, StringSplitOptions.None)[0], out endTime);
+                            //beginTime = DateTime.ParseExact(time[0].Substring(0, 12), "HH:mm:ss.fff", CultureInfo.InvariantCulture);
+                            //endTime = DateTime.ParseExact(time[1].Substring(0, 12), "HH:mm:ss.fff", CultureInfo.InvariantCulture);
+                            ss = SState.Adding;
+                        }
+                        break;
+                    case(SState.Adding):
+                        if (line.Contains("-->"))
+                        {
+                            //Add
+                            cleanedString = subContent.TrimEnd();
+                            cleanedString = Regex.Replace(cleanedString, @"</*[0-9]+>","");
+                            subTitleLocal.AddEntry(beginTime, endTime, cleanedString);
+                            //Cleanup for new
+                            subContent = "";
+                            previous = "<blankstring>";
+                            //Set date
+                            String[] time = Regex.Split(line, " *--> *");
+                            DateTime.TryParse(time[0], out beginTime);
+                            DateTime.TryParse(time[1].Split(blankrray, StringSplitOptions.None)[0], out endTime);
+                            //beginTime = DateTime.ParseExact(time[0].Substring(0, 12), "HH:mm:ss.fff", CultureInfo.InvariantCulture);
+                            //endTime = DateTime.ParseExact(time[1].Substring(0, 12), "HH:mm:ss.fff", CultureInfo.InvariantCulture);
+                            
+                        }
+                        else if (previous.Equals("<blankstring>"))
+                        {
+                            previous = line;
+                        }
+                        else
+                        {
+                            subContent += previous +"\n";
+                            previous = line;
+                        }
+                        break;
+                }                
+            }
+            //Add stragggler
+            cleanedString = subContent.TrimEnd();
+            cleanedString = Regex.Replace(cleanedString, @"</*[0-9]+>", "");
+            subTitleLocal.AddEntry(beginTime, endTime, cleanedString);
+            subTitleLocal.AddEntry(beginTime, endTime, subContent.TrimEnd()); 
+
         }
         //-------------------------------------------------------------------------Write Formats---------------//
         /// <summary>
@@ -233,6 +306,24 @@ namespace SubCSharp
             }
             System.IO.File.WriteAllText(path,subExport);
         }
+
+        /// <summary>
+        /// Converts the local format to WebSubrip format
+        /// Essentilly the same except using a different time format
+        /// </summary>
+        /// <param name="path">The path containing the path to the location and name of the original file</param>
+        private void WriteWSRT(String path)
+        {
+            String subExport = "";
+            int length = subTitleLocal.getLength();
+            for (int i = 0; i < length; i++)
+            {
+                String sTime = subTitleLocal.startTime[i].ToString("HH:mm:ss.fff");
+                String eTime = subTitleLocal.endTime[i].ToString("HH:mm:ss.fff");
+                subExport = subExport + (i + 1) + "\n" + sTime + " --> " + eTime + "\n" + subTitleLocal.content[i] + "\n" + "\n";
+            }
+            System.IO.File.WriteAllText(path, subExport);
+        }
         /// <summary>
         /// Converts a dfxp sub to srt
         /// </summary>
@@ -242,9 +333,14 @@ namespace SubCSharp
             ReadDFXP(path);
             WriteSRT(System.IO.Path.ChangeExtension(path, "srt"));
         }
+        public void ConvertSubtitle(String input, String output)
+        {
+            String extensionInput = System.IO.Path.GetExtension(input);
+            String extensionOutput = System.IO.Path.GetExtension(output);
+        }
         public void aaa(String path)
         {
-            ReadWSRT(path);
+            ReadWSRT2(path);
             WriteSRT(System.IO.Path.ChangeExtension(path, "srt"));
         }
     }

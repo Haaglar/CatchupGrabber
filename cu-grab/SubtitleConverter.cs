@@ -15,7 +15,7 @@ namespace SubCSharp
         //State for WSRT & Webvvt reading
         private enum SState {Empty, Adding, Iterating, Comment, Timestamp};
         private String[] blankrray = new String[] { " " }; //Dont want to keep recreating it
-
+        private char lt = '<';
         //Internal sub format to allow easy conversion
         private class SubtitleCU
         {
@@ -56,7 +56,10 @@ namespace SubCSharp
         /// <param name="path">The path to the dfxp to convert</param>
         private void ReadDFXP(String path)
         {
-            using(XmlTextReader reader = new XmlTextReader(path))
+            String raw = File.ReadAllText(path);
+            System.IO.File.WriteAllText(path + "_cureadtemp", raw.Replace("\r\n", "\n")); //Need to work with a unix format
+
+            using (XmlTextReader reader = new XmlTextReader(path + "_cureadtemp"))
             {
                 reader.Namespaces = false;// Namespaces are annoying, screw them.
                 while (reader.ReadToFollowing("p")) //Read all p nodes
@@ -64,15 +67,65 @@ namespace SubCSharp
                     DateTime beginTime;
                     DateTime endTime;
                     String begin = reader.GetAttribute("begin");
-                    DateTime.TryParse(begin, out beginTime);
+                    bool beginSuc = DateTime.TryParse(begin, out beginTime);
+                    if(!beginSuc) //If that failed parse it differently
+                    {
+                        beginTime = new DateTime();
+                        Regex rg = new Regex(@"^([0-9.]+)([a-z]+)$");
+                        MatchCollection mtchs = rg.Matches(begin);
+                        float st = float.Parse(mtchs[0].Groups[1].Value);
+                        switch(mtchs[0].Groups[2].Value)
+                        {
+                            case("h"):
+                                beginTime= beginTime.AddHours(st);
+                                break;
+                            case ("m"):
+                                beginTime = beginTime.AddMinutes(st);
+                                break;
+                            case ("s"):
+                                beginTime = beginTime.AddSeconds(st);
+                                break;
+                            case ("ms"):
+                                beginTime = beginTime.AddMilliseconds(st);
+                                break;
+                        }
+
+                    }
+
                     String end = reader.GetAttribute("end");
-                    DateTime.TryParse(end, out endTime);
+                    bool endSuc =  DateTime.TryParse(end, out endTime);
+
+                    if (!endSuc) //If that failed parse it differently
+                    {
+                        endTime = new DateTime();
+                        Regex rg = new Regex(@"^([0-9.]+)([a-z]+)$");
+                        MatchCollection mtchs = rg.Matches(end);
+                        float st = float.Parse(mtchs[0].Groups[1].Value);
+                        switch (mtchs[0].Groups[2].Value)
+                        {
+                            case ("h"):
+                                endTime = endTime.AddHours(st);
+                                break;
+                            case ("m"):
+                                endTime = endTime.AddMinutes(st);
+                                break;
+                            case ("s"):
+                                endTime = endTime.AddSeconds(st);
+                                break;
+                            case ("ms"):
+                                endTime = endTime.AddMilliseconds(st);
+                                break;
+                        }
+
+                    }
+
                     String text = reader.ReadInnerXml();
+                    text = Regex.Replace(text, "\n( *)", ""); //Debeutify xml node
                     text = text.Replace("<br /><br />", "\n").Replace("<br/><br/>", "\n").Replace("<br />", "\n").Replace("<br/>", "\n"); //Depends on the format remove all
                     subTitleLocal.AddEntry(beginTime, endTime, text);
-
                 }
             }
+            System.IO.File.Delete(path + "_cutemp"); //Remove temp read file
         }
 
         /// <summary>
@@ -132,6 +185,9 @@ namespace SubCSharp
             raw = raw.Replace("\r\n", "\n");    //Replace Windows format
             raw = raw.Replace("\r", "\n");      //Replace old Mac format (it's in the specs to do so)
             raw = raw.Trim();
+            raw = Regex.Replace(raw, @"<v(.*? )(.*?)>", "$2: ");    //Replace voice tags with a "Name: "
+            raw = Regex.Replace(raw, @"<[^>]*>","");                //Remove all anotations
+
             var splited = raw.Split(new string[] { "\n" }, StringSplitOptions.None).ToList();
             SState ss = SState.Empty; //Current state
             if (!splited[0].StartsWith("WEBVTT")) return; //Not a valid WebVTT

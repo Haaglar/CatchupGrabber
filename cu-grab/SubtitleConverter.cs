@@ -293,7 +293,7 @@ namespace SubCSharp
         /// <summary>
         /// Converts the local format to Subrip format
         /// </summary>
-        /// <param name="path">The path containing the path to the location and name of the original file</param>
+        /// <param name="path">The path to the save location</param>
         private void WriteSRT(String path)
         {
             String subExport = "";
@@ -311,7 +311,7 @@ namespace SubCSharp
         /// Converts the local format to WebSubrip format
         /// Essentilly the same except using a different time format
         /// </summary>
-        /// <param name="path">The path containing the path to the location and name of the original file</param>
+        /// <param name="path">The path to the location to save to</param>
         private void WriteWSRT(String path)
         {
             String subExport = "";

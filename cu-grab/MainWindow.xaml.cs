@@ -102,7 +102,7 @@ namespace cu_grab
                                         {
                                             StandardDownloadSub(subUrl, selectedShow + " " + name + ".dfxp", ""); //Thread locked cause yeah
                                             subConv = new SubtitleConverter();
-                                            subConv.DfxpToSrt(selectedShow + " " + name + ".dfxp");
+                                            subConv.ConvertSubtitle(selectedShow + " " + name + ".dfxp", selectedShow + " " + name + ".srt");
                                         }
                                     }
                                     goto case Site.TenP;

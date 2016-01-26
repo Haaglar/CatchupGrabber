@@ -191,7 +191,7 @@ namespace SubCSharp
             String previous = "<blankstring>"; //Since need to handle first time option and can
             String subContent = "";
             SState ss = SState.Empty;
-            String[] blankrray = new String[]{ " " }; //Dont want to keep recrating it
+            String[] blankrray = new String[]{ " " }; //Dont want to keep recreating it
             String cleanedString = "";
             foreach(String line in splited)
             {
@@ -325,23 +325,45 @@ namespace SubCSharp
             System.IO.File.WriteAllText(path, subExport);
         }
         /// <summary>
-        /// Converts a dfxp sub to srt
+        /// Convert a subtitle, supports
+        /// DFXP, SRT, WSRT;
         /// </summary>
-        /// <param name="path">The path containing the path to the dfxp file</param>
-        public void DfxpToSrt(String path)
-        {
-            ReadDFXP(path);
-            WriteSRT(System.IO.Path.ChangeExtension(path, "srt"));
-        }
+        /// <param name="input"></param>
+        /// <param name="output"></param>
         public void ConvertSubtitle(String input, String output)
         {
             String extensionInput = System.IO.Path.GetExtension(input);
             String extensionOutput = System.IO.Path.GetExtension(output);
-        }
-        public void aaa(String path)
-        {
-            ReadWSRT2(path);
-            WriteSRT(System.IO.Path.ChangeExtension(path, "srt"));
+            switch (extensionInput) //Read file
+            {
+                case (".dfxp"):
+                    ReadDFXP(input);
+                    break;
+                case (".srt"):
+                    ReadSRT(input);
+                    break;
+                case(".wsrt"):
+                    ReadWSRT2(input);
+                    break;
+                default:
+                    Console.WriteLine("Invalid read file format");
+                    return;
+            }
+            switch (extensionOutput) //Write to file
+            {
+                case(".dfxp"):
+                    WriteDFXP(output);
+                    break;
+                case (".srt"):
+                    WriteSRT(output);
+                    break;
+                case (".wsrt"):
+                    WriteWSRT(output);
+                    break;
+                default:
+                    Console.WriteLine("Invalid write file format");
+                    return;
+            }
         }
     }
 }

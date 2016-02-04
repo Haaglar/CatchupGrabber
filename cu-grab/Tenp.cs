@@ -49,7 +49,7 @@ namespace cu_grab
         /// <returns>The name to the clicked show</returns>
         public override String ClickDisplayedShow()
         {
-            WebRequest reqShow = HttpWebRequest.Create("http://tenplay.com.au" + shows.Shows[listBoxContent.SelectedIndex].ShowURL);
+            WebRequest reqShow = HttpWebRequest.Create("http://tenplay.com.au/handlers/Render.ashx?path=/UserControls/Content/ContentBody.ascx&providername=Episode&datasourceid=" + shows.Shows[listBoxContent.SelectedIndex].ScId);
             WebResponse resShow = reqShow.GetResponse();
 
             StreamReader srShow = new StreamReader(resShow.GetResponseStream(), System.Text.Encoding.UTF8);

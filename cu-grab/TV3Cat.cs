@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
@@ -9,10 +11,23 @@ namespace cu_grab
 {
     class TV3Cat : DownloadAbstract
     {
+        //private List<ShowsGeneric> showList = new List<ShowsGeneric>();
         public TV3Cat (ListBox lBoxContent) : base(lBoxContent) { }
         public override void FillShowsList()
         {
-            throw new NotImplementedException();
+            String websiteShowList;
+            using (WebClient webClient = new WebClient())
+            {
+                websiteShowList = webClient.DownloadString("http://www.ccma.cat/tv3/programes/");
+            }
+            Regex getContents = new Regex(@"href=""(.*?)"">(.*?)<", RegexOptions.Singleline);
+            String cut = websiteShowList.Substring(websiteShowList.IndexOf(@"div class=""span9""")); //Cut the string
+            MatchCollection entries = getContents.Matches(cut);
+            foreach(Match entry in entries)
+            {
+             //   showList.Add(new ShowsGeneric(entry.Groups[1].Value, entry.Groups[2].Value));
+            }
+
         }
         public override string ClickDisplayedShow()
         {

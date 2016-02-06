@@ -88,7 +88,7 @@
     <Compile Include="ShowsTenplay.cs" />
     <Compile Include="ShowsClan.cs" />
     <Compile Include="ShowsDPlay.cs" />
-    <Compile Include="ShowsGeneric.cs" />
+    <Compile Include="ShowsP7.cs" />
     <Compile Include="SubtitleConverter.cs" />
     <Compile Include="Tenp.cs" />
     <Compile Include="TV3Cat.cs" />

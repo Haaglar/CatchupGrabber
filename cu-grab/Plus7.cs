@@ -15,7 +15,7 @@ namespace cu_grab
     public class Plus7 : DownloadAbstract
     {
         private String tvShowsUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/"; //Json object used to provide search suggestions
-        private List<ShowsGeneric> showsP7;
+        private List<ShowsP7> showsP7;
         private List<EpisodesGeneric> selectedShowEpisodes = new List<EpisodesGeneric>();
         private BCoveJson bCoveJson; //Json from the api request 
 
@@ -41,7 +41,7 @@ namespace cu_grab
             {
                 string jsonjs = srjs.ReadToEnd();
                 JavaScriptSerializer jss = new JavaScriptSerializer();
-                showsP7 = jss.Deserialize<List<ShowsGeneric>>(jsonjs);
+                showsP7 = jss.Deserialize<List<ShowsP7>>(jsonjs);
                 showsP7 = showsP7.OrderBy(x => x.title).ToList(); 
             }
             listBoxContent.ItemsSource = showsP7;

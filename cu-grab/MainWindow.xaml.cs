@@ -40,7 +40,7 @@ namespace cu_grab
 
         String selectedShow = "";
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
-        enum Site {None, TenP, Plus7, RTVEClan, RTE, DPlay}
+        enum Site {None, TenP, Plus7, RTVEClan, RTE, DPlay, TV3Cat}
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
 
@@ -51,6 +51,7 @@ namespace cu_grab
         Plus7 plus7;
         RTE rteIE;
         DPlay dplay;
+        TV3Cat tv3CatCCMA;
 
         SubtitleConverter subConv;
         public MainWindow()
@@ -390,6 +391,38 @@ namespace cu_grab
             dlAbs = dplay;
         }
 
+        private void ButtonCCMA_Click(object sender, RoutedEventArgs e)
+        {
+            //First time selecting site
+            if (tv3CatCCMA == null)
+            {
+                try
+                {
+                    tv3CatCCMA = new TV3Cat(objectList);
+                    tv3CatCCMA.FillShowsList();
+                }
+                catch
+                {
+                    errorLabel.Text = "Failed to get episode listings for CCMA (TV3)";
+                }
+            }
+            // If they select it while we are currently on it just return to shows
+            else if (curSite == Site.TV3Cat)
+            {
+                Shows_Pressed(null, null);
+                return;
+            }
+            // other time selecting site
+            else
+            {
+                tv3CatCCMA.SetActive();
+            }
+            curState = State.DisplayingShows;
+            curSite = Site.TV3Cat;
+            selectedShow = "";
+            dlAbs = tv3CatCCMA;
+        }
+
 
         /// <summary>
         /// Handles the action for when the Setting button is pressed
@@ -401,5 +434,7 @@ namespace cu_grab
             Settings settingsWindow = new Settings();
             settingsWindow.Show();
         }
+
+        
     }
 }

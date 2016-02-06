@@ -16,7 +16,7 @@ namespace cu_grab
     {
         private const String EpisodePlaylistUrl = @"https://www.rte.ie/rteavgen/getplaylist/?type=web&format=json&id=";
         private const String CndUrl = @"http://cdn.rasset.ie";
-        private List<RTEShows> rteShows;
+        private List<ShowsRTE> rteShows;
         private List<EpisodesGeneric> selectedShowEpisodes = new List<EpisodesGeneric>();
         private CUNetworkAssist netAssist = new CUNetworkAssist(); 
 
@@ -40,7 +40,7 @@ namespace cu_grab
                 jsonjs = jsonjs.Substring(12, jslen - 12); // remove the "var shows = "
 
                 JavaScriptSerializer jss = new JavaScriptSerializer();
-                rteShows = jss.Deserialize<List<RTEShows>>(jsonjs);
+                rteShows = jss.Deserialize<List<ShowsRTE>>(jsonjs);
                 rteShows = rteShows.OrderBy(x => x.v).ToList(); //Order By name 
             }
             listBoxContent.ItemsSource = rteShows;

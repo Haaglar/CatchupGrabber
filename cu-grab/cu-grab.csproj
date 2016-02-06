@@ -76,19 +76,20 @@
     </Compile>
     <Compile Include="DownloadAbstract.cs" />
     <Compile Include="DPlay.cs" />
-    <Compile Include="EpisodesGeneric.cs" />
-    <Compile Include="EpisodesClan.cs" />
+    <Compile Include="EpisodeObjects\EpisodesGeneric.cs" />
+    <Compile Include="EpisodeObjects\EpisodesClan.cs" />
     <Compile Include="Plus7.cs" />
     <Compile Include="RTE.cs" />
-    <Compile Include="RTEShows.cs" />
+    <Compile Include="ShowsRTE.cs" />
     <Compile Include="RTVEc.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShowsTenplay.cs" />
-    <Compile Include="ShowsClan.cs" />
-    <Compile Include="ShowsDPlay.cs" />
-    <Compile Include="ShowsP7.cs" />
+    <Compile Include="ShowObjects\ShowsGeneric.cs" />
+    <Compile Include="ShowObjects\ShowsTenplay.cs" />
+    <Compile Include="ShowObjects\ShowsClan.cs" />
+    <Compile Include="ShowObjects\ShowsDPlay.cs" />
+    <Compile Include="ShowObjects\ShowsP7.cs" />
     <Compile Include="SubtitleConverter.cs" />
     <Compile Include="Tenp.cs" />
     <Compile Include="TV3Cat.cs" />
@@ -155,6 +156,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

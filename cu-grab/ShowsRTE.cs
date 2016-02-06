@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cu_grab.Downloader.RTE
 {
-    public class RTEShows
+    public class ShowsRTE
     {
         public string i { get; set; }//?
         public int n { get; set; }// Number of episodes

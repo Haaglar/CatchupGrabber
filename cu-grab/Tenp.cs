@@ -14,7 +14,7 @@ namespace cu_grab
     public class Tenp : DownloadAbstract
     {
         private ShowsTenPlays shows;
-        private List<Episodes> selectedShowEpisodes = new List<Episodes>();
+        private List<EpisodesGeneric> selectedShowEpisodes = new List<EpisodesGeneric>();
         private CUNetworkAssist netAssist = new CUNetworkAssist(); 
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace cu_grab
                     String valueFull = matchIdImage[0].Value;
                     String split = valueFull.Split('?')[1];
                     String final = IDSplit.Matches(split)[0].Value;
-                    selectedShowEpisodes.Add(new Episodes(matchIdName[0].Value, final));
+                    selectedShowEpisodes.Add(new EpisodesGeneric(matchIdName[0].Value, final));
                 }
             }
             //Store the current show name for file naming later

@@ -17,7 +17,7 @@ namespace cu_grab
         private const String EpisodePlaylistUrl = @"https://www.rte.ie/rteavgen/getplaylist/?type=web&format=json&id=";
         private const String CndUrl = @"http://cdn.rasset.ie";
         private List<RTEShows> rteShows;
-        private List<Episodes> selectedShowEpisodes = new List<Episodes>();
+        private List<EpisodesGeneric> selectedShowEpisodes = new List<EpisodesGeneric>();
         private CUNetworkAssist netAssist = new CUNetworkAssist(); 
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace cu_grab
             {
                 String description = match.Item1.Groups[1].Value;
                 String ID = match.Item2.Groups[1].Value;
-                selectedShowEpisodes.Add(new Episodes(description, ID));
+                selectedShowEpisodes.Add(new EpisodesGeneric(description, ID));
             }
             String selectedShow = rteShows[listBoxContent.SelectedIndex].v;
             //Clean the name for windows

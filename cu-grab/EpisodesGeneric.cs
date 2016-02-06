@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 //Class for the epiosdes of a show on tenplay, plus7 and RTE
 namespace cu_grab
 {
-    public class Episodes
+    public class EpisodesGeneric
     {
         public string Name { get; set; }
         public string EpisodeID { get; set; }
 
-        public Episodes(string N, string E)
+        public EpisodesGeneric(string N, string E)
         {
             Name = N;
             EpisodeID = E;

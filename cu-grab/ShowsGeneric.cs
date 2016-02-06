@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cu_grab
 {
-    public class ShowsP7
+    public class ShowsGeneric
     {
         public string title { get; set; }
         public string url { get; set; }

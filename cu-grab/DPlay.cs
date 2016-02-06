@@ -1,6 +1,4 @@
-﻿using cu_grab.Shows.DPlay;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,13 +8,14 @@ using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
+using cu_grab.Shows.DPlay;
 
 namespace cu_grab
 {
     public class DPlay : DownloadAbstract
     {
         private ShowsDPlay showsDPlay;
-        private List<Episodes> episodesDPlay = new List<Episodes>();
+        private List<EpisodesGeneric> episodesDPlay = new List<EpisodesGeneric>();
         private static String EpisodeAjaxAddrp1 = @"http://it.dplay.com/api/v2/ajax/shows/";
         private static String EpisodeAjaxAddrp2 = @"/seasons/?show_id=";
         private static String EpisodeAjaxAddrp3 = @"&items=52&sort=episode_number_desc&video_types=-clip"; //52 is the average episodes for a show
@@ -93,7 +92,7 @@ namespace cu_grab
             {
                 String description = match.Item1.Groups[1].Value;
                 String ID = match.Item2.Groups[1].Value.Replace(@"\",""); //Remove escaped JSON
-                episodesDPlay.Add(new Episodes(description, ID));
+                episodesDPlay.Add(new EpisodesGeneric(description, ID));
             }
 
             String selectedShow = showsDPlay.data[listBoxContent.SelectedIndex].title;

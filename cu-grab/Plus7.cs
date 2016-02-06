@@ -15,8 +15,8 @@ namespace cu_grab
     public class Plus7 : DownloadAbstract
     {
         private String tvShowsUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/"; //Json object used to provide search suggestions
-        private List<ShowsP7> showsP7;
-        private List<Episodes> selectedShowEpisodes = new List<Episodes>();
+        private List<ShowsGeneric> showsP7;
+        private List<EpisodesGeneric> selectedShowEpisodes = new List<EpisodesGeneric>();
         private BCoveJson bCoveJson; //Json from the api request 
 
         //Stuff for downloading
@@ -41,7 +41,7 @@ namespace cu_grab
             {
                 string jsonjs = srjs.ReadToEnd();
                 JavaScriptSerializer jss = new JavaScriptSerializer();
-                showsP7 = jss.Deserialize<List<ShowsP7>>(jsonjs);
+                showsP7 = jss.Deserialize<List<ShowsGeneric>>(jsonjs);
                 showsP7 = showsP7.OrderBy(x => x.title).ToList(); 
             }
             listBoxContent.ItemsSource = showsP7;
@@ -103,7 +103,7 @@ namespace cu_grab
             {
                 String url = matchLinks[i].Groups[1].Value;
                 String description = match.Groups[1].Value.Trim(); // Trim excess whitespace cause otherwise itll look like rubbish 
-                selectedShowEpisodes.Add(new Episodes(description, url));
+                selectedShowEpisodes.Add(new EpisodesGeneric(description, url));
                 i += 2;//Skip every second as theres a href on both the image and the content
             }
         

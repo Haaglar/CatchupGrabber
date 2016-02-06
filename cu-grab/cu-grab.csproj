@@ -85,12 +85,13 @@
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Shows.cs" />
+    <Compile Include="ShowsTenplay.cs" />
     <Compile Include="ShowsClan.cs" />
     <Compile Include="ShowsDPlay.cs" />
     <Compile Include="ShowsP7.cs" />
     <Compile Include="SubtitleConverter.cs" />
     <Compile Include="Tenp.cs" />
+    <Compile Include="TV3Cat.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

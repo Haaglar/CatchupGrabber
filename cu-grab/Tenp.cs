@@ -13,7 +13,7 @@ namespace cu_grab
 {
     public class Tenp : DownloadAbstract
     {
-        private RootObject shows;
+        private ShowsTenPlays shows;
         private List<Episodes> selectedShowEpisodes = new List<Episodes>();
         private CUNetworkAssist netAssist = new CUNetworkAssist(); 
 
@@ -36,7 +36,7 @@ namespace cu_grab
             {
                 string jsonjs = srjs.ReadToEnd();
                 JavaScriptSerializer jss = new JavaScriptSerializer();
-                shows = jss.Deserialize<RootObject>(jsonjs);
+                shows = jss.Deserialize<ShowsTenPlays>(jsonjs);
                 shows.Shows = shows.Shows.OrderBy(x => x.Name).ToList();
                 listBoxContent.ItemsSource = shows.Shows;
             }

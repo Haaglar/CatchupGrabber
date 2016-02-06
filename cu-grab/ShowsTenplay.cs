@@ -33,7 +33,7 @@ namespace cu_grab
         }
     }
 
-    public class RootObject
+    public class ShowsTenPlays
     {
         public List<Show> Shows { get; set; }
     }  

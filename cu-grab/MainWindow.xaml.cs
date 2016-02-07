@@ -241,6 +241,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
+                dlAbs.CleanEpisodes();
                 tenPlay.SetActive();
             }  
             curState = State.DisplayingShows;
@@ -278,6 +279,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
+                dlAbs.CleanEpisodes();
                 rtveClan.SetActive();
             }
             curState = State.DisplayingShows;
@@ -314,6 +316,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
+                dlAbs.CleanEpisodes();
                 plus7.SetActive();
             }
             curState = State.DisplayingShows;
@@ -351,6 +354,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
+                dlAbs.CleanEpisodes();
                 rteIE.SetActive();
             }
             curState = State.DisplayingShows;
@@ -383,6 +387,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
+                dlAbs.CleanEpisodes();
                 dplay.SetActive();
             }
             curState = State.DisplayingShows;
@@ -415,6 +420,7 @@ namespace cu_grab
             // other time selecting site
             else
             {
+                dlAbs.CleanEpisodes();
                 tv3CatCCMA.SetActive();
             }
             curState = State.DisplayingShows;

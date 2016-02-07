@@ -110,7 +110,7 @@ namespace cu_grab
                                 case Site.TenP: case Site.RTE: case Site.DPlay:
                                     RunFFmpeg(dlUrl, selectedShow + " " + name);
                                     break;
-                                case Site.RTVEClan:
+                                case Site.RTVEClan: case Site.TV3Cat:
                                     StandardDownload(dlUrl, selectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeProxySettingRTVE);
                                     break;
                             }

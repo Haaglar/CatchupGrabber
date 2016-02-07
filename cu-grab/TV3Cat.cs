@@ -15,6 +15,12 @@ namespace cu_grab
         private List<ShowsGeneric> showList = new List<ShowsGeneric>();
         private List<EpisodesGeneric> episodeList = new List<EpisodesGeneric>();
 
+        private static string EpisodeJsonUrl = @"http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
+        private static string EpisodeJsonUrlGet = @"&profile=pc";
+
+        private enum SiteType { TV3, Super}
+        private SiteType siteType = SiteType.TV3;
+
         public TV3Cat (ListBox lBoxContent) : base(lBoxContent) { }
 
         /// <summary>
@@ -58,24 +64,39 @@ namespace cu_grab
                 //:) so wrong
                 Regex episodeSearch = new Regex(@"<div class=""F-itemContenidorIntern C-destacatVideo"">.*?<a title=""(.*?)"" href=""(.*?)""", RegexOptions.Singleline);
                 //Cut it so we got episodes segment only
-               // showEpisodeList = showEpisodeList.Substring(showEpisodeList.LastIndexOf("sliderContenidorIntern"));
+                showEpisodeList = showEpisodeList.Substring(showEpisodeList.IndexOf("F-cos"));
                 MatchCollection episodes = episodeSearch.Matches(showEpisodeList);
                 foreach (Match entry in episodes)
                 {                                       //Decoding cause of &#039; need to be '
                     episodeList.Add(new EpisodesGeneric(WebUtility.HtmlDecode(entry.Groups[1].Value), entry.Groups[2].Value));
                 }
                 listBoxContent.ItemsSource = episodeList;
-                
+                siteType = SiteType.TV3;
             }
             return "";
         }
         public override string GetUrl()
         {
-            throw new NotImplementedException();
+            String pageJson;
+            
+            String episodeUrl = episodeList[listBoxContent.SelectedIndex].EpisodeID;
+            Regex regRefId = new Regex(@"/([0-9]+)/");
+            String refID = regRefId.Matches(episodeUrl)[0].Groups[1].Value;
+
+            //Download json
+            using (WebClient webClient = new WebClient())
+            {
+                webClient.Encoding = Encoding.UTF8;
+                pageJson = webClient.DownloadString(EpisodeJsonUrl + refID + EpisodeJsonUrlGet);
+            }
+            Regex getMp4 = new Regex(@"""(.*?\.mp4)""", RegexOptions.RightToLeft); //Cause this way is the best
+            Match mp4 = getMp4.Match(pageJson);
+           
+            return mp4.Groups[1].Value;
         }
         public override string GetSelectedName()
         {
-            throw new NotImplementedException();
+            return episodeList[listBoxContent.SelectedIndex].Name;
         }
         public override void CleanEpisodes()
         {

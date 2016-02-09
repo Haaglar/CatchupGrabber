@@ -4,7 +4,7 @@
         Title="Catch-up Grabber" Height="500" Width="500"
         ResizeMode="NoResize">
     <Grid>
-        <TextBlock x:Name="errorLabel" HorizontalAlignment="Left" Margin="260,374,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="54" TextWrapping="Wrap" Width="191" Text="Double click on a show, then double click on an episode to grab it."/>
+        <TextBlock x:Name="errorLabel" HorizontalAlignment="Left" Margin="204,268,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="54" TextWrapping="Wrap" Width="191" Text="Double click on a show, then double click on an episode to grab it."/>
         <ListBox x:Name="objectList" HorizontalAlignment="Left" Height="241" Margin="10,10,0,0" VerticalAlignment="Top" Width="374" MouseDoubleClick="OL_ItemPressed" FontSize="14"/>
         <Button x:Name="toShows" Content="Shows" HorizontalAlignment="Left" Margin="400,223,0,0" VerticalAlignment="Top" Width="75" Click="Shows_Pressed" Height="28"/>
         <Button x:Name="buttonTenplay" Content="Tenplay" HorizontalAlignment="Left" Margin="10,371,0,0" VerticalAlignment="Top" Width="75" Click="ButtonTenplay_Click"/>
@@ -15,7 +15,7 @@
         <Button x:Name="buttonPlus7" Content="Plus7" HorizontalAlignment="Left" Margin="10,398,0,0" VerticalAlignment="Top" Width="75" Click="ButtonPlus7_Click"/>
         <Button x:Name="buttonRTE" Content="RTE" HorizontalAlignment="Left" Margin="90,398,0,0" VerticalAlignment="Top" Width="75" Click="ButtonRTE_Click"/>
         <Button x:Name="buttonDPlay" Content="DPlay (ITA)" HorizontalAlignment="Left" Margin="170,371,0,0" VerticalAlignment="Top" Width="75" Click="ButtonDPlay_Click"/>
-        <Button x:Name="buttonCCMA" Content="CCMA" HorizontalAlignment="Left" Margin="170,398,0,0" VerticalAlignment="Top" Width="75" Click="ButtonCCMA_Click"/>
+        <Button x:Name="buttonCCMA" Content="TV3 (CAT)" HorizontalAlignment="Left" Margin="170,398,0,0" VerticalAlignment="Top" Width="75" Click="ButtonCCMA_Click"/>
 
 
     </Grid>

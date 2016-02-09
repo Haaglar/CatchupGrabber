@@ -152,7 +152,7 @@ namespace cu_grab
         /// Standard download for a file, note proxy download will be slow and appear unresponsive for a while
         /// </summary>
         /// <param name="url">The url to download from</param>
-        /// <param name="name">Name plus extension</param>
+        /// <param name="name">File name to save to plus extension</param>
         /// <param name="proxyAddress">A string url to a Glype proxy</param>
         public void StandardDownload(String url, String name, String proxyAddress)
         {
@@ -164,6 +164,7 @@ namespace cu_grab
                 {
                     //Add standard post headers
                     webClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                    //Referer since it might not like requests from elsewhere
                     webClient.Headers.Add("referer", proxyAddress);
                     //Make a blank request to example.com for cookies
                     webClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", System.Text.Encoding.UTF8.GetBytes("u=" + "example.com" + "&allowCookies=on"));

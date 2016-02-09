@@ -68,23 +68,16 @@ namespace cu_grab
                 showEpisodeList = showEpisodeList.Substring(showEpisodeList.IndexOf("F-cos"));
                 MatchCollection episodes = episodeSearch.Matches(showEpisodeList);
                 foreach (Match entry in episodes)
-                {                                       //Decoding cause of &#039; need to be '
+                {
+                    //We dont want super3.cat videos, handlethem elsewhere.                   
+                    if (entry.Groups[1].Value.StartsWith(@"http://www.super3.cat/")) continue;
+                    //Decoding cause of &#039; need to be '
                     episodeList.Add(new EpisodesGeneric(WebUtility.HtmlDecode(entry.Groups[1].Value), entry.Groups[2].Value));
                 }
                 listBoxContent.ItemsSource = episodeList;
                 siteType = SiteType.TV3;
                 return showName;
             }
-            /*else if (urlSelectedTmp.StartsWith("http://www.super3.cat")) //Super3 download
-            {
-                using (WebClient webClient = new WebClient())
-                {
-                    webClient.Encoding = Encoding.UTF8; //Cause its system ansi by defualt and that screws up the text
-                    showEpisodeList = webClient.DownloadString(urlSelectedTmp);
-                }
-
-            }*/
-            //Not supported website subdomiain
             throw new System.ArgumentException("Not supported");
 
             

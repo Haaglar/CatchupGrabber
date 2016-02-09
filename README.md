@@ -7,5 +7,5 @@ Supports:
 + Plus7
 + RTE (HLS only)
 + DPlay (Italian) (HLS)
-+ ccma.cat	
++ TV3 (ccma.cat)
 Requires .NET 4.5 and FFmpeg to run

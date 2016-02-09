@@ -69,8 +69,9 @@ namespace cu_grab
                 MatchCollection episodes = episodeSearch.Matches(showEpisodeList);
                 foreach (Match entry in episodes)
                 {
-                    //We dont want super3.cat videos, handlethem elsewhere.                   
-                    if (entry.Groups[1].Value.StartsWith(@"http://www.super3.cat/")) continue;
+                    //We dont want super3.cat videos, handlethem elsewhere.
+                    //Cause the super3 videos here is incomplete and harder to handle
+                    if (entry.Groups[2].Value.StartsWith(@"http://www.super3.cat/")) continue;
                     //Decoding cause of &#039; need to be '
                     episodeList.Add(new EpisodesGeneric(WebUtility.HtmlDecode(entry.Groups[1].Value), entry.Groups[2].Value));
                 }

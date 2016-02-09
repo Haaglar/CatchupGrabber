@@ -1,5 +1,5 @@
 # cu-grab
-Grabs videos from some tv catchup services
+Grabs videos from some tv catchup / on demand services.
 
 Supports:
 + RTVEClan
@@ -8,4 +8,5 @@ Supports:
 + RTE (HLS only)
 + DPlay (Italian) (HLS)
 + TV3 (ccma.cat)
+
 Requires .NET 4.5 and FFmpeg to run

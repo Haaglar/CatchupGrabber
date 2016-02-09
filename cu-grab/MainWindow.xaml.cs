@@ -40,7 +40,7 @@ namespace cu_grab
 
         String selectedShow = "";
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
-        enum Site {None, TenP, Plus7, RTVEClan, RTE, DPlay, TV3Cat}
+        enum Site {None, TenP, Plus7, RTVEClan, RTE, DPlay, TV3Cat, Super3}
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
 
@@ -52,6 +52,7 @@ namespace cu_grab
         RTE rteIE;
         DPlay dplay;
         TV3Cat tv3CatCCMA;
+        Super3 super3;
 
         SubtitleConverter subConv;
         public MainWindow()
@@ -473,6 +474,38 @@ namespace cu_grab
             dlAbs = tv3CatCCMA;
         }
 
+        private void ButtonSuper3_Click(object sender, RoutedEventArgs e)
+        {
+            //First time selecting site
+            if (super3 == null)
+            {
+                try
+                {
+                    super3 = new Super3(objectList);
+                    super3.FillShowsList();
+                }
+                catch
+                {
+                    errorLabel.Text = "Failed to get episode listings for Super3";
+                }
+            }
+            // If they select it while we are currently on it just return to shows
+            else if (curSite == Site.Super3)
+            {
+                Shows_Pressed(null, null);
+                return;
+            }
+            // other time selecting site
+            else
+            {
+                dlAbs.CleanEpisodes();
+                super3.SetActive();
+            }
+            curState = State.DisplayingShows;
+            curSite = Site.Super3;
+            selectedShow = "";
+            dlAbs = super3;
+        }
 
         /// <summary>
         /// Handles the action for when the Setting button is pressed
@@ -484,6 +517,8 @@ namespace cu_grab
             Settings settingsWindow = new Settings();
             settingsWindow.Show();
         }
+
+        
 
         
     }

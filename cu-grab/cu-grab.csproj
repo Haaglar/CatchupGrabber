@@ -91,6 +91,7 @@
     <Compile Include="ShowObjects\ShowsDPlay.cs" />
     <Compile Include="ShowObjects\ShowsP7.cs" />
     <Compile Include="SubtitleConverter.cs" />
+    <Compile Include="Super3.cs" />
     <Compile Include="Tenp.cs" />
     <Compile Include="TV3Cat.cs" />
     <Page Include="MainWindow.xaml">

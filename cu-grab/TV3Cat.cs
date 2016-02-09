@@ -51,9 +51,10 @@ namespace cu_grab
         public override string ClickDisplayedShow()
         {
             String urlSelectedTmp = showList[listBoxContent.SelectedIndex].url;
+            String showName = showList[listBoxContent.SelectedIndex].name;  //Store it cause we swap listbox later
             String showEpisodeList;
             //Its a relative url
-            if(urlSelectedTmp.StartsWith("/tv3/"))
+            if(urlSelectedTmp.StartsWith("/tv3/")) //TV3 Download
             {
                 String urlFull = @"http://www.ccma.cat" + urlSelectedTmp;
                 using (WebClient webClient = new WebClient())
@@ -72,8 +73,21 @@ namespace cu_grab
                 }
                 listBoxContent.ItemsSource = episodeList;
                 siteType = SiteType.TV3;
+                return showName;
             }
-            return "";
+            /*else if (urlSelectedTmp.StartsWith("http://www.super3.cat")) //Super3 download
+            {
+                using (WebClient webClient = new WebClient())
+                {
+                    webClient.Encoding = Encoding.UTF8; //Cause its system ansi by defualt and that screws up the text
+                    showEpisodeList = webClient.DownloadString(urlSelectedTmp);
+                }
+
+            }*/
+            //Not supported website subdomiain
+            throw new System.ArgumentException("Not supported");
+
+            
         }
         public override string GetUrl()
         {

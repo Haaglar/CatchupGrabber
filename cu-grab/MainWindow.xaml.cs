@@ -195,6 +195,49 @@ namespace cu_grab
                 webClient.DownloadFile(new System.Uri(url), name);
             }
         }
+
+
+        /// <summary>
+        /// Download individual hls segments via webclient
+        /// </summary>
+        /// <param name="url">The bitrate url</param>
+        public void proxiedHls(String url)
+        {
+            String parent = new Uri(new Uri(url), ".").ToString();
+            String m3u8;
+            using(WebClient wc = new WebClient())
+            {
+                wc.Encoding = Encoding.UTF8;
+                m3u8 = wc.DownloadString(url);
+            }
+            List<string> filelist= new List<string>();
+            using(StringReader strReader = new StringReader(m3u8))
+            {
+                String line;
+                while((line = strReader.ReadLine()) != null)
+                {
+                    if (line.StartsWith("#")) continue;
+                    using (WebClient wc = new WebClient())
+                    {
+                        wc.Encoding = Encoding.UTF8;
+                        wc.DownloadFile(new Uri(parent + line), @"hls_temp" + line);
+                    }
+                    filelist.Add(@"hls_temp" + line);
+                }
+            }
+            //Join and write
+            using (var outputStream = File.Create(filelist[0] + "fin.ts"))
+            {
+                foreach (var file in filelist)
+                {
+                    using (var inputStream = File.OpenRead(file))
+                    {
+                        inputStream.CopyTo(outputStream);
+                    }
+                }
+            }
+        }
+
         //Download methods end
 
         //-----------------BUTTONS START---------------//

@@ -9,6 +9,7 @@ using System.Web.Script.Serialization;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
 using cu_grab.Shows.DPlay;
+using cu_grab.NetworkAssister;
 
 namespace cu_grab
 {

@@ -22,6 +22,7 @@ using System.Reflection;
 using System.Web.Script.Serialization;
 using System.ComponentModel;
 using SubCSharp;
+using cu_grab.NetworkAssister;
 namespace cu_grab
 {
     /* Note: Requires FFmpeg
@@ -111,7 +112,7 @@ namespace cu_grab
                                 case Site.TenP: case Site.RTE: case Site.DPlay:
                                     RunFFmpeg(dlUrl, selectedShow + " " + name);
                                     break;
-                                case Site.RTVEClan: case Site.TV3Cat:
+                                case Site.RTVEClan: case Site.TV3Cat: case Site.Super3:
                                     StandardDownload(dlUrl, selectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeProxySettingRTVE);
                                     break;
                             }

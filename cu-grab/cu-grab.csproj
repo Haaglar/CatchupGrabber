@@ -80,7 +80,7 @@
     <Compile Include="EpisodeObjects\EpisodesClan.cs" />
     <Compile Include="Plus7.cs" />
     <Compile Include="RTE.cs" />
-    <Compile Include="ShowsRTE.cs" />
+    <Compile Include="ShowObjects\ShowsRTE.cs" />
     <Compile Include="RTVEc.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>

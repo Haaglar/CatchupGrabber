@@ -1,4 +1,5 @@
 ﻿using cu_grab.Downloader.RTE;
+using cu_grab.NetworkAssister;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -6,7 +6,7 @@
         >
     <Grid>
         <!--Main split-->
-        <Grid ShowGridLines="True">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="100" />
@@ -14,7 +14,7 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" >
                 <!-- Top split -->
-                <Grid ShowGridLines="True" x:Name="TopSegment">
+                <Grid x:Name="TopSegment">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="100"></ColumnDefinition>
@@ -28,24 +28,23 @@
                     </Grid>
                 </Grid>
             </Grid>
+            <Grid Grid.Row="1">
+                <TextBlock x:Name="errorLabel" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="54" TextWrapping="Wrap" Width="191" Text="Double click on a show, then double click on an episode to grab it." Margin="193,10,0,0"/>
+                <ProgressBar x:Name="progressBarDL" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="178" Margin="10,10,0,0"/>
+                <TextBlock x:Name="textBlockDownloadStatus" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="178" Margin="10,43,0,0"/>
+            </Grid>
+            <!--Buttons section-->
             <Grid Grid.Row="2">
                 <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button x:Name="buttonTenplay" Content="Tenplay" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonTenplay_Click" Margin="-103,-16,0,0"/>
-                <Button x:Name="buttonRTVEClan" Content="RTVEClan" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonRTVEC_Click" Margin="-103,12,0,-12"/>
-                <Button x:Name="buttonPlus7" Content="Plus7" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonPlus7_Click" Margin="-23,-15,0,0"/>
-                <Button x:Name="buttonRTE" Content="RTE" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonRTE_Click" Margin="-23,12,0,-12"/>
-                <Button x:Name="buttonDPlay" Content="DPlay (ITA)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonDPlay_Click" Margin="57,-15,-57,0"/>
-                <Button x:Name="buttonCCMA" Content="TV3 (CAT)" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Click="ButtonCCMA_Click" Margin="57,12,-57,-12"/>
-                <Button x:Name="buttonSuper3" Content="Super3" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Click="ButtonSuper3_Click" Margin="137,-15,-137,0"/>
+                    <Button x:Name="buttonTenplay" Content="Tenplay" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonTenplay_Click" Margin="-156,-23,0,0" />
+                    <Button x:Name="buttonRTVEClan" Content="RTVEClan" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonRTVEC_Click" Margin="-156,4,0,-4"/>
+                    <Button x:Name="buttonPlus7" Content="Plus7" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonPlus7_Click" Margin="-76,-23,0,0" />
+                    <Button x:Name="buttonRTE" Content="RTE" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonRTE_Click" Margin="-76,4,0,-4" />
+                    <Button x:Name="buttonDPlay" Content="DPlay (ITA)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonDPlay_Click" Margin="4,-23,-4,0"/>
+                    <Button x:Name="buttonCCMA" Content="TV3 (CAT)" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Click="ButtonCCMA_Click" Margin="4,4,-4,-4"/>
+                    <Button x:Name="buttonSuper3" Content="Super3" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="75" Click="ButtonSuper3_Click" Margin="0,-23,-84,0"/>
                 </Grid>
             </Grid>
         </Grid>
-        <TextBlock x:Name="errorLabel" HorizontalAlignment="Left" Margin="204,268,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="54" TextWrapping="Wrap" Width="191" Text="Double click on a show, then double click on an episode to grab it."/>
-
-        <ProgressBar x:Name="progressBarDL" HorizontalAlignment="Left" Height="28" Margin="10,268,0,0" VerticalAlignment="Top" Width="178"/>
-        <TextBlock x:Name="textBlockDownloadStatus" HorizontalAlignment="Left" Margin="10,296,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="178"/>
-        
-
-
     </Grid>
 </Window>

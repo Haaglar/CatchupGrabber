@@ -25,6 +25,7 @@ namespace cu_grab
             TextBoxRTVEClanProxy.Text = Properties.Settings.Default.GlypeProxySettingRTVE;
             TextBoxRTEProxy.Text = Properties.Settings.Default.HTTPProxySettingRTE;
             CheckBoxSubtitleSetting.IsChecked = Properties.Settings.Default.DownloadSubtitlesSetting;
+            this.PreviewKeyDown += EscEit_PreviewKeyDown;
         }
 
         private void ButtonSaveSettings_Click(object sender, RoutedEventArgs e)
@@ -56,6 +57,10 @@ namespace cu_grab
             this.Close();
         }
 
-
+        private void EscEit_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+                this.Close();
+        }
     }
 }

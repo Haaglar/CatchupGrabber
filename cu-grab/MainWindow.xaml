@@ -9,7 +9,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="100" />
+                <RowDefinition Height="75" />
                 <RowDefinition Height="100" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" >
@@ -17,14 +17,17 @@
                 <Grid x:Name="TopSegment">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0" x:Name="ContentSegment">
                         <ListBox x:Name="objectList" HorizontalAlignment="Left" Height="{Binding ElementName=ContentSegment, Path=ActualHeight}" VerticalAlignment="Top" Width="{Binding ElementName=ContentSegment, Path=ActualWidth}" MouseDoubleClick="OL_ItemPressed" FontSize="14"/>
                     </Grid>
+                    <!-- Side area-->
                     <Grid Grid.Column="1" x:Name="MiscOptions">
-                        <Button x:Name="toShows" Content="Shows" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Click="Shows_Pressed" Height="28" Margin="10,0,0,10"/>
-                        <Button x:Name="buttonSettings" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonSettings_Click" Margin="10,0,0,43"/>
+                        <Button x:Name="toShows" Content="Shows" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="100" Height="30" Click="Shows_Pressed" Margin="10,0,0,10" FontSize="14"/>
+                        <Button x:Name="buttonSettings" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="100" Height="30" Click="ButtonSettings_Click" Margin="10,0,0,45" FontSize="14"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Site Selected:" VerticalAlignment="Top"/>
+                        <TextBlock x:Name="textBlockSite" HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="70"/>
                     </Grid>
                 </Grid>
             </Grid>
@@ -34,16 +37,14 @@
                 <TextBlock x:Name="textBlockDownloadStatus" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="178" Margin="10,43,0,0"/>
             </Grid>
             <!--Buttons section-->
-            <Grid Grid.Row="2">
-                <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Button x:Name="buttonTenplay" Content="Tenplay" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonTenplay_Click" Margin="-156,-23,0,0" />
-                    <Button x:Name="buttonRTVEClan" Content="RTVEClan" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonRTVEC_Click" Margin="-156,4,0,-4"/>
-                    <Button x:Name="buttonPlus7" Content="Plus7" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonPlus7_Click" Margin="-76,-23,0,0" />
-                    <Button x:Name="buttonRTE" Content="RTE" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonRTE_Click" Margin="-76,4,0,-4" />
-                    <Button x:Name="buttonDPlay" Content="DPlay (ITA)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="ButtonDPlay_Click" Margin="4,-23,-4,0"/>
-                    <Button x:Name="buttonCCMA" Content="TV3 (CAT)" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="75" Click="ButtonCCMA_Click" Margin="4,4,-4,-4"/>
-                    <Button x:Name="buttonSuper3" Content="Super3" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="75" Click="ButtonSuper3_Click" Margin="0,-23,-84,0"/>
-                </Grid>
+            <Grid Grid.Row="2" x:Name="ButtonSegment" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button x:Name="buttonTenplay" Content="Tenplay" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonTenplay_Click" Margin="-156,-21,0,0" FontSize="14" />
+                <Button x:Name="buttonRTVEClan" Content="RTVEClan" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonRTVEC_Click" Margin="-156,14,0,-14" FontSize="14"/>
+                <Button x:Name="buttonPlus7" Content="Plus7" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonPlus7_Click" Margin="-51,-20,0,0" FontSize="14"/>
+                <Button x:Name="buttonRTE" Content="RTE" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonRTE_Click" Margin="-51,15,0,-15" FontSize="14"/>
+                <Button x:Name="buttonDPlay" Content="DPlay (ITA)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonDPlay_Click" Margin="54,-20,-54,0" FontSize="14"/>
+                <Button x:Name="buttonCCMA" Content="TV3 (CAT)" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Height="30" Click="ButtonCCMA_Click" Margin="54,15,-54,-15" FontSize="14"/>
+                <Button x:Name="buttonSuper3" Content="Super3" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="100" Height="30" Click="ButtonSuper3_Click" Margin="0,-20,-159,0" FontSize="14"/>
             </Grid>
         </Grid>
     </Grid>

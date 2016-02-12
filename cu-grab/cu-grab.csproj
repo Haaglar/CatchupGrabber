@@ -90,6 +90,7 @@
     <Compile Include="ShowObjects\ShowsClan.cs" />
     <Compile Include="ShowObjects\ShowsDPlay.cs" />
     <Compile Include="ShowObjects\ShowsP7.cs" />
+    <Compile Include="StringBindings.cs" />
     <Compile Include="SubtitleConverter.cs" />
     <Compile Include="Super3.cs" />
     <Compile Include="Tenp.cs" />

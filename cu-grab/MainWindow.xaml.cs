@@ -38,8 +38,7 @@ namespace cu_grab
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        String selectedShow = "";
+        StringBindings sBinds = new StringBindings();
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
         enum Site {None, TenP, Plus7, RTVEClan, RTE, DPlay, TV3Cat, Super3}
         State curState = State.DisplayingNone;
@@ -63,6 +62,8 @@ namespace cu_grab
             {
                 MessageBox.Show("Catch-up Grabber requires FFmpeg to download from certain sites, please copy it into the working directory.");
             }
+            textBlockShow.DataContext = sBinds;
+            textBlockSite.DataContext = sBinds;
         }
     
         /// <summary>
@@ -80,8 +81,7 @@ namespace cu_grab
                     case State.DisplayingShows:
                         try
                         {
-                            selectedShow = dlAbs.ClickDisplayedShow();
-                            textBlockShow.Text = selectedShow;
+                            sBinds.SelectedShow = dlAbs.ClickDisplayedShow();
                             curState = State.DisplayingEpisodes;
                         }
                         catch
@@ -104,17 +104,17 @@ namespace cu_grab
                                         String subUrl = dlAbs.GetSubtitles();
                                         if (subUrl != "")
                                         {
-                                            StandardDownloadSub(subUrl, selectedShow + " " + name + ".dfxp", ""); //Thread locked cause yeah
+                                            StandardDownloadSub(subUrl, sBinds.SelectedShow + " " + name + ".dfxp", ""); //Thread locked cause yeah
                                             subConv = new SubtitleConverter();
-                                            subConv.ConvertSubtitle(selectedShow + " " + name + ".dfxp", selectedShow + " " + name + ".srt");
+                                            subConv.ConvertSubtitle(sBinds.SelectedShow + " " + name + ".dfxp", sBinds.SelectedShow + " " + name + ".srt");
                                         }
                                     }
                                     goto case Site.TenP;
                                 case Site.TenP: case Site.RTE: case Site.DPlay:
-                                    RunFFmpeg(dlUrl, selectedShow + " " + name);
+                                    RunFFmpeg(dlUrl, sBinds.SelectedShow + " " + name);
                                     break;
                                 case Site.RTVEClan: case Site.TV3Cat: case Site.Super3:
-                                    StandardDownload(dlUrl, selectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeProxySettingRTVE);
+                                    StandardDownload(dlUrl, sBinds.SelectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeProxySettingRTVE);
                                     break;
                             }
                         }
@@ -256,8 +256,7 @@ namespace cu_grab
             {
                 dlAbs.CleanEpisodes();
                 curState = State.DisplayingShows;
-                selectedShow = "";
-                textBlockShow.Text = selectedShow;
+                sBinds.SelectedShow = "";
             }
         }
         /// <summary>
@@ -267,7 +266,7 @@ namespace cu_grab
         /// <param name="e"></param>
         private void ButtonTenplay_Click(object sender, RoutedEventArgs e)
         {
-            textBlockSite.Text = "tenplay.com.au";
+            sBinds.SelectedSite = "tenplay.com.au";
             //First time selecting site
             if (tenPlay == null)
             {
@@ -295,8 +294,7 @@ namespace cu_grab
             }  
             curState = State.DisplayingShows;
             curSite = Site.TenP;
-            selectedShow = "";
-            textBlockShow.Text = selectedShow;
+            sBinds.SelectedShow = "";
             dlAbs = tenPlay;
         }
 
@@ -307,7 +305,7 @@ namespace cu_grab
         /// <param name="e"></param>
         private void ButtonRTVEC_Click(object sender, RoutedEventArgs e)
         {
-            textBlockSite.Text = "rtve.es/infantil/";
+            sBinds.SelectedSite = "rtve.es/infantil/";
             //First time selecting site
             if (rtveClan == null)
             {
@@ -335,8 +333,7 @@ namespace cu_grab
             }
             curState = State.DisplayingShows;
             curSite = Site.RTVEClan;
-            selectedShow = "";
-            textBlockShow.Text = selectedShow;
+            sBinds.SelectedShow = "";
             dlAbs = rtveClan;
         }
         /// <summary>
@@ -346,7 +343,7 @@ namespace cu_grab
         /// <param name="e"></param>
         private void ButtonPlus7_Click(object sender, RoutedEventArgs e)
         {
-            textBlockSite.Text = "au.tv.yahoo.com/plus7";
+            sBinds.SelectedSite = "au.tv.yahoo.com/plus7";
             //First time selecting site
             if (plus7 == null)
             {
@@ -374,8 +371,7 @@ namespace cu_grab
             }
             curState = State.DisplayingShows;
             curSite = Site.Plus7;
-            selectedShow = "";
-            textBlockShow.Text = selectedShow;
+            sBinds.SelectedShow = "";
             dlAbs = plus7;
         }
 
@@ -386,7 +382,7 @@ namespace cu_grab
         /// <param name="e"></param>
         private void ButtonRTE_Click(object sender, RoutedEventArgs e)
         {
-            textBlockSite.Text = "RTE.ie";
+            sBinds.SelectedSite = "RTE.ie";
             //First time selecting site
             if (rteIE == null)
             {
@@ -414,14 +410,13 @@ namespace cu_grab
             }
             curState = State.DisplayingShows;
             curSite = Site.RTE;
-            selectedShow = "";
-            textBlockShow.Text = selectedShow;
+            sBinds.SelectedShow = "";
             dlAbs = rteIE;
         }
 
         private void ButtonDPlay_Click(object sender, RoutedEventArgs e)
         {
-            textBlockSite.Text = "it.dplay.com";
+            sBinds.SelectedSite = "it.dplay.com";
             //First time selecting site
             if (dplay == null)
             {
@@ -449,14 +444,13 @@ namespace cu_grab
             }
             curState = State.DisplayingShows;
             curSite = Site.DPlay;
-            selectedShow = "";
-            textBlockShow.Text = selectedShow;
+            sBinds.SelectedShow = "";
             dlAbs = dplay;
         }
 
         private void ButtonCCMA_Click(object sender, RoutedEventArgs e)
         {
-            textBlockSite.Text = "ccma.cat/tv3/";
+            sBinds.SelectedSite = "ccma.cat/tv3/";
             //First time selecting site
             if (tv3CatCCMA == null)
             {
@@ -484,14 +478,13 @@ namespace cu_grab
             }
             curState = State.DisplayingShows;
             curSite = Site.TV3Cat;
-            selectedShow = "";
-            textBlockShow.Text = selectedShow;
+            sBinds.SelectedShow = "";
             dlAbs = tv3CatCCMA;
         }
 
         private void ButtonSuper3_Click(object sender, RoutedEventArgs e)
         {
-            textBlockSite.Text = "super3.cat";
+            sBinds.SelectedSite = "super3.cat";
             //First time selecting site
             if (super3 == null)
             {
@@ -519,8 +512,7 @@ namespace cu_grab
             }
             curState = State.DisplayingShows;
             curSite = Site.Super3;
-            selectedShow = "";
-            textBlockShow.Text = selectedShow;
+            sBinds.SelectedShow = "";
             dlAbs = super3;
         }
 

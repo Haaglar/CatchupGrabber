@@ -81,6 +81,7 @@ namespace cu_grab
                         try
                         {
                             selectedShow = dlAbs.ClickDisplayedShow();
+                            textBlockShow.Text = selectedShow;
                             curState = State.DisplayingEpisodes;
                         }
                         catch
@@ -256,6 +257,7 @@ namespace cu_grab
                 dlAbs.CleanEpisodes();
                 curState = State.DisplayingShows;
                 selectedShow = "";
+                textBlockShow.Text = selectedShow;
             }
         }
         /// <summary>
@@ -265,6 +267,7 @@ namespace cu_grab
         /// <param name="e"></param>
         private void ButtonTenplay_Click(object sender, RoutedEventArgs e)
         {
+            textBlockSite.Text = "tenplay.com.au";
             //First time selecting site
             if (tenPlay == null)
             {
@@ -293,6 +296,7 @@ namespace cu_grab
             curState = State.DisplayingShows;
             curSite = Site.TenP;
             selectedShow = "";
+            textBlockShow.Text = selectedShow;
             dlAbs = tenPlay;
         }
 
@@ -303,6 +307,7 @@ namespace cu_grab
         /// <param name="e"></param>
         private void ButtonRTVEC_Click(object sender, RoutedEventArgs e)
         {
+            textBlockSite.Text = "rtve.es/infantil/";
             //First time selecting site
             if (rtveClan == null)
             {
@@ -331,6 +336,7 @@ namespace cu_grab
             curState = State.DisplayingShows;
             curSite = Site.RTVEClan;
             selectedShow = "";
+            textBlockShow.Text = selectedShow;
             dlAbs = rtveClan;
         }
         /// <summary>
@@ -340,6 +346,7 @@ namespace cu_grab
         /// <param name="e"></param>
         private void ButtonPlus7_Click(object sender, RoutedEventArgs e)
         {
+            textBlockSite.Text = "au.tv.yahoo.com/plus7";
             //First time selecting site
             if (plus7 == null)
             {
@@ -368,6 +375,7 @@ namespace cu_grab
             curState = State.DisplayingShows;
             curSite = Site.Plus7;
             selectedShow = "";
+            textBlockShow.Text = selectedShow;
             dlAbs = plus7;
         }
 
@@ -378,6 +386,7 @@ namespace cu_grab
         /// <param name="e"></param>
         private void ButtonRTE_Click(object sender, RoutedEventArgs e)
         {
+            textBlockSite.Text = "RTE.ie";
             //First time selecting site
             if (rteIE == null)
             {
@@ -406,11 +415,13 @@ namespace cu_grab
             curState = State.DisplayingShows;
             curSite = Site.RTE;
             selectedShow = "";
+            textBlockShow.Text = selectedShow;
             dlAbs = rteIE;
         }
 
         private void ButtonDPlay_Click(object sender, RoutedEventArgs e)
         {
+            textBlockSite.Text = "it.dplay.com";
             //First time selecting site
             if (dplay == null)
             {
@@ -439,11 +450,13 @@ namespace cu_grab
             curState = State.DisplayingShows;
             curSite = Site.DPlay;
             selectedShow = "";
+            textBlockShow.Text = selectedShow;
             dlAbs = dplay;
         }
 
         private void ButtonCCMA_Click(object sender, RoutedEventArgs e)
         {
+            textBlockSite.Text = "ccma.cat/tv3/";
             //First time selecting site
             if (tv3CatCCMA == null)
             {
@@ -472,11 +485,13 @@ namespace cu_grab
             curState = State.DisplayingShows;
             curSite = Site.TV3Cat;
             selectedShow = "";
+            textBlockShow.Text = selectedShow;
             dlAbs = tv3CatCCMA;
         }
 
         private void ButtonSuper3_Click(object sender, RoutedEventArgs e)
         {
+            textBlockSite.Text = "super3.cat";
             //First time selecting site
             if (super3 == null)
             {
@@ -505,6 +520,7 @@ namespace cu_grab
             curState = State.DisplayingShows;
             curSite = Site.Super3;
             selectedShow = "";
+            textBlockShow.Text = selectedShow;
             dlAbs = super3;
         }
 

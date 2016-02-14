@@ -114,7 +114,7 @@ namespace cu_grab
                                     RunFFmpeg(dlUrl, sBinds.SelectedShow + " " + name);
                                     break;
                                 case Site.RTVEClan: case Site.TV3Cat: case Site.Super3:
-                                    StandardDownload(dlUrl, sBinds.SelectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeProxySettingRTVE);
+                                    StandardDownload(dlUrl, sBinds.SelectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeSpanish);
                                     break;
                             }
                         }

@@ -2,14 +2,17 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="cu_grab.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="GlypeProxySettingRTVE" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="DownloadSubtitlesSetting" Type="System.Boolean" Scope="User">
+	<Setting Name="DownloadSubtitlesSetting" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="HTTPProxySettingRTE" Type="System.String" Scope="User">
+    <Setting Name="GlypeSpanish" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+	<Setting Name="HTTPSpanish" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="HTTPIrish" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>  
   </Settings>
 </SettingsFile>

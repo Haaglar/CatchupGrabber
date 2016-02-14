@@ -62,7 +62,7 @@ namespace cu_grab
         {
             //Get page content
             String pageShow;
-            String proxyAddress = Properties.Settings.Default.HTTPProxySettingRTE;
+            String proxyAddress = Properties.Settings.Default.HTTPIrish;
             String url = "http://www.rte.ie/player/lh/show/" + rteShows[listBoxContent.SelectedIndex].id;
             //Use a web client here for the proxy option as you cannot view get the episode list without having a IE address
             //Also Glype or PHProxy proxies do not seem to work either

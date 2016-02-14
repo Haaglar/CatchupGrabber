@@ -22,8 +22,8 @@ namespace cu_grab
         public Settings()
         {
             InitializeComponent();
-            TextBoxRTVEClanProxy.Text = Properties.Settings.Default.GlypeProxySettingRTVE;
-            TextBoxRTEProxy.Text = Properties.Settings.Default.HTTPProxySettingRTE;
+            TextBoxSpanishGlypeProxy.Text = Properties.Settings.Default.GlypeSpanish;
+            TextBoxIrishHTTPProxy.Text = Properties.Settings.Default.HTTPIrish;
             CheckBoxSubtitleSetting.IsChecked = Properties.Settings.Default.DownloadSubtitlesSetting;
             this.PreviewKeyDown += EscEit_PreviewKeyDown;
         }
@@ -31,19 +31,19 @@ namespace cu_grab
         private void ButtonSaveSettings_Click(object sender, RoutedEventArgs e)
         {
             //Get RTVE proxy
-            String proxyUnfiltered = TextBoxRTVEClanProxy.Text;
+            String proxyUnfiltered = TextBoxSpanishGlypeProxy.Text;
             if (proxyUnfiltered != "")
             {
                 if(!proxyUnfiltered.StartsWith("http://"))proxyUnfiltered = "http://" + proxyUnfiltered;//Add nessesary http
                 if(proxyUnfiltered.EndsWith("/"))proxyUnfiltered=proxyUnfiltered.Remove(proxyUnfiltered.Length - 1);//Remove an ending / if it exits
             }
             
-            Properties.Settings.Default.GlypeProxySettingRTVE = proxyUnfiltered;
+            Properties.Settings.Default.GlypeSpanish = proxyUnfiltered;
 
             //Get RTE proxy
-            proxyUnfiltered = TextBoxRTEProxy.Text;
+            proxyUnfiltered = TextBoxIrishHTTPProxy.Text;
 
-            Properties.Settings.Default.HTTPProxySettingRTE = proxyUnfiltered;
+            Properties.Settings.Default.HTTPIrish = proxyUnfiltered;
 
 
             //Checkbox for sub download

@@ -19,7 +19,7 @@ namespace cu_grab
     /// </summary>
     public partial class DownloadWindow : Window
     {
-        public DownloadWindow(String test)
+        public DownloadWindow(DownloadMeta passedData)
         {
             InitializeComponent();
         }

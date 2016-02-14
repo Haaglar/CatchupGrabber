@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace cu_grab
 {
-    enum Country { Aus,Ireland,Spain}
-    enum DownloadMethod {HTTP, HLS}
+    public enum Country { Aus,Ireland,Spain}
+    public enum DownloadMethod {HTTP, HLS}
     public class DownloadMeta
     {
         String episodeUrl;

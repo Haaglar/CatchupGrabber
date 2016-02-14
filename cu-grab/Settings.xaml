@@ -10,7 +10,7 @@
         <!--Proxy Settings Box Start-->
         <GroupBox Grid.Row="0" Margin="10,10,10,10">
             <GroupBox.Header>
-                <Label>Proxy Settings</Label>
+                <Label ToolTip="Set the proxy settings for the application here.">Proxy Settings</Label>
             </GroupBox.Header>
             <Grid>
                 <Grid.RowDefinitions>
@@ -20,19 +20,19 @@
                 <!-- Spanish option-->
                 <GroupBox Grid.Row="0" Margin="0,0,0,0">
                     <GroupBox.Header>
-                        <Label>Spanish</Label>
+                        <Label ToolTip="Sites that uses this setting: &#x0a;RTVEClan &#x0a;TV3 (CAT) &#x0a;Super3">Spanish</Label>
                     </GroupBox.Header>
                     <Grid>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12" Text="Glype Proxy URL:"/>
-                        <TextBox x:Name="TextBoxSpanishGlypeProxy" HorizontalAlignment="Left" Height="25" Margin="149,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189"/>
-                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,45,0,0" FontSize="12" Text="HTTP Proxy Address:" />
-                        <TextBox x:Name="TextBoxSpanishHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="149,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12" Text="Glype Proxy URL:"/>
+                        <TextBox x:Name="TextBoxSpanishGlypeProxy" HorizontalAlignment="Left" Height="25" Margin="149,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189"/>
+                        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,10,0,0" FontSize="12" Text="HTTP Proxy Address:" />
+                        <TextBox x:Name="TextBoxSpanishHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="149,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189"/>
                     </Grid>
                 </GroupBox>
                 <!--Irish Group-->
                 <GroupBox Grid.Row="1" Margin="0,0,0,20">
                     <GroupBox.Header>
-                        <Label>Irish</Label>
+                        <Label ToolTip="Site(s) that use this setting: &#x0a;RTE">Irish</Label>
                     </GroupBox.Header>
                     <Grid>
                         <TextBox x:Name="TextBoxIrishHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="148,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
@@ -43,10 +43,9 @@
         </GroupBox>
         <!--Bottom Misc-->
         <Grid Grid.Row="1" Margin="10,10,10,10">
-            <Button x:Name="ButtonSaveSettings" Content="Save" HorizontalAlignment="Left" Margin="287,0,0,10" VerticalAlignment="Bottom" Width="75" Click="ButtonSaveSettings_Click"/>
-            <Button x:Name="ButtonCancelSettings" Content="Cancel" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="75" Click="ButtonCancelSettings_Click"/>
-            <TextBlock HorizontalAlignment="Left" Margin="32,0,0,37" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="169" Height="26"><Run Text="Download subtitles if available:"/></TextBlock>
-            <CheckBox x:Name="CheckBoxSubtitleSetting" Content="" HorizontalAlignment="Left" Margin="10,0,0,44" VerticalAlignment="Bottom"/>
+            <Button x:Name="ButtonSaveSettings" Content="Save" HorizontalAlignment="Left" Margin="287,0,0,15" VerticalAlignment="Bottom" Width="75" Click="ButtonSaveSettings_Click"/>
+            <Button x:Name="ButtonCancelSettings" Content="Cancel" HorizontalAlignment="Left" Margin="10,0,0,15" VerticalAlignment="Bottom" Width="75" Click="ButtonCancelSettings_Click"/>
+            <CheckBox x:Name="CheckBoxSubtitleSetting" Content="Download subtitles if available" HorizontalAlignment="Left" Margin="10,0,0,44" VerticalAlignment="Bottom"/>
         </Grid>
 
     </Grid>

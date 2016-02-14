@@ -22,27 +22,31 @@ namespace cu_grab
         public Settings()
         {
             InitializeComponent();
+            TextBoxSpanishHTTPProxy.Text = Properties.Settings.Default.HTTPSpanish;
             TextBoxSpanishGlypeProxy.Text = Properties.Settings.Default.GlypeSpanish;
             TextBoxIrishHTTPProxy.Text = Properties.Settings.Default.HTTPIrish;
             CheckBoxSubtitleSetting.IsChecked = Properties.Settings.Default.DownloadSubtitlesSetting;
-            this.PreviewKeyDown += EscEit_PreviewKeyDown;
+            this.PreviewKeyDown += EscExit_PreviewKeyDown;
         }
 
         private void ButtonSaveSettings_Click(object sender, RoutedEventArgs e)
         {
-            //Get RTVE proxy
+            //Get Spansih Glype proxy
             String proxyUnfiltered = TextBoxSpanishGlypeProxy.Text;
             if (proxyUnfiltered != "")
             {
-                if(!proxyUnfiltered.StartsWith("http://"))proxyUnfiltered = "http://" + proxyUnfiltered;//Add nessesary http
-                if(proxyUnfiltered.EndsWith("/"))proxyUnfiltered=proxyUnfiltered.Remove(proxyUnfiltered.Length - 1);//Remove an ending / if it exits
+                if(!proxyUnfiltered.StartsWith("http://"))
+                    proxyUnfiltered = "http://" + proxyUnfiltered;//Add nessesary http
+                if(proxyUnfiltered.EndsWith("/"))
+                       proxyUnfiltered = proxyUnfiltered.Remove(proxyUnfiltered.Length - 1);//Remove an ending / if it exits
             }
-            
             Properties.Settings.Default.GlypeSpanish = proxyUnfiltered;
+            //Get spanish HTTP Proxy
+            Properties.Settings.Default.HTTPSpanish = TextBoxSpanishHTTPProxy.Text;
+
 
             //Get RTE proxy
             proxyUnfiltered = TextBoxIrishHTTPProxy.Text;
-
             Properties.Settings.Default.HTTPIrish = proxyUnfiltered;
 
 
@@ -57,7 +61,7 @@ namespace cu_grab
             this.Close();
         }
 
-        private void EscEit_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void EscExit_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
                 this.Close();

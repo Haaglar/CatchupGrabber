@@ -75,6 +75,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DownloadAbstract.cs" />
+    <Compile Include="DownloadWindow.xaml.cs">
+      <DependentUpon>DownloadWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DPlay.cs" />
     <Compile Include="EpisodeObjects\EpisodesGeneric.cs" />
     <Compile Include="EpisodeObjects\EpisodesClan.cs" />
@@ -95,6 +98,10 @@
     <Compile Include="Super3.cs" />
     <Compile Include="Tenp.cs" />
     <Compile Include="TV3Cat.cs" />
+    <Page Include="DownloadWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

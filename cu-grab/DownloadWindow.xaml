@@ -1,0 +1,8 @@
+﻿<Window x:Class="cu_grab.DownloadWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DownloadWindow" Height="150" Width="450" ResizeMode="NoResize">
+    <Grid>
+        
+    </Grid>
+</Window>

@@ -100,7 +100,7 @@ namespace cu_grab
         /// Based off work from rtvealacarta by itorres and personal research
         /// </summary>
         /// <returns>The url to download from</returns>
-        public override String GetUrl()
+        public override DownloadObject GetDownloadObject()
         {
             //Create a phase conatining the video id and milliseconds since the unix epoch
             DateTime dt = DateTime.Now;
@@ -124,7 +124,8 @@ namespace cu_grab
             // encrypt it
             ICryptoTransform transform = aesEncrypt.CreateEncryptor();
             byte[] encryptedText = transform.TransformFinalBlock(toEncrypt, 0, toEncrypt.Length);
-            return "http://www.rtve.es/ztnr/consumer/oceano/video/" + Convert.ToBase64String(encryptedText);
+            return null;
+            //return "http://www.rtve.es/ztnr/consumer/oceano/video/" + Convert.ToBase64String(encryptedText);
         }
 
 

@@ -94,13 +94,14 @@ namespace cu_grab
         /// Get the download URL for FFmpeg
         /// </summary>
         /// <returns>A url</returns>
-        public override String GetUrl()
+        public override DownloadObject GetDownloadObject()
         {
             String BC_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId="; //url taken from and m3u8
             String PUB_ID = "&pubId=2376984108001"; //ID taken from any m3u8
             // Get standard m3u8 from
             String url = netAssist.GetHighestM3U8Address(BC_URL + selectedShowEpisodes[listBoxContent.SelectedIndex].EpisodeID + PUB_ID);
-            return url;
+            return null;
+            //return url;
         }
         /// <summary>
         /// Get the name of the select show

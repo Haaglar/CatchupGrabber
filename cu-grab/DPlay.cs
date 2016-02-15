@@ -108,10 +108,11 @@ namespace cu_grab
             return selectedShow;
         }
 
-        public override string GetUrl()
+        public override DownloadObject GetDownloadObject()
         {
             String m3u8 = netAssist.GetHighestM3U8Address(episodesDPlay[listBoxContent.SelectedIndex].EpisodeID);
-            return m3u8;
+            return null;
+            //return m3u8;
         }
 
         public override void CleanEpisodes()

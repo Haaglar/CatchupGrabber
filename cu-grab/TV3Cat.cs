@@ -83,7 +83,7 @@ namespace cu_grab
 
             
         }
-        public override string GetUrl()
+        public override DownloadObject GetDownloadObject()
         {
             String pageJson;
             
@@ -99,8 +99,8 @@ namespace cu_grab
             }
             Regex getMp4 = new Regex(@"""(.*?\.mp4)""", RegexOptions.RightToLeft); //Cause this way is the best
             Match mp4 = getMp4.Match(pageJson);
-           
-            return mp4.Groups[1].Value;
+            return null;
+            //return mp4.Groups[1].Value;
         }
         public override string GetSelectedName()
         {

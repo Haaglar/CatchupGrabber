@@ -17,7 +17,7 @@ namespace cu_grab
         abstract public String ClickDisplayedShow();
         abstract public void FillShowsList();
         abstract public String GetSelectedName();
-        abstract public String GetUrl();
+        abstract public DownloadObject GetDownloadObject();
         abstract public void CleanEpisodes();
         abstract public void SetActive();
         abstract public String GetSubtitles();

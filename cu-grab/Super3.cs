@@ -70,7 +70,7 @@ namespace cu_grab
         /// Gets the url
         /// </summary>
         /// <returns></returns>
-        public override string GetUrl()
+        public override DownloadObject GetDownloadObject()
         {
 
             String jsonMP4;
@@ -83,7 +83,8 @@ namespace cu_grab
             }
             Regex getMp4 = new Regex(@"""(.*?\.mp4)""", RegexOptions.RightToLeft); //Cause this way is the best
             Match mp4 = getMp4.Match(jsonMP4);
-            return mp4.Groups[1].Value;
+            return null;
+            //return mp4.Groups[1].Value;
         }
         public override void SetActive()
         {

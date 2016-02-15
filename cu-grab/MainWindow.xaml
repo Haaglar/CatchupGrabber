@@ -35,8 +35,6 @@
             </Grid>
             <Grid Grid.Row="1">
                 <TextBlock x:Name="errorLabel" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="54" TextWrapping="Wrap" Width="191" Text="Double click on a show, then double click on an episode to grab it." Margin="193,10,0,0"/>
-                <ProgressBar x:Name="progressBarDL" HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="178" Margin="10,10,0,0"/>
-                <TextBlock x:Name="textBlockDownloadStatus" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="178" Margin="10,43,0,0"/>
             </Grid>
             <!--Buttons section-->
             <Grid Grid.Row="2" x:Name="ButtonSegment" VerticalAlignment="Center" HorizontalAlignment="Center">

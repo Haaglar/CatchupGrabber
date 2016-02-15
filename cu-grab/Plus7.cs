@@ -130,7 +130,7 @@ namespace cu_grab
         /// Grabs the page, does some stuff (important part ported from p7-hls) and gets the URL
         /// </summary>
         /// <returns>The m3u8 url</returns>
-        public override String GetUrl() 
+        public override DownloadObject GetDownloadObject() 
         {
             //Get episode page data
             String pageContent;
@@ -174,11 +174,12 @@ namespace cu_grab
             {
                 if(redition.size == size)
                 {
-                    return redition.defaultURL;
+                    return new DownloadObject(redition.defaultURL, GetSubtitles(),Country.Aus, DownloadMethod.HLS);
+                    //return redition.defaultURL;
                 }
             }
             //If we don't get the highest quality, return the master URL
-            return bCoveJson.FLVFullLengthURL;
+            return new DownloadObject(bCoveJson.FLVFullLengthURL, GetSubtitles(), Country.Aus, DownloadMethod.HLS);
         }
         /// <summary>
         /// Handles Clearing the episode list and reseting it back to the show list

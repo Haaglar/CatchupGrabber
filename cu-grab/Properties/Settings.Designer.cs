@@ -25,6 +25,18 @@ namespace cu_grab.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool DownloadSubtitlesSetting {
+            get {
+                return ((bool)(this["DownloadSubtitlesSetting"]));
+            }
+            set {
+                this["DownloadSubtitlesSetting"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string GlypeSpanish {
             get {
@@ -37,13 +49,13 @@ namespace cu_grab.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool DownloadSubtitlesSetting {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HTTPSpanish {
             get {
-                return ((bool)(this["DownloadSubtitlesSetting"]));
+                return ((string)(this["HTTPSpanish"]));
             }
             set {
-                this["DownloadSubtitlesSetting"] = value;
+                this["HTTPSpanish"] = value;
             }
         }
         
@@ -61,13 +73,13 @@ namespace cu_grab.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string HTTPSpanish {
+        [global::System.Configuration.DefaultSettingValueAttribute("None")]
+        public string ProxyOptionSpanish {
             get {
-                return ((string)(this["HTTPSpanish"]));
+                return ((string)(this["ProxyOptionSpanish"]));
             }
             set {
-                this["HTTPSpanish"] = value;
+                this["ProxyOptionSpanish"] = value;
             }
         }
     }

@@ -22,9 +22,24 @@ namespace cu_grab
         public Settings()
         {
             InitializeComponent();
+
             TextBoxSpanishHTTPProxy.Text = Properties.Settings.Default.HTTPSpanish;
             TextBoxSpanishGlypeProxy.Text = Properties.Settings.Default.GlypeSpanish;
             TextBoxIrishHTTPProxy.Text = Properties.Settings.Default.HTTPIrish;
+            switch(Properties.Settings.Default.ProxyOptionSpanish)
+            {
+                case("None"):
+                    RadioSpanishUseNone.IsChecked = true;
+                    break;
+                case("Gylpe"):
+                    RadioSpanishUseGlype.IsChecked = true;
+                    break;
+                case("HTTP"):
+                    RadioSpanishUseHTTP.IsChecked = true;
+                    break;
+            }
+
+
             CheckBoxSubtitleSetting.IsChecked = Properties.Settings.Default.DownloadSubtitlesSetting;
             this.PreviewKeyDown += EscExit_PreviewKeyDown;
         }
@@ -43,6 +58,20 @@ namespace cu_grab
             Properties.Settings.Default.GlypeSpanish = proxyUnfiltered;
             //Get spanish HTTP Proxy
             Properties.Settings.Default.HTTPSpanish = TextBoxSpanishHTTPProxy.Text;
+            //Radio group
+            //TODO move to enum
+            if(RadioSpanishUseGlype.IsChecked ?? false)
+            {
+                Properties.Settings.Default.ProxyOptionSpanish = "Gylpe";
+            }
+            else if (RadioSpanishUseHTTP.IsChecked?? false)
+            {
+                Properties.Settings.Default.ProxyOptionSpanish = "HTTP";
+            }
+            else
+            {
+                Properties.Settings.Default.ProxyOptionSpanish = "None";
+            }
 
 
             //Get RTE proxy

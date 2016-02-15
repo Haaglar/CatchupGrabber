@@ -84,8 +84,9 @@ namespace cu_grab
                             sBinds.SelectedShow = dlAbs.ClickDisplayedShow();
                             curState = State.DisplayingEpisodes;
                         }
-                        catch
+                        catch(Exception eDl)
                         {
+                            Console.WriteLine(eDl.ToString());
                             errorLabel.Text = "Failed to get episode list for selected show";
                         }
                         break;
@@ -93,32 +94,9 @@ namespace cu_grab
                     case State.DisplayingEpisodes:
                         try
                         {
-                            errorLabel.Text = "Downloading episode, please wait...";
                             String name = sBinds.SelectedShow + dlAbs.GetSelectedName();
                             DownloadObject dlUrl = dlAbs.GetDownloadObject();
                             DownloadWindow dlWindow = new DownloadWindow(dlUrl, name);
-                            /*
-                            switch (curSite) //Handle the correct download method for the option selected
-                            {
-                                case Site.Plus7:
-                                    if (Properties.Settings.Default.DownloadSubtitlesSetting)
-                                    {
-                                        String subUrl = dlAbs.GetSubtitles();
-                                        if (subUrl != "")
-                                        {
-                                            StandardDownloadSub(subUrl, sBinds.SelectedShow + " " + name + ".dfxp", ""); //Thread locked cause yeah
-                                            subConv = new SubtitleConverter();
-                                            subConv.ConvertSubtitle(sBinds.SelectedShow + " " + name + ".dfxp", sBinds.SelectedShow + " " + name + ".srt");
-                                        }
-                                    }
-                                    goto case Site.TenP;
-                                case Site.TenP: case Site.RTE: case Site.DPlay:
-                                    //RunFFmpeg(dlUrl, sBinds.SelectedShow + " " + name);
-                                    break;
-                                case Site.RTVEClan: case Site.TV3Cat: case Site.Super3:
-                                    //StandardDownload(dlUrl, sBinds.SelectedShow + " " + name + ".mp4", Properties.Settings.Default.GlypeSpanish);
-                                    break;
-                            }*/
                         }
                         catch(Exception eDl)
                         {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cu_grab
 {
-    public enum Country { Aus,Ireland,Spain}
+    public enum Country { Aus,Ireland,Italy,Spain}
     public enum DownloadMethod {HTTP, HLS}
 
     /// <summary>

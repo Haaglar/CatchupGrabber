@@ -128,8 +128,7 @@ namespace cu_grab
             Regex getHlsUrl = new Regex(@"hls_url""\: ""(.*?)""");
             String urlSuffix = getHlsUrl.Matches(showJsonString)[0].Groups[1].Value;
             String manifestHlsUrl = CndUrl + "/manifest" + urlSuffix;
-            return null;
-            //return CndUrl + netAssist.GetHighestM3U8Address(manifestHlsUrl);
+            return new DownloadObject(CndUrl + netAssist.GetHighestM3U8Address(manifestHlsUrl), GetSubtitles(), Country.Ireland,DownloadMethod.HLS);
             
         }
         public override void CleanEpisodes()

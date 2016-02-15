@@ -18,9 +18,6 @@ namespace cu_grab
         private static string EpisodeJsonUrl = @"http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
         private static string EpisodeJsonUrlGet = @"&profile=pc";
 
-        private enum SiteType { TV3, Super}
-        private SiteType siteType = SiteType.TV3;
-
         public TV3Cat (ListBox lBoxContent) : base(lBoxContent) { }
 
         /// <summary>
@@ -76,13 +73,11 @@ namespace cu_grab
                     episodeList.Add(new EpisodesGeneric(WebUtility.HtmlDecode(entry.Groups[1].Value), entry.Groups[2].Value));
                 }
                 listBoxContent.ItemsSource = episodeList;
-                siteType = SiteType.TV3;
                 return showName;
             }
-            throw new System.ArgumentException("Not supported");
-
-            
+            throw new System.ArgumentException("Not supported");        
         }
+
         public override DownloadObject GetDownloadObject()
         {
             String pageJson;
@@ -99,8 +94,7 @@ namespace cu_grab
             }
             Regex getMp4 = new Regex(@"""(.*?\.mp4)""", RegexOptions.RightToLeft); //Cause this way is the best
             Match mp4 = getMp4.Match(pageJson);
-            return null;
-            //return mp4.Groups[1].Value;
+            return new DownloadObject(mp4.Groups[1].Value, GetSubtitles(), Country.Spain,DownloadMethod.HTTP);
         }
         public override string GetSelectedName()
         {

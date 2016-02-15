@@ -23,11 +23,18 @@ namespace cu_grab
     /// </summary>
     public partial class DownloadWindow : Window
     {
+        //Locals
         String url;
         String subtitle;
         DownloadMethod dlMethod;
         Country cnt;
         String fileName;
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="passedData">A download object containing information about the show to download</param>
+        /// <param name="fName">The filename</param>
         public DownloadWindow(DownloadObject passedData,String fName)
         {
             InitializeComponent();
@@ -40,6 +47,9 @@ namespace cu_grab
                 DownloadSubtitle();
             DownloadShow();
         }
+        /// <summary>
+        /// Handles the download options for a Downlod object
+        /// </summary>
         private void DownloadShow()
         {
             switch(dlMethod)
@@ -48,6 +58,12 @@ namespace cu_grab
                     RunFFmpeg(url, fileName);
                     break;
                 case DownloadMethod.HTTP:
+                    switch(cnt)
+                    {
+                        case Country.Spain:
+                            StandardDownload(url, fileName + ".mp4", Properties.Settings.Default.GlypeSpanish);
+                            break;
+                    }
                     break;
             }
         }

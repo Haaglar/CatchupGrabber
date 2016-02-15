@@ -111,8 +111,7 @@ namespace cu_grab
         public override DownloadObject GetDownloadObject()
         {
             String m3u8 = netAssist.GetHighestM3U8Address(episodesDPlay[listBoxContent.SelectedIndex].EpisodeID);
-            return null;
-            //return m3u8;
+            return new DownloadObject(m3u8, GetSubtitles(), Country.Italy, DownloadMethod.HLS);
         }
 
         public override void CleanEpisodes()

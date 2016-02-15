@@ -124,8 +124,7 @@ namespace cu_grab
             // encrypt it
             ICryptoTransform transform = aesEncrypt.CreateEncryptor();
             byte[] encryptedText = transform.TransformFinalBlock(toEncrypt, 0, toEncrypt.Length);
-            return null;
-            //return "http://www.rtve.es/ztnr/consumer/oceano/video/" + Convert.ToBase64String(encryptedText);
+            return new DownloadObject("http://www.rtve.es/ztnr/consumer/oceano/video/" + Convert.ToBase64String(encryptedText), GetSubtitles(), Country.Spain, DownloadMethod.HTTP);
         }
 
 

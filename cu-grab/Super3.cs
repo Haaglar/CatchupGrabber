@@ -72,19 +72,15 @@ namespace cu_grab
         /// <returns></returns>
         public override DownloadObject GetDownloadObject()
         {
-
             String jsonMP4;
-
             using (WebClient wc = new WebClient())
             {
                 //Last bit not actually needed but whatever
-                //
                 jsonMP4 = wc.DownloadString(jsonMP4Url + episodesS3[listBoxContent.SelectedIndex].EpisodeID + "&profile=pc");
             }
             Regex getMp4 = new Regex(@"""(.*?\.mp4)""", RegexOptions.RightToLeft); //Cause this way is the best
             Match mp4 = getMp4.Match(jsonMP4);
-            return null;
-            //return mp4.Groups[1].Value;
+            return new DownloadObject( mp4.Groups[1].Value, GetSubtitles(), Country.Spain,DownloadMethod.HTTP);
         }
         public override void SetActive()
         {

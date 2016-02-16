@@ -1,6 +1,7 @@
 ﻿using cu_grab.NetworkAssister;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -43,6 +44,7 @@ namespace cu_grab
             subtitle = passedData.SubtitleUrl;
             dlMethod = passedData.DlMethod;
             fileName = fName;
+            cnt = passedData.CountryOfOrigin;
             if (!subtitle.Equals("") && Properties.Settings.Default.DownloadSubtitlesSetting)
                 DownloadSubtitle();
             DownloadShow();
@@ -52,16 +54,23 @@ namespace cu_grab
         /// </summary>
         private void DownloadShow()
         {
+            TextBlockDLInfo.Text = "Downloading: " + fileName;
             switch(dlMethod)
             {
                 case DownloadMethod.HLS:
                     RunFFmpeg(url, fileName);
                     break;
                 case DownloadMethod.HTTP:
+                    ProgressDL.Visibility = System.Windows.Visibility.Visible;
                     switch(cnt)
                     {
                         case Country.Spain:
-                            StandardDownload(url, fileName + ".mp4", Properties.Settings.Default.GlypeSpanish);
+                            if (Properties.Settings.Default.ProxyOptionSpanish.Equals("HTTP")) 
+                                HTTPProxyDownload(url,fileName,Properties.Settings.Default.HTTPSpanish);
+                            else if (Properties.Settings.Default.ProxyOptionSpanish.Equals("Glype"))
+                                StandardDownload(url, fileName + ".mp4", Properties.Settings.Default.GlypeSpanish);
+                            else
+                                StandardDownload(url, fileName + ".mp4", "");
                             break;
                     }
                     break;
@@ -94,6 +103,17 @@ namespace cu_grab
             }
         }
 
+        public void HTTPProxyDownload(string url, string name, string httpProxy)
+        {
+            using(WebClient webClient = new WebClient())
+            {
+                WebProxy wp = new WebProxy(httpProxy);
+                webClient.Proxy = wp;
+                webClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
+                webClient.DownloadFileCompleted += WebClient_AsyncCompletedEventHandler;
+                webClient.DownloadFileAsync(new System.Uri(url), name);
+            }
+        }
         /// <summary>
         /// Standard download for a file, note proxy download will be slow and appear unresponsive for a while
         /// </summary>
@@ -104,8 +124,8 @@ namespace cu_grab
         {
             using (CookieAwareWebClient webClient = new CookieAwareWebClient())
             {
-                //webClient.DownloadProgressChanged += webClient_DownloadProgressChanged;
-                //webClient.DownloadFileCompleted += webClient_AsyncCompletedEventHandler;
+                webClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
+                webClient.DownloadFileCompleted += WebClient_AsyncCompletedEventHandler;
                 if (proxyAddress != "")//If they suplied a proxy
                 {
                     //Add standard post headers
@@ -123,16 +143,16 @@ namespace cu_grab
                 }
             }
         }
-        /*
-        void webClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        
+        void WebClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            progressBarDL.Value = e.ProgressPercentage;
-            textBlockDownloadStatus.Text = (e.BytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
+           ProgressDL.Value = e.ProgressPercentage;
+            TextBlockProgress.Text = (e.BytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
         }
-        void webClient_AsyncCompletedEventHandler(object sender, AsyncCompletedEventArgs e)
+        void WebClient_AsyncCompletedEventHandler(object sender, AsyncCompletedEventArgs e)
         {
-            errorLabel.Text = "Download Complete";
-        }*/
+            TextBlockProgress.Text = "Download Complete";
+        }
 
         /// <summary>
         /// Download individual hls segments via webclient

@@ -40,6 +40,9 @@ namespace cu_grab
             MatchCollection entries = getContents.Matches(cut);
             foreach(Match entry in entries)
             {
+                //We dont want super3.cat videos, handlethem elsewhere.
+                //Cause the super3 videos here is incomplete and harder to handle
+                if (entry.Groups[1].Value.StartsWith(@"http://www.super3.cat/")) continue;
                 showList.Add(new ShowsGeneric(entry.Groups[2].Value.Trim(), entry.Groups[1].Value));
             }
             listBoxContent.ItemsSource = showList;
@@ -66,9 +69,7 @@ namespace cu_grab
                 MatchCollection episodes = episodeSearch.Matches(showEpisodeList);
                 foreach (Match entry in episodes)
                 {
-                    //We dont want super3.cat videos, handlethem elsewhere.
-                    //Cause the super3 videos here is incomplete and harder to handle
-                    if (entry.Groups[2].Value.StartsWith(@"http://www.super3.cat/")) continue;
+
                     //Decoding cause of &#039; need to be '
                     episodeList.Add(new EpisodesGeneric(WebUtility.HtmlDecode(entry.Groups[1].Value), entry.Groups[2].Value));
                 }
@@ -95,9 +96,9 @@ namespace cu_grab
             Regex getMp4 = new Regex(@"""(.*?\.mp4)""", RegexOptions.RightToLeft); //Cause this way is the best
             Match mp4 = getMp4.Match(pageJson);
 
-            Regex getSubs = new Regex(@"""(.*?\.xml)""", RegexOptions.RightToLeft); //Cause this way is the best
-            Match subMatch = getMp4.Match(pageJson);
-            string suburl = subMatch.Value ?? "";
+            Regex getSubs = new Regex(@"""(.*?\.xml)""", RegexOptions.RightToLeft);
+            Match subMatch = getSubs.Match(pageJson);
+            string suburl = subMatch.Groups[1].Value ?? "";
             return new DownloadObject(mp4.Groups[1].Value, suburl, Country.Spain,DownloadMethod.HTTP);
         }
         public override string GetSelectedName()

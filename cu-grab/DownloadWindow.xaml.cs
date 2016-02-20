@@ -46,12 +46,19 @@ namespace cu_grab
             dlMethod = passedData.DlMethod;
             fileName = fName;
             cnt = passedData.CountryOfOrigin;
+
+            //Clean the name for windows
+            foreach (var c in System.IO.Path.GetInvalidFileNameChars())
+            {
+                fileName = fileName.Replace(c, '-');
+            }
+
             if (!subtitle.Equals("") && Properties.Settings.Default.DownloadSubtitlesSetting)
-                DownloadSubtitle();
+                Task.Factory.StartNew(() => DownloadSubtitle()); //Run the downloadsub in a background thread
             DownloadShow();
         }
         /// <summary>
-        /// Handles the download options for a Downlod object
+        /// Handles the download options for a Download object
         /// </summary>
         private void DownloadShow()
         {
@@ -120,7 +127,7 @@ namespace cu_grab
                 webClient.Proxy = wp;
                 webClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
                 webClient.DownloadFileCompleted += WebClient_AsyncCompletedEventHandler;
-                webClient.DownloadFileAsync(new System.Uri(url), name);
+                webClient.DownloadFileAsync(new System.Uri(url), name + ".mp4");
             }
         }
         /// <summary>

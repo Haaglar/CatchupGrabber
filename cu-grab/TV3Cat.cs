@@ -94,6 +94,10 @@ namespace cu_grab
             }
             Regex getMp4 = new Regex(@"""(.*?\.mp4)""", RegexOptions.RightToLeft); //Cause this way is the best
             Match mp4 = getMp4.Match(pageJson);
+
+            Regex getSubs = new Regex(@"""(.*?\.xml)""", RegexOptions.RightToLeft); //Cause this way is the best
+            Match subMatch = getMp4.Match(pageJson);
+
             return new DownloadObject(mp4.Groups[1].Value, GetSubtitles(), Country.Spain,DownloadMethod.HTTP);
         }
         public override string GetSelectedName()

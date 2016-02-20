@@ -1,4 +1,5 @@
 ﻿using cu_grab.NetworkAssister;
+using SubCSharp;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -82,6 +83,8 @@ namespace cu_grab
             {
                 webClient.DownloadFile(new System.Uri(subtitle), fileName + Path.GetExtension(subtitle));
             }
+            SubtitleConverter conv = new SubtitleConverter();
+            conv.ConvertSubtitle(fileName + Path.GetExtension(subtitle), fileName + ".srt");
         }
 
         //------------------Download methods------------------------//

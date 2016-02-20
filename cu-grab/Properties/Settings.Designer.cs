@@ -82,5 +82,17 @@ namespace cu_grab.Properties {
                 this["ProxyOptionSpanish"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ConvertSubtitle {
+            get {
+                return ((bool)(this["ConvertSubtitle"]));
+            }
+            set {
+                this["ConvertSubtitle"] = value;
+            }
+        }
     }
 }

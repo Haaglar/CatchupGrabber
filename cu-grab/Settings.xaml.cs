@@ -40,7 +40,8 @@ namespace cu_grab
             }
 
 
-            CheckBoxSubtitleSetting.IsChecked = Properties.Settings.Default.DownloadSubtitlesSetting;
+            CheckBoxSubtitleDownloadSetting.IsChecked = Properties.Settings.Default.DownloadSubtitlesSetting;
+            CheckBoxSubtitleConvertSetting.IsChecked = Properties.Settings.Default.ConvertSubtitle;
             this.PreviewKeyDown += EscExit_PreviewKeyDown;
         }
 
@@ -80,7 +81,8 @@ namespace cu_grab
 
 
             //Checkbox for sub download
-            Properties.Settings.Default.DownloadSubtitlesSetting = CheckBoxSubtitleSetting.IsChecked ?? false;
+            Properties.Settings.Default.DownloadSubtitlesSetting = CheckBoxSubtitleDownloadSetting.IsChecked ?? false;
+            Properties.Settings.Default.ConvertSubtitle = CheckBoxSubtitleConvertSetting.IsChecked ?? false;
             Properties.Settings.Default.Save();
             this.Close();
         }

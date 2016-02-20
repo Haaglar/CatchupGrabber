@@ -813,6 +813,7 @@ namespace SubCSharp
                     break;
                 case (".dfxp"):
                 case (".ttml"):
+                case (".xml"):
                     ReadDFXP(input);
                     break;
                 case (".sub"):

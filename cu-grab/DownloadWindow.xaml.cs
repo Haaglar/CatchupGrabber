@@ -83,8 +83,11 @@ namespace cu_grab
             {
                 webClient.DownloadFile(new System.Uri(subtitle), fileName + Path.GetExtension(subtitle));
             }
-            SubtitleConverter conv = new SubtitleConverter();
-            conv.ConvertSubtitle(fileName + Path.GetExtension(subtitle), fileName + ".srt");
+            if (Properties.Settings.Default.ConvertSubtitle)
+            {
+                SubtitleConverter conv = new SubtitleConverter();
+                conv.ConvertSubtitle(fileName + Path.GetExtension(subtitle), fileName + ".srt");
+            }
         }
 
         //------------------Download methods------------------------//

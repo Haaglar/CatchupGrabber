@@ -48,7 +48,8 @@
         <Grid Grid.Row="1" Margin="10,10,10,10">
             <Button x:Name="ButtonSaveSettings" Content="Save" HorizontalAlignment="Left" Margin="287,0,0,15" VerticalAlignment="Bottom" Width="75" Click="ButtonSaveSettings_Click"/>
             <Button x:Name="ButtonCancelSettings" Content="Cancel" HorizontalAlignment="Left" Margin="10,0,0,15" VerticalAlignment="Bottom" Width="75" Click="ButtonCancelSettings_Click"/>
-            <CheckBox x:Name="CheckBoxSubtitleSetting" Content="Download subtitles if available" HorizontalAlignment="Left" Margin="10,0,0,44" VerticalAlignment="Bottom" FontSize="12"/>
+            <CheckBox x:Name="CheckBoxSubtitleDownloadSetting" Content="Download subtitles if available" HorizontalAlignment="Left" Margin="10,0,0,44" VerticalAlignment="Bottom" FontSize="12"/>
+            <CheckBox x:Name="CheckBoxSubtitleConvertSetting" Content="Convert Subtitle to .SRT" HorizontalAlignment="Left" Margin="211,0,0,44" VerticalAlignment="Bottom" FontSize="12"/>
         </Grid>
 
     </Grid>

@@ -97,8 +97,8 @@ namespace cu_grab
 
             Regex getSubs = new Regex(@"""(.*?\.xml)""", RegexOptions.RightToLeft); //Cause this way is the best
             Match subMatch = getMp4.Match(pageJson);
-
-            return new DownloadObject(mp4.Groups[1].Value, GetSubtitles(), Country.Spain,DownloadMethod.HTTP);
+            string suburl = subMatch.Value ?? "";
+            return new DownloadObject(mp4.Groups[1].Value, suburl, Country.Spain,DownloadMethod.HTTP);
         }
         public override string GetSelectedName()
         {

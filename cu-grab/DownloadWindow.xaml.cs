@@ -73,6 +73,9 @@ namespace cu_grab
                             else
                                 StandardDownload(url, fileName + ".mp4", "");
                             break;
+                        default:
+                            StandardDownload(url, fileName + ".mp4", "");
+                            break;
                     }
                     break;
             }

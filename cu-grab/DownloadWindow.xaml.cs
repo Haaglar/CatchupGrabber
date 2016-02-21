@@ -32,6 +32,10 @@ namespace cu_grab
         Country cnt;
         String fileName;
 
+        //Async temp valuse
+        long bytesRecieved = 0;
+        long fileSize = 0;
+
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -162,11 +166,23 @@ namespace cu_grab
         
         void WebClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-           ProgressDL.Value = e.ProgressPercentage;
+            //We need to know if we successfully downloaded the file completely
+            //So we gotta store it outside the function
+            if(fileSize == 0 && e.TotalBytesToReceive != 0)
+            {
+                fileSize = e.TotalBytesToReceive;
+            }
+            bytesRecieved = e.BytesReceived;
+            ProgressDL.Value = e.ProgressPercentage;
             TextBlockProgress.Text = (e.BytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
         }
         void WebClient_AsyncCompletedEventHandler(object sender, AsyncCompletedEventArgs e)
         {
+            if (e.Error != null)
+            {
+                TextBlockProgress.Text = "Download failed somewhere";
+                return;
+            }                
             TextBlockProgress.Text = "Download Complete";
         }
 

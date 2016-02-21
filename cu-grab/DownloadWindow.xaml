@@ -5,7 +5,7 @@
     <Grid>
         <TextBlock x:Name="TextBlockDLInfo" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="424"/>
         <TextBlock x:Name="TextBlockDLMethod" HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="424"/>
-        <ProgressBar x:Name="ProgressDL"  HorizontalAlignment="Left" Height="10" Margin="10,52,0,0" VerticalAlignment="Top" Width="424"/>
+        <ProgressBar x:Name="ProgressDL"  HorizontalAlignment="Left" Height="10" Margin="10,52,0,0" VerticalAlignment="Top" Width="414"/>
         <TextBlock x:Name="TextBlockProgress" HorizontalAlignment="Left" Margin="10,67,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
     </Grid>
 </Window>

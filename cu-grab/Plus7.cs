@@ -44,6 +44,7 @@ namespace cu_grab
                 showsP7 = jss.Deserialize<List<ShowsP7>>(jsonjs);
                 showsP7 = showsP7.OrderBy(x => x.title).ToList(); 
             }
+            showsP7.RemoveAll(s => s.title.StartsWith("TV Snax"));
             listBoxContent.ItemsSource = showsP7;
             resSearchJs.Close();
         }

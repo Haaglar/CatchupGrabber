@@ -33,9 +33,10 @@ namespace cu_grab
         String fileName;
 
         //Async temp valuse
-        long bytesRecieved = 0;
+        long bytesReceived = 0;
         long fileSize = 0;
-
+        //Process
+        Process proc = new Process();
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -115,12 +116,20 @@ namespace cu_grab
         {
             //ffmpeg
             ProcessStartInfo ffmpeg = new ProcessStartInfo();
-            ffmpeg.Arguments = " -i " + url + " -acodec copy -vcodec copy -bsf:a aac_adtstoasc " + '"' + nameLocation + '"' + ".mp4";
             ffmpeg.FileName = "ffmpeg.exe";
+            ffmpeg.Arguments = " -i " + url + " -acodec copy -vcodec copy -bsf:a aac_adtstoasc " + '"' + nameLocation + '"' + ".mp4";
+            
+            proc.StartInfo = ffmpeg;
+            proc.Exited += FFmpeg_Exited;
+            proc.Start();
+            
+        }
 
-            using (Process proc = Process.Start(ffmpeg))
-            {
-            }
+        void FFmpeg_Exited(object sender, EventArgs e)
+        {
+            int tmp = proc.ExitCode;
+            TextBlockProgress.Text = "Completed";
+            proc.Dispose();
         }
 
         public void HTTPProxyDownload(string url, string name, string httpProxy)
@@ -172,14 +181,15 @@ namespace cu_grab
             {
                 fileSize = e.TotalBytesToReceive;
             }
-            bytesRecieved = e.BytesReceived;
+            bytesReceived = e.BytesReceived;
             ProgressDL.Value = e.ProgressPercentage;
-            TextBlockProgress.Text = (e.BytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
+            TextBlockProgress.Text = (bytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
         }
         void WebClient_AsyncCompletedEventHandler(object sender, AsyncCompletedEventArgs e)
         {
             if (e.Error != null)
             {
+                ButtonRetry.Visibility = System.Windows.Visibility.Visible;
                 TextBlockProgress.Text = "Download failed somewhere";
                 return;
             }                
@@ -225,6 +235,12 @@ namespace cu_grab
                     }
                 }
             }
+        }
+
+        private void ButtonRetry_Click(object sender, RoutedEventArgs e)
+        {
+            ButtonRetry.Visibility = System.Windows.Visibility.Hidden;
+            DownloadShow();
         }
 
         //Download methods end

@@ -1,17 +1,19 @@
-﻿using System;
+﻿using cu_grab.Shows.Super3;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Windows.Controls;
 
 namespace cu_grab
 {
     class Super3 : DownloadAbstract
     {
-        private List<ShowsGeneric> showsS3 = new List<ShowsGeneric>();
+        private ShowsSuper3 showsS3;
         private List<EpisodesGeneric> episodesS3 = new List<EpisodesGeneric>();
         private static string jsonMP4Url = "http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
         public Super3(ListBox lBoxContent) : base(lBoxContent) { }
@@ -19,18 +21,18 @@ namespace cu_grab
         public override void CleanEpisodes()
         {
             episodesS3.Clear();
-            listBoxContent.ItemsSource = showsS3;
+            listBoxContent.ItemsSource = showsS3.resposta.items.item;
         }
         public override string ClickDisplayedShow()
         {
             //TODO: Replace page crawl with 
             String showsPage;
-            String selectedName = showsS3[listBoxContent.SelectedIndex].name;
+            String selectedName = showsS3.resposta.items.item[listBoxContent.SelectedIndex].titol;
             //Its an rss feed yay
             Regex getEpisodes = new Regex(@"<h2>(.*?)<\/h2>\s*<span>([0-9]+)<\/span>");
             using (WebClient wc = new WebClient())
             {
-                showsPage = wc.DownloadString(showsS3[listBoxContent.SelectedIndex].url);
+                showsPage = wc.DownloadString(showsS3.resposta.items.item[listBoxContent.SelectedIndex].url);
             }
             MatchCollection matches = getEpisodes.Matches(showsPage);
             for (int i = 0; i < matches.Count; i++) //First two are useless
@@ -42,21 +44,17 @@ namespace cu_grab
         }
         public override void FillShowsList()
         {
-            String showsXML;
-            //Its an rss feed yay
-            Regex filter = new Regex(@"<title>(.*?)<\/title>\n<link>(.*?)<\/link>");
+            String showsJson;
+            //Regex filter = new Regex(@"<title>(.*?)<\/title>\n<link>(.*?)<\/link>");
             using (WebClient wc = new WebClient())
             {
-                showsXML = wc.DownloadString(@"http://www.super3.cat/rss/sp3_serie_emissio_rss.xml");
+                showsJson = wc.DownloadString(@"http://dinamics.ccma.cat/feeds/super3/programes.jsp");
             }
-            MatchCollection matches = filter.Matches(showsXML);
-            for(int i = 2; i < matches.Count; i++) //First two are useless
-            {
-                showsS3.Add(new ShowsGeneric(matches[i].Groups[1].Value, WebUtility.HtmlDecode(matches[i].Groups[2].Value)));
-            }
-            //rss is out of order
-            showsS3 = showsS3.OrderBy(x=> x.name).ToList();
-            listBoxContent.ItemsSource = showsS3;
+
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            showsS3 = jss.Deserialize<ShowsSuper3>(showsJson);
+            showsS3.resposta.items.item = showsS3.resposta.items.item.OrderBy(x => x.titol).ToList();
+            listBoxContent.ItemsSource = showsS3.resposta.items.item;
         }
         public override string GetSelectedName()
         {
@@ -84,7 +82,7 @@ namespace cu_grab
         }
         public override void SetActive()
         {
-            listBoxContent.ItemsSource = showsS3;
+            listBoxContent.ItemsSource = showsS3.resposta.items.item;
         }
     }
 }

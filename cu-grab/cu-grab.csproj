@@ -90,6 +90,7 @@
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="ShowObjects\ShowsGeneric.cs" />
+    <Compile Include="ShowObjects\ShowsSuper3.cs" />
     <Compile Include="ShowObjects\ShowsTenplay.cs" />
     <Compile Include="ShowObjects\ShowsClan.cs" />
     <Compile Include="ShowObjects\ShowsDPlay.cs" />

@@ -28,7 +28,6 @@ namespace cu_grab
             //TODO: Replace page crawl with 
             String showsPage;
             String selectedName = showsS3.resposta.items.item[listBoxContent.SelectedIndex].titol;
-            //Its an rss feed yay
             Regex getEpisodes = new Regex(@"<h2>(.*?)<\/h2>\s*<span>([0-9]+)<\/span>");
             using (WebClient wc = new WebClient())
             {
@@ -45,14 +44,24 @@ namespace cu_grab
         public override void FillShowsList()
         {
             String showsJson;
-            //Regex filter = new Regex(@"<title>(.*?)<\/title>\n<link>(.*?)<\/link>");
+            //Get Catalan
             using (WebClient wc = new WebClient())
             {
                 showsJson = wc.DownloadString(@"http://dinamics.ccma.cat/feeds/super3/programes.jsp");
             }
-
             JavaScriptSerializer jss = new JavaScriptSerializer();
             showsS3 = jss.Deserialize<ShowsSuper3>(showsJson);
+
+            //Get English
+            using (WebClient wc = new WebClient())
+            {
+                showsJson = wc.DownloadString(@"http://dinamics.ccma.cat/feeds/super3/programes.jsp?filtre=progangles");
+            }
+            ShowsSuper3 tmp = jss.Deserialize<ShowsSuper3>(showsJson);
+            //Concat and update to one big number
+            showsS3.resposta.items.item = showsS3.resposta.items.item.Concat(tmp.resposta.items.item).ToList();
+            showsS3.resposta.items.num += tmp.resposta.items.num;
+
             showsS3.resposta.items.item = showsS3.resposta.items.item.OrderBy(x => x.titol).ToList();
             listBoxContent.ItemsSource = showsS3.resposta.items.item;
         }

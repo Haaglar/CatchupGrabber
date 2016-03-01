@@ -25,13 +25,16 @@ namespace cu_grab
         }
         public override string ClickDisplayedShow()
         {
-            //TODO: Replace page crawl with 
+            //TODO: Replace page crawl with alt crawl
             String showsPage;
             String selectedName = showsS3.resposta.items.item[listBoxContent.SelectedIndex].titol;
             Regex getEpisodes = new Regex(@"<h2>(.*?)<\/h2>\s*<span>([0-9]+)<\/span>");
+
+            String urlS3 = (showsS3.resposta.items.item[listBoxContent.SelectedIndex].url.StartsWith("http")) ? showsS3.resposta.items.item[listBoxContent.SelectedIndex].url : "http://" + showsS3.resposta.items.item[listBoxContent.SelectedIndex].url;
+
             using (WebClient wc = new WebClient())
             {
-                showsPage = wc.DownloadString(showsS3.resposta.items.item[listBoxContent.SelectedIndex].url);
+                showsPage = wc.DownloadString(urlS3);
             }
             MatchCollection matches = getEpisodes.Matches(showsPage);
             for (int i = 0; i < matches.Count; i++) //First two are useless

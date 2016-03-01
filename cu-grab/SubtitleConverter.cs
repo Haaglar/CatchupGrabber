@@ -895,8 +895,10 @@ namespace SubCSharp
             if (!ReadSubtitle(input)) return false;
             if (!timeshift.Equals(""))//Adjust time
             {
-                if (timeshift[0] == '-') AdjustTimingLocalSub(timeshift);
-                else AdjustTimingLocalAdd(timeshift);
+                if (timeshift[0] == '-') 
+                    AdjustTimingLocalSub(timeshift);
+                else 
+                    AdjustTimingLocalAdd(timeshift);
             }
             if (!WriteSubtitle(output)) return false;
             return true;

@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Windows.Controls;
+using System.Xml.Linq;
 
 namespace cu_grab
 {
@@ -16,6 +17,8 @@ namespace cu_grab
         private ShowsSuper3 showsS3;
         private List<EpisodesGeneric> episodesS3 = new List<EpisodesGeneric>();
         private static string jsonMP4Url = "http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
+        private static string searchUrlP1 = "http://www.super3.cat/searcher/super3/searching.jsp?format=MP4&catBusca=";
+        private static string searchUrlP2 = "&presentacion=xml&pagina=1&itemsPagina=36";
         public Super3(ListBox lBoxContent) : base(lBoxContent) { }
 
         public override void CleanEpisodes()
@@ -23,33 +26,36 @@ namespace cu_grab
             episodesS3.Clear();
             listBoxContent.ItemsSource = showsS3.resposta.items.item;
         }
+        /// <summary>
+        /// Gets The displayed episodes for the clicked show
+        /// Based off itorres info
+        /// </summary>
+        /// <returns>The selected show</returns>
         public override string ClickDisplayedShow()
         {
-            //TODO: Replace page crawl with alt crawl
             String showsPage;
             String selectedName = showsS3.resposta.items.item[listBoxContent.SelectedIndex].titol;
-            Regex getEpisodes = new Regex(@"<h2>(.*?)<\/h2>\s*<span>([0-9]+)<\/span>");
-
-            String urlS3 = (showsS3.resposta.items.item[listBoxContent.SelectedIndex].url.StartsWith("http")) ? showsS3.resposta.items.item[listBoxContent.SelectedIndex].url : "http://" + showsS3.resposta.items.item[listBoxContent.SelectedIndex].url;
-
+            String selectedUrl = searchUrlP1 + showsS3.resposta.items.item[listBoxContent.SelectedIndex].bband.id + searchUrlP2; 
             using (WebClient wc = new WebClient())
             {
-                showsPage = wc.DownloadString(urlS3);
+                showsPage = wc.DownloadString(selectedUrl);
             }
-            MatchCollection matches = getEpisodes.Matches(showsPage);
-            for (int i = 0; i < matches.Count; i++) //First two are useless
+            XElement doc = XElement.Parse(showsPage);
+            foreach (XElement element in doc.Element("resultats").Elements("item"))
             {
-                episodesS3.Add(new EpisodesGeneric(matches[i].Groups[1].Value, matches[i].Groups[2].Value));
+                episodesS3.Add(new EpisodesGeneric(element.Element("titol").Value, element.Attribute("idint").Value));
             }
             listBoxContent.ItemsSource = episodesS3;
             return selectedName;
         }
+
         public override void FillShowsList()
         {
             String showsJson;
             //Get Catalan
             using (WebClient wc = new WebClient())
             {
+                wc.Encoding = Encoding.GetEncoding("iso-8859-1");
                 showsJson = wc.DownloadString(@"http://dinamics.ccma.cat/feeds/super3/programes.jsp");
             }
             JavaScriptSerializer jss = new JavaScriptSerializer();

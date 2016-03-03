@@ -21,7 +21,8 @@ namespace cu_grab
 
         //Stuff for downloading
         private String apiUrl = "http://c.brightcove.com/services/json/player/media/?command=find_media_by_reference_id";
-        private String publisherId = "2376984108001";
+        private String publisherIdMain = "2376984108001";
+        private String publisherIdAlt = "2376984109001"; //Alternate for extras and TV Snax
 
         /// <summary>
         /// Standard constructor
@@ -153,34 +154,32 @@ namespace cu_grab
             // Get playerkey from page
             Regex regPlayerKey = new Regex(@"rKey"" value=""(.*)""");
             String playerKey = regPlayerKey.Matches(pageContent)[0].Groups[1].Value;
-            String jsonUrl = apiUrl + "&playerKey=" + playerKey + "&pubId=" + publisherId + "&refId=" + refID;
+            String jsonUrl = apiUrl + "&playerKey=" + playerKey + "&pubId=" + publisherIdMain + "&refId=" + refID;
 
             //Get and store the json data   
-            WebRequest reqShowJson = HttpWebRequest.Create(jsonUrl);
-            using (WebResponse resShowJson = reqShowJson.GetResponse())
+            using(WebClient wc = new WebClient())
             {
-                using (Stream responseStreamJson = resShowJson.GetResponseStream())
+                String showsJson = wc.DownloadString(jsonUrl);
+                if(showsJson.Equals("null"))//Bad id
                 {
-                    using (StreamReader srShowJson = new StreamReader(responseStreamJson, System.Text.Encoding.UTF8))
-                    {
-                        String showJson = srShowJson.ReadToEnd();
-                        JavaScriptSerializer jss = new JavaScriptSerializer();
-                        bCoveJson = jss.Deserialize<BCoveJson>(showJson);   
-                    }
+                    showsJson = wc.DownloadString(jsonUrl = apiUrl + "&playerKey=" + playerKey + "&pubId=" + publisherIdAlt + "&refId=" + refID);
                 }
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+                bCoveJson = jss.Deserialize<BCoveJson>(showsJson);
             }
+
             //Get highest quality
-            int size = bCoveJson.FLVFullSize;
+            int defaultQual = bCoveJson.FLVFullSize;
+            String fullLengthURL = bCoveJson.FLVFullLengthURL;
+            int oldSize = 0;
             foreach(IOSRendition redition in bCoveJson.IOSRenditions)
             {
-                if(redition.size == size)
+                if(oldSize < redition.size)
                 {
-                    return new DownloadObject(redition.defaultURL, GetSubtitles(),Country.Aus, DownloadMethod.HLS);
-                    //return redition.defaultURL;
+                    fullLengthURL = redition.defaultURL;   
                 }
             }
-            //If we don't get the highest quality, return the master URL
-            return new DownloadObject(bCoveJson.FLVFullLengthURL, GetSubtitles(), Country.Aus, DownloadMethod.HLS);
+            return new DownloadObject(fullLengthURL, GetSubtitles(), Country.Aus, DownloadMethod.HLS);
         }
         /// <summary>
         /// Handles Clearing the episode list and reseting it back to the show list

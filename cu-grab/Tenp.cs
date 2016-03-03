@@ -57,24 +57,14 @@ namespace cu_grab
             string pageShow = srShow.ReadToEnd();
 
             //REGEX
-            Regex idFind = new Regex(@"<div class=""content-card__image-container"">(.+?)</div>", RegexOptions.Singleline); //Finds all the episodes for the show
-            Regex regexIDImage = new Regex(@"(?<=\bsrc="")[^""]*");      //ID from image
-            Regex regexIDEpisode = new Regex(@"(?<=\balt="")[^""]*");      //Episode name from image
-            Regex IDSplit = new Regex(@"([0-9]+)", RegexOptions.RightToLeft); //Get the correct id
-
+            Regex regexID = new Regex(@"data-alt-id=""(\d*)""");      
+            Regex regexIDEpisode = new Regex(@"alt=""([^""]*)""");      //Episode name from image
+            MatchCollection matchId = regexID.Matches(pageShow);
+            MatchCollection matchIdName = regexIDEpisode.Matches(pageShow);
             //Get and iterate over the episodes divs
-            foreach (Match matchID in idFind.Matches(pageShow))
+            foreach (var match in matchIdName.Cast<Match>().Zip(matchId.Cast<Match>(), Tuple.Create))
             {
-                //get src ID and episode name
-                MatchCollection matchIdImage = regexIDImage.Matches(matchID.Value);
-                MatchCollection matchIdName = regexIDEpisode.Matches(matchID.Value);
-                if (matchIdImage.Count > 0)
-                {
-                    String valueFull = matchIdImage[0].Value;
-                    String split = valueFull.Split('?')[1];
-                    String final = IDSplit.Matches(split)[0].Value;
-                    selectedShowEpisodes.Add(new EpisodesGeneric(matchIdName[0].Value, final));
-                }
+                selectedShowEpisodes.Add(new EpisodesGeneric(match.Item1.Groups[1].Value, match.Item2.Groups[1].Value));
             }
             //Store the current show name for file naming later
             String selectedShow = shows.Shows[listBoxContent.SelectedIndex].Name;

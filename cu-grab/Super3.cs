@@ -38,6 +38,7 @@ namespace cu_grab
             String selectedUrl = searchUrlP1 + showsS3.resposta.items.item[listBoxContent.SelectedIndex].bband.id + searchUrlP2; 
             using (WebClient wc = new WebClient())
             {
+                wc.Encoding = Encoding.GetEncoding("iso-8859-1");
                 showsPage = wc.DownloadString(selectedUrl);
             }
             XElement doc = XElement.Parse(showsPage);
@@ -55,7 +56,6 @@ namespace cu_grab
             //Get Catalan
             using (WebClient wc = new WebClient())
             {
-                wc.Encoding = Encoding.GetEncoding("iso-8859-1");
                 showsJson = wc.DownloadString(@"http://dinamics.ccma.cat/feeds/super3/programes.jsp");
             }
             JavaScriptSerializer jss = new JavaScriptSerializer();

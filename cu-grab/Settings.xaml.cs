@@ -31,7 +31,7 @@ namespace cu_grab
                 case("None"):
                     RadioSpanishUseNone.IsChecked = true;
                     break;
-                case("Gylpe"):
+                case("Glype"):
                     RadioSpanishUseGlype.IsChecked = true;
                     break;
                 case("HTTP"):
@@ -63,7 +63,7 @@ namespace cu_grab
             //TODO move to enum
             if(RadioSpanishUseGlype.IsChecked ?? false)
             {
-                Properties.Settings.Default.ProxyOptionSpanish = "Gylpe";
+                Properties.Settings.Default.ProxyOptionSpanish = "Glype";
             }
             else if (RadioSpanishUseHTTP.IsChecked?? false)
             {

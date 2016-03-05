@@ -31,7 +31,7 @@ namespace cu_grab
         DownloadMethod dlMethod;
         Country cnt;
         String fileName;
-
+        CookieAwareWebClient cAWebClient;
         //Async temp valuse
         long bytesReceived = 0;
         long fileSize = 0;
@@ -46,6 +46,7 @@ namespace cu_grab
         {
             InitializeComponent();
             this.Show();
+            this.Closed += DownloadWindow_Closed;
             url = passedData.EpisodeUrl;
             subtitle = passedData.SubtitleUrl;
             dlMethod = passedData.DlMethod;
@@ -62,6 +63,8 @@ namespace cu_grab
                 Task.Factory.StartNew(() => DownloadSubtitle()); //Run the downloadsub in a background thread
             DownloadShow();
         }
+
+        
         /// <summary>
         /// Handles the download options for a Download object
         /// </summary>
@@ -97,6 +100,7 @@ namespace cu_grab
             using (WebClient webClient = new WebClient())
             {
                 webClient.DownloadFile(new System.Uri(subtitle), fileName + Path.GetExtension(subtitle));
+
             }
             if (Properties.Settings.Default.ConvertSubtitle)
             {
@@ -134,14 +138,12 @@ namespace cu_grab
 
         public void HTTPProxyDownload(string url, string name, string httpProxy)
         {
-            using(WebClient webClient = new WebClient())
-            {
-                WebProxy wp = new WebProxy(httpProxy);
-                webClient.Proxy = wp;
-                webClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
-                webClient.DownloadFileCompleted += WebClient_AsyncCompletedEventHandler;
-                webClient.DownloadFileAsync(new System.Uri(url), name + ".mp4");
-            }
+            cAWebClient = new CookieAwareWebClient();
+            WebProxy wp = new WebProxy(httpProxy);
+            cAWebClient.Proxy = wp;
+            cAWebClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
+            cAWebClient.DownloadFileCompleted += WebClient_AsyncCompletedEventHandler;
+            cAWebClient.DownloadFileAsync(new System.Uri(url), name + ".mp4");
         }
         /// <summary>
         /// Standard download for a file, note proxy download will be slow and appear unresponsive for a while
@@ -151,26 +153,25 @@ namespace cu_grab
         /// <param name="proxyAddress">A string url to a Glype proxy</param>
         public void StandardDownload(String url, String name, String proxyAddress)
         {
-            using (CookieAwareWebClient webClient = new CookieAwareWebClient())
+            cAWebClient = new CookieAwareWebClient();
+            cAWebClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
+            cAWebClient.DownloadFileCompleted += WebClient_AsyncCompletedEventHandler;
+            if (proxyAddress != "")//If they suplied a proxy
             {
-                webClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
-                webClient.DownloadFileCompleted += WebClient_AsyncCompletedEventHandler;
-                if (proxyAddress != "")//If they suplied a proxy
-                {
-                    //Add standard post headers
-                    webClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-                    //Referer since it might not like requests from elsewhere
-                    webClient.Headers.Add("referer", proxyAddress);
-                    //Make a blank request to example.com for cookies
-                    webClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", System.Text.Encoding.UTF8.GetBytes("u=" + "example.com" + "&allowCookies=on"));
-                    //Download the file
-                    webClient.DownloadFileAsync(new System.Uri(proxyAddress + "/browse.php?u=" + url + "&b=12&f=norefer"), name);
-                }
-                else
-                {
-                    webClient.DownloadFileAsync(new System.Uri(url), name);
-                }
+                //Add standard post headers
+                cAWebClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                //Referer since it might not like requests from elsewhere
+                cAWebClient.Headers.Add("referer", proxyAddress);
+                //Make a blank request to example.com for cookies
+                cAWebClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", System.Text.Encoding.UTF8.GetBytes("u=" + "example.com" + "&allowCookies=on"));
+                //Download the file
+                cAWebClient.DownloadFileAsync(new System.Uri(proxyAddress + "/browse.php?u=" + url + "&b=12&f=norefer"), name);
             }
+            else
+            {
+                cAWebClient.DownloadFileAsync(new System.Uri(url), name);
+            }
+
         }
         
         void WebClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -187,6 +188,7 @@ namespace cu_grab
         }
         void WebClient_AsyncCompletedEventHandler(object sender, AsyncCompletedEventArgs e)
         {
+            DisposeWebClient();
             if (e.Error != null)
             {
                 ButtonRetry.Visibility = System.Windows.Visibility.Visible;
@@ -242,7 +244,26 @@ namespace cu_grab
             ButtonRetry.Visibility = System.Windows.Visibility.Hidden;
             DownloadShow();
         }
-
         //Download methods end
+
+        //------------------------------------Cleanup methods
+        private void DisposeWebClient()
+        {
+            try
+            {
+                cAWebClient.Dispose();
+            }
+            catch { }//Already disposed or null 
+        }
+
+        void DownloadWindow_Closed(object sender, EventArgs e)
+        {
+            try
+            {
+                cAWebClient.CancelAsync();
+            }
+            catch { }
+        }
+
     }
 }

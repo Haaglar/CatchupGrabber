@@ -1,11 +1,11 @@
 ﻿<Window x:Class="cu_grab.DownloadWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="DownloadWindow" Height="150" Width="450" ResizeMode="NoResize">
+        Title="Download" Height="150" Width="450" ResizeMode="NoResize">
     <Grid>
         <TextBlock x:Name="TextBlockDLInfo" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="424"/>
         <TextBlock x:Name="TextBlockDLMethod" HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="424"/>
-        <ProgressBar x:Name="ProgressDL"  HorizontalAlignment="Left" Height="10" Margin="10,52,0,0" VerticalAlignment="Top" Width="414"/>
+        <ProgressBar x:Name="ProgressDL"  HorizontalAlignment="Left" Height="10" Margin="10,52,0,0" VerticalAlignment="Top" Width="414" Visibility="Hidden"/>
         <TextBlock x:Name="TextBlockProgress" HorizontalAlignment="Left" Margin="10,67,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
         <Button x:Name="ButtonRetry" Content="Retry Download" HorizontalAlignment="Left" Margin="324,80,0,0" VerticalAlignment="Top" Width="100" Click="ButtonRetry_Click" Visibility="Hidden"/>
     </Grid>

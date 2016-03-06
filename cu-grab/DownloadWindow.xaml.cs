@@ -16,6 +16,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 
 namespace cu_grab
@@ -124,6 +125,7 @@ namespace cu_grab
             ffmpeg.Arguments = " -i " + url + " -acodec copy -vcodec copy -bsf:a aac_adtstoasc " + '"' + nameLocation + '"' + ".mp4";
             
             proc.StartInfo = ffmpeg;
+            proc.EnableRaisingEvents = true;
             proc.Exited += FFmpeg_Exited;
             proc.Start();
             
@@ -132,8 +134,18 @@ namespace cu_grab
         void FFmpeg_Exited(object sender, EventArgs e)
         {
             int tmp = proc.ExitCode;
-            TextBlockProgress.Text = "Completed";
+            //Update textblock as it is on a different thread
+            this.Dispatcher.BeginInvoke((Action) (() =>  {
+                    this.TextBlockProgress.Text = "Complete";
+                }));
             proc.Dispose();
+            //Close the window is they want it
+            if (Properties.Settings.Default.ExitDLOnDownload)
+            {
+                this.Dispatcher.BeginInvoke((Action)(() => { 
+                    this.Close(); 
+                }));
+            }
         }
 
         public void HTTPProxyDownload(string url, string name, string httpProxy)
@@ -196,6 +208,8 @@ namespace cu_grab
                 return;
             }                
             TextBlockProgress.Text = "Download Complete";
+            if (Properties.Settings.Default.ExitDLOnDownload)
+                this.Close();
         }
 
         /// <summary>
@@ -261,6 +275,7 @@ namespace cu_grab
             try
             {
                 cAWebClient.CancelAsync();
+                cAWebClient.Dispose();
             }
             catch { }
         }

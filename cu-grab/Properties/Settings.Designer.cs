@@ -94,5 +94,29 @@ namespace cu_grab.Properties {
                 this["ConvertSubtitle"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ProxyOptionIreland {
+            get {
+                return ((string)(this["ProxyOptionIreland"]));
+            }
+            set {
+                this["ProxyOptionIreland"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ExitDLOnDownload {
+            get {
+                return ((bool)(this["ExitDLOnDownload"]));
+            }
+            set {
+                this["ExitDLOnDownload"] = value;
+            }
+        }
     }
 }

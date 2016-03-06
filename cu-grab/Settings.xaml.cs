@@ -39,7 +39,7 @@ namespace cu_grab
                     break;
             }
 
-
+            CheckBoxDownloadWindowClose.IsChecked = Properties.Settings.Default.ExitDLOnDownload;
             CheckBoxSubtitleDownloadSetting.IsChecked = Properties.Settings.Default.DownloadSubtitlesSetting;
             CheckBoxSubtitleConvertSetting.IsChecked = Properties.Settings.Default.ConvertSubtitle;
             this.PreviewKeyDown += EscExit_PreviewKeyDown;
@@ -47,38 +47,13 @@ namespace cu_grab
 
         private void ButtonSaveSettings_Click(object sender, RoutedEventArgs e)
         {
-            //Get Spansih Glype proxy
-            String proxyUnfiltered = TextBoxSpanishGlypeProxy.Text;
-            if (proxyUnfiltered != "")
-            {
-                if(!proxyUnfiltered.StartsWith("http://"))
-                    proxyUnfiltered = "http://" + proxyUnfiltered;//Add nessesary http
-                if(proxyUnfiltered.EndsWith("/"))
-                       proxyUnfiltered = proxyUnfiltered.Remove(proxyUnfiltered.Length - 1);//Remove an ending / if it exits
-            }
-            Properties.Settings.Default.GlypeSpanish = proxyUnfiltered;
-            //Get spanish HTTP Proxy
-            Properties.Settings.Default.HTTPSpanish = TextBoxSpanishHTTPProxy.Text;
-            //Radio group
-            //TODO move to enum
-            if(RadioSpanishUseGlype.IsChecked ?? false)
-            {
-                Properties.Settings.Default.ProxyOptionSpanish = "Glype";
-            }
-            else if (RadioSpanishUseHTTP.IsChecked?? false)
-            {
-                Properties.Settings.Default.ProxyOptionSpanish = "HTTP";
-            }
-            else
-            {
-                Properties.Settings.Default.ProxyOptionSpanish = "None";
-            }
 
-
+            SpanishSettingsSet();
             //Get RTE proxy
-            proxyUnfiltered = TextBoxIrishHTTPProxy.Text;
+            String proxyUnfiltered = TextBoxIrishHTTPProxy.Text;
             Properties.Settings.Default.HTTPIrish = proxyUnfiltered;
 
+            Properties.Settings.Default.ExitDLOnDownload = CheckBoxDownloadWindowClose.IsChecked ?? false;
 
             //Checkbox for sub download
             Properties.Settings.Default.DownloadSubtitlesSetting = CheckBoxSubtitleDownloadSetting.IsChecked ?? false;
@@ -96,6 +71,36 @@ namespace cu_grab
         {
             if (e.Key == Key.Escape)
                 this.Close();
+        }
+
+        private void SpanishSettingsSet()
+        {
+            //Get Spansih Glype proxy
+            String proxyUnfiltered = TextBoxSpanishGlypeProxy.Text;
+            if (proxyUnfiltered != "")
+            {
+                if (!proxyUnfiltered.StartsWith("http://"))
+                    proxyUnfiltered = "http://" + proxyUnfiltered;//Add nessesary http
+                if (proxyUnfiltered.EndsWith("/"))
+                    proxyUnfiltered = proxyUnfiltered.Remove(proxyUnfiltered.Length - 1);//Remove an ending / if it exits
+            }
+            Properties.Settings.Default.GlypeSpanish = proxyUnfiltered;
+            //Get spanish HTTP Proxy
+            Properties.Settings.Default.HTTPSpanish = TextBoxSpanishHTTPProxy.Text;
+            //Radio group
+            //TODO move to enum
+            if (RadioSpanishUseGlype.IsChecked ?? false)
+            {
+                Properties.Settings.Default.ProxyOptionSpanish = "Glype";
+            }
+            else if (RadioSpanishUseHTTP.IsChecked ?? false)
+            {
+                Properties.Settings.Default.ProxyOptionSpanish = "HTTP";
+            }
+            else
+            {
+                Properties.Settings.Default.ProxyOptionSpanish = "None";
+            }
         }
     }
 }

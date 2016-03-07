@@ -70,22 +70,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BCoveJson.cs" />
+    <Compile Include="MiscObjects\BCoveJson.cs" />
     <Compile Include="CUNetworkAssist.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DownloadAbstract.cs" />
+    <Compile Include="Sites\DownloadAbstract.cs" />
     <Compile Include="DownloadObject.cs" />
     <Compile Include="DownloadWindow.xaml.cs">
       <DependentUpon>DownloadWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DPlay.cs" />
+    <Compile Include="Sites\DPlay.cs" />
     <Compile Include="EpisodeObjects\EpisodesGeneric.cs" />
     <Compile Include="EpisodeObjects\EpisodesClan.cs" />
-    <Compile Include="Plus7.cs" />
-    <Compile Include="RTE.cs" />
+    <Compile Include="Sites\Plus7.cs" />
+    <Compile Include="Sites\RTE.cs" />
     <Compile Include="ShowObjects\ShowsRTE.cs" />
-    <Compile Include="RTVEc.cs" />
+    <Compile Include="Sites\RTVEc.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -97,10 +97,10 @@
     <Compile Include="ShowObjects\ShowsP7.cs" />
     <Compile Include="StringBindings.cs" />
     <Compile Include="SubtitleConverter.cs" />
-    <Compile Include="Super3.cs" />
-    <Compile Include="SVTse.cs" />
-    <Compile Include="Tenp.cs" />
-    <Compile Include="TV3Cat.cs" />
+    <Compile Include="Sites\Super3.cs" />
+    <Compile Include="Sites\SVTse.cs" />
+    <Compile Include="Sites\Tenp.cs" />
+    <Compile Include="Sites\TV3Cat.cs" />
     <Page Include="DownloadWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

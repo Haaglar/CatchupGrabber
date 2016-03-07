@@ -74,6 +74,7 @@
     <Compile Include="CUNetworkAssist.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="MiscObjects\SVTJson.cs" />
     <Compile Include="Sites\DownloadAbstract.cs" />
     <Compile Include="MiscObjects\DownloadObject.cs" />
     <Compile Include="DownloadWindow.xaml.cs">

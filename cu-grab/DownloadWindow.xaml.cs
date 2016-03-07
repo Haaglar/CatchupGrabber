@@ -38,6 +38,7 @@ namespace cu_grab
         long fileSize = 0;
         //Process
         Process proc = new Process();
+
         /// <summary>
         /// Default constructor
         /// </summary>

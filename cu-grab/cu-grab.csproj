@@ -98,6 +98,7 @@
     <Compile Include="StringBindings.cs" />
     <Compile Include="SubtitleConverter.cs" />
     <Compile Include="Super3.cs" />
+    <Compile Include="SVTse.cs" />
     <Compile Include="Tenp.cs" />
     <Compile Include="TV3Cat.cs" />
     <Page Include="DownloadWindow.xaml">

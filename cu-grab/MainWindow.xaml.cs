@@ -40,7 +40,7 @@ namespace cu_grab
     {
         StringBindings sBinds = new StringBindings();
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
-        enum Site {None, TenP, Plus7, RTVEClan, RTE, DPlay, TV3Cat, Super3}
+        enum Site {None, TenP, Plus7, RTVEClan, RTE, DPlay, TV3Cat, Super3, SVTPlay}
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
 
@@ -53,8 +53,8 @@ namespace cu_grab
         DPlay dplay;
         TV3Cat tv3CatCCMA;
         Super3 super3;
+        SVTse svtplay;
 
-        SubtitleConverter subConv;
         public MainWindow()
         {
             InitializeComponent();
@@ -379,6 +379,40 @@ namespace cu_grab
             dlAbs = super3;
         }
 
+        private void ButtonSVTPlay_Click(object sender, RoutedEventArgs e)
+        {
+            sBinds.SelectedSite = "SVTPlay.se";
+            //First time selecting site
+            if (svtplay == null)
+            {
+                try
+                {
+                    svtplay = new SVTse(objectList);
+                    svtplay.FillShowsList();
+                }
+                catch
+                {
+                    errorLabel.Text = "Failed to get episode listings for SVTPlay";
+                }
+            }
+            // If they select it while we are currently on it just return to shows
+            else if (curSite == Site.SVTPlay)
+            {
+                Shows_Pressed(null, null);
+                return;
+            }
+            // other time selecting site
+            else
+            {
+                dlAbs.CleanEpisodes();
+                svtplay.SetActive();
+            }
+            curState = State.DisplayingShows;
+            curSite = Site.SVTPlay;
+            sBinds.SelectedShow = "";
+            dlAbs = svtplay;
+        }
+
         /// <summary>
         /// Handles the action for when the Setting button is pressed
         /// </summary>
@@ -389,9 +423,5 @@ namespace cu_grab
             Settings settingsWindow = new Settings();
             settingsWindow.Show();
         }
-
-        
-
-        
     }
 }

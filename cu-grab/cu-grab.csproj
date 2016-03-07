@@ -75,7 +75,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Sites\DownloadAbstract.cs" />
-    <Compile Include="DownloadObject.cs" />
+    <Compile Include="MiscObjects\DownloadObject.cs" />
     <Compile Include="DownloadWindow.xaml.cs">
       <DependentUpon>DownloadWindow.xaml</DependentUpon>
     </Compile>
@@ -96,7 +96,7 @@
     <Compile Include="ShowObjects\ShowsDPlay.cs" />
     <Compile Include="ShowObjects\ShowsP7.cs" />
     <Compile Include="StringBindings.cs" />
-    <Compile Include="SubtitleConverter.cs" />
+    <Compile Include="MiscObjects\SubtitleConverter.cs" />
     <Compile Include="Sites\Super3.cs" />
     <Compile Include="Sites\SVTse.cs" />
     <Compile Include="Sites\Tenp.cs" />

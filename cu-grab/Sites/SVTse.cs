@@ -43,7 +43,7 @@ namespace cu_grab
         {
             throw new NotImplementedException();
         }
-        public override string GetSelectedName()
+        public override string GetSelectedNameShow(int selectedIndex)
         {
             throw new NotImplementedException();
         }

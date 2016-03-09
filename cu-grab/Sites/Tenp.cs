@@ -95,9 +95,9 @@ namespace cu_grab
         /// Get the name of the select show
         /// </summary>
         /// <returns>Returns the Name of the selected episode</returns>
-        public override String GetSelectedName()
+        public override String GetSelectedNameShow(int selectedIndex)
         {
-            return selectedShowEpisodes[listBoxContent.SelectedIndex].Name;
+            return selectedShowEpisodes[selectedIndex].Name;
         }
         /// <summary>
         /// Handles Clearing the episode list and reseting it back to the show list

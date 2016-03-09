@@ -94,7 +94,7 @@ namespace cu_grab
                     case State.DisplayingEpisodes:
                         try
                         {
-                            String name = sBinds.SelectedShow + " " + dlAbs.GetSelectedName();
+                            String name = sBinds.SelectedShow + " " + dlAbs.GetSelectedNameShow(objectList.SelectedIndex);
                             DownloadObject dlUrl = dlAbs.GetDownloadObject();
                             DownloadWindow dlWindow = new DownloadWindow(dlUrl, name);
                         }

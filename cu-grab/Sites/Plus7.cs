@@ -122,9 +122,9 @@ namespace cu_grab
         /// Gets the name of the current selected show
         /// </summary>
         /// <returns>The selected show's name</returns>
-        public override String GetSelectedName()
+        public override String GetSelectedNameShow(int selectedIndex)
         {
-            return selectedShowEpisodes[listBoxContent.SelectedIndex].Name;
+            return selectedShowEpisodes[selectedIndex].Name;
         }
         /// <summary>
         /// Grabs the page, does some stuff (important part ported from p7-hls) and gets the URL

@@ -134,9 +134,9 @@ namespace cu_grab
         {
             selectedShowEpisodes.Clear();
         }
-        public override string GetSelectedName()
+        public override string GetSelectedNameShow(int selectedIndex)
         {
-            return selectedShowEpisodes[listBoxContent.SelectedIndex].Name;
+            return selectedShowEpisodes[selectedIndex].Name;
         }
         public override string GetSubtitles()
         {

@@ -101,9 +101,9 @@ namespace cu_grab
             string suburl = subMatch.Groups[1].Value ?? "";
             return new DownloadObject(mp4.Groups[1].Value, suburl, Country.Spain,DownloadMethod.HTTP);
         }
-        public override string GetSelectedName()
+        public override string GetSelectedNameShow(int selectedIndex)
         {
-            return episodeList[listBoxContent.SelectedIndex].Name;
+            return episodeList[selectedIndex].Name;
         }
         public override void CleanEpisodes()
         {

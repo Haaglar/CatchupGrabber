@@ -16,7 +16,7 @@ namespace cu_grab
         }
         abstract public String ClickDisplayedShow(int selectedIndex);
         abstract public void FillShowsList();
-        abstract public String GetSelectedName();
+        abstract public String GetSelectedNameShow(int selectedIndex);
         abstract public DownloadObject GetDownloadObject();
         abstract public void CleanEpisodes();
         abstract public void SetActive();

@@ -194,9 +194,9 @@ namespace cu_grab
             episodesClan = null;
         }
 
-        public override String GetSelectedName()
+        public override String GetSelectedNameShow(int selectedIndex)
         {
-            return episodesClan.page.items[listBoxContent.SelectedIndex].ToString();
+            return episodesClan.page.items[selectedIndex].ToString();
         }
         public override String GetSubtitles()
         {

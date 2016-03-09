@@ -45,7 +45,6 @@ namespace cu_grab
                 showsP7 = jss.Deserialize<List<ShowsP7>>(jsonjs);
                 showsP7 = showsP7.OrderBy(x => x.title).ToList(); 
             }
-            listBoxContent.ItemsSource = showsP7;
             resSearchJs.Close();
         }
         /// <summary>
@@ -186,7 +185,6 @@ namespace cu_grab
         public override void CleanEpisodes() 
         {
             selectedShowEpisodes.Clear();
-            listBoxContent.ItemsSource = showsP7;
         }
         /// <summary>
         /// Sets the ListBox to be the episodelist for P7
@@ -206,6 +204,10 @@ namespace cu_grab
                 return bCoveJson.captions[0].URL;
             }
             return "";
+        }
+        public override List<object> GetShowsList()
+        {
+            return showsP7.ToList<object>();
         }
     }
 }

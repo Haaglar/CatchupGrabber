@@ -38,8 +38,7 @@ namespace cu_grab
                 string jsonjs = srjs.ReadToEnd();
                 JavaScriptSerializer jss = new JavaScriptSerializer();
                 shows = jss.Deserialize<ShowsTenPlays>(jsonjs);
-                shows.Shows = shows.Shows.OrderBy(x => x.Name).ToList();
-                listBoxContent.ItemsSource = shows.Shows;
+                shows.Shows = shows.Shows.OrderBy(x => x.Name).ToList();    
             }
             resSearchJs.Close();
             
@@ -106,7 +105,6 @@ namespace cu_grab
         public override void CleanEpisodes()
         {
             selectedShowEpisodes.Clear();
-            listBoxContent.ItemsSource = shows.Shows;
         }
         /// <summary>
         /// Sets it as the active List
@@ -118,6 +116,10 @@ namespace cu_grab
         public override String GetSubtitles()
         {
             return "";
+        }
+        public override List<object> GetShowsList()
+        {
+            return shows.Shows.ToList<object>();
         }
     }
 }

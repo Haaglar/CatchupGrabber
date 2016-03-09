@@ -21,5 +21,6 @@ namespace cu_grab
         abstract public void CleanEpisodes();
         abstract public void SetActive();
         abstract public String GetSubtitles();
+        abstract public List<object> GetShowsList();
     }
 }

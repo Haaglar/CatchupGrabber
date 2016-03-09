@@ -118,6 +118,7 @@ namespace cu_grab
             if (dlAbs != null)
             {
                 dlAbs.CleanEpisodes();
+                objectList.ItemsSource = dlAbs.GetShowsList();
                 curState = State.DisplayingShows;
                 sBinds.SelectedShow = "";
             }
@@ -137,6 +138,7 @@ namespace cu_grab
                 {
                     tenPlay = new Tenp(objectList);
                     tenPlay.FillShowsList();
+                    objectList.ItemsSource = tenPlay.GetShowsList();
                 }
                 catch
                 {
@@ -176,6 +178,7 @@ namespace cu_grab
                 {
                     rtveClan = new RTVEc(objectList);
                     rtveClan.FillShowsList();
+                    objectList.ItemsSource = rtveClan.GetShowsList();
                 }
                 catch
                 {
@@ -214,6 +217,7 @@ namespace cu_grab
                 {
                     plus7 = new Plus7(objectList);
                     plus7.FillShowsList();
+                    objectList.ItemsSource = plus7.GetShowsList();
                 }
                 catch
                 {
@@ -253,6 +257,7 @@ namespace cu_grab
                 {
                     rteIE = new RTE(objectList);
                     rteIE.FillShowsList();
+                    objectList.ItemsSource = rteIE.GetShowsList();
                 }
                 catch
                 {
@@ -287,6 +292,7 @@ namespace cu_grab
                 {
                     dplay = new DPlay(objectList);
                     dplay.FillShowsList();
+                    objectList.ItemsSource = dplay.GetShowsList();
                 }
                 catch
                 {
@@ -321,6 +327,7 @@ namespace cu_grab
                 {
                     tv3CatCCMA = new TV3Cat(objectList);
                     tv3CatCCMA.FillShowsList();
+                    objectList.ItemsSource = tv3CatCCMA.GetShowsList();
                 }
                 catch
                 {
@@ -355,6 +362,7 @@ namespace cu_grab
                 {
                     super3 = new Super3(objectList);
                     super3.FillShowsList();
+                    objectList.ItemsSource = super3.GetShowsList();
                 }
                 catch
                 {
@@ -389,6 +397,7 @@ namespace cu_grab
                 {
                     svtplay = new SVTse(objectList);
                     svtplay.FillShowsList();
+                    objectList.ItemsSource = svtplay.GetShowsList();
                 }
                 catch
                 {

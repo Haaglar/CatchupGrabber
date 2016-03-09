@@ -38,7 +38,6 @@ namespace cu_grab
                 value = jss.Deserialize<ShowsClan>(jsonjs);
                 value.infoBuscador = value.infoBuscador.OrderBy(x => x.titulo).ToList(); //Maybe change to date published 
             }
-            listBoxContent.ItemsSource = value.infoBuscador;
             resSearchJs.Close();
         }
         /// <summary>
@@ -192,7 +191,6 @@ namespace cu_grab
         /// </summary>
         public override void CleanEpisodes()
         {
-            listBoxContent.ItemsSource = value.infoBuscador;
             episodesClan = null;
         }
 
@@ -203,6 +201,10 @@ namespace cu_grab
         public override String GetSubtitles()
         {
             return "";
+        }
+        public override List<object> GetShowsList()
+        {
+            return value.infoBuscador.ToList<object>();
         }
     }
 }

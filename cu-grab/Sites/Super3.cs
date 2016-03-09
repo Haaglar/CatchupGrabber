@@ -24,7 +24,6 @@ namespace cu_grab
         public override void CleanEpisodes()
         {
             episodesS3.Clear();
-            listBoxContent.ItemsSource = showsS3.resposta.items.item;
         }
         /// <summary>
         /// Gets The displayed episodes for the clicked show
@@ -72,7 +71,6 @@ namespace cu_grab
             showsS3.resposta.items.num += tmp.resposta.items.num;
 
             showsS3.resposta.items.item = showsS3.resposta.items.item.OrderBy(x => x.titol).ToList();
-            listBoxContent.ItemsSource = showsS3.resposta.items.item;
         }
         public override string GetSelectedName()
         {
@@ -101,6 +99,11 @@ namespace cu_grab
         public override void SetActive()
         {
             listBoxContent.ItemsSource = showsS3.resposta.items.item;
+        }
+
+        public override List<object> GetShowsList()
+        {
+            return showsS3.resposta.items.item.ToList<object>();
         }
     }
 }

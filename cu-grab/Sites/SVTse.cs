@@ -38,7 +38,6 @@ namespace cu_grab
             {
                 showsSVT.Add(new ShowsGeneric( match.Groups[2].Value,BaseURL + match.Groups[1].Value));
             }
-            listBoxContent.ItemsSource = showsSVT;
         }
         public override DownloadObject GetDownloadObject()
         {
@@ -55,6 +54,10 @@ namespace cu_grab
         public override void SetActive()
         {
             throw new NotImplementedException();
+        }
+        public override List<object> GetShowsList()
+        {
+            return showsSVT.ToList<object>();
         }
     }
 }

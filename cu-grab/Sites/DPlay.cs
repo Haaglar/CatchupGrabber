@@ -52,7 +52,6 @@ namespace cu_grab
             showsDPlay = jss.Deserialize<ShowsDPlay>(pageContent);
             //Remove all 0 episode shows, dont work, based on some value but in this area
             //showsDPlay.data.RemoveAll(x => x.taxonomy_items[2].metadata.episodes == "0");
-            listBoxContent.ItemsSource = showsDPlay.data;
             resSearchJs.Close();
             rse.Close();
         }
@@ -117,7 +116,6 @@ namespace cu_grab
         public override void CleanEpisodes()
         {
             episodesDPlay.Clear();
-            listBoxContent.ItemsSource = showsDPlay.data;
         }
         public override string GetSelectedName()
         {
@@ -126,6 +124,10 @@ namespace cu_grab
         public override string GetSubtitles()
         {
             return "";
+        }
+        public override List<object> GetShowsList()
+        {
+            return showsDPlay.data.ToList<object>();
         }
     }
 }

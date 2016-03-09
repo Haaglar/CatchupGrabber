@@ -12,7 +12,7 @@ namespace cu_grab
 {
     class TV3Cat : DownloadAbstract
     {
-        private List<ShowsGeneric> showList = new List<ShowsGeneric>();
+        public List<ShowsGeneric> showList {get;private set;} 
         private List<EpisodesGeneric> episodeList = new List<EpisodesGeneric>();
 
         private static string EpisodeJsonUrl = @"http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
@@ -25,6 +25,7 @@ namespace cu_grab
         /// </summary>
         public override void FillShowsList()
         {
+            showList = new List<ShowsGeneric>();
             String websiteShowList;
             using (WebClient webClient = new WebClient())
             {
@@ -45,7 +46,6 @@ namespace cu_grab
                 if (entry.Groups[1].Value.StartsWith(@"http://www.super3.cat/")) continue;
                 showList.Add(new ShowsGeneric(entry.Groups[2].Value.Trim(), entry.Groups[1].Value));
             }
-            listBoxContent.ItemsSource = showList;
         }
 
         public override string ClickDisplayedShow()
@@ -108,7 +108,6 @@ namespace cu_grab
         public override void CleanEpisodes()
         {
             episodeList.Clear();
-            SetActive();
         }
         public override void SetActive()
         {
@@ -117,6 +116,10 @@ namespace cu_grab
         public override string GetSubtitles()
         {
             return "";
+        }
+        public override List<object> GetShowsList()
+        {
+            return showList.ToList<object>();
         }
     }
 }

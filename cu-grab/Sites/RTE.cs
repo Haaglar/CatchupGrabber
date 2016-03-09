@@ -44,7 +44,6 @@ namespace cu_grab
                 rteShows = jss.Deserialize<List<ShowsRTE>>(jsonjs);
                 rteShows = rteShows.OrderBy(x => x.v).ToList(); //Order By name 
             }
-            listBoxContent.ItemsSource = rteShows;
             resSearchJs.Close();
         }
         /// <summary>
@@ -134,7 +133,6 @@ namespace cu_grab
         public override void CleanEpisodes()
         {
             selectedShowEpisodes.Clear();
-            listBoxContent.ItemsSource = rteShows;
         }
         public override string GetSelectedName()
         {
@@ -143,6 +141,10 @@ namespace cu_grab
         public override string GetSubtitles()
         {
             return "";
+        }
+        public override List<object> GetShowsList()
+        {
+            return rteShows.ToList<object>();
         }
     }
 }

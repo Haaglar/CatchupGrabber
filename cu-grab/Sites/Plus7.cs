@@ -27,7 +27,6 @@ namespace cu_grab
         /// <summary>
         /// Standard constructor
         /// </summary>
-        /// <param name="lBoxContent">The ListBox in which the content is displayed in</param>
         public Plus7(ListBox lBoxContent) {}
        
         /// <summary>
@@ -50,6 +49,7 @@ namespace cu_grab
         /// <summary>
         /// Fills selectedShowEpisodes with episdes from the selected show
         /// </summary>
+        /// <param name="selectedIndex">Index of the selected show in the list</param>
         /// <returns>The name of the selected Show</returns>
         public override String ClickDisplayedShow(int selectedIndex)
         {
@@ -120,6 +120,7 @@ namespace cu_grab
         /// <summary>
         /// Gets the name of the current selected show
         /// </summary>
+        /// <param name="selectedIndex">Index of the selected show in the list</param>
         /// <returns>The selected show's name</returns>
         public override String GetSelectedNameShow(int selectedIndex)
         {
@@ -128,7 +129,8 @@ namespace cu_grab
         /// <summary>
         /// Grabs the page, does some stuff (important part ported from p7-hls) and gets the URL
         /// </summary>
-        /// <returns>The m3u8 url</returns>
+        /// <param name="selectedIndex">Index of the selected show in the list</param>
+        /// <returns>An object containing the download instructions</returns>
         public override DownloadObject GetDownloadObject(int selectedIndex) 
         {
             //Get episode page data
@@ -198,10 +200,18 @@ namespace cu_grab
             }
             return "";
         }
+        /// <summary>
+        /// Gets the list that contains the shows
+        /// </summary>
+        /// <returns>The show list</returns>
         public override List<object> GetShowsList()
         {
             return showsP7.ToList<object>();
         }
+        /// <summary>
+        /// Gets the list that contains the episodes 
+        /// </summary>
+        /// <returns></returns>
         public override List<object> GetEpisodesList()
         {
             return selectedShowEpisodes.ToList<object>();

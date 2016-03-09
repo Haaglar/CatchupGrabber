@@ -26,7 +26,6 @@ namespace cu_grab
         /// <summary>
         /// Defualt constructor
         /// </summary>
-        /// <param name="lBoxContent">The ListBox in which it will display its List</param>
         public DPlay(ListBox lBoxContent) { }
 
 

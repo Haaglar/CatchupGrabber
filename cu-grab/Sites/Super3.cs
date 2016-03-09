@@ -105,5 +105,9 @@ namespace cu_grab
         {
             return showsS3.resposta.items.item.ToList<object>();
         }
+        public override List<object> GetEpisodesList()
+        {
+            return episodesS3.ToList<object>();
+        }
     }
 }

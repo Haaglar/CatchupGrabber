@@ -73,7 +73,6 @@ namespace cu_grab
                     //Decoding cause of &#039; need to be '
                     episodeList.Add(new EpisodesGeneric(WebUtility.HtmlDecode(entry.Groups[1].Value), entry.Groups[2].Value));
                 }
-                listBoxContent.ItemsSource = episodeList;
                 return showName;
             }
             throw new System.ArgumentException("Not supported");        
@@ -120,6 +119,10 @@ namespace cu_grab
         public override List<object> GetShowsList()
         {
             return showList.ToList<object>();
+        }
+        public override List<object> GetEpisodesList()
+        {
+            return episodeList.ToList<object>();
         }
     }
 }

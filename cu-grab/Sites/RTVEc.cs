@@ -72,7 +72,6 @@ namespace cu_grab
             {
                 selectedShow = selectedShow.Replace(c, '-');
             }
-            listBoxContent.ItemsSource = episodesClan.page.items;
             resTematicasJs.Close();
             return selectedShow;
         }
@@ -205,6 +204,10 @@ namespace cu_grab
         public override List<object> GetShowsList()
         {
             return value.infoBuscador.ToList<object>();
+        }
+        public override List<object> GetEpisodesList()
+        {
+            return episodesClan.page.items.ToList<object>();
         }
     }
 }

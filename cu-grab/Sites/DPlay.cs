@@ -103,7 +103,6 @@ namespace cu_grab
             {
                 selectedShow = selectedShow.Replace(c, '-');
             }
-            listBoxContent.ItemsSource = episodesDPlay;
             return selectedShow;
         }
 
@@ -128,6 +127,10 @@ namespace cu_grab
         public override List<object> GetShowsList()
         {
             return showsDPlay.data.ToList<object>();
+        }
+        public override List<object> GetEpisodesList()
+        {
+            return episodesDPlay.ToList<object>();
         }
     }
 }

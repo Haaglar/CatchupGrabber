@@ -115,7 +115,6 @@ namespace cu_grab
                 selectedShow = selectedShow.Replace(c, '-');
             }
             //Update list
-            listBoxContent.ItemsSource = selectedShowEpisodes;
             return selectedShow;
         }
         /// <summary>
@@ -208,6 +207,10 @@ namespace cu_grab
         public override List<object> GetShowsList()
         {
             return showsP7.ToList<object>();
+        }
+        public override List<object> GetEpisodesList()
+        {
+            return selectedShowEpisodes.ToList<object>();
         }
     }
 }

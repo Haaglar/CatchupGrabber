@@ -59,5 +59,9 @@ namespace cu_grab
         {
             return showsSVT.ToList<object>();
         }
+        public override List<object> GetEpisodesList()
+        {
+            return null;
+        }
     }
 }

@@ -75,7 +75,6 @@ namespace cu_grab
             resShow.Close();
             srShow.Close();
             //Update list and states
-            listBoxContent.ItemsSource = selectedShowEpisodes;
             return selectedShow;
             
         }
@@ -120,6 +119,10 @@ namespace cu_grab
         public override List<object> GetShowsList()
         {
             return shows.Shows.ToList<object>();
+        }
+        public override List<object> GetEpisodesList()
+        {
+            return selectedShowEpisodes.ToList<object>();
         }
     }
 }

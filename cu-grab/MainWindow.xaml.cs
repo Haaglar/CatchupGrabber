@@ -82,6 +82,7 @@ namespace cu_grab
                         try
                         {
                             sBinds.SelectedShow = dlAbs.ClickDisplayedShow(objectList.SelectedIndex);
+                            objectList.ItemsSource = dlAbs.GetEpisodesList();
                             curState = State.DisplayingEpisodes;
                         }
                         catch(Exception eDl)

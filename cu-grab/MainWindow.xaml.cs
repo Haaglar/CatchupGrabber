@@ -95,7 +95,7 @@ namespace cu_grab
                         try
                         {
                             String name = sBinds.SelectedShow + " " + dlAbs.GetSelectedNameShow(objectList.SelectedIndex);
-                            DownloadObject dlUrl = dlAbs.GetDownloadObject();
+                            DownloadObject dlUrl = dlAbs.GetDownloadObject(objectList.SelectedIndex);
                             DownloadWindow dlWindow = new DownloadWindow(dlUrl, name);
                         }
                         catch(Exception eDl)

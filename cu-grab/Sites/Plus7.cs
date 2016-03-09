@@ -130,11 +130,11 @@ namespace cu_grab
         /// Grabs the page, does some stuff (important part ported from p7-hls) and gets the URL
         /// </summary>
         /// <returns>The m3u8 url</returns>
-        public override DownloadObject GetDownloadObject() 
+        public override DownloadObject GetDownloadObject(int selectedIndex) 
         {
             //Get episode page data
             String pageContent;
-            String url = selectedShowEpisodes[listBoxContent.SelectedIndex].EpisodeID;
+            String url = selectedShowEpisodes[selectedIndex].EpisodeID;
             WebRequest reqShow = HttpWebRequest.Create("https://" + url);
             using (WebResponse resShowUrl = reqShow.GetResponse())
             {

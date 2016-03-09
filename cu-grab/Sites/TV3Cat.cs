@@ -79,11 +79,11 @@ namespace cu_grab
             throw new System.ArgumentException("Not supported");        
         }
 
-        public override DownloadObject GetDownloadObject()
+        public override DownloadObject GetDownloadObject(int selectedIndex)
         {
             String pageJson;
             
-            String episodeUrl = episodeList[listBoxContent.SelectedIndex].EpisodeID;
+            String episodeUrl = episodeList[selectedIndex].EpisodeID;
             Regex regRefId = new Regex(@"/([0-9]+)/");
             String refID = regRefId.Matches(episodeUrl)[0].Groups[1].Value;
 

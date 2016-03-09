@@ -83,12 +83,12 @@ namespace cu_grab
         /// Get the download URL for FFmpeg
         /// </summary>
         /// <returns>A url</returns>
-        public override DownloadObject GetDownloadObject()
+        public override DownloadObject GetDownloadObject(int selectedIndex)
         {
             String BC_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId="; //url taken from and m3u8
             String PUB_ID = "&pubId=2376984108001"; //ID taken from any m3u8
             // Get standard m3u8 from
-            String url = netAssist.GetHighestM3U8Address(BC_URL + selectedShowEpisodes[listBoxContent.SelectedIndex].EpisodeID + PUB_ID);
+            String url = netAssist.GetHighestM3U8Address(BC_URL + selectedShowEpisodes[selectedIndex].EpisodeID + PUB_ID);
             return new DownloadObject(url, GetSubtitles(), Country.Aus, DownloadMethod.HLS);
         }
         /// <summary>

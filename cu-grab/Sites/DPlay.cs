@@ -107,9 +107,9 @@ namespace cu_grab
             return selectedShow;
         }
 
-        public override DownloadObject GetDownloadObject()
+        public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            String m3u8 = netAssist.GetHighestM3U8Address(episodesDPlay[listBoxContent.SelectedIndex].EpisodeID);
+            String m3u8 = netAssist.GetHighestM3U8Address(episodesDPlay[selectedIndex].EpisodeID);
             return new DownloadObject(m3u8, GetSubtitles(), Country.Italy, DownloadMethod.HLS);
         }
 

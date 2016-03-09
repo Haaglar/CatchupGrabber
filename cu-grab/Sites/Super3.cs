@@ -84,13 +84,13 @@ namespace cu_grab
         /// Gets the url
         /// </summary>
         /// <returns></returns>
-        public override DownloadObject GetDownloadObject()
+        public override DownloadObject GetDownloadObject(int selectedIndex)
         {
             String jsonMP4;
             using (WebClient wc = new WebClient())
             {
                 //Last bit not actually needed but whatever
-                jsonMP4 = wc.DownloadString(jsonMP4Url + episodesS3[listBoxContent.SelectedIndex].EpisodeID + "&profile=pc");
+                jsonMP4 = wc.DownloadString(jsonMP4Url + episodesS3[selectedIndex].EpisodeID + "&profile=pc");
             }
             Regex getMp4 = new Regex(@"""(.*?\.mp4)""", RegexOptions.RightToLeft); //Cause this way is the best
             Match mp4 = getMp4.Match(jsonMP4);

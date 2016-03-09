@@ -107,10 +107,10 @@ namespace cu_grab
         /// Gets the url for the selected episode
         /// </summary>
         /// <returns>The highest bitrate url for the seleected episode</returns>
-        public override DownloadObject GetDownloadObject()
+        public override DownloadObject GetDownloadObject(int selectedIndex)
         {
             //Construct URL
-            String urlJson = EpisodePlaylistUrl +  selectedShowEpisodes[listBoxContent.SelectedIndex].EpisodeID;
+            String urlJson = EpisodePlaylistUrl +  selectedShowEpisodes[selectedIndex].EpisodeID;
             String showJsonString;
             WebRequest reqShow = HttpWebRequest.Create(urlJson);
             using (WebResponse resShowUrl = reqShow.GetResponse())

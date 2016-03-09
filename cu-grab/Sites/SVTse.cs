@@ -39,7 +39,7 @@ namespace cu_grab
                 showsSVT.Add(new ShowsGeneric( match.Groups[2].Value,BaseURL + match.Groups[1].Value));
             }
         }
-        public override DownloadObject GetDownloadObject()
+        public override DownloadObject GetDownloadObject(int selectedIndex)
         {
             throw new NotImplementedException();
         }

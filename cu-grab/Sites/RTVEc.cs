@@ -99,12 +99,12 @@ namespace cu_grab
         /// Based off work from rtvealacarta by itorres and personal research
         /// </summary>
         /// <returns>The url to download from</returns>
-        public override DownloadObject GetDownloadObject()
+        public override DownloadObject GetDownloadObject(int selectedIndex)
         {
             //Create a phase conatining the video id and milliseconds since the unix epoch
             DateTime dt = DateTime.Now;
             DateTime epoch = new DateTime(1970, 1, 1);
-            String joined = episodesClan.page.items[listBoxContent.SelectedIndex].id + "_es_" + (dt - epoch).TotalMilliseconds;
+            String joined = episodesClan.page.items[selectedIndex].id + "_es_" + (dt - epoch).TotalMilliseconds;
             
 
             RijndaelManaged aesEncrypt = new RijndaelManaged(); 

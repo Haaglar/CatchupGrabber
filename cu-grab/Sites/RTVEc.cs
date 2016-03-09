@@ -52,9 +52,9 @@ namespace cu_grab
         /// Handles clicking on a show and setting the listbox to the episodes for the show. 
         /// </summary>
         /// <returns>The name of the selected show</returns>
-        public override String ClickDisplayedShow()
+        public override String ClickDisplayedShow(int selectedIndex)
         {
-            WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/api/tematicas/" + value.infoBuscador[listBoxContent.SelectedIndex].id + "/videos.json");
+            WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/api/tematicas/" + value.infoBuscador[selectedIndex].id + "/videos.json");
             WebResponse resTematicasJs = reqTematicasJs.GetResponse();
 
             using (StreamReader srjs = new StreamReader(resTematicasJs.GetResponseStream(), System.Text.Encoding.UTF8))
@@ -66,7 +66,7 @@ namespace cu_grab
                             
             }
 
-            String selectedShow = value.infoBuscador[listBoxContent.SelectedIndex].titulo;
+            String selectedShow = value.infoBuscador[selectedIndex].titulo;
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {

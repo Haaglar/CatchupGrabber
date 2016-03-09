@@ -51,10 +51,10 @@ namespace cu_grab
         /// Fills selectedShowEpisodes with episdes from the selected show
         /// </summary>
         /// <returns>The name of the selected Show</returns>
-        public override String ClickDisplayedShow()
+        public override String ClickDisplayedShow(int selectedIndex)
         {
             String pageShow;
-            WebRequest reqShow = HttpWebRequest.Create(showsP7[listBoxContent.SelectedIndex].url);
+            WebRequest reqShow = HttpWebRequest.Create(showsP7[selectedIndex].url);
             using (WebResponse resShow = reqShow.GetResponse()) //>using
             {
                 using (Stream responseStream = resShow.GetResponseStream())
@@ -108,7 +108,7 @@ namespace cu_grab
             }
         
             //Store the current show name for file naming later
-            String selectedShow = showsP7[listBoxContent.SelectedIndex].title;
+            String selectedShow = showsP7[selectedIndex].title;
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {

@@ -48,10 +48,10 @@ namespace cu_grab
             }
         }
 
-        public override string ClickDisplayedShow()
+        public override string ClickDisplayedShow(int selectedIndex)
         {
-            String urlSelectedTmp = showList[listBoxContent.SelectedIndex].url;
-            String showName = showList[listBoxContent.SelectedIndex].name;  //Store it cause we swap listbox later
+            String urlSelectedTmp = showList[selectedIndex].url;
+            String showName = showList[selectedIndex].name;  //Store it cause we swap listbox later
             String showEpisodeList;
             //Its a relative url
             if(urlSelectedTmp.StartsWith("/tv3/")) //TV3 Download

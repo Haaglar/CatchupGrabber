@@ -30,11 +30,11 @@ namespace cu_grab
         /// Based off itorres info
         /// </summary>
         /// <returns>The selected show</returns>
-        public override string ClickDisplayedShow()
+        public override string ClickDisplayedShow(int selectedIndex)
         {
             String showsPage;
-            String selectedName = showsS3.resposta.items.item[listBoxContent.SelectedIndex].titol;
-            String selectedUrl = searchUrlP1 + showsS3.resposta.items.item[listBoxContent.SelectedIndex].bband.id + searchUrlP2; 
+            String selectedName = showsS3.resposta.items.item[selectedIndex].titol;
+            String selectedUrl = searchUrlP1 + showsS3.resposta.items.item[selectedIndex].bband.id + searchUrlP2; 
             using (WebClient wc = new WebClient())
             {
                 wc.Encoding = Encoding.GetEncoding("iso-8859-1");

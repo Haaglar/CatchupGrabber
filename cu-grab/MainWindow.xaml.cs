@@ -81,7 +81,7 @@ namespace cu_grab
                     case State.DisplayingShows:
                         try
                         {
-                            sBinds.SelectedShow = dlAbs.ClickDisplayedShow();
+                            sBinds.SelectedShow = dlAbs.ClickDisplayedShow(objectList.SelectedIndex);
                             curState = State.DisplayingEpisodes;
                         }
                         catch(Exception eDl)

@@ -47,9 +47,9 @@ namespace cu_grab
         /// Handles clicking of a show
         /// </summary>
         /// <returns>The name to the clicked show</returns>
-        public override String ClickDisplayedShow()
+        public override String ClickDisplayedShow(int selectedIndex)
         {
-            WebRequest reqShow = HttpWebRequest.Create("http://tenplay.com.au/handlers/Render.ashx?path=/UserControls/Content/ContentBody.ascx&providername=Episode&datasourceid=" + shows.Shows[listBoxContent.SelectedIndex].ScId);
+            WebRequest reqShow = HttpWebRequest.Create("http://tenplay.com.au/handlers/Render.ashx?path=/UserControls/Content/ContentBody.ascx&providername=Episode&datasourceid=" + shows.Shows[selectedIndex].ScId);
             WebResponse resShow = reqShow.GetResponse();
 
             StreamReader srShow = new StreamReader(resShow.GetResponseStream(), System.Text.Encoding.UTF8);
@@ -66,7 +66,7 @@ namespace cu_grab
                 selectedShowEpisodes.Add(new EpisodesGeneric(match.Item1.Groups[1].Value, match.Item2.Groups[1].Value));
             }
             //Store the current show name for file naming later
-            String selectedShow = shows.Shows[listBoxContent.SelectedIndex].Name;
+            String selectedShow = shows.Shows[selectedIndex].Name;
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {

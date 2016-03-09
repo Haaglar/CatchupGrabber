@@ -57,12 +57,12 @@ namespace cu_grab
         /// Handles the click of a ListBox object
         /// </summary>
         /// <returns></returns>
-        public override string ClickDisplayedShow()
+        public override string ClickDisplayedShow(int selectedIndex)
         {
             //Get page content
             String pageShow;
             String proxyAddress = Properties.Settings.Default.HTTPIrish;
-            String url = "http://www.rte.ie/player/lh/show/" + rteShows[listBoxContent.SelectedIndex].id;
+            String url = "http://www.rte.ie/player/lh/show/" + rteShows[selectedIndex].id;
             //Use a web client here for the proxy option as you cannot view get the episode list without having a IE address
             //Also Glype or PHProxy proxies do not seem to work either
             using (WebClient webClient = new WebClient())
@@ -94,7 +94,7 @@ namespace cu_grab
                 String ID = match.Item2.Groups[1].Value;
                 selectedShowEpisodes.Add(new EpisodesGeneric(description, ID));
             }
-            String selectedShow = rteShows[listBoxContent.SelectedIndex].v;
+            String selectedShow = rteShows[selectedIndex].v;
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {

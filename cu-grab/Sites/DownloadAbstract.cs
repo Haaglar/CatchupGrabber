@@ -14,7 +14,7 @@ namespace cu_grab
         {
             listBoxContent = lBoxContent;
         }
-        abstract public String ClickDisplayedShow();
+        abstract public String ClickDisplayedShow(int selectedIndex);
         abstract public void FillShowsList();
         abstract public String GetSelectedName();
         abstract public DownloadObject GetDownloadObject();

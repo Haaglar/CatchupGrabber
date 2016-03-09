@@ -61,14 +61,14 @@ namespace cu_grab
             listBoxContent.ItemsSource = showsDPlay.data;
         }
 
-        public override string ClickDisplayedShow()
+        public override string ClickDisplayedShow(int selectedIndex)
         {
             String output;
             //I would love to use the existing JSON for something other than the URL
             //But its so conveluted that its impossible to do so
             using (WebClient webClient = new WebClient())
             {
-                output = webClient.DownloadString(showsDPlay.data[listBoxContent.SelectedIndex].url);
+                output = webClient.DownloadString(showsDPlay.data[selectedIndex].url);
             }
             Regex idFind = new Regex(@"data-show-id=""([0-9]*)");
             Match matches = idFind.Match(output);
@@ -95,7 +95,7 @@ namespace cu_grab
                 episodesDPlay.Add(new EpisodesGeneric(description, ID));
             }
 
-            String selectedShow = showsDPlay.data[listBoxContent.SelectedIndex].title;
+            String selectedShow = showsDPlay.data[selectedIndex].title;
 
 
             //Clean the name for windows

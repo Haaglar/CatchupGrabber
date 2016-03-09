@@ -19,7 +19,7 @@ namespace cu_grab
         {
             throw new NotImplementedException();
         }
-        public override string ClickDisplayedShow()
+        public override string ClickDisplayedShow(int selectedIndex)
         {
             throw new NotImplementedException();
         }

@@ -25,7 +25,7 @@ namespace cu_grab
         /// Standard constructor
         /// </summary>
         /// <param name="lBoxContent">The ListBox in which the content is displayed in</param>
-        public RTE(ListBox lBoxContent) : base(lBoxContent){}
+        public RTE(ListBox lBoxContent) {}
         /// <summary>
         /// Fills the listbox with the JSON from rte search
         /// </summary>
@@ -46,13 +46,7 @@ namespace cu_grab
             }
             resSearchJs.Close();
         }
-        /// <summary>
-        /// Sets the ListBox to RTE
-        /// </summary>
-        public override void SetActive()
-        {
-            listBoxContent.ItemsSource = rteShows;
-        }
+
         /// <summary>
         /// Handles the click of a ListBox object
         /// </summary>

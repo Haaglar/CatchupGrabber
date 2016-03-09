@@ -156,7 +156,7 @@ namespace cu_grab
             else
             {
                 dlAbs.CleanEpisodes();
-                tenPlay.SetActive();
+                objectList.ItemsSource = tenPlay.GetShowsList();
             }  
             curState = State.DisplayingShows;
             curSite = Site.TenP;
@@ -196,7 +196,7 @@ namespace cu_grab
             else
             {
                 dlAbs.CleanEpisodes();
-                rtveClan.SetActive();
+                objectList.ItemsSource = rtveClan.GetShowsList();
             }
             curState = State.DisplayingShows;
             curSite = Site.RTVEClan;
@@ -235,7 +235,7 @@ namespace cu_grab
             else
             {
                 dlAbs.CleanEpisodes();
-                plus7.SetActive();
+                objectList.ItemsSource = plus7.GetShowsList();
             }
             curState = State.DisplayingShows;
             curSite = Site.Plus7;
@@ -275,7 +275,7 @@ namespace cu_grab
             else
             {
                 dlAbs.CleanEpisodes();
-                rteIE.SetActive();
+                objectList.ItemsSource = rteIE.GetShowsList();
             }
             curState = State.DisplayingShows;
             curSite = Site.RTE;
@@ -310,7 +310,7 @@ namespace cu_grab
             else
             {
                 dlAbs.CleanEpisodes();
-                dplay.SetActive();
+                objectList.ItemsSource = dplay.GetShowsList();
             }
             curState = State.DisplayingShows;
             curSite = Site.DPlay;
@@ -345,7 +345,7 @@ namespace cu_grab
             else
             {
                 dlAbs.CleanEpisodes();
-                tv3CatCCMA.SetActive();
+                objectList.ItemsSource = tv3CatCCMA.GetShowsList();
             }
             curState = State.DisplayingShows;
             curSite = Site.TV3Cat;
@@ -380,7 +380,7 @@ namespace cu_grab
             else
             {
                 dlAbs.CleanEpisodes();
-                super3.SetActive();
+                super3.GetShowsList();
             }
             curState = State.DisplayingShows;
             curSite = Site.Super3;
@@ -415,7 +415,7 @@ namespace cu_grab
             else
             {
                 dlAbs.CleanEpisodes();
-                svtplay.SetActive();
+                objectList.ItemsSource = svtplay.GetShowsList();
             }
             curState = State.DisplayingShows;
             curSite = Site.SVTPlay;

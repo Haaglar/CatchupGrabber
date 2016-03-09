@@ -21,7 +21,7 @@ namespace cu_grab
         /// Standard constructor
         /// </summary>
         /// <param name="lBoxContent">The ListBox in which the content is displayed in</param>
-        public RTVEc(ListBox lBoxContent) : base(lBoxContent) { }
+        public RTVEc(ListBox lBoxContent) { }
 
         /// <summary>
         /// Fills the listbox with the JSON from RTVEClan search 
@@ -39,13 +39,6 @@ namespace cu_grab
                 value.infoBuscador = value.infoBuscador.OrderBy(x => x.titulo).ToList(); //Maybe change to date published 
             }
             resSearchJs.Close();
-        }
-        /// <summary>
-        /// Sets the object list to the episodes for RTVEClan
-        /// </summary>
-        public override void SetActive()
-        {
-            listBoxContent.ItemsSource = value.infoBuscador;
         }
 
         /// <summary>
@@ -82,7 +75,7 @@ namespace cu_grab
         /// <returns></returns>
         public String GetUrlOld()
         {
-            WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/ztnr/movil/thumbnail/default/videos/" + episodesClan.page.items[listBoxContent.SelectedIndex].id + ".png");
+            WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/ztnr/movil/thumbnail/default/videos/" + episodesClan.page.items[0].id + ".png");
             //reqTematicasJs.Headers.Add("Referer", episodesClan.page.items[objectList.SelectedIndex].htmlUrl);
             WebResponse resTematicasJs = reqTematicasJs.GetResponse();
             string base64 = "";

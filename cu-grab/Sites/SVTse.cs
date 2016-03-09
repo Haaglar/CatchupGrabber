@@ -14,7 +14,7 @@ namespace cu_grab
         private static string BaseURL = "http://www.svtplay.se";
         private static string ShowListURL = "/program";
         private List<ShowsGeneric> showsSVT = new List<ShowsGeneric>();
-        public SVTse(ListBox lBoxContent) : base(lBoxContent) { }
+        public SVTse(ListBox lBoxContent){ }
         public override void CleanEpisodes()
         {
             throw new NotImplementedException();
@@ -51,10 +51,7 @@ namespace cu_grab
         {
             throw new NotImplementedException();
         }
-        public override void SetActive()
-        {
-            throw new NotImplementedException();
-        }
+
         public override List<object> GetShowsList()
         {
             return showsSVT.ToList<object>();

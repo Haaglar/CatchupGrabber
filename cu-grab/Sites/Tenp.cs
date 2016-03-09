@@ -22,7 +22,7 @@ namespace cu_grab
         /// Standard constructor
         /// </summary>
         /// <param name="lBoxContent">The ListBox in which the content is displayed in</param>
-        public Tenp(ListBox lBoxContent) : base(lBoxContent){}
+        public Tenp(ListBox lBoxContent) {}
         
         /// <summary>
         /// Fillthe ListBox with the shows currently on Tenplay found from the search JSON.
@@ -108,10 +108,7 @@ namespace cu_grab
         /// <summary>
         /// Sets it as the active List
         /// </summary>
-        public override void SetActive()
-        {
-            listBoxContent.ItemsSource = shows.Shows;
-        }
+
         public override String GetSubtitles()
         {
             return "";

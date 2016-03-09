@@ -27,7 +27,7 @@ namespace cu_grab
         /// Defualt constructor
         /// </summary>
         /// <param name="lBoxContent">The ListBox in which it will display its List</param>
-        public DPlay(ListBox lBoxContent) : base(lBoxContent) { }
+        public DPlay(ListBox lBoxContent) { }
 
 
         public override void FillShowsList()
@@ -56,10 +56,6 @@ namespace cu_grab
             rse.Close();
         }
 
-        public override void SetActive()
-        {
-            listBoxContent.ItemsSource = showsDPlay.data;
-        }
 
         public override string ClickDisplayedShow(int selectedIndex)
         {

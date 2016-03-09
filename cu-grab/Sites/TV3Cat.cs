@@ -18,7 +18,7 @@ namespace cu_grab
         private static string EpisodeJsonUrl = @"http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
         private static string EpisodeJsonUrlGet = @"&profile=pc";
 
-        public TV3Cat (ListBox lBoxContent) : base(lBoxContent) { }
+        public TV3Cat (ListBox lBoxContent)  { }
 
         /// <summary>
         /// Fills the listbox with the content on the programes list
@@ -108,10 +108,7 @@ namespace cu_grab
         {
             episodeList.Clear();
         }
-        public override void SetActive()
-        {
-            listBoxContent.ItemsSource = showList;
-        }
+
         public override string GetSubtitles()
         {
             return "";

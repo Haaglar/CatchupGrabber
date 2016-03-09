@@ -19,7 +19,7 @@ namespace cu_grab
         private static string jsonMP4Url = "http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
         private static string searchUrlP1 = "http://www.super3.cat/searcher/super3/searching.jsp?format=MP4&catBusca=";
         private static string searchUrlP2 = "&presentacion=xml&pagina=1&itemsPagina=36";
-        public Super3(ListBox lBoxContent) : base(lBoxContent) { }
+        public Super3(ListBox lBoxContent) { }
 
         public override void CleanEpisodes()
         {
@@ -45,7 +45,6 @@ namespace cu_grab
             {
                 episodesS3.Add(new EpisodesGeneric(element.Element("titol").Value, element.Attribute("idint").Value));
             }
-            listBoxContent.ItemsSource = episodesS3;
             return selectedName;
         }
 
@@ -95,10 +94,6 @@ namespace cu_grab
             Regex getMp4 = new Regex(@"""(.*?\.mp4)""", RegexOptions.RightToLeft); //Cause this way is the best
             Match mp4 = getMp4.Match(jsonMP4);
             return new DownloadObject( mp4.Groups[1].Value, GetSubtitles(), Country.Spain,DownloadMethod.HTTP);
-        }
-        public override void SetActive()
-        {
-            listBoxContent.ItemsSource = showsS3.resposta.items.item;
         }
 
         public override List<object> GetShowsList()

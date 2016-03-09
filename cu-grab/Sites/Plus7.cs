@@ -28,7 +28,7 @@ namespace cu_grab
         /// Standard constructor
         /// </summary>
         /// <param name="lBoxContent">The ListBox in which the content is displayed in</param>
-        public Plus7(ListBox lBoxContent) : base(lBoxContent){}
+        public Plus7(ListBox lBoxContent) {}
        
         /// <summary>
         /// Fills showsP7 with data taken from the search feature on the P7 website
@@ -185,13 +185,7 @@ namespace cu_grab
         {
             selectedShowEpisodes.Clear();
         }
-        /// <summary>
-        /// Sets the ListBox to be the episodelist for P7
-        /// </summary>
-        public override void SetActive()
-        {
-            listBoxContent.ItemsSource = showsP7;
-        }
+
         /// <summary>
         /// Gets the URL of the subtitles for the selected episode.
         /// </summary>

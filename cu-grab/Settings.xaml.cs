@@ -26,6 +26,7 @@ namespace cu_grab
             TextBoxSpanishHTTPProxy.Text = Properties.Settings.Default.HTTPSpanish;
             TextBoxSpanishGlypeProxy.Text = Properties.Settings.Default.GlypeSpanish;
             TextBoxIrishHTTPProxy.Text = Properties.Settings.Default.HTTPIrish;
+            TextBoxSwedishHTTPProxy.Text = Properties.Settings.Default.HTTPSwedish;
             switch(Properties.Settings.Default.ProxyOptionSpanish)
             {
                 case("None"):
@@ -50,9 +51,8 @@ namespace cu_grab
 
             SpanishSettingsSet();
             //Get RTE proxy
-            String proxyUnfiltered = TextBoxIrishHTTPProxy.Text;
-            Properties.Settings.Default.HTTPIrish = proxyUnfiltered;
-
+            Properties.Settings.Default.HTTPIrish = TextBoxIrishHTTPProxy.Text;
+            Properties.Settings.Default.HTTPSwedish =  TextBoxSwedishHTTPProxy.Text;
             Properties.Settings.Default.ExitDLOnDownload = CheckBoxDownloadWindowClose.IsChecked ?? false;
 
             //Checkbox for sub download

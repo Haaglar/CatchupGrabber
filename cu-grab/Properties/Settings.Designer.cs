@@ -118,5 +118,17 @@ namespace cu_grab.Properties {
                 this["ExitDLOnDownload"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HTTPSwedish {
+            get {
+                return ((string)(this["HTTPSwedish"]));
+            }
+            set {
+                this["HTTPSwedish"] = value;
+            }
+        }
     }
 }

@@ -75,7 +75,7 @@ namespace cu_grab
         }
         public override string GetSelectedNameEpisode(int selectedIndex)
         {
-            throw new NotImplementedException();
+            return episodesSVT[selectedIndex].Name;
         }
         public override string GetSubtitles()
         {

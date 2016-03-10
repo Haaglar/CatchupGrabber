@@ -1,11 +1,11 @@
 ﻿<Window x:Class="cu_grab.Settings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Settings" Height="420" Width="400"
+        Title="Settings" Height="500" Width="400"
         ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="290" />
+            <RowDefinition Height="370" />
             <RowDefinition Height="110" />
         </Grid.RowDefinitions>
         <!--Proxy Settings Box Start-->
@@ -17,6 +17,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="130" />
                     <RowDefinition Height="90" />
+                    <RowDefinition Height="100" />
                 </Grid.RowDefinitions>
                 <!-- Spanish option-->
                 <GroupBox Grid.Row="0" Margin="0,0,0,0">
@@ -34,12 +35,21 @@
                     </Grid>
                 </GroupBox>
                 <!--Irish Group-->
-                <GroupBox Grid.Row="1" Margin="0,0,0,20">
+                <GroupBox Grid.Row="1" Margin="0,0,0,0">
                     <GroupBox.Header>
                         <Label ToolTip="Site(s) that use this setting: &#x0a;RTE">Irish</Label>
                     </GroupBox.Header>
                     <Grid>
                         <TextBox x:Name="TextBoxIrishHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="148,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12" Text="HTTP Proxy Address:"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="2" Margin="0,0,0,10">
+                    <GroupBox.Header>
+                        <Label ToolTip="Site(s) that use this setting: &#x0a;SVT.se">Swedish</Label>
+                    </GroupBox.Header>
+                    <Grid>
+                        <TextBox x:Name="TextBoxSwedishHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="148,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12" Text="HTTP Proxy Address:"/>
                     </Grid>
                 </GroupBox>

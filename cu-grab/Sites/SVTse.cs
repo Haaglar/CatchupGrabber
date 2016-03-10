@@ -34,7 +34,7 @@ namespace cu_grab
             MatchCollection matchesOne = showsSearch.Matches(websiteShowList);
             foreach (Match match in matchesOne)
             {
-                episodesSVT.Add(new EpisodesGeneric(match.Groups[2].Value, BaseURL + match.Groups[1].Value));
+                episodesSVT.Add(new EpisodesGeneric( WebUtility.HtmlDecode(match.Groups[2].Value), BaseURL + match.Groups[1].Value));
             }
             //If theres more we have to do it again
             if (websiteShowList.IndexOf("play_title-page__pagination-button-thin-labe") != -1)
@@ -46,7 +46,7 @@ namespace cu_grab
                     MatchCollection matchesTwo = showsSearch.Matches(websiteShowList);
                     foreach (Match match in matchesTwo)
                     {
-                        episodesSVT.Add(new EpisodesGeneric(match.Groups[2].Value, BaseURL + match.Groups[1].Value));
+                        episodesSVT.Add(new EpisodesGeneric( WebUtility.HtmlDecode(match.Groups[2].Value), BaseURL + match.Groups[1].Value));
                     }
                 }
             }

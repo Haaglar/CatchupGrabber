@@ -12,10 +12,10 @@ namespace cu_grab
         public string Name { get; set; }
         public string EpisodeID { get; set; }
 
-        public EpisodesGeneric(string N, string E)
+        public EpisodesGeneric(string name, string episodeID)
         {
-            Name = N;
-            EpisodeID = E;
+            Name = name;
+            EpisodeID = episodeID;
         }
 
         public override string ToString()

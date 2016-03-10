@@ -13,15 +13,45 @@ namespace cu_grab
     {
         private static string BaseURL = "http://www.svtplay.se";
         private static string ShowListURL = "/program";
+        private static string AdditionalEpisodes = @"?sida=2&tab=helaprogram&embed=true";
         private List<ShowsGeneric> showsSVT = new List<ShowsGeneric>();
+        private List<EpisodesGeneric> episodesSVT = new List<EpisodesGeneric>();
+
         public SVTse(){ }
         public override void CleanEpisodes()
         {
-            throw new NotImplementedException();
+            episodesSVT.Clear();
         }
         public override string ClickDisplayedShow(int selectedIndex)
         {
-            throw new NotImplementedException();
+            String websiteShowList;
+            using (WebClient webClient = new WebClient())
+            {
+                webClient.Encoding = Encoding.UTF8; //Webpage encoding
+                websiteShowList = webClient.DownloadString(showsSVT[selectedIndex].url);
+            }
+            Regex showsSearch = new Regex(@"<a href=""([^""].*)"" class=""play_vertical-list__header-link"">([^<]*)</a>");
+            MatchCollection matchesOne = showsSearch.Matches(websiteShowList);
+            foreach (Match match in matchesOne)
+            {
+                episodesSVT.Add(new EpisodesGeneric(match.Groups[2].Value, BaseURL + match.Groups[1].Value));
+            }
+            //If theres more we have to do it again
+            if (websiteShowList.IndexOf("play_title-page__pagination-button-thin-labe") != -1)
+            {
+                using (WebClient webClient = new WebClient())
+                {
+                    webClient.Encoding = Encoding.UTF8; //Webpage encoding
+                    websiteShowList = webClient.DownloadString(showsSVT[selectedIndex].url + AdditionalEpisodes);
+                    MatchCollection matchesTwo = showsSearch.Matches(websiteShowList);
+                    foreach (Match match in matchesTwo)
+                    {
+                        episodesSVT.Add(new EpisodesGeneric(match.Groups[2].Value, BaseURL + match.Groups[1].Value));
+                    }
+                }
+            }
+            return showsSVT[selectedIndex].name;
+            
         }
         public override void FillShowsList()
         {
@@ -58,7 +88,7 @@ namespace cu_grab
         }
         public override List<object> GetEpisodesList()
         {
-            return null;
+            return episodesSVT.ToList<object>();
         }
     }
 }

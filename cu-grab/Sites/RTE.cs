@@ -24,7 +24,7 @@ namespace cu_grab
         /// <summary>
         /// Standard constructor
         /// </summary>
-        public RTE(ListBox lBoxContent) {}
+        public RTE() {}
         /// <summary>
         /// Fills the listbox with the JSON from rte search
         /// </summary>

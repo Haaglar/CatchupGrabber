@@ -26,7 +26,7 @@ namespace cu_grab
         /// <summary>
         /// Defualt constructor
         /// </summary>
-        public DPlay(ListBox lBoxContent) { }
+        public DPlay() { }
 
 
         public override void FillShowsList()

@@ -21,7 +21,7 @@ namespace cu_grab
         /// Standard constructor
         /// </summary>
         /// <param name="lBoxContent">The ListBox in which the content is displayed in</param>
-        public RTVEc(ListBox lBoxContent) { }
+        public RTVEc() { }
 
         /// <summary>
         /// Fills the listbox with the JSON from RTVEClan search 

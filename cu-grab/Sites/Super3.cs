@@ -19,7 +19,7 @@ namespace cu_grab
         private static string jsonMP4Url = "http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
         private static string searchUrlP1 = "http://www.super3.cat/searcher/super3/searching.jsp?format=MP4&catBusca=";
         private static string searchUrlP2 = "&presentacion=xml&pagina=1&itemsPagina=36";
-        public Super3(ListBox lBoxContent) { }
+        public Super3() { }
 
         public override void CleanEpisodes()
         {

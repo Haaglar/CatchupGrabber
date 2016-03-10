@@ -18,7 +18,7 @@ namespace cu_grab
         private static string EpisodeJsonUrl = @"http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
         private static string EpisodeJsonUrlGet = @"&profile=pc";
 
-        public TV3Cat (ListBox lBoxContent)  { }
+        public TV3Cat ()  { }
 
         /// <summary>
         /// Fills the listbox with the content on the programes list

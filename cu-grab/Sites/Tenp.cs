@@ -22,7 +22,7 @@ namespace cu_grab
         /// Standard constructor
         /// </summary>
         /// <param name="lBoxContent">The ListBox in which the content is displayed in</param>
-        public Tenp(ListBox lBoxContent) {}
+        public Tenp() {}
         
         /// <summary>
         /// Fillthe ListBox with the shows currently on Tenplay found from the search JSON.

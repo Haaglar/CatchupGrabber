@@ -27,7 +27,7 @@ namespace cu_grab
         /// <summary>
         /// Standard constructor
         /// </summary>
-        public Plus7(ListBox lBoxContent) {}
+        public Plus7() {}
        
         /// <summary>
         /// Fills showsP7 with data taken from the search feature on the P7 website

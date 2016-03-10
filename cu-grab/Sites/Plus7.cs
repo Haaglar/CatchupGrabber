@@ -122,7 +122,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="selectedIndex">Index of the selected show in the list</param>
         /// <returns>The selected show's name</returns>
-        public override String GetSelectedNameShow(int selectedIndex)
+        public override String GetSelectedNameEpisode(int selectedIndex)
         {
             return selectedShowEpisodes[selectedIndex].Name;
         }

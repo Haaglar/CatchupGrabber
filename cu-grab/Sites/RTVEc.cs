@@ -186,7 +186,7 @@ namespace cu_grab
             episodesClan = null;
         }
 
-        public override String GetSelectedNameShow(int selectedIndex)
+        public override String GetSelectedNameEpisode(int selectedIndex)
         {
             return episodesClan.page.items[selectedIndex].ToString();
         }

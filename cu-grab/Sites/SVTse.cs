@@ -73,7 +73,7 @@ namespace cu_grab
         {
             throw new NotImplementedException();
         }
-        public override string GetSelectedNameShow(int selectedIndex)
+        public override string GetSelectedNameEpisode(int selectedIndex)
         {
             throw new NotImplementedException();
         }

@@ -94,7 +94,7 @@ namespace cu_grab
         /// Get the name of the select show
         /// </summary>
         /// <returns>Returns the Name of the selected episode</returns>
-        public override String GetSelectedNameShow(int selectedIndex)
+        public override String GetSelectedNameEpisode(int selectedIndex)
         {
             return selectedShowEpisodes[selectedIndex].Name;
         }

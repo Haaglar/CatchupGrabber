@@ -71,7 +71,7 @@ namespace cu_grab
 
             showsS3.resposta.items.item = showsS3.resposta.items.item.OrderBy(x => x.titol).ToList();
         }
-        public override string GetSelectedNameShow(int selectedIndex)
+        public override string GetSelectedNameEpisode(int selectedIndex)
         {
             return episodesS3[selectedIndex].Name;
         }

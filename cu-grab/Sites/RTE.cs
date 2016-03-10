@@ -126,7 +126,7 @@ namespace cu_grab
         {
             selectedShowEpisodes.Clear();
         }
-        public override string GetSelectedNameShow(int selectedIndex)
+        public override string GetSelectedNameEpisode(int selectedIndex)
         {
             return selectedShowEpisodes[selectedIndex].Name;
         }

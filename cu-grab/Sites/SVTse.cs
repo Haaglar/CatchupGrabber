@@ -1,10 +1,13 @@
-﻿using System;
+﻿using cu_grab.MiscObjects;
+using cu_grab.NetworkAssister;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
 using System.Windows.Controls;
 
 namespace cu_grab
@@ -16,6 +19,8 @@ namespace cu_grab
         private static string AdditionalEpisodes = @"?sida=2&tab=helaprogram&embed=true";
         private List<ShowsGeneric> showsSVT = new List<ShowsGeneric>();
         private List<EpisodesGeneric> episodesSVT = new List<EpisodesGeneric>();
+        private SVTJson episodeData;
+        private CUNetworkAssist netAssist = new CUNetworkAssist();
 
         public SVTse(){ }
         public override void CleanEpisodes()
@@ -71,15 +76,29 @@ namespace cu_grab
         }
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            throw new NotImplementedException();
+            String jsonData;
+            Regex regRefId = new Regex(@"/([0-9]+)/");
+            String value = regRefId.Match(episodesSVT[selectedIndex].EpisodeID).Groups[1].Value;
+            using (WebClient webClient = new WebClient())
+            {
+                webClient.Encoding = Encoding.UTF8; //Webpage encoding Get some Json Data
+                string d = BaseURL + @"/video/" + value + "?output=json";
+                jsonData = webClient.DownloadString(d);
+            }
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            episodeData = jss.Deserialize<SVTJson>(jsonData);
+            string url = episodeData.video.videoReferences.Single(v => v.playerType.Equals("ios")).url;
+            //url = netAssist.GetHighestM3U8Address(url);
+            return new DownloadObject(url,GetSubtitles(), Country.Sweden,DownloadMethod.HLS);
         }
         public override string GetSelectedNameEpisode(int selectedIndex)
         {
             return episodesSVT[selectedIndex].Name;
         }
+        //Fix later
         public override string GetSubtitles()
         {
-            throw new NotImplementedException();
+            return "";
         }
 
         public override List<object> GetShowsList()

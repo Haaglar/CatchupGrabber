@@ -45,7 +45,7 @@
                 <Button x:Name="buttonDPlay" Content="DPlay (ITA)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonDPlay_Click" Margin="54,-20,-54,0" FontSize="14"/>
                 <Button x:Name="buttonCCMA" Content="TV3 (CAT)" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Height="30" Click="ButtonCCMA_Click" Margin="54,15,-54,-15" FontSize="14"/>
                 <Button x:Name="buttonSuper3" Content="Super3" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="100" Height="30" Click="ButtonSuper3_Click" Margin="0,-20,-159,0" FontSize="14"/>
-                <Button x:Name="buttonSVTPlay" Content="STVPlay" HorizontalAlignment="Left" Margin="159,14,-159,-12" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonSVTPlay_Click" FontSize="14"/>
+                <Button x:Name="buttonSVTPlay" Content="SVTPlay" HorizontalAlignment="Left" Margin="159,14,-159,-12" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonSVTPlay_Click" FontSize="14"/>
 
             </Grid>
 

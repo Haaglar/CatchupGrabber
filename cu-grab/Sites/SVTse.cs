@@ -67,7 +67,11 @@ namespace cu_grab
                 websiteShowList = webClient.DownloadString(BaseURL + ShowListURL);
             }
             websiteShowList = WebUtility.HtmlDecode(websiteShowList);// Since its got swedish characterse
-            Regex abuseShows = new Regex(@"<a href=""([^""]*)"" .* class=""play_link-list__link play_link-list__link--with-padding"">([^<]*)</a>");
+            // Theres some json in the page that contains usefull information about the shows
+            // But it has wierdly named attributes, and will require regex editing to remove it
+            // So the question is should I either, abuse regex on html to get the shows or index out and cut the json, modifiy it, generate an object, and concat the various list (for the letters).
+            // I use the regex is faster so ill continue doing it
+            Regex abuseShows = new Regex(@"<a href=""([^""]*)"" class=""play_link-list__link"" [^>]*>([^<]*)</a>");
             MatchCollection showsCol = abuseShows.Matches(websiteShowList);
             foreach(Match match in showsCol)
             {

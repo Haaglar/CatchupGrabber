@@ -93,6 +93,7 @@ namespace cu_grab
             JavaScriptSerializer jss = new JavaScriptSerializer();
             episodeData = jss.Deserialize<SVTJson>(jsonData);
             string url = episodeData.video.videoReferences.Single(v => v.playerType.Equals("ios")).url;
+            url = url.Substring(0, url.IndexOf("m3u8") + 4);
             //url = netAssist.GetHighestM3U8Address(url);
             return new DownloadObject(url,GetSubtitles(), Country.Sweden,DownloadMethod.HLS);
         }

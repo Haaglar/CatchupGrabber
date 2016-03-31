@@ -46,6 +46,7 @@ namespace cu_grab
                 if (entry.Groups[1].Value.StartsWith(@"http://www.super3.cat/")) continue;
                 showList.Add(new ShowsGeneric(entry.Groups[2].Value.Trim(), entry.Groups[1].Value));
             }
+            RequestedSiteData = true;
         }
 
         public override string ClickDisplayedShow(int selectedIndex)

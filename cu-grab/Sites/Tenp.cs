@@ -41,7 +41,7 @@ namespace cu_grab
                 shows.Shows = shows.Shows.OrderBy(x => x.Name).ToList();    
             }
             resSearchJs.Close();
-            
+            RequestedSiteData = true;
         }
         /// <summary>
         /// Handles clicking of a show

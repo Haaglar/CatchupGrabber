@@ -44,6 +44,7 @@ namespace cu_grab
                 rteShows = rteShows.OrderBy(x => x.v).ToList(); //Order By name 
             }
             resSearchJs.Close();
+            RequestedSiteData = true;
         }
 
         /// <summary>

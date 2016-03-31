@@ -43,17 +43,7 @@ namespace cu_grab
         enum Site {None, TenP, Plus7, RTVEClan, RTE, DPlay, TV3Cat, Super3, SVTPlay}
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
-
-        //--Downloaderbstract Objects
-        DownloadAbstract dlAbs; //What will be currently selected
-        Tenp tenPlay;
-        RTVEc rtveClan;
-        Plus7 plus7;
-        RTE rteIE;
-        DPlay dplay;
-        TV3Cat tv3CatCCMA;
-        Super3 super3;
-        SVTse svtplay;
+        Dictionary<Site, DownloadAbstract> websiteStore = new Dictionary<Site, DownloadAbstract>();
 
         public MainWindow()
         {
@@ -64,8 +54,30 @@ namespace cu_grab
             }
             textBlockShow.DataContext = sBinds;
             textBlockSite.DataContext = sBinds;
+            SetupSites();
         }
-    
+        /// <summary>
+        /// Setup the dictionary for all the sites
+        /// </summary>
+        public void SetupSites()
+        {
+            Tenp tenPlay;
+            RTVEc rtveClan;
+            Plus7 plus7;
+            RTE rteIE;
+            DPlay dplay;
+            TV3Cat tv3CatCCMA;
+            Super3 super3;
+            SVTse svtplay;
+            websiteStore.Add(Site.TenP, tenPlay = new Tenp());
+            websiteStore.Add(Site.Plus7, plus7 = new Plus7());
+            websiteStore.Add(Site.RTVEClan, rtveClan = new RTVEc());
+            websiteStore.Add(Site.RTE, rteIE = new RTE());
+            websiteStore.Add(Site.DPlay, dplay = new DPlay());
+            websiteStore.Add(Site.TV3Cat, tv3CatCCMA = new TV3Cat());
+            websiteStore.Add(Site.Super3, super3 = new Super3());
+            websiteStore.Add(Site.SVTPlay, svtplay = new SVTse());
+        }
         /// <summary>
         /// Double click of list item
         /// </summary>
@@ -81,8 +93,8 @@ namespace cu_grab
                     case State.DisplayingShows:
                         try
                         {
-                            sBinds.SelectedShow = dlAbs.ClickDisplayedShow(objectList.SelectedIndex);
-                            objectList.ItemsSource = dlAbs.GetEpisodesList();
+                            sBinds.SelectedShow = websiteStore[curSite].ClickDisplayedShow(objectList.SelectedIndex);
+                            objectList.ItemsSource = websiteStore[curSite].GetEpisodesList();
                             curState = State.DisplayingEpisodes;
                         }
                         catch(Exception eDl)
@@ -95,8 +107,8 @@ namespace cu_grab
                     case State.DisplayingEpisodes:
                         try
                         {
-                            String name = sBinds.SelectedShow + " " + dlAbs.GetSelectedNameEpisode(objectList.SelectedIndex);
-                            DownloadObject dlUrl = dlAbs.GetDownloadObject(objectList.SelectedIndex);
+                            String name = sBinds.SelectedShow + " " + websiteStore[curSite].GetSelectedNameEpisode(objectList.SelectedIndex);
+                            DownloadObject dlUrl = websiteStore[curSite].GetDownloadObject(objectList.SelectedIndex);
                             DownloadWindow dlWindow = new DownloadWindow(dlUrl, name);
                         }
                         catch(Exception eDl)
@@ -116,10 +128,10 @@ namespace cu_grab
         /// <param name="e"></param>
         private void Shows_Pressed(object sender, RoutedEventArgs e)
         {
-            if (dlAbs != null)
+            if (websiteStore[curSite] != null)
             {
-                dlAbs.CleanEpisodes();
-                objectList.ItemsSource = dlAbs.GetShowsList();
+                websiteStore[curSite].CleanEpisodes();
+                objectList.ItemsSource = websiteStore[curSite].GetShowsList();
                 curState = State.DisplayingShows;
                 sBinds.SelectedShow = "";
             }
@@ -131,37 +143,7 @@ namespace cu_grab
         /// <param name="e"></param>
         private void ButtonTenplay_Click(object sender, RoutedEventArgs e)
         {
-            sBinds.SelectedSite = "tenplay.com.au";
-            //First time selecting site
-            if (tenPlay == null)
-            {
-                try
-                {
-                    tenPlay = new Tenp();
-                    tenPlay.FillShowsList();
-                    objectList.ItemsSource = tenPlay.GetShowsList();
-                }
-                catch
-                {
-                    errorLabel.Text = "Failed to get Episode listings for Tenplay.";
-                }
-            }
-            // If they select it while we are currently on it just return to shows
-            else if (curSite == Site.TenP)
-            {
-                Shows_Pressed(null,null);
-                return;
-            }
-            // other time selecting site
-            else
-            {
-                dlAbs.CleanEpisodes();
-                objectList.ItemsSource = tenPlay.GetShowsList();
-            }  
-            curState = State.DisplayingShows;
-            curSite = Site.TenP;
-            sBinds.SelectedShow = "";
-            dlAbs = tenPlay;
+            HandleSiteSelection(Site.TenP, "tenplay.com.au");
         }
 
         /// <summary>
@@ -171,37 +153,7 @@ namespace cu_grab
         /// <param name="e"></param>
         private void ButtonRTVEC_Click(object sender, RoutedEventArgs e)
         {
-            sBinds.SelectedSite = "rtve.es/infantil/";
-            //First time selecting site
-            if (rtveClan == null)
-            {
-                try
-                {
-                    rtveClan = new RTVEc();
-                    rtveClan.FillShowsList();
-                    objectList.ItemsSource = rtveClan.GetShowsList();
-                }
-                catch
-                {
-                    errorLabel.Text = "Failed to get Episode listings for RTVE Clan";
-                }
-            }
-            // If they select it while we are currently on it just return to shows
-            else if (curSite == Site.RTVEClan)
-            {
-                Shows_Pressed(null, null);
-                return;
-            }
-            // other time selecting site
-            else
-            {
-                dlAbs.CleanEpisodes();
-                objectList.ItemsSource = rtveClan.GetShowsList();
-            }
-            curState = State.DisplayingShows;
-            curSite = Site.RTVEClan;
-            sBinds.SelectedShow = "";
-            dlAbs = rtveClan;
+            HandleSiteSelection(Site.RTVEClan, "rtve.es/infantil/");
         }
         /// <summary>
         /// Handles the actions for when the Plus7 button is pressed
@@ -210,37 +162,7 @@ namespace cu_grab
         /// <param name="e"></param>
         private void ButtonPlus7_Click(object sender, RoutedEventArgs e)
         {
-            sBinds.SelectedSite = "au.tv.yahoo.com/plus7";
-            //First time selecting site
-            if (plus7 == null)
-            {
-                try
-                {
-                    plus7 = new Plus7();
-                    plus7.FillShowsList();
-                    objectList.ItemsSource = plus7.GetShowsList();
-                }
-                catch
-                {
-                    errorLabel.Text = "Failed to get episode listings for Plus7";
-                }
-            }
-            // If they select it while we are currently on it just return to shows
-            else if (curSite == Site.Plus7)
-            {
-                Shows_Pressed(null, null);
-                return;
-            }
-            // other time selecting site
-            else
-            {
-                dlAbs.CleanEpisodes();
-                objectList.ItemsSource = plus7.GetShowsList();
-            }
-            curState = State.DisplayingShows;
-            curSite = Site.Plus7;
-            sBinds.SelectedShow = "";
-            dlAbs = plus7;
+            HandleSiteSelection(Site.Plus7, "au.tv.yahoo.com/plus7");
         }
 
         /// <summary>
@@ -250,163 +172,67 @@ namespace cu_grab
         /// <param name="e"></param>
         private void ButtonRTE_Click(object sender, RoutedEventArgs e)
         {
-            sBinds.SelectedSite = "RTE.ie";
-            //First time selecting site
-            if (rteIE == null)
-            {
-                try
-                {
-                    rteIE = new RTE();
-                    rteIE.FillShowsList();
-                    objectList.ItemsSource = rteIE.GetShowsList();
-                }
-                catch
-                {
-                    errorLabel.Text = "Failed to get episode listings for RTE";
-                }
-            }
-            // If they select it while we are currently on it just return to shows
-            else if (curSite == Site.RTE)
-            {
-                Shows_Pressed(null, null);
-                return;
-            }
-            // other time selecting site
-            else
-            {
-                dlAbs.CleanEpisodes();
-                objectList.ItemsSource = rteIE.GetShowsList();
-            }
-            curState = State.DisplayingShows;
-            curSite = Site.RTE;
-            sBinds.SelectedShow = "";
-            dlAbs = rteIE;
+            HandleSiteSelection(Site.RTE, "RTE.ie");
         }
-
+        /// <summary>
+        /// Handles the actions for when the DPlay (ITA) button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonDPlay_Click(object sender, RoutedEventArgs e)
         {
-            sBinds.SelectedSite = "it.dplay.com";
-            //First time selecting site
-            if (dplay == null)
-            {
-                try
-                {
-                    dplay = new DPlay();
-                    dplay.FillShowsList();
-                    objectList.ItemsSource = dplay.GetShowsList();
-                }
-                catch
-                {
-                    errorLabel.Text = "Failed to get episode listings for DPlay";
-                }
-            }
-            // If they select it while we are currently on it just return to shows
-            else if (curSite == Site.DPlay)
-            {
-                Shows_Pressed(null, null);
-                return;
-            }
-            // other time selecting site
-            else
-            {
-                dlAbs.CleanEpisodes();
-                objectList.ItemsSource = dplay.GetShowsList();
-            }
-            curState = State.DisplayingShows;
-            curSite = Site.DPlay;
-            sBinds.SelectedShow = "";
-            dlAbs = dplay;
+            HandleSiteSelection(Site.DPlay, "it.dplay.com");
         }
-
+        /// <summary>
+        /// Handles the actions for when the TV3 (CAT) button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonCCMA_Click(object sender, RoutedEventArgs e)
         {
-            sBinds.SelectedSite = "ccma.cat/tv3/";
-            //First time selecting site
-            if (tv3CatCCMA == null)
-            {
-                try
-                {
-                    tv3CatCCMA = new TV3Cat();
-                    tv3CatCCMA.FillShowsList();
-                    objectList.ItemsSource = tv3CatCCMA.GetShowsList();
-                }
-                catch
-                {
-                    errorLabel.Text = "Failed to get episode listings for CCMA (TV3)";
-                }
-            }
-            // If they select it while we are currently on it just return to shows
-            else if (curSite == Site.TV3Cat)
-            {
-                Shows_Pressed(null, null);
-                return;
-            }
-            // other time selecting site
-            else
-            {
-                dlAbs.CleanEpisodes();
-                objectList.ItemsSource = tv3CatCCMA.GetShowsList();
-            }
-            curState = State.DisplayingShows;
-            curSite = Site.TV3Cat;
-            sBinds.SelectedShow = "";
-            dlAbs = tv3CatCCMA;
+             HandleSiteSelection(Site.TV3Cat, "ccma.cat/tv3/");
         }
-
+        /// <summary>
+        /// Handles the actions for when the Super3 button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonSuper3_Click(object sender, RoutedEventArgs e)
         {
-            sBinds.SelectedSite = "super3.cat";
-            //First time selecting site
-            if (super3 == null)
-            {
-                try
-                {
-                    super3 = new Super3();
-                    super3.FillShowsList();
-                    objectList.ItemsSource = super3.GetShowsList();
-                }
-                catch
-                {
-                    errorLabel.Text = "Failed to get episode listings for Super3";
-                }
-            }
-            // If they select it while we are currently on it just return to shows
-            else if (curSite == Site.Super3)
-            {
-                Shows_Pressed(null, null);
-                return;
-            }
-            // other time selecting site
-            else
-            {
-                dlAbs.CleanEpisodes();
-                super3.GetShowsList();
-            }
-            curState = State.DisplayingShows;
-            curSite = Site.Super3;
-            sBinds.SelectedShow = "";
-            dlAbs = super3;
+             HandleSiteSelection(Site.Super3, "super3.cat");
         }
-
+        /// <summary>
+        /// Handles the actions for when the SVTPlay button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonSVTPlay_Click(object sender, RoutedEventArgs e)
         {
-            sBinds.SelectedSite = "SVTPlay.se";
+             HandleSiteSelection(Site.SVTPlay, "SVTPlay.se");
+        }
+        /// <summary>
+        /// Handles the actions for site show data and switching between. 
+        /// </summary>
+        /// <param name="site">The selected site identifier</param>
+        /// <param name="url">The url for site display</param>
+        private void HandleSiteSelection(Site site, string url) 
+        {
+            sBinds.SelectedSite = url;
             //First time selecting site
-            if (svtplay == null)
+            if (!websiteStore[site].RequestedSiteData)
             {
                 try
                 {
-                    svtplay = new SVTse();
-                    svtplay.FillShowsList();
-                    objectList.ItemsSource = svtplay.GetShowsList();
+                    websiteStore[site].FillShowsList();
+                    objectList.ItemsSource = websiteStore[site].GetShowsList();
                 }
                 catch
                 {
-                    errorLabel.Text = "Failed to get episode listings for SVTPlay";
+                    errorLabel.Text = "Failed to get episode listings for "+url;
                 }
             }
             // If they select it while we are currently on it just return to shows
-            else if (curSite == Site.SVTPlay)
+            else if (curSite == site)
             {
                 Shows_Pressed(null, null);
                 return;
@@ -414,15 +240,13 @@ namespace cu_grab
             // other time selecting site
             else
             {
-                dlAbs.CleanEpisodes();
-                objectList.ItemsSource = svtplay.GetShowsList();
+                websiteStore[site].CleanEpisodes();
+                objectList.ItemsSource = websiteStore[site].GetShowsList();
             }
             curState = State.DisplayingShows;
-            curSite = Site.SVTPlay;
+            curSite = site;
             sBinds.SelectedShow = "";
-            dlAbs = svtplay;
         }
-
         /// <summary>
         /// Handles the action for when the Setting button is pressed
         /// </summary>

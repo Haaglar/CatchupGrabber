@@ -70,6 +70,7 @@ namespace cu_grab
             showsS3.resposta.items.num += tmp.resposta.items.num;
 
             showsS3.resposta.items.item = showsS3.resposta.items.item.OrderBy(x => x.titol).ToList();
+            RequestedSiteData = true;
         }
         public override string GetSelectedNameEpisode(int selectedIndex)
         {

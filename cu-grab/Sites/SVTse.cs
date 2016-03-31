@@ -77,6 +77,7 @@ namespace cu_grab
             {
                 showsSVT.Add(new ShowsGeneric( match.Groups[2].Value,BaseURL + match.Groups[1].Value));
             }
+            RequestedSiteData = true;
         }
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {

@@ -45,6 +45,7 @@ namespace cu_grab
                 showsP7 = showsP7.OrderBy(x => x.title).ToList(); 
             }
             resSearchJs.Close();
+            RequestedSiteData = true;
         }
         /// <summary>
         /// Fills selectedShowEpisodes with episdes from the selected show

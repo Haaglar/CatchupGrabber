@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -202,14 +203,27 @@ namespace cu_grab
             //First time selecting site
             if (!websiteStore[site].RequestedSiteData)
             {
+                objectList.ItemsSource = new List<String>{"Loading..." + url};
+                DisableButtonsSites();
                 try
                 {
-                    websiteStore[site].FillShowsList();
-                    objectList.ItemsSource = websiteStore[site].GetShowsList();
+                    Task.Factory.StartNew(()=>
+                    {
+                        websiteStore[site].FillShowsList();
+                    }).ContinueWith(x=>
+                    {
+                        objectList.ItemsSource = websiteStore[site].GetShowsList();
+                        EnableButtonsSites();
+                        curState = State.DisplayingShows;
+                        curSite = site;
+                        sBinds.SelectedShow = "";
+                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                    
                 }
                 catch
                 {
                     errorLabel.Text = "Failed to get episode listings for "+url;
+                    EnableButtonsSites();
                 }
             }
             // If they select it while we are currently on it just return to shows
@@ -223,10 +237,11 @@ namespace cu_grab
             {
                 websiteStore[site].CleanEpisodes();
                 objectList.ItemsSource = websiteStore[site].GetShowsList();
+
+                curState = State.DisplayingShows;
+                curSite = site;
+                sBinds.SelectedShow = "";
             }
-            curState = State.DisplayingShows;
-            curSite = site;
-            sBinds.SelectedShow = "";
         }
         /// <summary>
         /// Handles the action for when the Setting button is pressed
@@ -237,6 +252,17 @@ namespace cu_grab
         {
             Settings settingsWindow = new Settings();
             settingsWindow.Show();
+        }
+
+        private void DisableButtonsSites()
+        {
+            ButtonSegment.IsEnabled = false;
+            toShows.IsEnabled = false;
+        }
+        private void EnableButtonsSites()
+        {
+            ButtonSegment.IsEnabled = true;
+            toShows.IsEnabled = true;
         }
     }
 }

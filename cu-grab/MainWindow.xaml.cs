@@ -32,7 +32,7 @@ namespace cu_grab
             InitializeComponent();
             if(!File.Exists("FFmpeg.exe"))
             {
-                MessageBox.Show("Catch-up Grabber requires FFmpeg to download from certain sites, please copy it into the working directory.");
+                MessageBox.Show("Catch-up Grabber requires FFmpeg to download from certain sites, please copy it into the working directory.", "Warning");
             }
             textBlockShow.DataContext = sBinds;
             textBlockSite.DataContext = sBinds;

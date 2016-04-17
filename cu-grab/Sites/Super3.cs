@@ -54,20 +54,10 @@ namespace cu_grab
             //Get Catalan
             using (WebClient wc = new WebClient())
             {
-                showsJson = wc.DownloadString(@"http://dinamics.ccma.cat/feeds/super3/programes.jsp");
+                showsJson = wc.DownloadString(@"http://dinamics.ccma.cat/feeds/super3/programes.jsp?filtre=progangles");
             }
             JavaScriptSerializer jss = new JavaScriptSerializer();
             showsS3 = jss.Deserialize<ShowsSuper3>(showsJson);
-
-            //Get English
-            using (WebClient wc = new WebClient())
-            {
-                showsJson = wc.DownloadString(@"http://dinamics.ccma.cat/feeds/super3/programes.jsp?filtre=progangles");
-            }
-            ShowsSuper3 tmp = jss.Deserialize<ShowsSuper3>(showsJson);
-            //Concat and update to one big number
-            showsS3.resposta.items.item = showsS3.resposta.items.item.Concat(tmp.resposta.items.item).ToList();
-            showsS3.resposta.items.num += tmp.resposta.items.num;
 
             showsS3.resposta.items.item = showsS3.resposta.items.item.OrderBy(x => x.titol).ToList();
             RequestedSiteData = true;

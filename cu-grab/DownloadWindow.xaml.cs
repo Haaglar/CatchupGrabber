@@ -9,7 +9,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
+using System.Windows.Shell;
 
 
 namespace cu_grab
@@ -144,8 +144,8 @@ namespace cu_grab
 
         public void HTTPProxyDownload(string url, string name, string httpProxy)
         {
-            cAWebClient = new CookieAwareWebClient();
             WebProxy wp = new WebProxy(httpProxy);
+            cAWebClient = new CookieAwareWebClient();
             cAWebClient.Proxy = wp;
             cAWebClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
             cAWebClient.DownloadFileCompleted += WebClient_AsyncCompletedEventHandler;
@@ -191,13 +191,18 @@ namespace cu_grab
             bytesReceived = e.BytesReceived;
             ProgressDL.Value = e.ProgressPercentage;
             TextBlockProgress.Text = (bytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
+            /*if(Environment.OSVersion.Version.Major >= 6)
+            {
+                TaskbarItemInfo.ProgressValue = e.ProgressPercentage;
+            }*/
         }
         void WebClient_AsyncCompletedEventHandler(object sender, AsyncCompletedEventArgs e)
         {
             DisposeWebClient();
             if (e.Error != null)
             {
-                ButtonRetry.Visibility = System.Windows.Visibility.Visible;
+                Console.WriteLine(e.Error.StackTrace);
+                ButtonRetry.Visibility = Visibility.Visible;
                 TextBlockProgress.Text = "Download failed somewhere";
                 return;
             }                
@@ -249,7 +254,7 @@ namespace cu_grab
 
         private void ButtonRetry_Click(object sender, RoutedEventArgs e)
         {
-            ButtonRetry.Visibility = System.Windows.Visibility.Hidden;
+            ButtonRetry.Visibility = Visibility.Hidden;
             DownloadShow();
         }
         //Download methods end

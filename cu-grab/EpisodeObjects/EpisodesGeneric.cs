@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-//Class for the epiosdes of a show on tenplay, plus7 and RTE
+﻿//Class for the epiosdes of a show on tenplay, plus7 and RTE
 namespace cu_grab
 {
     public class EpisodesGeneric

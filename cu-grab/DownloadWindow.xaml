@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Download" Height="150" Width="450" ResizeMode="NoResize">
     <Window.TaskbarItemInfo>
-        <TaskbarItemInfo/>
+        <TaskbarItemInfo x:Name="taskBarDownload"/>
     </Window.TaskbarItemInfo>
     <Grid>
         <TextBlock x:Name="TextBlockDLInfo" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="424"/>

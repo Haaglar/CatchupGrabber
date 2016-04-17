@@ -47,7 +47,6 @@ namespace cu_grab
             dlMethod = passedData.DlMethod;
             fileName = fName;
             cnt = passedData.CountryOfOrigin;
-
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {
@@ -66,7 +65,8 @@ namespace cu_grab
         private void DownloadShow()
         {
             TextBlockDLInfo.Text = "Downloading: " + fileName;
-            switch(dlMethod)
+            taskBarDownload.ProgressState = TaskbarItemProgressState.Normal;
+            switch (dlMethod)
             {
                 case DownloadMethod.HLS:
                     RunFFmpeg(url, fileName);
@@ -149,7 +149,7 @@ namespace cu_grab
             cAWebClient.Proxy = wp;
             cAWebClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
             cAWebClient.DownloadFileCompleted += WebClient_AsyncCompletedEventHandler;
-            cAWebClient.DownloadFileAsync(new System.Uri(url), name + ".mp4");
+            cAWebClient.DownloadFileAsync(new Uri(url), name + ".mp4");
         }
         /// <summary>
         /// Standard download for a file, note proxy download will be slow and appear unresponsive for a while
@@ -169,13 +169,13 @@ namespace cu_grab
                 //Referer since it might not like requests from elsewhere
                 cAWebClient.Headers.Add("referer", proxyAddress);
                 //Make a blank request to example.com for cookies
-                cAWebClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", System.Text.Encoding.UTF8.GetBytes("u=" + "example.com" + "&allowCookies=on"));
+                cAWebClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", Encoding.UTF8.GetBytes("u=" + "example.com" + "&allowCookies=on"));
                 //Download the file
-                cAWebClient.DownloadFileAsync(new System.Uri(proxyAddress + "/browse.php?u=" + url + "&b=12&f=norefer"), name);
+                cAWebClient.DownloadFileAsync(new Uri(proxyAddress + "/browse.php?u=" + url + "&b=12&f=norefer"), name);
             }
             else
             {
-                cAWebClient.DownloadFileAsync(new System.Uri(url), name);
+                cAWebClient.DownloadFileAsync(new Uri(url), name);
             }
 
         }
@@ -191,10 +191,10 @@ namespace cu_grab
             bytesReceived = e.BytesReceived;
             ProgressDL.Value = e.ProgressPercentage;
             TextBlockProgress.Text = (bytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
-            /*if(Environment.OSVersion.Version.Major >= 6)
+            if(Environment.OSVersion.Version.Major >= 6)
             {
-                TaskbarItemInfo.ProgressValue = e.ProgressPercentage;
-            }*/
+                taskBarDownload.ProgressValue = ((double)e.ProgressPercentage)/100;
+            }
         }
         void WebClient_AsyncCompletedEventHandler(object sender, AsyncCompletedEventArgs e)
         {
@@ -203,10 +203,12 @@ namespace cu_grab
             {
                 Console.WriteLine(e.Error.StackTrace);
                 ButtonRetry.Visibility = Visibility.Visible;
+                taskBarDownload.ProgressState = TaskbarItemProgressState.Error;
                 TextBlockProgress.Text = "Download failed somewhere";
                 return;
             }                
             TextBlockProgress.Text = "Download Complete";
+            taskBarDownload.ProgressState = TaskbarItemProgressState.None;
             if (Properties.Settings.Default.ExitDLOnDownload)
                 this.Close();
         }

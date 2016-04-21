@@ -27,7 +27,7 @@ namespace cu_grab
         /// </summary>
         public override void FillShowsList()
         {
-            WebRequest reqSearchJs = HttpWebRequest.Create(@"http://www.rte.ie/player/au/shows_geo.js?v=4");
+            WebRequest reqSearchJs = HttpWebRequest.Create(@"http://www.rte.ie/player/ie/shows_geo.js?v=4");
             WebResponse resSearchJs = reqSearchJs.GetResponse();
 
             using (StreamReader srjs = new StreamReader(resSearchJs.GetResponseStream(), System.Text.Encoding.UTF8))

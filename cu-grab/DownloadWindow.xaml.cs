@@ -28,7 +28,7 @@ namespace cu_grab
         CookieAwareWebClient cAWebClient;
         //Async temp valuse
         long bytesReceived = 0;
-        long fileSize = 0;
+
         //Process
         Process proc = new Process();
 
@@ -72,7 +72,7 @@ namespace cu_grab
                     RunFFmpeg(url, fileName);
                     break;
                 case DownloadMethod.HTTP:
-                    ProgressDL.Visibility = System.Windows.Visibility.Visible;
+                    ProgressDL.Visibility = Visibility.Visible;
                     switch(cnt)
                     {
                         case Country.Spain:
@@ -193,18 +193,12 @@ namespace cu_grab
         
         void WebClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            //We need to know if we successfully downloaded the file completely
-            //So we gotta store it outside the function
-            if(fileSize == 0 && e.TotalBytesToReceive != 0)
-            {
-                fileSize = e.TotalBytesToReceive;
-            }
             bytesReceived = e.BytesReceived;
             ProgressDL.Value = e.ProgressPercentage;
             TextBlockProgress.Text = (bytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
-            if(Environment.OSVersion.Version.Major >= 6)
+            if(Environment.OSVersion.Version.Major >= 6) //As xp cant do taskbar things
             {
-                taskBarDownload.ProgressValue = ((double)e.ProgressPercentage)/100;
+                taskBarDownload.ProgressValue = e.ProgressPercentage/100.0;
             }
         }
         void WebClient_AsyncCompletedEventHandler(object sender, AsyncCompletedEventArgs e)

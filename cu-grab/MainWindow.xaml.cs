@@ -205,26 +205,33 @@ namespace cu_grab
             {
                 objectList.ItemsSource = new List<String>{"Loading..." + url};
                 DisableButtonsSites();
-                try
+                Task.Factory.StartNew(()=>
                 {
-                    Task.Factory.StartNew(()=>
-                    {
-                        websiteStore[site].FillShowsList();
-                    }).ContinueWith(x=>
+                    websiteStore[site].FillShowsList();
+                }).ContinueWith(x=>
+                {
+                    try
                     {
                         objectList.ItemsSource = websiteStore[site].GetShowsList();
-                        EnableButtonsSites();
                         curState = State.DisplayingShows;
                         curSite = site;
                         sBinds.SelectedShow = "";
-                    }, TaskScheduler.FromCurrentSynchronizationContext());
+                    }
+                    catch
+                    {
+                        errorLabel.Text = "Failed to get episode listings for " + url;
+                        curState = State.DisplayingNone;
+                        objectList.ItemsSource = null;
+                        curSite = Site.None;
+                        sBinds.SelectedSite = "";
+                    }
+                    finally
+                    {
+                        EnableButtonsSites();
+                    }
+                }, TaskScheduler.FromCurrentSynchronizationContext());
                     
-                }
-                catch
-                {
-                    errorLabel.Text = "Failed to get episode listings for "+url;
-                    EnableButtonsSites();
-                }
+               
             }
             // If they select it while we are currently on it just return to shows
             else if (curSite == site)

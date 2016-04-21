@@ -5,11 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Web.Script.Serialization;
-using System.Windows.Controls;
 
 namespace cu_grab
 {
@@ -30,7 +27,7 @@ namespace cu_grab
         /// </summary>
         public override void FillShowsList()
         {
-            WebRequest reqSearchJs = HttpWebRequest.Create(@"https://www.rte.ie/player/shows.js?v=2");
+            WebRequest reqSearchJs = HttpWebRequest.Create(@"http://www.rte.ie/player/au/shows_geo.js?v=4");
             WebResponse resSearchJs = reqSearchJs.GetResponse();
 
             using (StreamReader srjs = new StreamReader(resSearchJs.GetResponseStream(), System.Text.Encoding.UTF8))

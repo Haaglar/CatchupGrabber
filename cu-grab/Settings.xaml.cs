@@ -66,7 +66,7 @@ namespace cu_grab
         private void SpanishSettingsSet()
         {
             //Get Spansih Glype proxy
-            String proxyUnfiltered = TextBoxSpanishGlypeProxy.Text;
+            string proxyUnfiltered = TextBoxSpanishGlypeProxy.Text;
             if (proxyUnfiltered != "")
             {
                 if (!proxyUnfiltered.StartsWith("http://"))

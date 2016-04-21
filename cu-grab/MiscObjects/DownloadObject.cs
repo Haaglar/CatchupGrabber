@@ -10,11 +10,11 @@ namespace cu_grab
     /// </summary>
     public class DownloadObject
     {
-        public String EpisodeUrl { get; set; }
-        public String SubtitleUrl { get; set; }
+        public string EpisodeUrl { get; set; }
+        public string SubtitleUrl { get; set; }
         public Country CountryOfOrigin { get; set; }
         public DownloadMethod DlMethod { get; set; }
-        public DownloadObject(String eUrl, String sUrl, Country countryO, DownloadMethod downlMethod)
+        public DownloadObject(string eUrl, string sUrl, Country countryO, DownloadMethod downlMethod)
         {
             EpisodeUrl = eUrl;
             SubtitleUrl = sUrl;

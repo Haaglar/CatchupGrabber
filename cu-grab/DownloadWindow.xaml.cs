@@ -20,11 +20,11 @@ namespace cu_grab
     public partial class DownloadWindow : Window
     {
         //Locals
-        String url;
-        String subtitle;
+        string url;
+        string subtitle;
         DownloadMethod dlMethod;
         Country cnt;
-        String fileName;
+        string fileName;
         CookieAwareWebClient cAWebClient;
         //Async temp valuse
         long bytesReceived = 0;
@@ -37,7 +37,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="passedData">A download object containing information about the show to download</param>
         /// <param name="fName">The filename</param>
-        public DownloadWindow(DownloadObject passedData,String fName)
+        public DownloadWindow(DownloadObject passedData, string fName)
         {
             InitializeComponent();
             this.Show();
@@ -157,7 +157,7 @@ namespace cu_grab
         /// <param name="url">The url to download from</param>
         /// <param name="name">File name to save to plus extension</param>
         /// <param name="proxyAddress">A string url to a Glype proxy</param>
-        public void StandardDownload(String url, String name, String proxyAddress)
+        public void StandardDownload(string url, string name, string proxyAddress)
         {
             cAWebClient = new CookieAwareWebClient();
             cAWebClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
@@ -168,8 +168,19 @@ namespace cu_grab
                 cAWebClient.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                 //Referer since it might not like requests from elsewhere
                 cAWebClient.Headers.Add("referer", proxyAddress);
-                //Make a blank request to example.com for cookies
-                cAWebClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", Encoding.UTF8.GetBytes("u=" + "example.com" + "&allowCookies=on"));
+                try
+                {
+                    //Make a blank request to example.com for cookies
+                    cAWebClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", Encoding.UTF8.GetBytes("u=" + "example.com" + "&allowCookies=on"));
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.StackTrace);
+                    ButtonRetry.Visibility = Visibility.Visible;
+                    taskBarDownload.ProgressState = TaskbarItemProgressState.Error;
+                    TextBlockProgress.Text = "Download failed, could not find glype proxy";
+                    return;
+                }
                 //Download the file
                 cAWebClient.DownloadFileAsync(new Uri(proxyAddress + "/browse.php?u=" + url + "&b=12&f=norefer"), name);
             }
@@ -217,10 +228,10 @@ namespace cu_grab
         /// Download individual hls segments via webclient
         /// </summary>
         /// <param name="url">The bitrate url</param>
-        public void proxiedHls(String url)
+        public void proxiedHls(string url)
         {
-            String parent = new Uri(new Uri(url), ".").ToString();
-            String m3u8;
+            string parent = new Uri(new Uri(url), ".").ToString();
+            string m3u8;
             using (WebClient wc = new WebClient())
             {
                 wc.Encoding = Encoding.UTF8;
@@ -229,7 +240,7 @@ namespace cu_grab
             List<string> filelist = new List<string>();
             using (StringReader strReader = new StringReader(m3u8))
             {
-                String line;
+                string line;
                 while ((line = strReader.ReadLine()) != null)
                 {
                     if (line.StartsWith("#")) continue;

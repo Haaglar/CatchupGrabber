@@ -89,7 +89,7 @@ namespace cu_grab
                     case State.DisplayingEpisodes:
                         try
                         {
-                            String name = sBinds.SelectedShow + " " + websiteStore[curSite].GetSelectedNameEpisode(objectList.SelectedIndex);
+                            string name = sBinds.SelectedShow + " " + websiteStore[curSite].GetSelectedNameEpisode(objectList.SelectedIndex);
                             DownloadObject dlUrl = websiteStore[curSite].GetDownloadObject(objectList.SelectedIndex);
                             DownloadWindow dlWindow = new DownloadWindow(dlUrl, name);
                         }
@@ -203,7 +203,7 @@ namespace cu_grab
             //First time selecting site
             if (!websiteStore[site].RequestedSiteData)
             {
-                objectList.ItemsSource = new List<String>{"Loading..." + url};
+                objectList.ItemsSource = new List<string> {"Loading..." + url};
                 DisableButtonsSites();
                 Task.Factory.StartNew(()=>
                 {
@@ -230,8 +230,6 @@ namespace cu_grab
                         EnableButtonsSites();
                     }
                 }, TaskScheduler.FromCurrentSynchronizationContext());
-                    
-               
             }
             // If they select it while we are currently on it just return to shows
             else if (curSite == site)

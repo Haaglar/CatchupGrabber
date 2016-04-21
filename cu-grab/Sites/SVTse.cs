@@ -27,7 +27,7 @@ namespace cu_grab
         }
         public override string ClickDisplayedShow(int selectedIndex)
         {
-            String websiteShowList;
+            string websiteShowList;
             using (WebClient webClient = new WebClient())
             {
                 webClient.Encoding = Encoding.UTF8; //Webpage encoding
@@ -58,7 +58,7 @@ namespace cu_grab
         }
         public override void FillShowsList()
         {
-            String websiteShowList;
+            string websiteShowList;
             using (WebClient webClient = new WebClient())
             {
                 webClient.Encoding = Encoding.UTF8; //Webpage encoding
@@ -79,9 +79,9 @@ namespace cu_grab
         }
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            String jsonData;
+            string jsonData;
             Regex regRefId = new Regex(@"/([0-9]+)/");
-            String value = regRefId.Match(episodesSVT[selectedIndex].EpisodeID).Groups[1].Value;
+            string value = regRefId.Match(episodesSVT[selectedIndex].EpisodeID).Groups[1].Value;
             using (WebClient webClient = new WebClient())
             {
                 webClient.Encoding = Encoding.UTF8; //Webpage encoding Get some Json Data

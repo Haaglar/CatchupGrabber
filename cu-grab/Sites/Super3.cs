@@ -30,9 +30,9 @@ namespace cu_grab
         /// <returns>The selected show</returns>
         public override string ClickDisplayedShow(int selectedIndex)
         {
-            String showsPage;
-            String selectedName = showsS3.resposta.items.item[selectedIndex].titol;
-            String selectedUrl = searchUrlP1 + showsS3.resposta.items.item[selectedIndex].bband.id + searchUrlP2; 
+            string showsPage;
+            string selectedName = showsS3.resposta.items.item[selectedIndex].titol;
+            string selectedUrl = searchUrlP1 + showsS3.resposta.items.item[selectedIndex].bband.id + searchUrlP2; 
             using (WebClient wc = new WebClient())
             {
                 wc.Encoding = Encoding.GetEncoding("iso-8859-1");
@@ -48,7 +48,7 @@ namespace cu_grab
 
         public override void FillShowsList()
         {
-            String showsJson;
+            string showsJson;
             //Get Catalan
             using (WebClient wc = new WebClient())
             {
@@ -74,7 +74,7 @@ namespace cu_grab
         /// <returns></returns>
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            String jsonMP4;
+            string jsonMP4;
             using (WebClient wc = new WebClient())
             {
                 //Last bit not actually needed but whatever

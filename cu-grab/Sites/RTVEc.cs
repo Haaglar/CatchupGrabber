@@ -44,7 +44,7 @@ namespace cu_grab
         /// Handles clicking on a show and setting the listbox to the episodes for the show. 
         /// </summary>
         /// <returns>The name of the selected show</returns>
-        public override String ClickDisplayedShow(int selectedIndex)
+        public override string ClickDisplayedShow(int selectedIndex)
         {
             WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/api/tematicas/" + value.infoBuscador[selectedIndex].id + "/videos.json");
             WebResponse resTematicasJs = reqTematicasJs.GetResponse();
@@ -58,7 +58,7 @@ namespace cu_grab
                             
             }
 
-            String selectedShow = value.infoBuscador[selectedIndex].titulo;
+            string selectedShow = value.infoBuscador[selectedIndex].titulo;
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {
@@ -72,7 +72,7 @@ namespace cu_grab
         /// Depricated, used generateUrl instead
         /// </summary>
         /// <returns></returns>
-        public String GetUrlOld()
+        public string GetUrlOld()
         {
             WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/ztnr/movil/thumbnail/default/videos/" + episodesClan.page.items[0].id + ".png");
             //reqTematicasJs.Headers.Add("Referer", episodesClan.page.items[objectList.SelectedIndex].htmlUrl);
@@ -95,12 +95,12 @@ namespace cu_grab
             //Create a phase conatining the video id and milliseconds since the unix epoch
             DateTime dt = DateTime.Now;
             DateTime epoch = new DateTime(1970, 1, 1);
-            String joined = episodesClan.page.items[selectedIndex].id + "_es_" + (dt - epoch).TotalMilliseconds;
+            string joined = episodesClan.page.items[selectedIndex].id + "_es_" + (dt - epoch).TotalMilliseconds;
             
 
-            RijndaelManaged aesEncrypt = new RijndaelManaged(); 
+            RijndaelManaged aesEncrypt = new RijndaelManaged();
             //Set up the key and phrase to encrypt
-            String passPhrase = "pmku579tg465GDjf1287gDFFED56788C"; // key for the "oceano"/tablet url
+            string passPhrase = "pmku579tg465GDjf1287gDFFED56788C"; // key for the "oceano"/tablet url
             byte[] key = new System.Text.UTF8Encoding().GetBytes(passPhrase);
             byte[] toEncrypt = new System.Text.UTF8Encoding().GetBytes(joined);
 
@@ -121,20 +121,20 @@ namespace cu_grab
         /// <summary>
         /// Depreciate method for grabbing the URL (as it doesnt get the highest quality.)
         /// </summary>
-        private String GetUrlFromPNGUrl(String text)
+        private string GetUrlFromPNGUrl(string text)
         {    
             Regex rer = new Regex(@"tEXt(.*)#.([0-9]*)"); //Search for the two piece of data that we need
             byte[] data = Convert.FromBase64String(text);
-            String decodedString = Encoding.UTF8.GetString(data);
+            string decodedString = Encoding.UTF8.GetString(data);
             //remove junk data which messes up regex, well most of it anyway
             decodedString = Regex.Replace(decodedString, @"[^\u0000-\u007F]", string.Empty);
             MatchCollection matchBand = rer.Matches(decodedString);
 
             //The different sections of the png to decode
-            String group1 = matchBand[0].Groups[1].Value;
-            String group2 = matchBand[0].Groups[2].Value;
+            string group1 = matchBand[0].Groups[1].Value;
+            string group2 = matchBand[0].Groups[2].Value;
             //Port of the code found in youtube-dl, which its self based off stuff elsewhere.
-            String alphabet = "";
+            string alphabet = "";
             int e = 0, d = 0;
             foreach (char l in group1)
             {
@@ -146,7 +146,7 @@ namespace cu_grab
                 else
                     d -= 1;
             }
-            String url = "";
+            string url = "";
             int f = 0, b = 1;
             e = 3;
             int lint = 0;
@@ -185,11 +185,11 @@ namespace cu_grab
             episodesClan = null;
         }
 
-        public override String GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedNameEpisode(int selectedIndex)
         {
             return episodesClan.page.items[selectedIndex].ToString();
         }
-        public override String GetSubtitles()
+        public override string GetSubtitles()
         {
             return "";
         }

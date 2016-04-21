@@ -11,15 +11,15 @@ namespace cu_grab
 {
     public class Plus7 : DownloadAbstract
     {
-        private String tvShowsUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/"; //Json object used to provide search suggestions
+        private string tvShowsUrl = @"https://au.tv.yahoo.com/plus7/data/tv-shows/"; //Json object used to provide search suggestions
         private List<ShowsP7> showsP7;
         private List<EpisodesGeneric> selectedShowEpisodes = new List<EpisodesGeneric>();
         private BCoveJson bCoveJson; //Json from the api request 
 
         //Stuff for downloading
-        private String apiUrl = "http://c.brightcove.com/services/json/player/media/?command=find_media_by_reference_id";
-        private String publisherIdMain = "2376984108001";
-        private String publisherIdAlt = "2376984109001"; //Alternate for extras and TV Snax
+        private string apiUrl = "http://c.brightcove.com/services/json/player/media/?command=find_media_by_reference_id";
+        private string publisherIdMain = "2376984108001";
+        private string publisherIdAlt = "2376984109001"; //Alternate for extras and TV Snax
 
         /// <summary>
         /// Standard constructor
@@ -49,9 +49,9 @@ namespace cu_grab
         /// </summary>
         /// <param name="selectedIndex">Index of the selected show in the list</param>
         /// <returns>The name of the selected Show</returns>
-        public override String ClickDisplayedShow(int selectedIndex)
+        public override string ClickDisplayedShow(int selectedIndex)
         {
-            String pageShow;
+            string pageShow;
             WebRequest reqShow = HttpWebRequest.Create(showsP7[selectedIndex].url);
             using (WebResponse resShow = reqShow.GetResponse()) //>using
             {
@@ -70,7 +70,7 @@ namespace cu_grab
             MatchCollection matchLoadMore = regexLoadmore.Matches(pageShow);
             if (matchLoadMore.Count != 0)//If it hasn't loaded all of the episodes make another request
             {
-                String updatedUrl = matchLoadMore[0].Groups[1].Value;
+                string updatedUrl = matchLoadMore[0].Groups[1].Value;
                 updatedUrl = updatedUrl.Replace("&amp;", @"&");            //Fix ampersands
                 updatedUrl = updatedUrl.Replace("2/?pp=10", @"1/?pp=70"); //Get the first 70 results for the show (Make this dynamic)
                 updatedUrl = @"http://au.tv.yahoo.com" + updatedUrl + "&bucket=exclusiveBkt"; //Add on additional GET value and prefix
@@ -99,14 +99,14 @@ namespace cu_grab
             int i = 0;
             foreach (Match match in matchDesc)
             {
-                String url = matchLinks[i].Groups[1].Value;
-                String description = match.Groups[1].Value.Trim(); // Trim excess whitespace cause otherwise itll look like rubbish 
+                string url = matchLinks[i].Groups[1].Value;
+                string description = match.Groups[1].Value.Trim(); // Trim excess whitespace cause otherwise itll look like rubbish 
                 selectedShowEpisodes.Add(new EpisodesGeneric(description, url));
                 i += 2;//Skip every second as theres a href on both the image and the content
             }
-        
+
             //Store the current show name for file naming later
-            String selectedShow = showsP7[selectedIndex].title;
+            string selectedShow = showsP7[selectedIndex].title;
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {
@@ -120,7 +120,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="selectedIndex">Index of the selected show in the list</param>
         /// <returns>The selected show's name</returns>
-        public override String GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedNameEpisode(int selectedIndex)
         {
             return selectedShowEpisodes[selectedIndex].Name;
         }
@@ -132,8 +132,8 @@ namespace cu_grab
         public override DownloadObject GetDownloadObject(int selectedIndex) 
         {
             //Get episode page data
-            String pageContent;
-            String url = selectedShowEpisodes[selectedIndex].EpisodeID;
+            string pageContent;
+            string url = selectedShowEpisodes[selectedIndex].EpisodeID;
             WebRequest reqShow = HttpWebRequest.Create("https://" + url);
             using (WebResponse resShowUrl = reqShow.GetResponse())
             {
@@ -147,16 +147,16 @@ namespace cu_grab
             }
             //Get Id from Url
             Regex regRefId = new Regex(@"/([0-9]+)/");
-            String refID = regRefId.Matches(url)[0].Groups[1].Value;
+            string refID = regRefId.Matches(url)[0].Groups[1].Value;
             // Get playerkey from page
             Regex regPlayerKey = new Regex(@"rKey"" value=""(.*)""");
-            String playerKey = regPlayerKey.Matches(pageContent)[0].Groups[1].Value;
-            String jsonUrl = apiUrl + "&playerKey=" + playerKey + "&pubId=" + publisherIdMain + "&refId=" + refID;
+            string playerKey = regPlayerKey.Matches(pageContent)[0].Groups[1].Value;
+            string jsonUrl = apiUrl + "&playerKey=" + playerKey + "&pubId=" + publisherIdMain + "&refId=" + refID;
 
             //Get and store the json data   
             using(WebClient wc = new WebClient())
             {
-                String showsJson = wc.DownloadString(jsonUrl);
+                string showsJson = wc.DownloadString(jsonUrl);
                 if(showsJson.Equals("null"))//Bad id
                 {
                     showsJson = wc.DownloadString(jsonUrl = apiUrl + "&playerKey=" + playerKey + "&pubId=" + publisherIdAlt + "&refId=" + refID);
@@ -167,7 +167,7 @@ namespace cu_grab
 
             //Get highest quality
             int defaultQual = bCoveJson.FLVFullSize;
-            String fullLengthURL = bCoveJson.FLVFullLengthURL;
+            string fullLengthURL = bCoveJson.FLVFullLengthURL;
             int oldSize = 0;
             foreach(IOSRendition redition in bCoveJson.IOSRenditions)
             {
@@ -190,7 +190,7 @@ namespace cu_grab
         /// Gets the URL of the subtitles for the selected episode.
         /// </summary>
         /// <returns>The URL for the captions, returns a blank String if no Subtitles exist </returns>
-        public override String GetSubtitles()
+        public override string GetSubtitles()
         {
             if(bCoveJson.captions != null)
             {

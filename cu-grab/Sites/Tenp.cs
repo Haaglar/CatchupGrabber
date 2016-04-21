@@ -44,7 +44,7 @@ namespace cu_grab
         /// Handles clicking of a show
         /// </summary>
         /// <returns>The name to the clicked show</returns>
-        public override String ClickDisplayedShow(int selectedIndex)
+        public override string ClickDisplayedShow(int selectedIndex)
         {
             WebRequest reqShow = HttpWebRequest.Create("http://tenplay.com.au/handlers/Render.ashx?path=/UserControls/Content/ContentBody.ascx&providername=Episode&datasourceid=" + shows.Shows[selectedIndex].ScId);
             WebResponse resShow = reqShow.GetResponse();
@@ -63,7 +63,7 @@ namespace cu_grab
                 selectedShowEpisodes.Add(new EpisodesGeneric(match.Item1.Groups[1].Value, match.Item2.Groups[1].Value));
             }
             //Store the current show name for file naming later
-            String selectedShow = shows.Shows[selectedIndex].Name;
+            string selectedShow = shows.Shows[selectedIndex].Name;
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {
@@ -81,17 +81,17 @@ namespace cu_grab
         /// <returns>A url</returns>
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            String BC_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId="; //url taken from and m3u8
-            String PUB_ID = "&pubId=2376984108001"; //ID taken from any m3u8
+            string BC_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId="; //url taken from and m3u8
+            string PUB_ID = "&pubId=2376984108001"; //ID taken from any m3u8
             // Get standard m3u8 from
-            String url = netAssist.GetHighestM3U8Address(BC_URL + selectedShowEpisodes[selectedIndex].EpisodeID + PUB_ID);
+            string url = netAssist.GetHighestM3U8Address(BC_URL + selectedShowEpisodes[selectedIndex].EpisodeID + PUB_ID);
             return new DownloadObject(url, GetSubtitles(), Country.Aus, DownloadMethod.HLS);
         }
         /// <summary>
         /// Get the name of the select show
         /// </summary>
         /// <returns>Returns the Name of the selected episode</returns>
-        public override String GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedNameEpisode(int selectedIndex)
         {
             return selectedShowEpisodes[selectedIndex].Name;
         }
@@ -106,7 +106,7 @@ namespace cu_grab
         /// Sets it as the active List
         /// </summary>
 
-        public override String GetSubtitles()
+        public override string GetSubtitles()
         {
             return "";
         }

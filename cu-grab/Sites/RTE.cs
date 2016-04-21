@@ -12,8 +12,8 @@ namespace cu_grab
 {
     public class RTE : DownloadAbstract
     {
-        private const String EpisodePlaylistUrl = @"https://www.rte.ie/rteavgen/getplaylist/?type=web&format=json&id=";
-        private const String CndUrl = @"http://cdn.rasset.ie";
+        private const string EpisodePlaylistUrl = @"https://www.rte.ie/rteavgen/getplaylist/?type=web&format=json&id=";
+        private const string CndUrl = @"http://cdn.rasset.ie";
         private List<ShowsRTE> rteShows;
         private List<EpisodesGeneric> selectedShowEpisodes = new List<EpisodesGeneric>();
         private CUNetworkAssist netAssist = new CUNetworkAssist(); 
@@ -51,9 +51,9 @@ namespace cu_grab
         public override string ClickDisplayedShow(int selectedIndex)
         {
             //Get page content
-            String pageShow;
-            String proxyAddress = Properties.Settings.Default.HTTPIrish;
-            String url = "http://www.rte.ie/player/lh/show/" + rteShows[selectedIndex].id;
+            string pageShow;
+            string proxyAddress = Properties.Settings.Default.HTTPIrish;
+            string url = "http://www.rte.ie/player/lh/show/" + rteShows[selectedIndex].id;
             //Use a web client here for the proxy option as you cannot view get the episode list without having a IE address
             //Also Glype or PHProxy proxies do not seem to work either
             using (WebClient webClient = new WebClient())
@@ -81,11 +81,11 @@ namespace cu_grab
             //Add episodes to list
             foreach (Tuple<Match, Match> match in matchName.Cast<Match>().Zip(matchID.Cast<Match>(), Tuple.Create)) //Join the two in a tuple
             {
-                String description = match.Item1.Groups[1].Value;
-                String ID = match.Item2.Groups[1].Value;
+                string description = match.Item1.Groups[1].Value;
+                string ID = match.Item2.Groups[1].Value;
                 selectedShowEpisodes.Add(new EpisodesGeneric(description, ID));
             }
-            String selectedShow = rteShows[selectedIndex].v;
+            string selectedShow = rteShows[selectedIndex].v;
             //Clean the name for windows
             foreach (var c in System.IO.Path.GetInvalidFileNameChars())
             {
@@ -100,8 +100,8 @@ namespace cu_grab
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
             //Construct URL
-            String urlJson = EpisodePlaylistUrl +  selectedShowEpisodes[selectedIndex].EpisodeID;
-            String showJsonString;
+            string urlJson = EpisodePlaylistUrl +  selectedShowEpisodes[selectedIndex].EpisodeID;
+            string showJsonString;
             WebRequest reqShow = HttpWebRequest.Create(urlJson);
             using (WebResponse resShowUrl = reqShow.GetResponse())
             {
@@ -115,8 +115,8 @@ namespace cu_grab
             }
             //Get the hls url
             Regex getHlsUrl = new Regex(@"hls_url""\: ""(.*?)""");
-            String urlSuffix = getHlsUrl.Matches(showJsonString)[0].Groups[1].Value;
-            String manifestHlsUrl = CndUrl + "/manifest" + urlSuffix;
+            string urlSuffix = getHlsUrl.Matches(showJsonString)[0].Groups[1].Value;
+            string manifestHlsUrl = CndUrl + "/manifest" + urlSuffix;
             return new DownloadObject(CndUrl + netAssist.GetHighestM3U8Address(manifestHlsUrl), GetSubtitles(), Country.Ireland,DownloadMethod.HLS);
             
         }

@@ -17,9 +17,9 @@ namespace cu_grab
             /// </summary>
             /// <param name="masterUrl">The arrdess to the Master m3u8</param>
             /// <returns>The highest bitrate value</returns>
-            public String GetHighestM3U8Address(String masterUrl)
+            public string GetHighestM3U8Address(string masterUrl)
             {
-                String finalUrl = "";
+                string finalUrl = "";
                 WebRequest reqManifest = HttpWebRequest.Create(masterUrl);
                 using (WebResponse resManifest = reqManifest.GetResponse())
                 {
@@ -27,7 +27,7 @@ namespace cu_grab
                     {
                         using (StreamReader srShowManifest = new StreamReader(responseStreamManifest, System.Text.Encoding.UTF8))
                         {
-                            String line; // current line 
+                            string line; // current line 
 
                             Regex regexBandwidth = new Regex(@"(?<=\bBANDWIDTH=)([0-9]+)"); //Quality Selection
                             int index = 0;

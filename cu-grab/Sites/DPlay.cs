@@ -14,10 +14,10 @@ namespace cu_grab
     {
         private ShowsDPlay showsDPlay;
         private List<EpisodesGeneric> episodesDPlay = new List<EpisodesGeneric>();
-        private static String EpisodeAjaxAddrp1 = @"http://it.dplay.com/api/v2/ajax/shows/";
-        private static String EpisodeAjaxAddrp2 = @"/seasons/?show_id=";
-        private static String EpisodeAjaxAddrp3 = @"&items=52&sort=episode_number_desc&video_types=-clip"; //52 is the average episodes for a show
-        private static String ShowsUrl = @"http://it.dplay.com/api/v2/ajax/modules?items=400&page_id=32&module_id=26&page=0"; //Show list
+        private static string EpisodeAjaxAddrp1 = @"http://it.dplay.com/api/v2/ajax/shows/";
+        private static string EpisodeAjaxAddrp2 = @"/seasons/?show_id=";
+        private static string EpisodeAjaxAddrp3 = @"&items=52&sort=episode_number_desc&video_types=-clip"; //52 is the average episodes for a show
+        private static string ShowsUrl = @"http://it.dplay.com/api/v2/ajax/modules?items=400&page_id=32&module_id=26&page=0"; //Show list
         private CUNetworkAssist netAssist = new CUNetworkAssist(); 
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace cu_grab
         public override void FillShowsList()
         {
 
-            String pageContent;
+            string pageContent;
             WebRequest reqShowJs = HttpWebRequest.Create(ShowsUrl);
             reqShowJs.Timeout = 100000;
             WebResponse resSearchJs = reqShowJs.GetResponse();
@@ -56,7 +56,7 @@ namespace cu_grab
 
         public override string ClickDisplayedShow(int selectedIndex)
         {
-            String output;
+            string output;
             //I would love to use the existing JSON for something other than the URL
             //But its so conveluted that its impossible to do so
             using (WebClient webClient = new WebClient())
@@ -83,12 +83,12 @@ namespace cu_grab
             //Add episodes to list
             foreach (var match in matchName.Cast<Match>().Zip(matchID.Cast<Match>(), Tuple.Create)) //Join the two in a tuple
             {
-                String description = match.Item1.Groups[1].Value;
-                String ID = match.Item2.Groups[1].Value.Replace(@"\",""); //Remove escaped JSON
+                string description = match.Item1.Groups[1].Value;
+                string ID = match.Item2.Groups[1].Value.Replace(@"\",""); //Remove escaped JSON
                 episodesDPlay.Add(new EpisodesGeneric(description, ID));
             }
 
-            String selectedShow = showsDPlay.data[selectedIndex].title;
+            string selectedShow = showsDPlay.data[selectedIndex].title;
 
 
             //Clean the name for windows
@@ -101,7 +101,7 @@ namespace cu_grab
 
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            String m3u8 = netAssist.GetHighestM3U8Address(episodesDPlay[selectedIndex].EpisodeID);
+            string m3u8 = netAssist.GetHighestM3U8Address(episodesDPlay[selectedIndex].EpisodeID);
             return new DownloadObject(m3u8, GetSubtitles(), Country.Italy, DownloadMethod.HLS);
         }
 

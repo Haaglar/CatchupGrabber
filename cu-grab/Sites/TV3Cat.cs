@@ -23,7 +23,7 @@ namespace cu_grab
         public override void FillShowsList()
         {
             showList = new List<ShowsGeneric>();
-            String websiteShowList;
+            string websiteShowList;
             using (WebClient webClient = new WebClient())
             {
                 webClient.Encoding = Encoding.UTF8; //Cause its system ansi by defualt and that screws up the text
@@ -34,7 +34,7 @@ namespace cu_grab
             //So we can abuse regex
             int beginIndex = websiteShowList.IndexOf(@"div class=""span9""");
             int endIndex = websiteShowList.IndexOf(@"project_id: modul-programesaz") - beginIndex;
-            String cut = websiteShowList.Substring(beginIndex, endIndex); 
+            string cut = websiteShowList.Substring(beginIndex, endIndex); 
             MatchCollection entries = getContents.Matches(cut);
             foreach(Match entry in entries)
             {
@@ -48,13 +48,13 @@ namespace cu_grab
 
         public override string ClickDisplayedShow(int selectedIndex)
         {
-            String urlSelectedTmp = showList[selectedIndex].url;
-            String showName = showList[selectedIndex].name;  //Store it cause we swap listbox later
-            String showEpisodeList;
+            string urlSelectedTmp = showList[selectedIndex].url;
+            string showName = showList[selectedIndex].name;  //Store it cause we swap listbox later
+            string showEpisodeList;
             //Its a relative url
             if(urlSelectedTmp.StartsWith("/tv3/")) //TV3 Download
             {
-                String urlFull = @"http://www.ccma.cat" + urlSelectedTmp;
+                string urlFull = @"http://www.ccma.cat" + urlSelectedTmp;
                 using (WebClient webClient = new WebClient())
                 {
                     webClient.Encoding = Encoding.UTF8; //Cause its system ansi by defualt and that screws up the text
@@ -78,11 +78,11 @@ namespace cu_grab
 
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            String pageJson;
-            
-            String episodeUrl = episodeList[selectedIndex].EpisodeID;
+            string pageJson;
+
+            string episodeUrl = episodeList[selectedIndex].EpisodeID;
             Regex regRefId = new Regex(@"/([0-9]+)/");
-            String refID = regRefId.Matches(episodeUrl)[0].Groups[1].Value;
+            string refID = regRefId.Matches(episodeUrl)[0].Groups[1].Value;
 
             //Download json
             using (WebClient webClient = new WebClient())

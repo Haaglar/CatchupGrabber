@@ -75,6 +75,7 @@
     <Compile Include="CUNetworkAssist.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="MiscObjects\BCoveJson9N.cs" />
     <Compile Include="MiscObjects\SVTJson.cs" />
     <Compile Include="ShowObjects\Shows9Now.cs" />
     <Compile Include="Sites\9Now.cs" />

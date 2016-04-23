@@ -269,7 +269,7 @@ namespace cu_grab
         private void ButtonSettings_Click(object sender, RoutedEventArgs e)
         {
             Settings settingsWindow = new Settings();
-            settingsWindow.Show();
+            settingsWindow.ShowDialog();
         }
 
         private void DisableButtonsSites()

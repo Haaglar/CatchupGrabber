@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace cu_grab
+namespace cu_grab.MiscObjects.Plus7
 {
     public class IOSRendition
     {

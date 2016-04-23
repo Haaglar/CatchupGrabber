@@ -1,4 +1,5 @@
-﻿using System;
+﻿using cu_grab.MiscObjects.Plus7;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -108,7 +109,7 @@ namespace cu_grab
             //Store the current show name for file naming later
             string selectedShow = showsP7[selectedIndex].title;
             //Clean the name for windows
-            foreach (var c in System.IO.Path.GetInvalidFileNameChars())
+            foreach (var c in Path.GetInvalidFileNameChars())
             {
                 selectedShow = selectedShow.Replace(c, '-');
             }

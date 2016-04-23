@@ -1,11 +1,10 @@
 ﻿using cu_grab.EpisodeObjects._9Now;
+using cu_grab.MiscObjects._9Now;
+using cu_grab.NetworkAssister;
 using cu_grab.Shows._9Now;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
 namespace cu_grab
@@ -16,6 +15,9 @@ namespace cu_grab
         private Episodes9Now episodes9N;
         private string episodeUrlP1 = "https://tv-api.9now.com.au/v1/pages/tv-series/";
         private string episodeUrlP2 = "?device=android";
+        private string apiAddressP1 = "http://api.brightcove.com/services/library?media_delivery=http&reference_id=";
+        private string apiAddressP2 = "&command=find_video_by_reference_id&token=7jHYJN84oHHRRin6N6JpuDmm3ghgxP4o3GGXsatxe5aDKZ4MGOztLw..&video_fields=accountId%2CshortDescription%2CiOSRenditions%2CWVMRenditions%2CHLSURL%2CvideoFullLength";
+        private CUNetworkAssist netAssist = new CUNetworkAssist();
         public _9Now() { }
 
         public override void CleanEpisodes()
@@ -38,7 +40,7 @@ namespace cu_grab
 
         public override void FillShowsList()
         {
-            //Device can be anything, but the android app uses so well aswell
+            //Device can be anything, but the android app uses android so we'll aswell
             string address = "https://tv-api.9now.com.au/v1/tv-series?device=android&take=99999";
             string jsonContent;
             using (WebClient webClient = new WebClient())
@@ -47,11 +49,31 @@ namespace cu_grab
             }
             JavaScriptSerializer jss = new JavaScriptSerializer();
             shows9N = jss.Deserialize<Shows9Now>(jsonContent);
+            RequestedSiteData = true;
         }
 
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            throw new NotImplementedException();
+            string brightCoveRefId = episodes9N.items[0].items[selectedIndex].video.referenceId;
+            string jsonRequest;
+            using (WebClient webClient = new WebClient())
+            {
+                jsonRequest = webClient.DownloadString(apiAddressP1 + brightCoveRefId + apiAddressP2);
+            }
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            BCoveJson9N json = jss.Deserialize<BCoveJson9N>(jsonRequest);
+
+            string fullLengthURL = json.HLSURL;
+            int oldSize = 0;
+
+            foreach (IOSRendition redition in json.IOSRenditions)
+            {
+                if (oldSize < redition.encodingRate)
+                {
+                    fullLengthURL = redition.url;
+                }
+            }
+            return new DownloadObject(fullLengthURL, GetSubtitles(), Country.Aus, DownloadMethod.HLS);
         }
 
         public override List<object> GetEpisodesList()
@@ -61,7 +83,7 @@ namespace cu_grab
 
         public override string GetSelectedNameEpisode(int selectedIndex)
         {
-            throw new NotImplementedException();
+            return episodes9N.items[0].items[selectedIndex].name;
         }
 
         public override List<object> GetShowsList()

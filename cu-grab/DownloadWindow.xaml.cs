@@ -48,7 +48,7 @@ namespace cu_grab
             fileName = fName;
             cnt = passedData.CountryOfOrigin;
             //Clean the name for windows
-            foreach (var c in System.IO.Path.GetInvalidFileNameChars())
+            foreach (var c in Path.GetInvalidFileNameChars())
             {
                 fileName = fileName.Replace(c, '-');
             }

@@ -60,7 +60,7 @@ namespace cu_grab
 
             string selectedShow = value.infoBuscador[selectedIndex].titulo;
             //Clean the name for windows
-            foreach (var c in System.IO.Path.GetInvalidFileNameChars())
+            foreach (var c in Path.GetInvalidFileNameChars())
             {
                 selectedShow = selectedShow.Replace(c, '-');
             }

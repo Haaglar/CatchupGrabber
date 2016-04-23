@@ -65,7 +65,7 @@ namespace cu_grab
             //Store the current show name for file naming later
             string selectedShow = shows.Shows[selectedIndex].Name;
             //Clean the name for windows
-            foreach (var c in System.IO.Path.GetInvalidFileNameChars())
+            foreach (var c in Path.GetInvalidFileNameChars())
             {
                 selectedShow = selectedShow.Replace(c, '-');
             }

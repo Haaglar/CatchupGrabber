@@ -9,5 +9,7 @@ Supports:
 + DPlay (Italian) (HLS)
 + TV3 (ccma.cat)
 + Super3
++ SVTPlay
++ 9Now
 
 Requires .NET 4.5 and FFmpeg to run

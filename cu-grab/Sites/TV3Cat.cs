@@ -73,7 +73,7 @@ namespace cu_grab
                 }
                 return showName;
             }
-            throw new System.ArgumentException("Not supported");        
+            throw new ArgumentException("Not supported");        
         }
 
         public override DownloadObject GetDownloadObject(int selectedIndex)

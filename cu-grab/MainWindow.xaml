@@ -38,14 +38,15 @@
             </Grid>
             <!--Buttons section-->
             <Grid Grid.Row="2" x:Name="ButtonSegment" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button x:Name="buttonTenplay" Content="Tenplay" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonTenplay_Click" Margin="-156,-21,0,0" FontSize="14" />
-                <Button x:Name="buttonRTVEClan" Content="RTVEClan" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonRTVEC_Click" Margin="-156,14,0,-14" FontSize="14"/>
-                <Button x:Name="buttonPlus7" Content="Plus7" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonPlus7_Click" Margin="-51,-20,0,0" FontSize="14"/>
-                <Button x:Name="buttonRTE" Content="RTE" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonRTE_Click" Margin="-51,15,0,-15" FontSize="14"/>
-                <Button x:Name="buttonDPlay" Content="DPlay (ITA)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonDPlay_Click" Margin="54,-20,-54,0" FontSize="14"/>
-                <Button x:Name="buttonCCMA" Content="TV3 (CAT)" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Height="30" Click="ButtonCCMA_Click" Margin="54,15,-54,-15" FontSize="14"/>
-                <Button x:Name="buttonSuper3" Content="Super3" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="100" Height="30" Click="ButtonSuper3_Click" Margin="0,-20,-159,0" FontSize="14"/>
-                <Button x:Name="buttonSVTPlay" Content="SVTPlay" HorizontalAlignment="Left" Margin="159,14,-159,-12" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonSVTPlay_Click" FontSize="14"/>
+                <Button x:Name="buttonTenplay" Content="Tenplay" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonTenplay_Click" Margin="-211,-21,0,0" FontSize="14" />
+                <Button x:Name="buttonRTVEClan" Content="RTVEClan" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonRTVEC_Click" Margin="-211,13,0,-11" FontSize="14"/>
+                <Button x:Name="buttonPlus7" Content="Plus7" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonPlus7_Click" Margin="-106,-21,0,0" FontSize="14"/>
+                <Button x:Name="buttonRTE" Content="RTE" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonRTE_Click" Margin="-106,14,0,-12" FontSize="14"/>
+                <Button x:Name="buttonDPlay" Content="DPlay (ITA)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonDPlay_Click" Margin="-1,-21,0,0" FontSize="14"/>
+                <Button x:Name="buttonCCMA" Content="TV3 (CAT)" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="100" Height="30" Click="ButtonCCMA_Click" Margin="-1,14,0,-12" FontSize="14"/>
+                <Button x:Name="buttonSuper3" Content="Super3" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="100" Height="30" Click="ButtonSuper3_Click" Margin="0,-21,-104,0" FontSize="14"/>
+                <Button x:Name="buttonSVTPlay" Content="SVTPlay" HorizontalAlignment="Left" Margin="104,13,-104,-11" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonSVTPlay_Click" FontSize="14"/>
+                <Button x:Name="button9Now" Content="9Now" HorizontalAlignment="Left" Margin="209,-21,-209,0" VerticalAlignment="Top" Width="100" Height="30" Click="Button9Now_Click" FontSize="14"/>
 
             </Grid>
 

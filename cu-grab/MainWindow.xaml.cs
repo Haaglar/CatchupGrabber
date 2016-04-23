@@ -22,7 +22,7 @@ namespace cu_grab
     {
         StringBindings sBinds = new StringBindings();
         enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
-        enum Site {None, TenP, Plus7, RTVEClan, RTE, DPlay, TV3Cat, Super3, SVTPlay}
+        enum Site {None, TenP, Plus7, RTVEClan, RTE, DPlay, TV3Cat, Super3, SVTPlay, _9Now}
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
         Dictionary<Site, DownloadAbstract> websiteStore = new Dictionary<Site, DownloadAbstract>();
@@ -51,6 +51,7 @@ namespace cu_grab
             TV3Cat tv3CatCCMA;
             Super3 super3;
             SVTse svtplay;
+            _9Now nNow;
             websiteStore.Add(Site.TenP, tenPlay = new Tenp());
             websiteStore.Add(Site.Plus7, plus7 = new Plus7());
             websiteStore.Add(Site.RTVEClan, rtveClan = new RTVEc());
@@ -59,6 +60,7 @@ namespace cu_grab
             websiteStore.Add(Site.TV3Cat, tv3CatCCMA = new TV3Cat());
             websiteStore.Add(Site.Super3, super3 = new Super3());
             websiteStore.Add(Site.SVTPlay, svtplay = new SVTse());
+            websiteStore.Add(Site._9Now, nNow = new _9Now());
         }
         /// <summary>
         /// Double click of list item
@@ -192,6 +194,17 @@ namespace cu_grab
         {
              HandleSiteSelection(Site.SVTPlay, "SVTPlay.se");
         }
+
+        /// <summary>
+        /// Handles the actions for when the SVTPlay button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button9Now_Click(object sender, RoutedEventArgs e)
+        {
+            HandleSiteSelection(Site._9Now, "9now.com.au");
+        }
+
         /// <summary>
         /// Handles the actions for site show data and switching between. 
         /// </summary>

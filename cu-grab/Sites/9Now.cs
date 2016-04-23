@@ -1,4 +1,5 @@
-﻿using cu_grab.Shows._9Now;
+﻿using cu_grab.EpisodeObjects._9Now;
+using cu_grab.Shows._9Now;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +13,27 @@ namespace cu_grab
     class _9Now : DownloadAbstract
     {
         private Shows9Now shows9N;
+        private Episodes9Now episodes9N;
         private string episodeUrlP1 = "https://tv-api.9now.com.au/v1/pages/tv-series/";
         private string episodeUrlP2 = "?device=android";
         public _9Now() { }
 
         public override void CleanEpisodes()
         {
-            throw new NotImplementedException();
+            episodes9N = null;
         }
 
         public override string ClickDisplayedShow(int selectedIndex)
         {
-            throw new NotImplementedException();
+            string jsonContentEpisodes;
+            string slug = shows9N.items[selectedIndex].slug;
+            using (WebClient webClient = new WebClient())
+            {
+                jsonContentEpisodes = webClient.DownloadString(episodeUrlP1 + slug + episodeUrlP2);
+            }
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            episodes9N = jss.Deserialize<Episodes9Now>(jsonContentEpisodes);
+            return shows9N.items[selectedIndex].name;
         }
 
         public override void FillShowsList()
@@ -46,7 +56,7 @@ namespace cu_grab
 
         public override List<object> GetEpisodesList()
         {
-            throw new NotImplementedException();
+            return episodes9N.items[0].items.ToList<object>();
         }
 
         public override string GetSelectedNameEpisode(int selectedIndex)

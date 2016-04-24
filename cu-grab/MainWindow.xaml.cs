@@ -275,11 +275,13 @@ namespace cu_grab
         private void DisableButtonsSites()
         {
             ButtonSegment.IsEnabled = false;
+            objectList.IsEnabled = false;
             toShows.IsEnabled = false;
         }
         private void EnableButtonsSites()
         {
             ButtonSegment.IsEnabled = true;
+            objectList.IsEnabled = true;
             toShows.IsEnabled = true;
         }
     }

@@ -112,7 +112,16 @@ namespace cu_grab
         /// <param name="e"></param>
         private void Shows_Pressed(object sender, RoutedEventArgs e)
         {
-            if (websiteStore[curSite] != null)
+            bool check;
+            try
+            {
+                check = websiteStore[curSite].RequestedSiteData;
+            }
+            catch(KeyNotFoundException)
+            {
+                check = false;
+            }
+            if (check)
             {
                 websiteStore[curSite].CleanEpisodes();
                 objectList.ItemsSource = websiteStore[curSite].GetShowsList();
@@ -212,6 +221,7 @@ namespace cu_grab
         /// <param name="url">The url for site display</param>
         private void HandleSiteSelection(Site site, string url) 
         {
+            sBinds.SelectedShow = "";
             sBinds.SelectedSite = url;
             //First time selecting site
             if (!websiteStore[site].RequestedSiteData)
@@ -228,7 +238,6 @@ namespace cu_grab
                         objectList.ItemsSource = websiteStore[site].GetShowsList();
                         curState = State.DisplayingShows;
                         curSite = site;
-                        sBinds.SelectedShow = "";
                     }
                     catch
                     {

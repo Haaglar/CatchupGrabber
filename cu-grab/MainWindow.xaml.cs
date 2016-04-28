@@ -205,7 +205,7 @@ namespace cu_grab
         }
 
         /// <summary>
-        /// Handles the actions for when the SVTPlay button is pressed
+        /// Handles the actions for when the 9Now button is pressed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -280,13 +280,18 @@ namespace cu_grab
             Settings settingsWindow = new Settings();
             settingsWindow.ShowDialog();
         }
-
+        /// <summary>
+        /// Disables comflicting visual options while the application in resquesting data
+        /// </summary>
         private void DisableButtonsSites()
         {
             ButtonSegment.IsEnabled = false;
             objectList.IsEnabled = false;
             toShows.IsEnabled = false;
         }
+        /// <summary>
+        /// Reenables the visaul options
+        /// </summary>
         private void EnableButtonsSites()
         {
             ButtonSegment.IsEnabled = true;

@@ -3,7 +3,7 @@
 namespace cu_grab
 {
     /// <summary>
-    /// Holds all of the string bindings the application uses
+    /// Holds all of the string bindings the main window uses
     /// </summary>
     class StringBindings : INotifyPropertyChanged 
     {

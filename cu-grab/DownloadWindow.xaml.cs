@@ -31,6 +31,7 @@ namespace cu_grab
 
         //Process
         Process proc = new Process();
+        DWBindings dwBinding = new DWBindings();
 
         /// <summary>
         /// Default constructor
@@ -40,6 +41,7 @@ namespace cu_grab
         public DownloadWindow(DownloadObject passedData, string fName)
         {
             InitializeComponent();
+            DataContext = dwBinding;
             this.Show();
             this.Closed += DownloadWindow_Closed;
             url = passedData.EpisodeUrl;
@@ -94,7 +96,7 @@ namespace cu_grab
         {
             using (WebClient webClient = new WebClient())
             {
-                webClient.DownloadFile(new System.Uri(subtitle), fileName + Path.GetExtension(subtitle));
+                webClient.DownloadFile(new Uri(subtitle), fileName + Path.GetExtension(subtitle));
 
             }
             if (Properties.Settings.Default.ConvertSubtitle)
@@ -129,11 +131,9 @@ namespace cu_grab
         {
             int tmp = proc.ExitCode;
             //Update textblock as it is on a different thread
-            this.Dispatcher.BeginInvoke((Action) (() =>  {
-                    this.TextBlockProgress.Text = "Complete";
-                }));
+            dwBinding.DownloadProgress = "Complete";
             proc.Dispose();
-            //Close the window is they want it
+            //Close the window if they want it
             if (Properties.Settings.Default.ExitDLOnDownload)
             {
                 this.Dispatcher.BeginInvoke((Action)(() => { 
@@ -178,7 +178,7 @@ namespace cu_grab
                     Console.WriteLine(e.StackTrace);
                     ButtonRetry.Visibility = Visibility.Visible;
                     taskBarDownload.ProgressState = TaskbarItemProgressState.Error;
-                    TextBlockProgress.Text = "Download failed, could not find glype proxy";
+                    dwBinding.DownloadProgress = "Download failed, could not find glype proxy";
                     return;
                 }
                 //Download the file
@@ -195,7 +195,7 @@ namespace cu_grab
         {
             bytesReceived = e.BytesReceived;
             ProgressDL.Value = e.ProgressPercentage;
-            TextBlockProgress.Text = (bytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
+            dwBinding.DownloadProgress = (bytesReceived / 1024).ToString() + "kB / " + (e.TotalBytesToReceive / 1024).ToString() + "kB"; //Download progress in byte
             if(Environment.OSVersion.Version.Major >= 6) //As xp cant do taskbar things
             {
                 taskBarDownload.ProgressValue = e.ProgressPercentage/100.0;
@@ -209,10 +209,10 @@ namespace cu_grab
                 Console.WriteLine(e.Error.StackTrace);
                 ButtonRetry.Visibility = Visibility.Visible;
                 taskBarDownload.ProgressState = TaskbarItemProgressState.Error;
-                TextBlockProgress.Text = "Download failed somewhere";
+                dwBinding.DownloadProgress = "Download failed somewhere";
                 return;
-            }                
-            TextBlockProgress.Text = "Download Complete";
+            }
+            dwBinding.DownloadProgress = "Download Complete";
             taskBarDownload.ProgressState = TaskbarItemProgressState.None;
             if (Properties.Settings.Default.ExitDLOnDownload)
                 this.Close();
@@ -286,5 +286,29 @@ namespace cu_grab
             catch { }
         }
 
+    }
+    public class DWBindings : INotifyPropertyChanged
+    {
+        private string _downloadProgress = "";
+        public string DownloadProgress
+        {
+            get
+            {
+                return _downloadProgress;
+            }
+            set
+            {
+                _downloadProgress = value;
+                OnPropertyChanged("DownloadProgress");
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string property)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@
         <TextBlock x:Name="TextBlockDLInfo" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="424"/>
         <TextBlock x:Name="TextBlockDLMethod" HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="424"/>
         <ProgressBar x:Name="ProgressDL"  HorizontalAlignment="Left" Height="10" Margin="10,52,0,0" VerticalAlignment="Top" Width="414" Visibility="Hidden"/>
-        <TextBlock x:Name="TextBlockProgress" HorizontalAlignment="Left" Margin="10,67,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <TextBlock x:Name="TextBlockProgress" HorizontalAlignment="Left" Margin="10,67,0,0" TextWrapping="Wrap" Text="{Binding DownloadProgress}" VerticalAlignment="Top"/>
         <Button x:Name="ButtonRetry" Content="Retry Download" HorizontalAlignment="Left" Margin="324,80,0,0" VerticalAlignment="Top" Width="100" Click="ButtonRetry_Click" Visibility="Hidden"/>
     </Grid>
 </Window>

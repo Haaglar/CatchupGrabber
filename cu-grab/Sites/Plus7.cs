@@ -167,14 +167,14 @@ namespace cu_grab
             }
 
             //Get highest quality
-            int defaultQual = bCoveJson.FLVFullSize;
             string fullLengthURL = bCoveJson.FLVFullLengthURL;
             int oldSize = 0;
             foreach(IOSRendition redition in bCoveJson.IOSRenditions)
             {
                 if(oldSize < redition.size)
                 {
-                    fullLengthURL = redition.defaultURL;   
+                    fullLengthURL = redition.defaultURL;
+                    oldSize = redition.size;
                 }
             }
             return new DownloadObject(fullLengthURL, GetSubtitles(), Country.Aus, DownloadMethod.HLS);

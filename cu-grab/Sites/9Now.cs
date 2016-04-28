@@ -71,6 +71,7 @@ namespace cu_grab
                 if (oldSize < redition.encodingRate)
                 {
                     fullLengthURL = redition.url;
+                    oldSize = redition.encodingRate;
                 }
             }
             return new DownloadObject(fullLengthURL, GetSubtitles(), Country.Aus, DownloadMethod.HLS);

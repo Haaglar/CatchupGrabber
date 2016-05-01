@@ -2,7 +2,7 @@
 
 namespace cu_grab
 {
-    public enum Country { Aus,Ireland,Italy,Spain, Sweden}
+    public enum Country { Aus,Ireland,Italy,Spain, Sweden, Czech}
     public enum DownloadMethod {HTTP, HLS}
 
     /// <summary>

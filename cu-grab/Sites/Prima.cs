@@ -41,7 +41,9 @@ namespace cu_grab
 
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            throw new NotImplementedException();
+            string url = "http://api.play-backend.iprima.cz/api/v1/products/id-" + epiListObj.result[0].result[selectedIndex].id +"/play/";
+
+            return new DownloadObject("", "", Country.Czech, DownloadMethod.HLS);
         }
 
         public override List<object> GetEpisodesList()
@@ -51,7 +53,7 @@ namespace cu_grab
 
         public override string GetSelectedNameEpisode(int selectedIndex)
         {
-            throw new NotImplementedException();
+            return epiListObj.result[0].result[selectedIndex].localTitle;
         }
 
         public override List<object> GetShowsList()

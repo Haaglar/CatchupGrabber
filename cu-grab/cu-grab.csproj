@@ -77,6 +77,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MiscObjects\BCoveJson9N.cs" />
+    <Compile Include="MiscObjects\PrimaJson.cs" />
     <Compile Include="MiscObjects\SVTJson.cs" />
     <Compile Include="ShowObjects\Shows9Now.cs" />
     <Compile Include="ShowObjects\ShowsPrima.cs" />

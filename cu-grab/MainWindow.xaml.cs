@@ -215,6 +215,15 @@ namespace cu_grab
         {
             HandleSiteSelection(Site._9Now, "9now.com.au");
         }
+        /// <summary>
+        /// Handles the actions for when the Prima button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonPrima_Click(object sender, RoutedEventArgs e)
+        {
+            HandleSiteSelection(Site.Prima, "play.iprima.cz");
+        }
 
         /// <summary>
         /// Handles the actions for site show data and switching between. 

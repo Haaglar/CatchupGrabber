@@ -78,6 +78,7 @@
     <Compile Include="MiscObjects\BCoveJson9N.cs" />
     <Compile Include="MiscObjects\SVTJson.cs" />
     <Compile Include="ShowObjects\Shows9Now.cs" />
+    <Compile Include="ShowObjects\ShowsPrima.cs" />
     <Compile Include="Sites\9Now.cs" />
     <Compile Include="Sites\DownloadAbstract.cs" />
     <Compile Include="MiscObjects\DownloadObject.cs" />

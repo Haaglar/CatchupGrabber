@@ -47,7 +47,7 @@
                 <Button x:Name="buttonSuper3" Content="Super3" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="100" Height="30" Click="ButtonSuper3_Click" Margin="0,-21,-104,0" FontSize="14"/>
                 <Button x:Name="buttonSVTPlay" Content="SVTPlay" HorizontalAlignment="Left" Margin="104,13,-104,-11" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonSVTPlay_Click" FontSize="14"/>
                 <Button x:Name="button9Now" Content="9Now" HorizontalAlignment="Left" Margin="209,-21,-209,0" VerticalAlignment="Top" Width="100" Height="30" Click="Button9Now_Click" FontSize="14"/>
-                <Button x:Name="buttonPrima" Content="Prima" HorizontalAlignment="Left" Margin="209,14,-209,-12" VerticalAlignment="Top" Width="100" Height="30" Click="Button9Now_Click" FontSize="14"/>
+                <Button x:Name="buttonPrima" Content="Prima" HorizontalAlignment="Left" Margin="209,14,-209,-12" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonPrima_Click" FontSize="14"/>
             </Grid>
            
         </Grid>

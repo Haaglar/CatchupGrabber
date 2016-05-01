@@ -88,6 +88,7 @@
     <Compile Include="EpisodeObjects\EpisodesGeneric.cs" />
     <Compile Include="EpisodeObjects\EpisodesClan.cs" />
     <Compile Include="Sites\Plus7.cs" />
+    <Compile Include="Sites\Prima.cs" />
     <Compile Include="Sites\RTE.cs" />
     <Compile Include="ShowObjects\ShowsRTE.cs" />
     <Compile Include="Sites\RTVEc.cs" />

@@ -11,5 +11,6 @@ Supports:
 + Super3
 + SVTPlay
 + 9Now
++ Prima (Cz)
 
 Requires .NET 4.5 and FFmpeg to run

@@ -1,6 +1,7 @@
 ﻿using cu_grab.EpisodeObjects.Prima;
+using cu_grab.MiscObjects.Prima;
+using cu_grab.NetworkAssister;
 using cu_grab.Shows.Prima;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -42,8 +43,17 @@ namespace cu_grab
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
             string url = "http://api.play-backend.iprima.cz/api/v1/products/id-" + epiListObj.result[0].result[selectedIndex].id +"/play/";
-
-            return new DownloadObject("", "", Country.Czech, DownloadMethod.HLS);
+            string dlJson;
+            using (WebClient wc = new WebClient())
+            {
+                wc.Encoding = System.Text.Encoding.UTF8;
+                dlJson = wc.DownloadString(url);
+            }
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            PrimaJson episodeInfo = jss.Deserialize<PrimaJson>(dlJson);
+            CUNetworkAssist cuna = new CUNetworkAssist();
+            string m3u8 = cuna.GetHighestM3U8Address(episodeInfo.streamInfos[0].url);
+            return new DownloadObject(m3u8, GetSubtitles(), Country.Czech, DownloadMethod.HLS);
         }
 
         public override List<object> GetEpisodesList()
@@ -63,7 +73,7 @@ namespace cu_grab
 
         public override string GetSubtitles()
         {
-            throw new NotImplementedException();
+            return "";
         }
 
         private void requestShowsJson(string url)

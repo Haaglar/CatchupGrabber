@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace cu_grab
+﻿namespace cu_grab
 {
     public enum Country { Aus,Ireland,Italy,Spain, Sweden, Czech}
     public enum DownloadMethod {HTTP, HLS}

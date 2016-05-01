@@ -48,7 +48,7 @@ namespace cu_grab
 
         public override void FillShowsList()
         {
-            String showsJson;
+            string showsJson;
             //Get Catalan
             using (WebClient wc = new WebClient())
             {

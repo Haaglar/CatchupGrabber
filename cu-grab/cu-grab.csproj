@@ -71,6 +71,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="EpisodeObjects\Episodes9Now.cs" />
+    <Compile Include="EpisodeObjects\EpisodesPrima.cs" />
     <Compile Include="MiscObjects\BCoveJson.cs" />
     <Compile Include="CUNetworkAssist.cs">
       <SubType>Component</SubType>

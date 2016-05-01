@@ -1,11 +1,10 @@
-﻿using cu_grab.Shows.Prima;
+﻿using cu_grab.EpisodeObjects.Prima;
+using cu_grab.Shows.Prima;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
 namespace cu_grab
@@ -13,14 +12,23 @@ namespace cu_grab
     class Prima : DownloadAbstract
     {
         private ShowsPrima showListObj;
+        private EpisodesPrima epiListObj;
         public override void CleanEpisodes()
         {
-            throw new NotImplementedException();
+            epiListObj = null;
         }
 
         public override string ClickDisplayedShow(int selectedIndex)
         {
-            throw new NotImplementedException();
+            string showsJson;
+            using (WebClient wc = new WebClient())
+            {
+                wc.Encoding = System.Text.Encoding.UTF8;
+                showsJson = wc.DownloadString(@"https://api.play-backend.iprima.cz/api/v1/lists/carousels/prod-" + showListObj.result[selectedIndex].id);
+            }
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            epiListObj = jss.Deserialize<EpisodesPrima>(showsJson);
+            return showListObj.result[selectedIndex].localTitle;
         }
 
         public override void FillShowsList()
@@ -38,7 +46,7 @@ namespace cu_grab
 
         public override List<object> GetEpisodesList()
         {
-            throw new NotImplementedException();
+            return epiListObj.result[0].result.ToList<object>();
         }
 
         public override string GetSelectedNameEpisode(int selectedIndex)

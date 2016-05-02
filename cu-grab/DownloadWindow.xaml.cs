@@ -56,8 +56,9 @@ namespace cu_grab
             }
 
             if (!subtitle.Equals("") && Properties.Settings.Default.DownloadSubtitlesSetting)
-                Task.Factory.StartNew(() => DownloadSubtitle()); //Run the downloadsub in a background thread
+                Task.Factory.StartNew(() => DownloadSubtitle(subtitle,fileName)); //Run the downloadsub in a background thread
             DownloadShow();
+
         }
 
         
@@ -66,7 +67,7 @@ namespace cu_grab
         /// </summary>
         private void DownloadShow()
         {
-            TextBlockDLInfo.Text = "Downloading: " + fileName;
+            dwBinding.DownloadInfo = "Downloading: " + fileName;
             taskBarDownload.ProgressState = TaskbarItemProgressState.Normal;
             switch (dlMethod)
             {
@@ -92,17 +93,17 @@ namespace cu_grab
                     break;
             }
         }
-        private void DownloadSubtitle()
+        private void DownloadSubtitle(string subtileUrl, string fileNameSub)
         {
             using (WebClient webClient = new WebClient())
             {
-                webClient.DownloadFile(new Uri(subtitle), fileName + Path.GetExtension(subtitle));
+                webClient.DownloadFile(new Uri(subtileUrl), fileNameSub + Path.GetExtension(subtileUrl));
 
             }
             if (Properties.Settings.Default.ConvertSubtitle)
             {
                 SubtitleConverter conv = new SubtitleConverter();
-                conv.ConvertSubtitle(fileName + Path.GetExtension(subtitle), fileName + ".srt");
+                conv.ConvertSubtitle(fileNameSub + Path.GetExtension(subtileUrl), fileNameSub + ".srt");
             }
         }
 
@@ -302,6 +303,20 @@ namespace cu_grab
                 OnPropertyChanged("DownloadProgress");
             }
         }
+        private string _downloadInfo = "";
+        public string DownloadInfo
+        {
+            get
+            {
+                return _downloadInfo;
+            }
+            set
+            {
+                _downloadInfo = value;
+                OnPropertyChanged("DownloadInfo");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string property)
         {

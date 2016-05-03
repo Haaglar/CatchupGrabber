@@ -158,7 +158,7 @@ namespace cu_grab
         /// <param name="url">The url to download from</param>
         /// <param name="name">File name to save to plus extension</param>
         /// <param name="proxyAddress">A string url to a Glype proxy</param>
-        public void StandardDownload(string url, string name, string proxyAddress)
+        public async void StandardDownload(string url, string name, string proxyAddress)
         {
             cAWebClient = new CookieAwareWebClient();
             cAWebClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
@@ -172,7 +172,7 @@ namespace cu_grab
                 try
                 {
                     //Make a blank request to example.com for cookies
-                    cAWebClient.UploadData(proxyAddress + "/includes/process.php?action=update", "POST", Encoding.UTF8.GetBytes("u=" + "example.com" + "&allowCookies=on"));
+                    await cAWebClient.UploadStringTaskAsync(proxyAddress + "/includes/process.php?action=update", "POST", "u=" + "example.com" + "&allowCookies=on");
                 }
                 catch(Exception e)
                 {

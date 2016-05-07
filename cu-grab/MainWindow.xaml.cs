@@ -82,6 +82,7 @@ namespace cu_grab
                             sBinds.SelectedShow = websiteStore[curSite].ClickDisplayedShow(objectList.SelectedIndex);
                             objectList.ItemsSource = websiteStore[curSite].GetEpisodesList();
                             curState = State.DisplayingEpisodes;
+                            ResetView();
                         }
                         catch(Exception eDl)
                         {
@@ -130,6 +131,7 @@ namespace cu_grab
                 curState = State.DisplayingShows;
                 sBinds.SelectedShow = "";
             }
+            ResetView();
         }
         /// <summary>
         /// Handles the action for when the Tenplay button is pressed
@@ -280,6 +282,7 @@ namespace cu_grab
                 curSite = site;
                 sBinds.SelectedShow = "";
             }
+            ResetView();
         }
         /// <summary>
         /// Handles the action for when the Setting button is pressed
@@ -308,6 +311,17 @@ namespace cu_grab
             ButtonSegment.IsEnabled = true;
             objectList.IsEnabled = true;
             toShows.IsEnabled = true;
+        }
+
+        /// <summary>
+        /// Resets the main listbox to the top of the screen
+        /// </summary>
+        private void ResetView()
+        {
+            if (objectList.Items != null && objectList.Items.Count > 0)
+            {
+                objectList.ScrollIntoView(objectList.Items[0]);
+            }
         }
     }
 }

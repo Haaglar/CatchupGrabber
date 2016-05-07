@@ -34,7 +34,8 @@
                 </Grid>
             </Grid>
             <Grid Grid.Row="1">
-                <TextBlock x:Name="errorLabel" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="54" TextWrapping="Wrap" Width="191" Text="Double click on a show, then double click on an episode to grab it." Margin="193,10,0,0"/>
+                <TextBlock x:Name="errorLabel" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="54" TextWrapping="Wrap" Width="202" Text="Double click on a show, then double click on an episode to grab it." Margin="380,10,0,0"/>
+                <TextBlock x:Name="textBlockDescription" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding SelectedDescription}" VerticalAlignment="Top" Height="55" Width="287"/>
             </Grid>
             <!--Buttons section-->
             <Grid Grid.Row="2" x:Name="ButtonSegment" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -49,7 +50,7 @@
                 <Button x:Name="button9Now" Content="9Now" HorizontalAlignment="Left" Margin="209,-21,-209,0" VerticalAlignment="Top" Width="100" Height="30" Click="Button9Now_Click" FontSize="14"/>
                 <Button x:Name="buttonPrima" Content="Prima" HorizontalAlignment="Left" Margin="209,14,-209,-12" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonPrima_Click" FontSize="14"/>
             </Grid>
-           
+
         </Grid>
     </Grid>
 </Window>

@@ -38,6 +38,21 @@ namespace cu_grab
                 OnPropertyChanged("SelectedSite");
             }
         }
+
+        
+        private string _selectedDescription = "";
+        public string SelectedDescription
+        {
+            get
+            {
+                return _selectedDescription;
+            }
+            set
+            {
+                _selectedDescription = value;
+                OnPropertyChanged("SelectedDescription");
+            }
+        }
         //--- End Selected Site Binding ---------------//
 
         //Handles Updating on value changed

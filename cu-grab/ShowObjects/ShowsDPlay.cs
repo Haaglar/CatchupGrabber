@@ -31,8 +31,8 @@ namespace cu_grab
             public class Image16x9
             {
                 public string file { get; set; }
-                public int width { get; set; }
-                public int height { get; set; }
+                public object width { get; set; }
+                public object height { get; set; }
                 public Crop crop { get; set; }
                 public int linked { get; set; }
             }
@@ -48,8 +48,8 @@ namespace cu_grab
             public class Image3x2
             {
                 public string file { get; set; }
-                public int width { get; set; }
-                public int height { get; set; }
+                public object width { get; set; }
+                public object height { get; set; }
                 public Crop2 crop { get; set; }
                 public int linked { get; set; }
             }
@@ -65,8 +65,8 @@ namespace cu_grab
             public class Image1x1
             {
                 public string file { get; set; }
-                public int width { get; set; }
-                public int height { get; set; }
+                public object width { get; set; }
+                public object height { get; set; }
                 public Crop3 crop { get; set; }
                 public int linked { get; set; }
             }
@@ -82,8 +82,8 @@ namespace cu_grab
             public class Image2x1
             {
                 public string file { get; set; }
-                public int width { get; set; }
-                public int height { get; set; }
+                public object width { get; set; }
+                public object height { get; set; }
                 public Crop4 crop { get; set; }
                 public int linked { get; set; }
             }
@@ -99,8 +99,8 @@ namespace cu_grab
             public class Image16x10
             {
                 public string file { get; set; }
-                public int width { get; set; }
-                public int height { get; set; }
+                public object width { get; set; }
+                public object height { get; set; }
                 public Crop5 crop { get; set; }
                 public int linked { get; set; }
             }
@@ -116,8 +116,8 @@ namespace cu_grab
             public class Image4x1
             {
                 public string file { get; set; }
-                public int width { get; set; }
-                public int height { get; set; }
+                public object width { get; set; }
+                public object height { get; set; }
                 public Crop6 crop { get; set; }
                 public int linked { get; set; }
             }
@@ -133,8 +133,8 @@ namespace cu_grab
             public class Image3x1
             {
                 public string file { get; set; }
-                public int width { get; set; }
-                public int height { get; set; }
+                public object width { get; set; }
+                public object height { get; set; }
                 public Crop7 crop { get; set; }
                 public int linked { get; set; }
             }
@@ -150,8 +150,8 @@ namespace cu_grab
             public class Image16x17
             {
                 public string file { get; set; }
-                public int width { get; set; }
-                public int height { get; set; }
+                public object width { get; set; }
+                public object height { get; set; }
                 public Crop8 crop { get; set; }
                 public int linked { get; set; }
             }
@@ -167,8 +167,8 @@ namespace cu_grab
             public class Image352x259
             {
                 public string file { get; set; }
-                public int width { get; set; }
-                public int height { get; set; }
+                public object width { get; set; }
+                public object height { get; set; }
                 public Crop9 crop { get; set; }
                 public int linked { get; set; }
             }
@@ -184,8 +184,8 @@ namespace cu_grab
             public class Image16x7
             {
                 public string file { get; set; }
-                public int width { get; set; }
-                public int height { get; set; }
+                public object width { get; set; }
+                public object height { get; set; }
                 public Crop10 crop { get; set; }
                 public int linked { get; set; }
             }
@@ -206,8 +206,8 @@ namespace cu_grab
 
             public class ImageData
             {
-                public int width { get; set; }
-                public int height { get; set; }
+                public object width { get; set; }
+                public object height { get; set; }
                 public string file { get; set; }
                 public ImageMeta image_meta { get; set; }
                 public Sizes sizes { get; set; }
@@ -232,42 +232,46 @@ namespace cu_grab
             public class Metadata
             {
                 public string type { get; set; }
-                public string displayAs { get; set; }
-                public string ssid { get; set; }
-                public string ssidOverride { get; set; }
-                public string tags { get; set; }
-                public string seasons_total { get; set; }
-                public string brightcove_show_id { get; set; }
-                public string brightcove_genre_id { get; set; }
-                public string potential { get; set; }
-                public string nav_menu { get; set; }
-                public string onairday { get; set; }
-                public string onairtime { get; set; }
-                public string onairsuffix { get; set; }
-                public string facebooklink { get; set; }
-                public string twitterlink { get; set; }
-                public string twitterhashtag { get; set; }
-                public string episodes { get; set; }
-                public string tvlisting_show_series_id { get; set; }
                 public string image_id { get; set; }
                 public object image_data { get; set; }
                 public string poster_image_logo_id { get; set; }
                 public string flash_player_logo_id { get; set; }
                 public string html_player_logo_id { get; set; }
-                public string video_page_id { get; set; }
-                public string trailer_page_id { get; set; }
+                public string seasons_total { get; set; }
+                public string tags { get; set; }
                 public string season_number { get; set; }
+                public string nav_menu { get; set; }
+                public string facebooklink { get; set; }
+                public string episodes { get; set; }
+                public string potential { get; set; }
+                public string twitterlink { get; set; }
                 public string episode_number { get; set; }
+                public string trailer_page_id { get; set; }
+                public string twitterhashtag { get; set; }
+                public string video_page_id { get; set; }
+                public string brightcove_show_id { get; set; }
+                public string brightcove_genre_id { get; set; }
+                public string ssid { get; set; }
+                public string ssid_override { get; set; }
+                public string tvlisting_show_series_id { get; set; }
+                public string ordering { get; set; }
+                public string about_link { get; set; }
+                public string color { get; set; }
+                public string level { get; set; }
+                public string display_in_tvlisting { get; set; }
+                public string tvlisting_channel_code { get; set; }
+                public string displayAs { get; set; }
+                public string onairday { get; set; }
+                public string onairtime { get; set; }
+                public string onairsuffix { get; set; }
                 public string video_page_asset_id { get; set; }
                 public string trailer_page_asset_id { get; set; }
                 public bool poster_image_logo_data { get; set; }
                 public bool flash_player_logo_data { get; set; }
                 public bool html_player_logo_data { get; set; }
-                public string ordering { get; set; }
-                public string about_link { get; set; }
-                public string color { get; set; }
-                public string level { get; set; }
+                public string ssidOverride { get; set; }
                 public string make_labels_visible { get; set; }
+                public string description { get; set; }
             }
 
             public class TaxonomyItem
@@ -319,6 +323,8 @@ namespace cu_grab
                 public string secondary_title { get; set; }
                 public string caption { get; set; }
                 public string description { get; set; }
+                public string meta_description { get; set; }
+                public string meta_title { get; set; }
                 public string image_id { get; set; }
                 public ImageData image_data { get; set; }
                 public string image_meta { get; set; }
@@ -341,23 +347,23 @@ namespace cu_grab
                 public string video_metadata_tx_date { get; set; }
                 public object video_metadata_tx_date_end { get; set; }
                 public string video_metadata_genre { get; set; }
-                public int video_metadata_first_startTime { get; set; }
+                public object video_metadata_first_startTime { get; set; }
                 public bool video_metadata_first_run_endTime { get; set; }
-                public int video_metadata_svod_preview { get; set; }
-                public int video_metadata_svod_start_time { get; set; }
-                public int video_metadata_svod_end_time { get; set; }
-                public int video_metadata_advod_start_time { get; set; }
-                public int video_metadata_advod_end_time { get; set; }
-                public string video_advod_start_time { get; set; }
-                public string video_advod_end_time { get; set; }
+                public int? video_metadata_svod_preview { get; set; }
+                public int? video_metadata_svod_start_time { get; set; }
+                public int? video_metadata_svod_end_time { get; set; }
+                public int? video_metadata_advod_start_time { get; set; }
+                public int? video_metadata_advod_end_time { get; set; }
+                public int? video_advod_start_time { get; set; }
+                public int? video_advod_end_time { get; set; }
                 public string video_metadata_provider { get; set; }
                 public object video_metadata_referenceid { get; set; }
                 public string hds { get; set; }
                 public string hls { get; set; }
                 public string view_cuepoints { get; set; }
                 public object video_metadata_mediaid { get; set; }
-                public int video_unpublish_date { get; set; }
-                public int video_publish_date { get; set; }
+                public int? video_unpublish_date { get; set; }
+                public int? video_publish_date { get; set; }
                 public string video_metadata_show { get; set; }
                 public object video_metadata_type { get; set; }
                 public string video_metadata_package { get; set; }
@@ -384,6 +390,8 @@ namespace cu_grab
                 public object simulcast_info { get; set; }
                 public object page_settings { get; set; }
                 public object link_title { get; set; }
+                public object scheduledFrom { get; set; }
+                public object scheduledTo { get; set; }
                 public override string ToString()
                 {
                     return title;

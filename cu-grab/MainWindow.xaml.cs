@@ -34,8 +34,7 @@ namespace cu_grab
             {
                 MessageBox.Show("Catch-up Grabber requires FFmpeg to download from certain sites, please copy it into the working directory.", "Warning");
             }
-            textBlockShow.DataContext = sBinds;
-            textBlockSite.DataContext = sBinds;
+            DataContext = sBinds;
             SetupSites();
         }
         /// <summary>
@@ -87,7 +86,7 @@ namespace cu_grab
                         catch(Exception eDl)
                         {
                             Console.WriteLine(eDl.ToString());
-                            errorLabel.Text = "Failed to get episode list for selected show";
+                            sBinds.Error = "Failed to get episode list for selected show";
                         }
                         break;
                     //Download Selected show
@@ -101,7 +100,7 @@ namespace cu_grab
                         catch(Exception eDl)
                         {
                             Console.WriteLine(eDl.ToString());
-                            errorLabel.Text = "Failed to download episode";
+                            sBinds.Error = "Failed to download episode";
                         }
                         break;
                 }
@@ -254,7 +253,7 @@ namespace cu_grab
                     }
                     catch
                     {
-                        errorLabel.Text = "Failed to get episode listings for " + url;
+                        sBinds.Error = "Failed to get episode listings for " + url;
                         curState = State.DisplayingNone;
                         objectList.ItemsSource = null;
                         curSite = Site.None;

@@ -34,7 +34,7 @@
                 </Grid>
             </Grid>
             <Grid Grid.Row="1">
-                <TextBlock x:Name="errorLabel" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="54" TextWrapping="Wrap" Width="202" Text="Double click on a show, then double click on an episode to grab it." Margin="380,10,0,0"/>
+                <TextBlock x:Name="errorLabel" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="54" TextWrapping="Wrap" Width="202" Text="{Binding Error}" Margin="380,10,0,0"/>
                 <TextBlock x:Name="textBlockDescription" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding SelectedDescription}" VerticalAlignment="Top" Height="55" Width="287"/>
             </Grid>
             <!--Buttons section-->

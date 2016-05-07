@@ -53,6 +53,21 @@ namespace cu_grab
                 OnPropertyChanged("SelectedDescription");
             }
         }
+
+        private string _error = "Double click on a show, then double click on an episode to grab it.";
+        public string Error
+        {
+            get
+            {
+                return _error;
+            }
+            set
+            {
+                _error = value;
+                OnPropertyChanged("Error");
+            }
+        }
+
         //--- End Selected Site Binding ---------------//
 
         //Handles Updating on value changed

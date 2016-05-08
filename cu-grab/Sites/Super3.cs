@@ -103,5 +103,10 @@ namespace cu_grab
         {
             return episodesS3.ToList<object>();
         }
+
+        public override string GetDescriptionShow()
+        {
+            return "";
+        }
     }
 }

@@ -125,5 +125,10 @@ namespace cu_grab
         {
             return episodesDPlay.ToList<object>();
         }
+
+        public override string GetDescriptionShow()
+        {
+            return "";
+        }
     }
 }

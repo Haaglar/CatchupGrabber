@@ -113,5 +113,10 @@ namespace cu_grab
         {
             return episodesSVT.ToList<object>();
         }
+
+        public override string GetDescriptionShow()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

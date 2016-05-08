@@ -119,5 +119,10 @@ namespace cu_grab
         {
             return episodeList.ToList<object>();
         }
+
+        public override string GetDescriptionShow()
+        {
+            return "";
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace cu_grab
         abstract public string GetSubtitles();
         abstract public List<object> GetShowsList();
         abstract public List<object> GetEpisodesList();
+        abstract public string GetDescriptionShow();
     }
 }

@@ -201,5 +201,10 @@ namespace cu_grab
         {
             return episodesClan.page.items.ToList<object>();
         }
+
+        public override string GetDescriptionShow()
+        {
+            return "";
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Script.Serialization;
+using System;
 
 namespace cu_grab
 {
@@ -93,6 +94,11 @@ namespace cu_grab
         }
 
         public override string GetSubtitles()
+        {
+            return "";
+        }
+
+        public override string GetDescriptionShow()
         {
             return "";
         }

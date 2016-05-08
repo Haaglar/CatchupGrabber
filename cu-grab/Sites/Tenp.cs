@@ -55,20 +55,19 @@ namespace cu_grab
             //REGEX
             Regex regexID = new Regex(@"data-alt-id=""(\d*)""");      
             Regex regexIDEpisode = new Regex(@"alt=""([^""]*)""");      //Episode name from image
+            Regex regexDesc = new Regex(@"<span class=""content-card__sub-heading"">(.*?)</span>", RegexOptions.Singleline);
             MatchCollection matchId = regexID.Matches(pageShow);
             MatchCollection matchIdName = regexIDEpisode.Matches(pageShow);
+            MatchCollection matchDesc = regexDesc.Matches(pageShow);
             //Get and iterate over the episodes divs
-            foreach (var match in matchIdName.Cast<Match>().Zip(matchId.Cast<Match>(), Tuple.Create))
+            var results = matchIdName.Cast<Match>().Zip(matchId.Cast<Match>().Zip(matchDesc.Cast<Match>(), (b, c) => new { b, c }), (a, b) => new { Value = a, Value2 = b.b, Value3 = b.c });
+            foreach (var match in results)
             {
-                selectedShowEpisodes.Add(new EpisodesGeneric(match.Item1.Groups[1].Value, match.Item2.Groups[1].Value));
+                selectedShowEpisodes.Add(new EpisodesGeneric(match.Value.Groups[1].Value, match.Value2.Groups[1].Value, match.Value3.Groups[1].Value.Trim()));
             }
             //Store the current show name for file naming later
             string selectedShow = shows.Shows[selectedIndex].Name;
-            //Clean the name for windows
-            foreach (var c in Path.GetInvalidFileNameChars())
-            {
-                selectedShow = selectedShow.Replace(c, '-');
-            }
+
             resShow.Close();
             srShow.Close();
             //Update list and states
@@ -121,7 +120,12 @@ namespace cu_grab
 
         public override string GetDescriptionShow()
         {
-            throw new NotImplementedException();
+            return null;
+        }
+
+        public override string GetDescriptionEpisode(int selectedIndex)
+        {
+            return selectedShowEpisodes[selectedIndex].Description;
         }
     }
 }

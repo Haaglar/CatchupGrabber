@@ -15,5 +15,6 @@ namespace cu_grab
         abstract public List<object> GetShowsList();
         abstract public List<object> GetEpisodesList();
         abstract public string GetDescriptionShow();
+        abstract public string GetDescriptionEpisode(int selectedIndex);
     }
 }

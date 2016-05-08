@@ -29,7 +29,7 @@ namespace cu_grab
             WebRequest reqSearchJs = HttpWebRequest.Create(@"http://www.rtve.es/infantil/buscador-clan/obtener-datos-programas.json");
             WebResponse resSearchJs = reqSearchJs.GetResponse();
 
-            using (StreamReader srjs = new StreamReader(resSearchJs.GetResponseStream(), System.Text.Encoding.UTF8))
+            using (StreamReader srjs = new StreamReader(resSearchJs.GetResponseStream(), Encoding.UTF8))
             {
                 string jsonjs = srjs.ReadToEnd();
                 JavaScriptSerializer jss = new JavaScriptSerializer();
@@ -49,7 +49,7 @@ namespace cu_grab
             WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/api/tematicas/" + value.infoBuscador[selectedIndex].id + "/videos.json");
             WebResponse resTematicasJs = reqTematicasJs.GetResponse();
 
-            using (StreamReader srjs = new StreamReader(resTematicasJs.GetResponseStream(), System.Text.Encoding.UTF8))
+            using (StreamReader srjs = new StreamReader(resTematicasJs.GetResponseStream(), Encoding.UTF8))
             {
                 string jsonjs = srjs.ReadToEnd();
                 JavaScriptSerializer jss = new JavaScriptSerializer();
@@ -78,7 +78,7 @@ namespace cu_grab
             //reqTematicasJs.Headers.Add("Referer", episodesClan.page.items[objectList.SelectedIndex].htmlUrl);
             WebResponse resTematicasJs = reqTematicasJs.GetResponse();
             string base64 = "";
-            using (StreamReader srjs = new StreamReader(resTematicasJs.GetResponseStream(), System.Text.Encoding.UTF8))
+            using (StreamReader srjs = new StreamReader(resTematicasJs.GetResponseStream(), Encoding.UTF8))
             {
                 base64 = srjs.ReadToEnd();
             }
@@ -204,7 +204,12 @@ namespace cu_grab
 
         public override string GetDescriptionShow()
         {
-            return "";
+            return null;
+        }
+
+        public override string GetDescriptionEpisode(int selectedIndex)
+        {
+            return null;
         }
     }
 }

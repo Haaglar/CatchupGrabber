@@ -20,7 +20,7 @@
                         <ColumnDefinition Width="120"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0" x:Name="ContentSegment">
-                        <ListBox x:Name="objectList" HorizontalAlignment="Left" Height="{Binding ElementName=ContentSegment, Path=ActualHeight}" VerticalAlignment="Top" Width="{Binding ElementName=ContentSegment, Path=ActualWidth}" MouseDoubleClick="OL_ItemPressed" FontSize="14"/>
+                        <ListBox x:Name="objectList" HorizontalAlignment="Left" Height="{Binding ElementName=ContentSegment, Path=ActualHeight}" VerticalAlignment="Top" Width="{Binding ElementName=ContentSegment, Path=ActualWidth}" MouseDoubleClick="OL_ItemPressed" FontSize="14" SelectionChanged="OL_SelectionChanged"/>
                     </Grid>
                     <!-- Side area-->
                     <Grid Grid.Column="1" x:Name="MiscOptions">

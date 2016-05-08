@@ -235,6 +235,7 @@ namespace cu_grab
         {
             sBinds.SelectedShow = "";
             sBinds.SelectedSite = url;
+            sBinds.SelectedDescription = "";
             //First time selecting site
             if (!websiteStore[site].RequestedSiteData)
             {
@@ -320,6 +321,30 @@ namespace cu_grab
             if (objectList.Items != null && objectList.Items.Count > 0)
             {
                 objectList.ScrollIntoView(objectList.Items[0]);
+            }
+            objectList.SelectedIndex = -1;
+        }
+
+        private void OL_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(objectList.SelectedIndex != -1)
+            {
+                if (curState == State.DisplayingShows)
+                {
+                    string tmp = websiteStore[curSite].GetDescriptionShow();
+                    if (tmp != null)
+                    {
+                        sBinds.SelectedDescription = tmp;
+                    }
+                }
+                else if(curState == State.DisplayingEpisodes)
+                {
+                    string tmp = websiteStore[curSite].GetDescriptionEpisode(objectList.SelectedIndex);
+                    if (tmp != null)
+                    {
+                        sBinds.SelectedDescription = tmp;
+                    }
+                }
             }
         }
     }

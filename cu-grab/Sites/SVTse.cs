@@ -116,7 +116,12 @@ namespace cu_grab
 
         public override string GetDescriptionShow()
         {
-            throw new NotImplementedException();
+            return null;
+        }
+
+        public override string GetDescriptionEpisode(int selectedIndex)
+        {
+            return null;
         }
     }
 }

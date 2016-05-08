@@ -102,5 +102,10 @@ namespace cu_grab
         {
             return "";
         }
+
+        public override string GetDescriptionEpisode(int selectedIndex)
+        {
+            return "";
+        }
     }
 }

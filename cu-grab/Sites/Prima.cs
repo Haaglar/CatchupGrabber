@@ -110,12 +110,12 @@ namespace cu_grab
 
         public override string GetDescriptionShow(int selectedIndex)
         {
-            return null;
+            return showListObj.result[selectedIndex].annotation;
         }
 
         public override string GetDescriptionEpisode(int selectedIndex)
         {
-            return null;
+            return epiListObj.result[0].result[selectedIndex].annotation;
         }
     }
 }

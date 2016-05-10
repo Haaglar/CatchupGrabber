@@ -32,6 +32,7 @@ namespace cu_grab
             string slug = shows9N.items[selectedIndex].slug;
             using (WebClient webClient = new WebClient())
             {
+                webClient.Encoding = System.Text.Encoding.UTF8;
                 jsonContentEpisodes = webClient.DownloadString(episodeUrlP1 + slug + episodeUrlP2);
             }
             JavaScriptSerializer jss = new JavaScriptSerializer();
@@ -46,6 +47,7 @@ namespace cu_grab
             string jsonContent;
             using (WebClient webClient = new WebClient())
             {
+                webClient.Encoding = System.Text.Encoding.UTF8;
                 jsonContent = webClient.DownloadString(address);
             }
             JavaScriptSerializer jss = new JavaScriptSerializer();
@@ -100,12 +102,12 @@ namespace cu_grab
 
         public override string GetDescriptionShow(int selectedIndex)
         {
-            return "";
+            return shows9N.items[selectedIndex].description;
         }
 
         public override string GetDescriptionEpisode(int selectedIndex)
         {
-            return "";
+            return episodes9N.items[0].items[selectedIndex].description;
         }
     }
 }

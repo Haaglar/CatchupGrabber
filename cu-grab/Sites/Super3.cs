@@ -41,7 +41,7 @@ namespace cu_grab
             XElement doc = XElement.Parse(showsPage);
             foreach (XElement element in doc.Element("resultats").Elements("item"))
             {
-                episodesS3.Add(new EpisodesGeneric(element.Element("titol").Value, element.Attribute("idint").Value));
+                episodesS3.Add(new EpisodesGeneric(element.Element("titol").Value, element.Attribute("idint").Value, element.Element("entradeta").Value));
             }
             return selectedName;
         }
@@ -111,7 +111,7 @@ namespace cu_grab
 
         public override string GetDescriptionEpisode(int selectedIndex)
         {
-            return null;
+            return episodesS3[selectedIndex].Description;
         }
     }
 }

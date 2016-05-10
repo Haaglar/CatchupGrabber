@@ -15,6 +15,8 @@ namespace cu_grab
         private ShowsClan value;
         private EpisodesClan episodesClan;
 
+        private Regex regexAnnotaions = new Regex(@"<[^>]*>");
+
         /// <summary>
         /// Standard constructor
         /// </summary>
@@ -67,24 +69,7 @@ namespace cu_grab
             resTematicasJs.Close();
             return selectedShow;
         }
-        /// <summary>
-        /// Gets the url for the selected object in the list
-        /// Depricated, used generateUrl instead
-        /// </summary>
-        /// <returns></returns>
-        public string GetUrlOld()
-        {
-            WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/ztnr/movil/thumbnail/default/videos/" + episodesClan.page.items[0].id + ".png");
-            //reqTematicasJs.Headers.Add("Referer", episodesClan.page.items[objectList.SelectedIndex].htmlUrl);
-            WebResponse resTematicasJs = reqTematicasJs.GetResponse();
-            string base64 = "";
-            using (StreamReader srjs = new StreamReader(resTematicasJs.GetResponseStream(), Encoding.UTF8))
-            {
-                base64 = srjs.ReadToEnd();
-            }
-            resTematicasJs.Close();
-            return GetUrlFromPNGUrl(base64);
-        }
+
         /// <summary>
         /// Genrates a downloadURL for rtve clan
         /// Based off work from rtvealacarta by itorres and personal research
@@ -101,8 +86,8 @@ namespace cu_grab
             RijndaelManaged aesEncrypt = new RijndaelManaged();
             //Set up the key and phrase to encrypt
             string passPhrase = "pmku579tg465GDjf1287gDFFED56788C"; // key for the "oceano"/tablet url
-            byte[] key = new System.Text.UTF8Encoding().GetBytes(passPhrase);
-            byte[] toEncrypt = new System.Text.UTF8Encoding().GetBytes(joined);
+            byte[] key = new UTF8Encoding().GetBytes(passPhrase);
+            byte[] toEncrypt = new UTF8Encoding().GetBytes(joined);
 
             //Set up aes settings
             aesEncrypt.BlockSize = 128;
@@ -116,67 +101,7 @@ namespace cu_grab
             byte[] encryptedText = transform.TransformFinalBlock(toEncrypt, 0, toEncrypt.Length);
             return new DownloadObject("http://www.rtve.es/ztnr/consumer/oceano/video/" + Convert.ToBase64String(encryptedText), GetSubtitles(), Country.Spain, DownloadMethod.HTTP);
         }
-
-
-        /// <summary>
-        /// Depreciate method for grabbing the URL (as it doesnt get the highest quality.)
-        /// </summary>
-        private string GetUrlFromPNGUrl(string text)
-        {    
-            Regex rer = new Regex(@"tEXt(.*)#.([0-9]*)"); //Search for the two piece of data that we need
-            byte[] data = Convert.FromBase64String(text);
-            string decodedString = Encoding.UTF8.GetString(data);
-            //remove junk data which messes up regex, well most of it anyway
-            decodedString = Regex.Replace(decodedString, @"[^\u0000-\u007F]", string.Empty);
-            MatchCollection matchBand = rer.Matches(decodedString);
-
-            //The different sections of the png to decode
-            string group1 = matchBand[0].Groups[1].Value;
-            string group2 = matchBand[0].Groups[2].Value;
-            //Port of the code found in youtube-dl, which its self based off stuff elsewhere.
-            string alphabet = "";
-            int e = 0, d = 0;
-            foreach (char l in group1)
-            {
-                if (d == 0)
-                {
-                    alphabet += (l);
-                    d = e = (e + 1) % 4;
-                }
-                else
-                    d -= 1;
-            }
-            string url = "";
-            int f = 0, b = 1;
-            e = 3;
-            int lint = 0;
-            foreach (char letter in group2)
-            {
-                if (f == 0)
-                {
-                    lint = int.Parse(letter.ToString()) * 10; //Char -> string -> int yep
-                    f = 1;
-                }
-
-                else
-                {
-                    if (e == 0)
-                    {
-                        lint += int.Parse(letter.ToString());
-                        url += alphabet[lint];
-                        e = (b + 3) % 4;
-                        f = 0;
-                        b += 1;
-                    }
-                    else
-                    {
-                        e -= 1;
-                    }
-                }
-            }
-
-            return url;
-        }
+        
         /// <summary>
         /// Handles Clearing the episode list and reseting it back to the show list
         /// </summary>
@@ -209,7 +134,14 @@ namespace cu_grab
 
         public override string GetDescriptionEpisode(int selectedIndex)
         {
-            return null;
+            string desc = episodesClan.page.items[selectedIndex].description;
+            if (string.IsNullOrEmpty(desc))
+            {
+                return null;
+            }
+
+            desc = WebUtility.HtmlDecode(regexAnnotaions.Replace(desc, "").Replace("\\n", " "));
+            return desc;
         }
     }
 }

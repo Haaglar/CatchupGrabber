@@ -54,7 +54,7 @@ namespace cu_grab
             }
         }
 
-        private string _error = "Double click on a show, then double click on an episode to grab it.";
+        private string _error = "";
         public string Error
         {
             get

@@ -127,7 +127,7 @@ namespace cu_grab
             return episodesClan.page.items.ToList<object>();
         }
 
-        public override string GetDescriptionShow()
+        public override string GetDescriptionShow(int selectedIndex)
         {
             return null;
         }

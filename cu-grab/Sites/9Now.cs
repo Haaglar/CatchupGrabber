@@ -98,7 +98,7 @@ namespace cu_grab
             return "";
         }
 
-        public override string GetDescriptionShow()
+        public override string GetDescriptionShow(int selectedIndex)
         {
             return "";
         }

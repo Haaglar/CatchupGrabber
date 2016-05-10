@@ -126,14 +126,14 @@ namespace cu_grab
             return episodesDPlay.ToList<object>();
         }
 
-        public override string GetDescriptionShow()
+        public override string GetDescriptionShow(int selectedIndex)
         {
-            return "";
+            return WebUtility.HtmlDecode(showsDPlay.data[selectedIndex].description);
         }
 
         public override string GetDescriptionEpisode(int selectedIndex)
         {
-            return "";
+            return null;
         }
     }
 }

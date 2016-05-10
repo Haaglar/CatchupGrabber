@@ -118,7 +118,7 @@ namespace cu_grab
             return selectedShowEpisodes.ToList<object>();
         }
 
-        public override string GetDescriptionShow()
+        public override string GetDescriptionShow(int selectedIndex)
         {
             return null;
         }

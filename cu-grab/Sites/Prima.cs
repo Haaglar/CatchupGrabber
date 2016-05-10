@@ -108,7 +108,7 @@ namespace cu_grab
 
         }
 
-        public override string GetDescriptionShow()
+        public override string GetDescriptionShow(int selectedIndex)
         {
             return null;
         }

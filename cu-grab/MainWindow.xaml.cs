@@ -331,7 +331,7 @@ namespace cu_grab
             {
                 if (curState == State.DisplayingShows)
                 {
-                    string tmp = websiteStore[curSite].GetDescriptionShow();
+                    string tmp = websiteStore[curSite].GetDescriptionShow(objectList.SelectedIndex);
                     if (tmp != null)
                     {
                         sBinds.SelectedDescription = tmp;

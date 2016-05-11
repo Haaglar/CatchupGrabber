@@ -93,16 +93,20 @@ namespace cu_grab
             }
 
             Regex regexLinks = new Regex(@"href=""//(.*/)"""); 
-            Regex regexDesc = new Regex(@"collection-title-link-inner"">.*\n(.*)"); 
+            Regex regexName = new Regex(@"collection-title-link-inner"">.*\n(.*)");
+            Regex regexDesc = new Regex(@"itemprop=""description"">\s*(.*?)\n", RegexOptions.Singleline);
 
-            MatchCollection matchDesc = regexDesc.Matches(pageShow);
+
+            MatchCollection matchName = regexName.Matches(pageShow);
             MatchCollection matchLinks = regexLinks.Matches(pageShow);
+            MatchCollection matchDesc = regexDesc.Matches(pageShow);
             int i = 0;
-            foreach (Match match in matchDesc)
+            foreach (Match match in matchName)
             {
                 string url = matchLinks[i].Groups[1].Value;
-                string description = match.Groups[1].Value.Trim(); // Trim excess whitespace cause otherwise itll look like rubbish 
-                selectedShowEpisodes.Add(new EpisodesGeneric(description, url));
+                string name = match.Groups[1].Value.Trim(); // Trim excess whitespace cause otherwise itll look like rubbish
+                string desc = matchDesc[i/2].Groups[1].Value;
+                selectedShowEpisodes.Add(new EpisodesGeneric(name, url, desc));
                 i += 2;//Skip every second as theres a href on both the image and the content
             }
 
@@ -218,12 +222,12 @@ namespace cu_grab
 
         public override string GetDescriptionShow(int selectedIndex)
         {
-            return "";
+            return null;
         }
 
         public override string GetDescriptionEpisode(int selectedIndex)
         {
-            return "";
+            return selectedShowEpisodes[selectedIndex].Description;
         }
     }
 }

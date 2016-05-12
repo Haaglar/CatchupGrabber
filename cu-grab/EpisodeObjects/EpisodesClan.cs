@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 //A class for the episode of a show that is on letsclan
-namespace cu_grab
+namespace cu_grab.EpisodeObjects.RTVEc
 {
     public class PubState
     {

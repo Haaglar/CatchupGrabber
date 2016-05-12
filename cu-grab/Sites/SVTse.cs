@@ -1,5 +1,6 @@
 ﻿using cu_grab.MiscObjects;
 using cu_grab.NetworkAssister;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -91,7 +92,8 @@ namespace cu_grab
             episodeData = jss.Deserialize<SVTJson>(jsonData);
             string url = episodeData.video.videoReferences.Single(v => v.playerType.Equals("ios")).url;
             url = url.Substring(0, url.IndexOf("m3u8") + 4);
-            //url = netAssist.GetHighestM3U8Address(url);
+            string urlnew = netAssist.GetHighestM3U8Address(url);
+            url = new Uri(new Uri(url), urlnew).ToString();
             return new DownloadObject(url,GetSubtitles(), Country.Sweden,DownloadMethod.HLS);
         }
         public override string GetSelectedNameEpisode(int selectedIndex)

@@ -112,11 +112,6 @@ namespace cu_grab
 
             //Store the current show name for file naming later
             string selectedShow = showsP7[selectedIndex].title;
-            //Clean the name for windows
-            foreach (var c in Path.GetInvalidFileNameChars())
-            {
-                selectedShow = selectedShow.Replace(c, '-');
-            }
             //Update list
             return selectedShow;
         }

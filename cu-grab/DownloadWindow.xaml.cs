@@ -223,12 +223,13 @@ namespace cu_grab
         /// Download individual hls segments via webclient
         /// </summary>
         /// <param name="url">The bitrate url</param>
-        public void proxiedHls(string url)
+        public void proxiedHls(string url, string proxy)
         {
             string parent = new Uri(new Uri(url), ".").ToString();
             string m3u8;
             using (WebClient wc = new WebClient())
             {
+                wc.Proxy = new WebProxy(proxy);
                 wc.Encoding = Encoding.UTF8;
                 m3u8 = wc.DownloadString(url);
             }
@@ -241,6 +242,7 @@ namespace cu_grab
                     if (line.StartsWith("#")) continue;
                     using (WebClient wc = new WebClient())
                     {
+                        wc.Proxy = new WebProxy(proxy);
                         wc.Encoding = Encoding.UTF8;
                         wc.DownloadFile(new Uri(parent + line), @"hls_temp" + line);
                     }
@@ -263,6 +265,7 @@ namespace cu_grab
         private void ButtonRetry_Click(object sender, RoutedEventArgs e)
         {
             ButtonRetry.Visibility = Visibility.Hidden;
+            dwBinding.DownloadProgress = "Retrying download";
             DownloadShow();
         }
         //Download methods end

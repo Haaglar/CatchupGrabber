@@ -89,13 +89,6 @@ namespace cu_grab
             }
 
             string selectedShow = showsDPlay.data[selectedIndex].title;
-
-
-            //Clean the name for windows
-            foreach (var c in Path.GetInvalidFileNameChars())
-            {
-                selectedShow = selectedShow.Replace(c, '-');
-            }
             return selectedShow;
         }
 

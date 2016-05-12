@@ -86,11 +86,6 @@ namespace cu_grab
                 selectedShowEpisodes.Add(new EpisodesGeneric(description, ID));
             }
             string selectedShow = rteShows[selectedIndex].v;
-            //Clean the name for windows
-            foreach (var c in Path.GetInvalidFileNameChars())
-            {
-                selectedShow = selectedShow.Replace(c, '-');
-            }
             return selectedShow;
         }
         /// <summary>

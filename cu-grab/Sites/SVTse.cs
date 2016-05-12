@@ -100,10 +100,11 @@ namespace cu_grab
         {
             return episodesSVT[selectedIndex].Name;
         }
-        //Fix later
+
         public override string GetSubtitles()
         {
             return "";
+            //return (episodeData.video.subtitleReferences != null) ? episodeData.video.subtitleReferences[0].url : "";
         }
 
         public override List<object> GetShowsList()

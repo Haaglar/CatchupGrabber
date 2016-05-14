@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
 namespace cu_grab
@@ -34,12 +35,26 @@ namespace cu_grab
 
         public override void FillShowsList()
         {
-            requestShowsJson("https://api.play-backend.iprima.cz/api/v1/products/filter?limit=100");
-            requestShowsJson("https://api.play-backend.iprima.cz/api/v1/products/filter?offset=100&limit=100");
-            requestShowsJson("https://api.play-backend.iprima.cz/api/v1/products/filter?offset=200&limit=100");
+            HandleData().Wait();
             RequestedSiteData = true;
         }
 
+        public async Task HandleData()
+        {
+
+            Task<string> req1 = RequestShowsJson("https://api.play-backend.iprima.cz/api/v1/products/filter?limit=100");
+            Task<string> req2 = RequestShowsJson("https://api.play-backend.iprima.cz/api/v1/products/filter?offset=100&limit=100");
+            Task<string> req3 = RequestShowsJson("https://api.play-backend.iprima.cz/api/v1/products/filter?offset=200&limit=100");
+
+            string res1 = await req1;
+            string res2 = await req2;
+            string res3 = await req3;
+
+            CreateEpisodeList(res1);
+            CreateEpisodeList(res2);
+            CreateEpisodeList(res3);
+
+        }
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
             string url = "http://api.play-backend.iprima.cz/api/v1/products/id-" + epiListObj.result[0].result[selectedIndex].id +"/play/";
@@ -76,26 +91,32 @@ namespace cu_grab
             return "";
         }
 
-        private void requestShowsJson(string url)
+        private Task<string> RequestShowsJson(string url)
         {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
-            //?offset=100
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            return Task.Run(() =>
             {
-                string json = "{\"order\":[\"title\"]}";
-                streamWriter.Write(json);
-            }
-            HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            string result;
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                result = streamReader.ReadToEnd();
-            }
-
+                HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+                //?offset=100
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = "{\"order\":[\"title\"]}";
+                    streamWriter.Write(json);
+                }
+                HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                string result;
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+                return result;
+            });
+        }
+        private void CreateEpisodeList(string result)
+        {
             JavaScriptSerializer jss = new JavaScriptSerializer();
-            if(showListObj == null)
+            if (showListObj == null)
             {
                 showListObj = jss.Deserialize<ShowsPrima>(result);
             }
@@ -104,7 +125,6 @@ namespace cu_grab
                 ShowsPrima tmp = jss.Deserialize<ShowsPrima>(result);
                 showListObj.result = showListObj.result.Concat(tmp.result).ToList();
             }
-
         }
 
         public override string GetDescriptionShow(int selectedIndex)

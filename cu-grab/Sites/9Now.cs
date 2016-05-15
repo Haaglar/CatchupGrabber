@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Script.Serialization;
+using System;
 
 namespace cu_grab
 {
@@ -25,7 +26,7 @@ namespace cu_grab
             episodes9N = null;
         }
 
-        public override string ClickDisplayedShow(int selectedIndex)
+        public override void ClickDisplayedShow(int selectedIndex)
         {
             string jsonContentEpisodes;
             string slug = shows9N.items[selectedIndex].slug;
@@ -36,7 +37,6 @@ namespace cu_grab
             }
             JavaScriptSerializer jss = new JavaScriptSerializer();
             episodes9N = jss.Deserialize<Episodes9Now>(jsonContentEpisodes);
-            return shows9N.items[selectedIndex].name;
         }
 
         public override void FillShowsList()
@@ -84,7 +84,7 @@ namespace cu_grab
             return episodes9N.items[0].items.ToList<object>();
         }
 
-        public override string GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedEpisodeName(int selectedIndex)
         {
             return episodes9N.items[0].items[selectedIndex].name;
         }
@@ -107,6 +107,11 @@ namespace cu_grab
         public override string GetDescriptionEpisode(int selectedIndex)
         {
             return episodes9N.items[0].items[selectedIndex].description;
+        }
+
+        public override string GetSelectedShowName(int selectedIndex)
+        {
+            return shows9N.items[selectedIndex].name;
         }
     }
 }

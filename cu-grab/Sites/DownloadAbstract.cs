@@ -10,7 +10,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="selectedIndex">The index of the show wlist</param>
         /// <returns>The selected show name</returns>
-        abstract public string ClickDisplayedShow(int selectedIndex);
+        abstract public void ClickDisplayedShow(int selectedIndex);
         /// <summary>
         /// Initializes the show list
         /// </summary>
@@ -20,7 +20,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="selectedIndex">The indexin the episode list</param>
         /// <returns>The selected name</returns>
-        abstract public string GetSelectedNameEpisode(int selectedIndex);
+        abstract public string GetSelectedEpisodeName(int selectedIndex);
         /// <summary>
         /// Gets a donwload object containg information of where to download the episode, subtitles and type 
         /// </summary>
@@ -57,5 +57,11 @@ namespace cu_grab
         /// <param name="selectedIndex">The index of the selected episode in the episode list</param>
         /// <returns>If a description is avalible a description, otherwise the show's description if avalible, otherwise null</returns>
         abstract public string GetDescriptionEpisode(int selectedIndex);
+        /// <summary>
+        /// Gets the name of the selected show
+        /// </summary>
+        /// <param name="selectedIndex">The index in the show list</param>
+        /// <returns>THe name of the show</returns>
+        abstract public string GetSelectedShowName(int selectedIndex);
     }
 }

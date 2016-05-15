@@ -50,7 +50,7 @@ namespace cu_grab
         /// </summary>
         /// <param name="selectedIndex">Index of the selected show in the list</param>
         /// <returns>The name of the selected Show</returns>
-        public override string ClickDisplayedShow(int selectedIndex)
+        public override void ClickDisplayedShow(int selectedIndex)
         {
             string pageShow;
             WebRequest reqShow = HttpWebRequest.Create(showsP7[selectedIndex].url);
@@ -109,18 +109,13 @@ namespace cu_grab
                 selectedShowEpisodes.Add(new EpisodesGeneric(name, url, desc));
                 i += 2;//Skip every second as theres a href on both the image and the content
             }
-
-            //Store the current show name for file naming later
-            string selectedShow = showsP7[selectedIndex].title;
-            //Update list
-            return selectedShow;
         }
         /// <summary>
         /// Gets the name of the current selected show
         /// </summary>
         /// <param name="selectedIndex">Index of the selected show in the list</param>
         /// <returns>The selected show's name</returns>
-        public override string GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedEpisodeName(int selectedIndex)
         {
             return selectedShowEpisodes[selectedIndex].Name;
         }
@@ -223,6 +218,11 @@ namespace cu_grab
         public override string GetDescriptionEpisode(int selectedIndex)
         {
             return selectedShowEpisodes[selectedIndex].Description;
+        }
+
+        public override string GetSelectedShowName(int selectedIndex)
+        {
+            return selectedShowEpisodes[selectedIndex].Name;
         }
     }
 }

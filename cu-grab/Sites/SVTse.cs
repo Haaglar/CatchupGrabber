@@ -25,7 +25,7 @@ namespace cu_grab
         {
             episodesSVT.Clear();
         }
-        public override string ClickDisplayedShow(int selectedIndex)
+        public override void ClickDisplayedShow(int selectedIndex)
         {
             string websiteShowList;
             using (WebClient webClient = new WebClient())
@@ -52,9 +52,7 @@ namespace cu_grab
                         episodesSVT.Add(new EpisodesGeneric( WebUtility.HtmlDecode(match.Groups[2].Value), BaseURL + match.Groups[1].Value));
                     }
                 }
-            }
-            return showsSVT[selectedIndex].name;
-            
+            }            
         }
         public override void FillShowsList()
         {
@@ -96,7 +94,7 @@ namespace cu_grab
             url = new Uri(new Uri(url), urlnew).ToString();
             return new DownloadObject(url,GetSubtitles(), Country.Sweden,DownloadMethod.HLS);
         }
-        public override string GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedEpisodeName(int selectedIndex)
         {
             return episodesSVT[selectedIndex].Name;
         }
@@ -124,6 +122,11 @@ namespace cu_grab
         public override string GetDescriptionEpisode(int selectedIndex)
         {
             return null;
+        }
+
+        public override string GetSelectedShowName(int selectedIndex)
+        {
+            return showsSVT[selectedIndex].name;
         }
     }
 }

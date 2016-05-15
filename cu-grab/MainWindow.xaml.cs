@@ -72,28 +72,39 @@ namespace cu_grab
         {
             if (e.OriginalSource is TextBlock || e.OriginalSource is Border) //Make sure that we double click an item not the scrollbar
             {
+                int selected = objectList.SelectedIndex;
                 switch (curState)
                 {
                     // Get episodes for the selected show
                     case State.DisplayingShows:
-                        try
+                        DisableButtonsSites();
+                        sBinds.SelectedShow = websiteStore[curSite].GetSelectedShowName(selected);
+                        objectList.ItemsSource = new List<string> { "Loading..." + sBinds.SelectedShow};
+                        Task.Factory.StartNew(() =>
                         {
-                            sBinds.SelectedShow = websiteStore[curSite].ClickDisplayedShow(objectList.SelectedIndex);
-                            objectList.ItemsSource = websiteStore[curSite].GetEpisodesList();
-                            curState = State.DisplayingEpisodes;
-                            ResetView();
-                        }
-                        catch(Exception eDl)
+                            websiteStore[curSite].ClickDisplayedShow(selected);
+                        }).ContinueWith(x=>
                         {
-                            Console.WriteLine(eDl.ToString());
-                            sBinds.Error = "Failed to get episode list for selected show";
-                        }
+                            if (x.Exception == null)
+                            {
+                                objectList.ItemsSource = websiteStore[curSite].GetEpisodesList();
+                                curState = State.DisplayingEpisodes;
+                                ResetView();
+                            }
+                            else
+                            {
+                                Console.WriteLine(x.Exception.ToString());
+                                sBinds.Error = "Failed to get episode list for selected show";
+                                Shows_Pressed(null, null);
+                            }
+                            EnableButtonsSites();
+                        }, TaskScheduler.FromCurrentSynchronizationContext());
                         break;
                     //Download Selected show
                     case State.DisplayingEpisodes:
                         try
                         {
-                            string name = sBinds.SelectedShow + " " + websiteStore[curSite].GetSelectedNameEpisode(objectList.SelectedIndex);
+                            string name = sBinds.SelectedShow + " " + websiteStore[curSite].GetSelectedEpisodeName(objectList.SelectedIndex);
                             DownloadObject dlUrl = websiteStore[curSite].GetDownloadObject(objectList.SelectedIndex);
                             DownloadWindow dlWindow = new DownloadWindow(dlUrl, name);
                         }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+using System;
 
 namespace cu_grab
 {
@@ -20,7 +21,7 @@ namespace cu_grab
             epiListObj = null;
         }
 
-        public override string ClickDisplayedShow(int selectedIndex)
+        public override void ClickDisplayedShow(int selectedIndex)
         {
             string showsJson;
             using (WebClient wc = new WebClient())
@@ -30,7 +31,6 @@ namespace cu_grab
             }
             JavaScriptSerializer jss = new JavaScriptSerializer();
             epiListObj = jss.Deserialize<EpisodesPrima>(showsJson);
-            return showListObj.result[selectedIndex].localTitle;
         }
 
         public override void FillShowsList()
@@ -76,7 +76,7 @@ namespace cu_grab
             return epiListObj.result[0].result.ToList<object>();
         }
 
-        public override string GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedEpisodeName(int selectedIndex)
         {
             return epiListObj.result[0].result[selectedIndex].localTitle;
         }
@@ -135,6 +135,11 @@ namespace cu_grab
         public override string GetDescriptionEpisode(int selectedIndex)
         {
             return epiListObj.result[0].result[selectedIndex].annotation;
+        }
+
+        public override string GetSelectedShowName(int selectedIndex)
+        {
+            return showListObj.result[selectedIndex].localTitle;
         }
     }
 }

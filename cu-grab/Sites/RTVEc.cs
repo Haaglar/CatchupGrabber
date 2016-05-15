@@ -47,7 +47,7 @@ namespace cu_grab
         /// Handles clicking on a show and setting the listbox to the episodes for the show. 
         /// </summary>
         /// <returns>The name of the selected show</returns>
-        public override string ClickDisplayedShow(int selectedIndex)
+        public override void ClickDisplayedShow(int selectedIndex)
         {
             WebRequest reqTematicasJs = HttpWebRequest.Create("http://www.rtve.es/api/tematicas/" + value.infoBuscador[selectedIndex].id + "/videos.json");
             WebResponse resTematicasJs = reqTematicasJs.GetResponse();
@@ -60,10 +60,7 @@ namespace cu_grab
                 episodesClan.page.items = episodesClan.page.items.OrderBy(x => x.publicationDate).ToList();
                             
             }
-
-            string selectedShow = value.infoBuscador[selectedIndex].titulo;
             resTematicasJs.Close();
-            return selectedShow;
         }
 
         /// <summary>
@@ -106,7 +103,7 @@ namespace cu_grab
             episodesClan = null;
         }
 
-        public override string GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedEpisodeName(int selectedIndex)
         {
             return episodesClan.page.items[selectedIndex].ToString();
         }
@@ -138,6 +135,11 @@ namespace cu_grab
 
             desc = WebUtility.HtmlDecode(regexAnnotaions.Replace(desc, "").Replace("\\n", " "));
             return desc;
+        }
+
+        public override string GetSelectedShowName(int selectedIndex)
+        {
+            return value.infoBuscador[selectedIndex].titulo;
         }
     }
 }

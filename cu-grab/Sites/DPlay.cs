@@ -54,7 +54,7 @@ namespace cu_grab
         }
 
 
-        public override string ClickDisplayedShow(int selectedIndex)
+        public override void ClickDisplayedShow(int selectedIndex)
         {
             string output;
             //I would love to use the existing JSON for something other than the URL
@@ -87,9 +87,6 @@ namespace cu_grab
                 string ID = match.Item2.Groups[1].Value.Replace(@"\",""); //Remove escaped JSON
                 episodesDPlay.Add(new EpisodesGeneric(description, ID));
             }
-
-            string selectedShow = showsDPlay.data[selectedIndex].title;
-            return selectedShow;
         }
 
         public override DownloadObject GetDownloadObject(int selectedIndex)
@@ -102,7 +99,7 @@ namespace cu_grab
         {
             episodesDPlay.Clear();
         }
-        public override string GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedEpisodeName(int selectedIndex)
         {
             return episodesDPlay[selectedIndex].Name;
         }
@@ -127,6 +124,11 @@ namespace cu_grab
         public override string GetDescriptionEpisode(int selectedIndex)
         {
             return null;
+        }
+
+        public override string GetSelectedShowName(int selectedIndex)
+        {
+            return showsDPlay.data[selectedIndex].title;
         }
     }
 }

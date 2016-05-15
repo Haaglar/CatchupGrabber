@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Xml.Linq;
+using System;
 
 namespace cu_grab
 {
@@ -27,7 +28,7 @@ namespace cu_grab
         /// Based off itorres info
         /// </summary>
         /// <returns>The selected show</returns>
-        public override string ClickDisplayedShow(int selectedIndex)
+        public override void ClickDisplayedShow(int selectedIndex)
         {
             string showsPage;
             string selectedName = showsS3.resposta.items.item[selectedIndex].titol;
@@ -42,7 +43,6 @@ namespace cu_grab
             {
                 episodesS3.Add(new EpisodesGeneric(element.Element("titol").Value, element.Attribute("idint").Value, element.Element("entradeta").Value));
             }
-            return selectedName;
         }
 
         public override void FillShowsList()
@@ -69,7 +69,7 @@ namespace cu_grab
             showsS3.resposta.items.item = showsS3.resposta.items.item.OrderBy(x => x.titol).ToList();
             RequestedSiteData = true;
         }
-        public override string GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedEpisodeName(int selectedIndex)
         {
             return episodesS3[selectedIndex].Name;
         }
@@ -111,6 +111,11 @@ namespace cu_grab
         public override string GetDescriptionEpisode(int selectedIndex)
         {
             return episodesS3[selectedIndex].Description;
+        }
+
+        public override string GetSelectedShowName(int selectedIndex)
+        {
+            return showsS3.resposta.items.item[selectedIndex].titol;
         }
     }
 }

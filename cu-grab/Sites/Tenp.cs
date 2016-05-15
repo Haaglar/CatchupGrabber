@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
+using System;
 
 namespace cu_grab
 {
@@ -43,7 +44,7 @@ namespace cu_grab
         /// Handles clicking of a show
         /// </summary>
         /// <returns>The name to the clicked show</returns>
-        public override string ClickDisplayedShow(int selectedIndex)
+        public override void ClickDisplayedShow(int selectedIndex)
         {
             WebRequest reqShow = HttpWebRequest.Create("http://tenplay.com.au/handlers/Render.ashx?path=/UserControls/Content/ContentBody.ascx&providername=Episode&datasourceid=" + shows.Shows[selectedIndex].ScId);
             WebResponse resShow = reqShow.GetResponse();
@@ -64,14 +65,8 @@ namespace cu_grab
             {
                 selectedShowEpisodes.Add(new EpisodesGeneric(match.Value.Groups[1].Value, match.Value2.Groups[1].Value, match.Value3.Groups[1].Value.Trim()));
             }
-            //Store the current show name for file naming later
-            string selectedShow = shows.Shows[selectedIndex].Name;
-
             resShow.Close();
             srShow.Close();
-            //Update list and states
-            return selectedShow;
-            
         }
         /// <summary>
         /// Get the download URL for FFmpeg
@@ -89,7 +84,7 @@ namespace cu_grab
         /// Get the name of the select show
         /// </summary>
         /// <returns>Returns the Name of the selected episode</returns>
-        public override string GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedEpisodeName(int selectedIndex)
         {
             return selectedShowEpisodes[selectedIndex].Name;
         }
@@ -125,6 +120,11 @@ namespace cu_grab
         public override string GetDescriptionEpisode(int selectedIndex)
         {
             return selectedShowEpisodes[selectedIndex].Description;
+        }
+
+        public override string GetSelectedShowName(int selectedIndex)
+        {
+            return shows.Shows[selectedIndex].Name;
         }
     }
 }

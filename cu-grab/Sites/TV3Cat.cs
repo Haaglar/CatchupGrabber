@@ -46,13 +46,12 @@ namespace cu_grab
             RequestedSiteData = true;
         }
 
-        public override string ClickDisplayedShow(int selectedIndex)
+        public override void ClickDisplayedShow(int selectedIndex)
         {
             string urlSelectedTmp = showList[selectedIndex].url;
-            string showName = showList[selectedIndex].name;  //Store it cause we swap listbox later
             string showEpisodeList;
             //Its a relative url
-            if(urlSelectedTmp.StartsWith("/tv3/")) //TV3 Download
+            if (urlSelectedTmp.StartsWith("/tv3/")) //TV3 Download
             {
                 string urlFull = @"http://www.ccma.cat" + urlSelectedTmp;
                 using (WebClient webClient = new WebClient())
@@ -67,13 +66,14 @@ namespace cu_grab
                 MatchCollection episodes = episodeSearch.Matches(showEpisodeList);
                 foreach (Match entry in episodes)
                 {
-
                     //Decoding cause of &#039; need to be '
                     episodeList.Add(new EpisodesGeneric(WebUtility.HtmlDecode(entry.Groups[1].Value), entry.Groups[2].Value));
                 }
-                return showName;
             }
-            throw new ArgumentException("Not supported");        
+            else
+            {
+                throw new ArgumentException("Not supported");
+            }
         }
 
         public override DownloadObject GetDownloadObject(int selectedIndex)
@@ -98,7 +98,7 @@ namespace cu_grab
             string suburl = subMatch.Groups[1].Value ?? "";
             return new DownloadObject(mp4.Groups[1].Value, suburl, Country.Spain,DownloadMethod.HTTP);
         }
-        public override string GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedEpisodeName(int selectedIndex)
         {
             return episodeList[selectedIndex].Name;
         }
@@ -128,6 +128,11 @@ namespace cu_grab
         public override string GetDescriptionEpisode(int selectedIndex)
         {
             return null;
+        }
+
+        public override string GetSelectedShowName(int selectedIndex)
+        {
+            return showList[selectedIndex].name;
         }
     }
 }

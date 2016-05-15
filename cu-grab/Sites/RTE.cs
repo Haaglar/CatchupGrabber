@@ -48,7 +48,7 @@ namespace cu_grab
         /// Handles the click of a ListBox object
         /// </summary>
         /// <returns></returns>
-        public override string ClickDisplayedShow(int selectedIndex)
+        public override void ClickDisplayedShow(int selectedIndex)
         {
             //Get page content
             string pageShow;
@@ -85,8 +85,6 @@ namespace cu_grab
                 string ID = match.Item2.Groups[1].Value;
                 selectedShowEpisodes.Add(new EpisodesGeneric(description, ID));
             }
-            string selectedShow = rteShows[selectedIndex].v;
-            return selectedShow;
         }
         /// <summary>
         /// Gets the url for the selected episode
@@ -119,7 +117,7 @@ namespace cu_grab
         {
             selectedShowEpisodes.Clear();
         }
-        public override string GetSelectedNameEpisode(int selectedIndex)
+        public override string GetSelectedEpisodeName(int selectedIndex)
         {
             return selectedShowEpisodes[selectedIndex].Name;
         }
@@ -144,6 +142,11 @@ namespace cu_grab
         public override string GetDescriptionEpisode(int selectedIndex)
         {
             return null;
+        }
+
+        public override string GetSelectedShowName(int selectedIndex)
+        {
+            return rteShows[selectedIndex].v;
         }
     }
 }

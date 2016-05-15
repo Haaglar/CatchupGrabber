@@ -246,13 +246,7 @@ namespace cu_grab
                     websiteStore[site].FillShowsList();
                 }).ContinueWith(x=>
                 {
-                    try
-                    {
-                        objectList.ItemsSource = websiteStore[site].GetShowsList();
-                        curState = State.DisplayingShows;
-                        curSite = site;
-                    }
-                    catch
+                    if(x.IsFaulted || x.IsCanceled)
                     {
                         sBinds.Error = "Failed to get episode listings for " + url;
                         curState = State.DisplayingNone;
@@ -260,10 +254,13 @@ namespace cu_grab
                         curSite = Site.None;
                         sBinds.SelectedSite = "";
                     }
-                    finally
+                    else
                     {
-                        EnableButtonsSites();
+                        objectList.ItemsSource = websiteStore[site].GetShowsList();
+                        curState = State.DisplayingShows;
+                        curSite = site;
                     }
+                    EnableButtonsSites();
                 }, TaskScheduler.FromCurrentSynchronizationContext());
             }
             // If they select it while we are currently on it just return to shows
@@ -295,7 +292,7 @@ namespace cu_grab
             settingsWindow.ShowDialog();
         }
         /// <summary>
-        /// Disables comflicting visual options while the application in resquesting data
+        /// Disables conflicting visual options while the application in resquesting data
         /// </summary>
         private void DisableButtonsSites()
         {

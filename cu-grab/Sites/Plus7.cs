@@ -222,7 +222,7 @@ namespace cu_grab
 
         public override string GetSelectedShowName(int selectedIndex)
         {
-            return selectedShowEpisodes[selectedIndex].Name;
+            return showsP7[selectedIndex].title;
         }
     }
 }

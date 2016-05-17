@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 //A class for the Shows that are on letsclan
-namespace cu_grab
+namespace CatchupGrabber
 {
     public class InfoBuscador
     {

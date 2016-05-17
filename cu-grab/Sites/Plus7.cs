@@ -1,4 +1,4 @@
-﻿using cu_grab.MiscObjects.Plus7;
+﻿using CatchupGrabber.MiscObjects.Plus7;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     public class Plus7 : DownloadAbstract
     {

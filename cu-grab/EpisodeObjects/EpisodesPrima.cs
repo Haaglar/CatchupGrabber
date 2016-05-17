@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace cu_grab.EpisodeObjects.Prima
+namespace CatchupGrabber.EpisodeObjects.Prima
 {
 
     public class ProductSubcategory

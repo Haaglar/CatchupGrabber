@@ -1,5 +1,5 @@
 ﻿//Class for the epiosdes of a show on tenplay, plus7 and RTE
-namespace cu_grab
+namespace CatchupGrabber
 {
     public class EpisodesGeneric
     {

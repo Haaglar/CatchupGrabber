@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     class TV3Cat : DownloadAbstract
     {

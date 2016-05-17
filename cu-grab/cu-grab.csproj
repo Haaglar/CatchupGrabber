@@ -7,7 +7,7 @@
     <ProjectGuid>{13D06A68-69DF-42A3-AEEA-8E182F9A186D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>cu_grab</RootNamespace>
+    <RootNamespace>CatchupGrabber</RootNamespace>
     <AssemblyName>CatchupGrabber</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Net;
 using System.Web.Script.Serialization;
 using System.Text.RegularExpressions;
-using cu_grab.Shows.DPlay;
-using cu_grab.NetworkAssister;
+using CatchupGrabber.Shows.DPlay;
+using CatchupGrabber.NetworkAssister;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     public class DPlay : DownloadAbstract
     {

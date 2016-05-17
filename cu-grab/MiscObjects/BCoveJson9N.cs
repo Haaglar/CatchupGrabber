@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace cu_grab.MiscObjects._9Now
+namespace CatchupGrabber.MiscObjects._9Now
 {
 
     public class IOSRendition

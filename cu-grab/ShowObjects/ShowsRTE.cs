@@ -1,4 +1,4 @@
-﻿namespace cu_grab.Downloader.RTE
+﻿namespace CatchupGrabber.Downloader.RTE
 {
     public class ShowsRTE
     {

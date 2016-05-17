@@ -1,13 +1,12 @@
-﻿using cu_grab.NetworkAssister;
+﻿using CatchupGrabber.NetworkAssister;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
-using System;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     public class Tenp : DownloadAbstract
     {

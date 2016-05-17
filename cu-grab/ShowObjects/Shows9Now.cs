@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace cu_grab.Shows._9Now
+namespace CatchupGrabber.Shows._9Now
 {
 
     public class Sizes

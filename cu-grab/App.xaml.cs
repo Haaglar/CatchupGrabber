@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     /// <summary>
     /// Interaction logic for App.xaml

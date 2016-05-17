@@ -1,4 +1,4 @@
-﻿namespace cu_grab
+﻿namespace CatchupGrabber
 {
     public enum Country { Aus,Ireland,Italy,Spain, Sweden, Czech}
     public enum DownloadMethod {HTTP, HLS}

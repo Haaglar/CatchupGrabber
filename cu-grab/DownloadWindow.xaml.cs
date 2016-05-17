@@ -1,4 +1,4 @@
-﻿using cu_grab.NetworkAssister;
+﻿using CatchupGrabber.NetworkAssister;
 using SubCSharp;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Shell;
 
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     /// <summary>
     /// Interaction logic for DownloadWindow.xaml

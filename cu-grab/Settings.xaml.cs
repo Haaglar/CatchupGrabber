@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     /// <summary>
     /// Interaction logic for Settings.xaml

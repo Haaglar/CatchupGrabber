@@ -1,4 +1,4 @@
-﻿using cu_grab.Shows.Super3;
+﻿using CatchupGrabber.Shows.Super3;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -6,9 +6,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 using System.Xml.Linq;
-using System;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     class Super3 : DownloadAbstract
     {

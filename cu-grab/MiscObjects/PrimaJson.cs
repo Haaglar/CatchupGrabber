@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace cu_grab.MiscObjects.Prima
+namespace CatchupGrabber.MiscObjects.Prima
 {
 
     public class Lang

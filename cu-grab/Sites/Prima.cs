@@ -1,16 +1,15 @@
-﻿using cu_grab.EpisodeObjects.Prima;
-using cu_grab.MiscObjects.Prima;
-using cu_grab.NetworkAssister;
-using cu_grab.Shows.Prima;
+﻿using CatchupGrabber.EpisodeObjects.Prima;
+using CatchupGrabber.MiscObjects.Prima;
+using CatchupGrabber.NetworkAssister;
+using CatchupGrabber.Shows.Prima;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
-using System;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     class Prima : DownloadAbstract
     {

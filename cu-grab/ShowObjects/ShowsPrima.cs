@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace cu_grab.Shows.Prima
+namespace CatchupGrabber.Shows.Prima
 {
 
     public class ProductSubcategory

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace cu_grab.Shows.Super3
+namespace CatchupGrabber.Shows.Super3
 {
     public class CodiEtic
     {

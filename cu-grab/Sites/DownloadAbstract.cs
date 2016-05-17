@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     abstract public class DownloadAbstract
     {

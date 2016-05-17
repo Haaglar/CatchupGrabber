@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     namespace NetworkAssister
     {

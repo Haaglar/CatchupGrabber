@@ -1,5 +1,5 @@
-﻿using cu_grab.Downloader.RTE;
-using cu_grab.NetworkAssister;
+﻿using CatchupGrabber.Downloader.RTE;
+using CatchupGrabber.NetworkAssister;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +8,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     public class RTE : DownloadAbstract
     {

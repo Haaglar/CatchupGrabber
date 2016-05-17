@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     /// <summary>
     /// Holds all of the string bindings the main window uses

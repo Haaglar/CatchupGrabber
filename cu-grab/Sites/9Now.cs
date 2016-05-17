@@ -1,14 +1,13 @@
-﻿using cu_grab.EpisodeObjects._9Now;
-using cu_grab.MiscObjects._9Now;
-using cu_grab.NetworkAssister;
-using cu_grab.Shows._9Now;
+﻿using CatchupGrabber.EpisodeObjects._9Now;
+using CatchupGrabber.MiscObjects._9Now;
+using CatchupGrabber.NetworkAssister;
+using CatchupGrabber.Shows._9Now;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Script.Serialization;
-using System;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     class _9Now : DownloadAbstract
     {

@@ -1,7 +1,7 @@
-﻿<Window x:Class="cu_grab.MainWindow"
+﻿<Window x:Class="CatchupGrabber.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Catch-up Grabber" Height="600" Width="600"
+        Title="Catchup Grabber" Height="600" Width="600"
         MinHeight="600" MinWidth="600"
         >
     <Grid>

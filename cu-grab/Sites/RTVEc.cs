@@ -1,4 +1,4 @@
-﻿using cu_grab.EpisodeObjects.RTVEc;
+﻿using CatchupGrabber.EpisodeObjects.RTVEc;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
 
-namespace cu_grab
+namespace CatchupGrabber
 {
     public class RTVEc : DownloadAbstract
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace cu_grab.EpisodeObjects._9Now
+namespace CatchupGrabber.EpisodeObjects._9Now
 {
 
     public class Meta

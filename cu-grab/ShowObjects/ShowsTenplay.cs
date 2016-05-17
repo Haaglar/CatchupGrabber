@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 //Class for the shows on Tenplay
-namespace cu_grab
+namespace CatchupGrabber
 {
     public class LastestEpisode
     {

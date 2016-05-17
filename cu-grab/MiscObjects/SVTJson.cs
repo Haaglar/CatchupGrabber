@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace cu_grab.MiscObjects
+namespace CatchupGrabber.MiscObjects
 {
     public class VideoReference
     {

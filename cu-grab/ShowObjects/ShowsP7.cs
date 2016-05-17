@@ -1,4 +1,4 @@
-﻿namespace cu_grab
+﻿namespace CatchupGrabber
 {
     public class ShowsP7
     {

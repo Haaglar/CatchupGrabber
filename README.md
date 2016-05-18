@@ -1,4 +1,4 @@
-# cu-grab
+# CatchupGrabber
 Grabs videos from some tv catchup / on demand services.
 
 Supports:

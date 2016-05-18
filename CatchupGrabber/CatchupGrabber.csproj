@@ -73,9 +73,7 @@
     <Compile Include="EpisodeObjects\Episodes9Now.cs" />
     <Compile Include="EpisodeObjects\EpisodesPrima.cs" />
     <Compile Include="MiscObjects\BCoveJson.cs" />
-    <Compile Include="CUNetworkAssist.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="CUNetworkAssist.cs" />
     <Compile Include="MiscObjects\BCoveJson9N.cs" />
     <Compile Include="MiscObjects\PrimaJson.cs" />
     <Compile Include="MiscObjects\SVTJson.cs" />

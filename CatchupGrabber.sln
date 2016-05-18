@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cu-grab", "cu-grab\cu-grab.csproj", "{13D06A68-69DF-42A3-AEEA-8E182F9A186D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatchupGrabber", "CatchupGrabber\CatchupGrabber.csproj", "{13D06A68-69DF-42A3-AEEA-8E182F9A186D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

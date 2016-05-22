@@ -266,6 +266,10 @@ namespace CatchupGrabber
         {
             ButtonRetry.Visibility = Visibility.Hidden;
             dwBinding.DownloadProgress = "Retrying download";
+            if (Environment.OSVersion.Version.Major >= 6) 
+            {
+                taskBarDownload.ProgressValue = 0;
+            }
             DownloadShow();
         }
         //Download methods end
@@ -284,8 +288,11 @@ namespace CatchupGrabber
         {
             try
             {
-                cAWebClient.CancelAsync();
-                cAWebClient.Dispose();
+                if (cAWebClient != null)
+                {
+                    cAWebClient.CancelAsync();
+                    cAWebClient.Dispose();
+                }
             }
             catch { }
         }

@@ -30,7 +30,7 @@ namespace CatchupGrabber
         long bytesReceived = 0;
 
         //Process
-        Process proc = new Process();
+        Process proc;
         DWBindings dwBinding = new DWBindings();
 
         /// <summary>
@@ -118,6 +118,7 @@ namespace CatchupGrabber
         {
             //ffmpeg
             ProcessStartInfo ffmpeg = new ProcessStartInfo();
+            proc = new Process();
             ffmpeg.FileName = "ffmpeg.exe";
             ffmpeg.Arguments = " -i " + url + " -acodec copy -vcodec copy -bsf:a aac_adtstoasc " + '"' + nameLocation + '"' + ".mp4";
             
@@ -131,14 +132,24 @@ namespace CatchupGrabber
         void FFmpeg_Exited(object sender, EventArgs e)
         {
             int tmp = proc.ExitCode;
-            //Update textblock as it is on a different thread
-            dwBinding.DownloadProgress = "Complete";
             proc.Dispose();
-            //Close the window if they want it
-            if (Properties.Settings.Default.ExitDLOnDownload)
+            if (tmp == 0) //On success
             {
-                this.Dispatcher.BeginInvoke((Action)(() => { 
-                    this.Close(); 
+                //Update textblock as it is on a different thread
+                dwBinding.DownloadProgress = "Complete";
+                //Close the window if they want it
+                if (Properties.Settings.Default.ExitDLOnDownload)
+                {
+                    this.Dispatcher.BeginInvoke((Action)(() => {
+                        this.Close();
+                    }));
+                }
+            }
+            else
+            {
+                dwBinding.DownloadProgress = "FFmpeg returned a non 0 exit code";
+                this.Dispatcher.BeginInvoke((Action)(() => {
+                    ButtonRetry.Visibility = Visibility.Visible;
                 }));
             }
         }

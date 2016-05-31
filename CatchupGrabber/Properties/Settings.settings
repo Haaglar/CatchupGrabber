@@ -29,5 +29,8 @@
     <Setting Name="HTTPSwedish" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="SubtitleFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.srt</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

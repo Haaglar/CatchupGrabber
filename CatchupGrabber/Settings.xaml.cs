@@ -31,7 +31,20 @@ namespace CatchupGrabber
 
             CheckBoxDownloadWindowClose.IsChecked = Properties.Settings.Default.ExitDLOnDownload;
             CheckBoxSubtitleDownloadSetting.IsChecked = Properties.Settings.Default.DownloadSubtitlesSetting;
-            CheckBoxSubtitleConvertSetting.IsChecked = Properties.Settings.Default.ConvertSubtitle;
+            if (!(CheckBoxSubtitleConvertSetting.IsChecked = Properties.Settings.Default.ConvertSubtitle) ?? false)
+            {
+                RadioButtonSRT.IsEnabled = false;
+                RadioButtonASS.IsEnabled = false;
+            }
+
+            if(Properties.Settings.Default.SubtitleFormat.Equals("srt"))
+            {
+                RadioButtonSRT.IsChecked = true;
+            }
+            else
+            {
+                RadioButtonASS.IsChecked = true;
+            }
             this.PreviewKeyDown += EscExit_PreviewKeyDown;
         }
 
@@ -47,6 +60,8 @@ namespace CatchupGrabber
             //Checkbox for sub download
             Properties.Settings.Default.DownloadSubtitlesSetting = CheckBoxSubtitleDownloadSetting.IsChecked ?? false;
             Properties.Settings.Default.ConvertSubtitle = CheckBoxSubtitleConvertSetting.IsChecked ?? false;
+            Properties.Settings.Default.SubtitleFormat = (RadioButtonSRT.IsChecked ?? false) ? ".srt" : ".ass";
+
             Properties.Settings.Default.Save();
             this.Close();
         }
@@ -89,6 +104,21 @@ namespace CatchupGrabber
             else
             {
                 Properties.Settings.Default.ProxyOptionSpanish = "None";
+            }
+        }
+
+        private void CheckBoxSubtitleConvertSetting_Checked(object sender, RoutedEventArgs e)
+        {
+            if(CheckBoxSubtitleConvertSetting.IsChecked ?? false)
+            {
+
+                RadioButtonSRT.IsEnabled = true;
+                RadioButtonASS.IsEnabled = true;
+            }
+            else
+            {
+                RadioButtonSRT.IsEnabled = false;
+                RadioButtonASS.IsEnabled = false;
             }
         }
     }

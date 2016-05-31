@@ -56,7 +56,7 @@ namespace CatchupGrabber
             }
 
             if (!subtitle.Equals("") && Properties.Settings.Default.DownloadSubtitlesSetting)
-                Task.Factory.StartNew(() => DownloadSubtitle(subtitle,fileName)); //Run the downloadsub in a background thread
+                Task.Factory.StartNew(() => DownloadSubtitle(subtitle,fileName,Properties.Settings.Default.SubtitleFormat)); //Run the downloadsub in a background thread
             DownloadShow();
 
         }
@@ -93,17 +93,17 @@ namespace CatchupGrabber
                     break;
             }
         }
-        private void DownloadSubtitle(string subtileUrl, string fileNameSub)
+        private void DownloadSubtitle(string subtileUrl, string fileNameSub, string fileType)
         {
             using (WebClient webClient = new WebClient())
             {
                 webClient.DownloadFile(new Uri(subtileUrl), fileNameSub + Path.GetExtension(subtileUrl));
 
             }
-            if (Properties.Settings.Default.ConvertSubtitle)
+            if (Properties.Settings.Default.ConvertSubtitle )
             {
                 SubtitleConverter conv = new SubtitleConverter();
-                conv.ConvertSubtitle(fileNameSub + Path.GetExtension(subtileUrl), fileNameSub + ".srt");
+                conv.ConvertSubtitle(fileNameSub + Path.GetExtension(subtileUrl), fileNameSub + fileType);
             }
         }
 

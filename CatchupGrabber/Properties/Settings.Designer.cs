@@ -130,5 +130,17 @@ namespace CatchupGrabber.Properties {
                 this["HTTPSwedish"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".srt")]
+        public string SubtitleFormat {
+            get {
+                return ((string)(this["SubtitleFormat"]));
+            }
+            set {
+                this["SubtitleFormat"] = value;
+            }
+        }
     }
 }

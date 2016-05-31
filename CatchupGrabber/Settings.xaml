@@ -60,8 +60,10 @@
             <Button x:Name="ButtonSaveSettings" Content="Save" HorizontalAlignment="Left" Margin="287,0,0,15" VerticalAlignment="Bottom" Width="75" Click="ButtonSaveSettings_Click"/>
             <Button x:Name="ButtonCancelSettings" Content="Cancel" HorizontalAlignment="Left" Margin="10,0,0,15" VerticalAlignment="Bottom" Width="75" Click="ButtonCancelSettings_Click"/>
             <CheckBox x:Name="CheckBoxSubtitleDownloadSetting" Content="Download subtitles if available" HorizontalAlignment="Left" Margin="10,0,0,44" VerticalAlignment="Bottom" FontSize="12"/>
-            <CheckBox x:Name="CheckBoxSubtitleConvertSetting" Content="Convert Subtitle to .SRT" HorizontalAlignment="Left" Margin="211,0,0,44" VerticalAlignment="Bottom" FontSize="12"/>
+            <CheckBox x:Name="CheckBoxSubtitleConvertSetting" Content="Convert Subtitle?" HorizontalAlignment="Left" Margin="211,0,0,64" VerticalAlignment="Bottom" FontSize="12" Height="17" Click="CheckBoxSubtitleConvertSetting_Checked"/>
             <CheckBox x:Name="CheckBoxDownloadWindowClose" Content="Close download after download" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top"/>
+            <RadioButton GroupName="GrpSubtype" x:Name="RadioButtonSRT" Content=".srt" HorizontalAlignment="Left" Margin="211,31,0,0" VerticalAlignment="Top" FontSize="12"/>
+            <RadioButton GroupName="GrpSubtype" x:Name="RadioButtonASS" Content=".ass" HorizontalAlignment="Left" Margin="261,31,0,0" VerticalAlignment="Top" FontSize="12" />
         </Grid>
 
     </Grid>

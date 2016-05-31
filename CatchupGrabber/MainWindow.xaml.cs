@@ -252,6 +252,7 @@ namespace CatchupGrabber
             {
                 objectList.ItemsSource = new List<string> {"Loading..." + url};
                 DisableButtonsSites();
+                //Fetch and handle the result on a background thread/task
                 Task.Factory.StartNew(()=>
                 {
                     websiteStore[site].FillShowsList();
@@ -333,6 +334,11 @@ namespace CatchupGrabber
             objectList.SelectedIndex = -1;
         }
 
+        /// <summary>
+        /// Handles the selection of an item in the shows/episodes list(updates the description)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OL_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(objectList.SelectedIndex != -1)

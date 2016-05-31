@@ -51,7 +51,7 @@ namespace CatchupGrabber
         private void ButtonSaveSettings_Click(object sender, RoutedEventArgs e)
         {
 
-            SpanishSettingsSet();
+            SpanishSettingsSave();
             //Get RTE proxy
             Properties.Settings.Default.HTTPIrish = TextBoxIrishHTTPProxy.Text;
             Properties.Settings.Default.HTTPSwedish =  TextBoxSwedishHTTPProxy.Text;
@@ -77,7 +77,10 @@ namespace CatchupGrabber
                 this.Close();
         }
 
-        private void SpanishSettingsSet()
+        /// <summary>
+        /// Handles saving settings for the spanish website s
+        /// </summary>
+        private void SpanishSettingsSave()
         {
             //Get Spansih Glype proxy
             string proxyUnfiltered = TextBoxSpanishGlypeProxy.Text;
@@ -107,7 +110,12 @@ namespace CatchupGrabber
             }
         }
 
-        private void CheckBoxSubtitleConvertSetting_Checked(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Handles checking of the ConvertSettings (Enabling and disabling its sub options)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CheckBoxSubtitleConvertSetting_Click(object sender, RoutedEventArgs e)
         {
             if(CheckBoxSubtitleConvertSetting.IsChecked ?? false)
             {

@@ -58,7 +58,6 @@ namespace CatchupGrabber
             if (!subtitle.Equals("") && Properties.Settings.Default.DownloadSubtitlesSetting)
                 Task.Factory.StartNew(() => DownloadSubtitle(subtitle,fileName,Properties.Settings.Default.SubtitleFormat)); //Run the downloadsub in a background thread
             DownloadShow();
-
         }
 
         
@@ -100,7 +99,7 @@ namespace CatchupGrabber
                 webClient.DownloadFile(new Uri(subtileUrl), fileNameSub + Path.GetExtension(subtileUrl));
 
             }
-            if (Properties.Settings.Default.ConvertSubtitle )
+            if (Properties.Settings.Default.ConvertSubtitle)
             {
                 SubtitleConverter conv = new SubtitleConverter();
                 conv.ConvertSubtitle(fileNameSub + Path.GetExtension(subtileUrl), fileNameSub + fileType);
@@ -145,7 +144,7 @@ namespace CatchupGrabber
                     }));
                 }
             }
-            else
+            else //It failed so enable retry
             {
                 dwBinding.DownloadProgress = "FFmpeg returned a non 0 exit code";
                 this.Dispatcher.BeginInvoke((Action)(() => {
@@ -154,6 +153,12 @@ namespace CatchupGrabber
             }
         }
 
+        /// <summary>
+        /// Downloads the specified mp4 url via a HTTP proxy
+        /// </summary>
+        /// <param name="url">The url to download</param>
+        /// <param name="name">The filename to save as an (no extension, mp4 added)</param>
+        /// <param name="httpProxy">The HTTP proxy</param>
         public void HTTPProxyDownload(string url, string name, string httpProxy)
         {
             WebProxy wp = new WebProxy(httpProxy);
@@ -200,9 +205,13 @@ namespace CatchupGrabber
             {
                 cAWebClient.DownloadFileAsync(new Uri(url), name);
             }
-
         }
         
+        /// <summary>
+        /// Handles updating the visuals when downloading a video though the webclient
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void WebClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             bytesReceived = e.BytesReceived;
@@ -213,6 +222,11 @@ namespace CatchupGrabber
                 taskBarDownload.ProgressValue = e.ProgressPercentage/100.0;
             }
         }
+        /// <summary>
+        /// Handles aftermath when the application downloads a video though the webclient
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void WebClient_AsyncCompletedEventHandler(object sender, AsyncCompletedEventArgs e)
         {
             DisposeWebClient();
@@ -273,6 +287,11 @@ namespace CatchupGrabber
             }
         }
 
+        /// <summary>
+        /// Handles the click of the retry button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonRetry_Click(object sender, RoutedEventArgs e)
         {
             ButtonRetry.Visibility = Visibility.Hidden;
@@ -309,6 +328,10 @@ namespace CatchupGrabber
         }
 
     }
+
+    /// <summary>
+    /// Bindings for the visual elements
+    /// </summary>
     public class DWBindings : INotifyPropertyChanged
     {
         private string _downloadProgress = "";

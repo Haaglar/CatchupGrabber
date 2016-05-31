@@ -92,14 +92,19 @@ namespace CatchupGrabber
                     break;
             }
         }
+        /// <summary>
+        /// Downloads a subtitle
+        /// </summary>
+        /// <param name="subtileUrl">The location of the subtitle</param>
+        /// <param name="fileNameSub">File name to save</param>
+        /// <param name="fileType">The type to convert to (null or empty to not convert)</param>
         private void DownloadSubtitle(string subtileUrl, string fileNameSub, string fileType)
         {
             using (WebClient webClient = new WebClient())
             {
                 webClient.DownloadFile(new Uri(subtileUrl), fileNameSub + Path.GetExtension(subtileUrl));
-
             }
-            if (Properties.Settings.Default.ConvertSubtitle)
+            if (Properties.Settings.Default.ConvertSubtitle && !string.IsNullOrEmpty(fileType))
             {
                 SubtitleConverter conv = new SubtitleConverter();
                 conv.ConvertSubtitle(fileNameSub + Path.GetExtension(subtileUrl), fileNameSub + fileType);

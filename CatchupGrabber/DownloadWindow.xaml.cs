@@ -117,7 +117,6 @@ namespace CatchupGrabber
         /// </summary>
         /// <param name="url">The URL to download, (Master or Rendition)</param>
         /// <param name="nameLocation">The file name and location (without file extension)</param>
-        /// <returns>Returns FFmpeg's error code</returns>
         public void RunFFmpeg(string url, string nameLocation)
         {
             //ffmpeg
@@ -133,6 +132,11 @@ namespace CatchupGrabber
             
         }
 
+        /// <summary>
+        /// Event handler for when FFmpeg completes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void FFmpeg_Exited(object sender, EventArgs e)
         {
             int tmp = proc.ExitCode;
@@ -206,7 +210,7 @@ namespace CatchupGrabber
                 //Download the file
                 cAWebClient.DownloadFileAsync(new Uri(proxyAddress + "/browse.php?u=" + url + "&b=12&f=norefer"), name);
             }
-            else
+            else // no proxy, download normally
             {
                 cAWebClient.DownloadFileAsync(new Uri(url), name);
             }

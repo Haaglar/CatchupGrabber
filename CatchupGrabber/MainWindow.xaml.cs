@@ -10,9 +10,9 @@ namespace CatchupGrabber
     /* Note: Requires FFmpeg
      * TODO: 
      * More sites :)
-     * More proper error handling
      * Make a attractive GUI
      * Use API, for descriptions and stuff instead of crawling on tenplay, p7 (OAuth) and possibly RTE(OAuth)
+     * Implement an alternative hls downloader inorder to use a proxy when downloading through that method
      */
 
     /// <summary>

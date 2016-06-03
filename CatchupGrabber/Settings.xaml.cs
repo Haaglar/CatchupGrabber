@@ -37,7 +37,7 @@ namespace CatchupGrabber
                 RadioButtonASS.IsEnabled = false;
             }
 
-            if(Properties.Settings.Default.SubtitleFormat.Equals("srt"))
+            if(Properties.Settings.Default.SubtitleFormat.Equals(".srt"))
             {
                 RadioButtonSRT.IsChecked = true;
             }

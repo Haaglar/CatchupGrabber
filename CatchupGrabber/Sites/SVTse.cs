@@ -2,6 +2,7 @@
 using CatchupGrabber.NetworkAssister;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -15,6 +16,7 @@ namespace CatchupGrabber
         private static string BaseURL = "http://www.svtplay.se";
         private static string ShowListURL = "/program";
         private static string AdditionalEpisodes = @"?sida=2&tab=helaprogram&embed=true";
+        
         private List<ShowsGeneric> showsSVT = new List<ShowsGeneric>();
         private List<EpisodesGeneric> episodesSVT = new List<EpisodesGeneric>();
         private SVTJson episodeData;
@@ -101,8 +103,14 @@ namespace CatchupGrabber
 
         public override string GetSubtitles()
         {
+            if (episodeData.video.subtitleReferences != null)
+            {
+                string full = episodeData.video.subtitleReferences[0].url;
+                int end = full.LastIndexOf("/");
+                string final = full.Substring(0,end) + "/all.vtt"; ;
+                return final;
+            }
             return "";
-            //return (episodeData.video.subtitleReferences != null) ? episodeData.video.subtitleReferences[0].url : "";
         }
 
         public override List<object> GetShowsList()

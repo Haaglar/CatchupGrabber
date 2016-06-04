@@ -107,6 +107,7 @@ namespace CatchupGrabber
             if (Properties.Settings.Default.ConvertSubtitle && !string.IsNullOrEmpty(fileType))
             {
                 SubtitleConverter conv = new SubtitleConverter();
+                conv.EncodingRead = Encoding.UTF8;
                 conv.ConvertSubtitle(fileNameSub + Path.GetExtension(subtileUrl), fileNameSub + fileType);
             }
         }

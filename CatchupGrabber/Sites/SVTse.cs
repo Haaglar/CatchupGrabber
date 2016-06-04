@@ -105,9 +105,12 @@ namespace CatchupGrabber
             if (episodeData.video.subtitleReferences != null)
             {
                 string full = episodeData.video.subtitleReferences[0].url;
-                int end = full.LastIndexOf("/");
-                string final = full.Substring(0,end) + "/all.vtt"; ;
-                return final;
+                if (!string.IsNullOrEmpty(full))
+                {
+                    int end = full.LastIndexOf("/");
+                    full = full.Substring(0, end) + "/all.vtt"; ;
+                }
+                return full;
             }
             return "";
         }

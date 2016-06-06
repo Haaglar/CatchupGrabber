@@ -48,6 +48,11 @@ namespace CatchupGrabber
             this.PreviewKeyDown += EscExit_PreviewKeyDown;
         }
 
+        /// <summary>
+        /// Handles the save button being pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonSaveSettings_Click(object sender, RoutedEventArgs e)
         {
 
@@ -71,6 +76,11 @@ namespace CatchupGrabber
             this.Close();
         }
 
+        /// <summary>
+        /// Key handler that closes the settings window on Escape pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EscExit_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)

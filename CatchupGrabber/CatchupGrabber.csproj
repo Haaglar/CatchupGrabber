@@ -72,6 +72,7 @@
     </ApplicationDefinition>
     <Compile Include="EpisodeObjects\Episodes9Now.cs" />
     <Compile Include="EpisodeObjects\EpisodesPrima.cs" />
+    <Compile Include="EpisodeObjects\EpisodesSuper3.cs" />
     <Compile Include="MiscObjects\BCoveJson.cs" />
     <Compile Include="CUNetworkAssist.cs" />
     <Compile Include="MiscObjects\BCoveJson9N.cs" />

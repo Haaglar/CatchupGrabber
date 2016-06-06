@@ -1,4 +1,5 @@
-﻿using CatchupGrabber.Shows.Super3;
+﻿using CatchupGrabber.EpisodeObjects.Super3;
+using CatchupGrabber.Shows.Super3;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -30,8 +31,25 @@ namespace CatchupGrabber
         public override void ClickDisplayedShow(int selectedIndex)
         {
             string showsPage;
+            string selectedUrl;
             string selectedName = showsS3.resposta.items.item[selectedIndex].titol;
-            string selectedUrl = searchUrlP1 + showsS3.resposta.items.item[selectedIndex].bband.id + searchUrlP2; 
+            //Temp fix (till they fix it) for english videos
+            //Use the old method to get the english show ID
+            if (selectedName.EndsWith("(VO)"))
+            {
+                string tmp;
+                using (WebClient wc = new WebClient())
+                {
+                    tmp = wc.DownloadString(@"http://dinamics.ccma.cat/feeds/super3/videos.jsp?idioma=ANGLES&programa_id=" + showsS3.resposta.items.item[selectedIndex].id);
+                }
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+                var episodesTmp = jss.Deserialize<EpisodesSuper3>(tmp);
+                selectedUrl = searchUrlP1 + episodesTmp.resposta.items.item[0].bband.id + searchUrlP2;
+            }
+            else
+            {
+                selectedUrl = searchUrlP1 + showsS3.resposta.items.item[selectedIndex].bband.id + searchUrlP2;
+            }
             using (WebClient wc = new WebClient())
             {
                 wc.Encoding = Encoding.GetEncoding("iso-8859-1");
@@ -61,6 +79,13 @@ namespace CatchupGrabber
                 showsJson = wc.DownloadString(@"http://dinamics.ccma.cat/feeds/super3/programes.jsp?filtre=progangles");
             }
             ShowsSuper3 tmp = jss.Deserialize<ShowsSuper3>(showsJson);
+
+            //Temp fix to iding names super3 
+            foreach (var value in tmp.resposta.items.item)
+            {
+                value.titol += " (VO)";
+            }
+
             //Concat and update to one big number
             showsS3.resposta.items.item = showsS3.resposta.items.item.Concat(tmp.resposta.items.item).ToList();
             showsS3.resposta.items.num += tmp.resposta.items.num;

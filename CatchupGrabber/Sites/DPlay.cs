@@ -76,16 +76,21 @@ namespace CatchupGrabber
             //Since i cant seem to parse the json data as its different between shows, Ill just abuse regex again
             Regex regName = new Regex(@"""title"":""([^""]+)"""); // Name
             Regex regID = new Regex(@"""hls"":""(.*?)"""); //Will be the url
+            Regex regDesc = new Regex(@"video_metadata_longDescription"":""(.*?)""");
 
             MatchCollection matchName = regName.Matches(output);
             MatchCollection matchID = regID.Matches(output);
-
+            MatchCollection matchDesc = regDesc.Matches(output);
+            int descCount = matchDesc.Count;
+            int i = 0;
             //Add episodes to list
             foreach (var match in matchName.Cast<Match>().Zip(matchID.Cast<Match>(), Tuple.Create)) //Join the two in a tuple
             {
-                string description = match.Item1.Groups[1].Value;
+                string name = match.Item1.Groups[1].Value;
                 string ID = match.Item2.Groups[1].Value.Replace(@"\",""); //Remove escaped JSON
-                episodesDPlay.Add(new EpisodesGeneric(description, ID));
+                string desc = i < descCount ? matchDesc[i].Groups[1].Value : "";
+                i++;
+                episodesDPlay.Add(new EpisodesGeneric(name, ID, desc));
             }
         }
 
@@ -123,7 +128,7 @@ namespace CatchupGrabber
 
         public override string GetDescriptionEpisode(int selectedIndex)
         {
-            return null;
+            return WebUtility.HtmlDecode(episodesDPlay[selectedIndex].Description);
         }
 
         public override string GetSelectedShowName(int selectedIndex)

@@ -6,26 +6,25 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Script.Serialization;
-using System.Xml.Linq;
 
 namespace CatchupGrabber
 {
     class Super3 : DownloadAbstract
     {
         private ShowsSuper3 showsS3;
-        private List<EpisodesGeneric> episodesS3 = new List<EpisodesGeneric>();
+        private EpisodesSuper3 episodesS3;
+        //private List<EpisodesGeneric> episodesS3 = new List<EpisodesGeneric>();
         private static string jsonMP4Url = "http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
-        private static string searchUrlP1 = "http://www.super3.cat/searcher/super3/searching.jsp?format=MP4&catBusca=";
-        private static string searchUrlP2 = "&presentacion=xml&pagina=1&itemsPagina=52";
+        //private static string searchUrlP1 = "http://www.super3.cat/searcher/super3/searching.jsp?format=MP4&catBusca=";
+        //private static string searchUrlP2 = "&presentacion=xml&pagina=1&itemsPagina=52";
         public Super3() { }
 
         public override void CleanEpisodes()
         {
-            episodesS3.Clear();
+            episodesS3 = null;
         }
         /// <summary>
         /// Gets The displayed episodes for the clicked show
-        /// Based off itorres info
         /// </summary>
         /// <returns>The selected show</returns>
         public override void ClickDisplayedShow(int selectedIndex)
@@ -33,33 +32,22 @@ namespace CatchupGrabber
             string showsPage;
             string selectedUrl;
             string selectedName = showsS3.resposta.items.item[selectedIndex].titol;
-            //Temp fix (till they fix it) for english videos
             //Use the old method to get the english show ID
             if (selectedName.EndsWith("(VO)"))
             {
-                string tmp;
-                using (WebClient wc = new WebClient())
-                {
-                    tmp = wc.DownloadString(@"http://dinamics.ccma.cat/feeds/super3/videos.jsp?idioma=ANGLES&programa_id=" + showsS3.resposta.items.item[selectedIndex].id);
-                }
-                JavaScriptSerializer jss = new JavaScriptSerializer();
-                var episodesTmp = jss.Deserialize<EpisodesSuper3>(tmp);
-                selectedUrl = searchUrlP1 + episodesTmp.resposta.items.item[0].bband.id + searchUrlP2;
+                selectedUrl = "http://dinamics.ccma.cat/feeds/super3/videos.jsp?idioma=ANGLES&programa_id=" + showsS3.resposta.items.item[selectedIndex].id;
             }
             else
             {
-                selectedUrl = searchUrlP1 + showsS3.resposta.items.item[selectedIndex].bband.id + searchUrlP2;
+                selectedUrl = "http://dinamics.ccma.cat/feeds/super3/videos.jsp?idioma=CATALA&programa_id=" + showsS3.resposta.items.item[selectedIndex].id;
             }
             using (WebClient wc = new WebClient())
             {
                 wc.Encoding = Encoding.GetEncoding("iso-8859-1");
                 showsPage = wc.DownloadString(selectedUrl);
             }
-            XElement doc = XElement.Parse(showsPage);
-            foreach (XElement element in doc.Element("resultats").Elements("item"))
-            {
-                episodesS3.Add(new EpisodesGeneric(element.Element("titol").Value, element.Attribute("idint").Value, element.Element("entradeta").Value));
-            }
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            episodesS3 = jss.Deserialize<EpisodesSuper3>(showsPage);
         }
 
         public override void FillShowsList()
@@ -95,7 +83,7 @@ namespace CatchupGrabber
         }
         public override string GetSelectedEpisodeName(int selectedIndex)
         {
-            return episodesS3[selectedIndex].Name;
+            return episodesS3.resposta.items.item[selectedIndex].titol;
         }
         public override string GetSubtitles()
         {
@@ -111,7 +99,7 @@ namespace CatchupGrabber
             using (WebClient wc = new WebClient())
             {
                 //Last bit not actually needed but whatever
-                jsonMP4 = wc.DownloadString(jsonMP4Url + episodesS3[selectedIndex].EpisodeID + "&profile=pc");
+                jsonMP4 = wc.DownloadString(jsonMP4Url + episodesS3.resposta.items.item[selectedIndex].id + "&profile=pc");
             }
             Regex getMp4 = new Regex(@"""(.*?\.mp4)""", RegexOptions.RightToLeft); //Cause this way is the best
             Match mp4 = getMp4.Match(jsonMP4);
@@ -124,7 +112,7 @@ namespace CatchupGrabber
         }
         public override List<object> GetEpisodesList()
         {
-            return episodesS3.ToList<object>();
+            return episodesS3.resposta.items.item.ToList<object>();
         }
 
         public override string GetDescriptionShow(int selectedIndex)
@@ -134,7 +122,7 @@ namespace CatchupGrabber
 
         public override string GetDescriptionEpisode(int selectedIndex)
         {
-            return episodesS3[selectedIndex].Description;
+            return episodesS3.resposta.items.item[selectedIndex].entradeta;
         }
 
         public override string GetSelectedShowName(int selectedIndex)

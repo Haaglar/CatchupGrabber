@@ -116,6 +116,10 @@ namespace CatchupGrabber.EpisodeObjects.Super3
         public CodiEtic codi_etic { get; set; }
         public int capitol { get; set; }
         public Targets targets { get; set; }
+        public override string ToString()
+        {
+            return titol;
+        }
     }
 
     public class Items

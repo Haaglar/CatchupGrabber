@@ -303,6 +303,17 @@ namespace CatchupGrabber
             Settings settingsWindow = new Settings();
             settingsWindow.ShowDialog();
         }
+
+        /// <summary>
+        /// Handles the about buttons being pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void About_Pressed(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Catchup Grabber by Haaglar 2015-2016 \r\nProject page: https://github.com/Haaglar/CatchupGrabber", "About");
+        }
+
         /// <summary>
         /// Disables conflicting visual options while the application in resquesting data
         /// </summary>

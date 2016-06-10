@@ -30,7 +30,8 @@
                         <TextBlock x:Name="textBlockSite" HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="{Binding SelectedSite}" VerticalAlignment="Top" Width="70"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,89,0,0" TextWrapping="Wrap" Text="Show Selected:" VerticalAlignment="Top" Width="84"/>
                         <TextBlock x:Name="textBlockShow" HorizontalAlignment="Left" Margin="10,110,0,0" TextWrapping="Wrap" Text="{Binding SelectedShow}" VerticalAlignment="Top" RenderTransformOrigin="0.58,0"/>
-                        <TextBlock x:Name="errorLabel" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="65" TextWrapping="Wrap" Width="100" Text="{Binding Error}" Margin="10,249,0,0"/>
+                        <TextBlock x:Name="errorLabel" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="65" TextWrapping="Wrap" Width="100" Text="{Binding Error}" Margin="10,214,0,0"/>
+                        <Button x:Name="buttonAbout" Content="About" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="100" Height="30" Click="About_Pressed" Margin="10,0,0,80" FontSize="14"/>
                     </Grid>
                 </Grid>
             </Grid>

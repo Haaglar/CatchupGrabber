@@ -32,7 +32,6 @@ namespace CatchupGrabber
             string showsPage;
             string selectedUrl;
             string selectedName = showsS3.resposta.items.item[selectedIndex].titol;
-            //Use the old method to get the english show ID
             if (selectedName.EndsWith("(VO)"))
             {
                 selectedUrl = "http://dinamics.ccma.cat/feeds/super3/videos.jsp?idioma=ANGLES&programa_id=" + showsS3.resposta.items.item[selectedIndex].id;

@@ -311,11 +311,11 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void About_Pressed(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Catchup Grabber by Haaglar 2015-2016 \r\nProject page: https://github.com/Haaglar/CatchupGrabber", "About");
+            MessageBox.Show("Catchup Grabber 2.0.1 by Haaglar 2015-2016\r\nDownload video from certain TV-Catchup services for offline viewing\r\nProject page: https://github.com/Haaglar/CatchupGrabber", "About");
         }
 
         /// <summary>
-        /// Disables conflicting visual options while the application in resquesting data
+        /// Disables conflicting visual options while the application in requesting data
         /// </summary>
         private void DisableButtonsSites()
         {
@@ -324,7 +324,7 @@ namespace CatchupGrabber
             toShows.IsEnabled = false;
         }
         /// <summary>
-        /// Reenables the visaul options
+        /// Reenables the visual options
         /// </summary>
         private void EnableButtonsSites()
         {

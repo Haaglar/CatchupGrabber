@@ -142,5 +142,17 @@ namespace CatchupGrabber.Properties {
                 this["SubtitleFormat"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ie")]
+        public string IrishRegionOption {
+            get {
+                return ((string)(this["IrishRegionOption"]));
+            }
+            set {
+                this["IrishRegionOption"] = value;
+            }
+        }
     }
 }

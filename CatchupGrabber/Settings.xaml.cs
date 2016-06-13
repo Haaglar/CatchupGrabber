@@ -12,23 +12,36 @@ namespace CatchupGrabber
         {
             InitializeComponent();
 
+            //Spanish
             TextBoxSpanishHTTPProxy.Text = Properties.Settings.Default.HTTPSpanish;
             TextBoxSpanishGlypeProxy.Text = Properties.Settings.Default.GlypeSpanish;
-            TextBoxIrishHTTPProxy.Text = Properties.Settings.Default.HTTPIrish;
-            TextBoxSwedishHTTPProxy.Text = Properties.Settings.Default.HTTPSwedish;
-            switch(Properties.Settings.Default.ProxyOptionSpanish)
+            switch (Properties.Settings.Default.ProxyOptionSpanish)
             {
-                case("None"):
+                case ("None"):
                     RadioSpanishUseNone.IsChecked = true;
                     break;
-                case("Glype"):
+                case ("Glype"):
                     RadioSpanishUseGlype.IsChecked = true;
                     break;
-                case("HTTP"):
+                case ("HTTP"):
                     RadioSpanishUseHTTP.IsChecked = true;
                     break;
             }
 
+            //Irish
+            TextBoxIrishHTTPProxy.Text = Properties.Settings.Default.HTTPIrish;
+            if(!Properties.Settings.Default.IrishRegionOption.Equals("ie")) //If not ie then its world wide
+            {
+                RadioButtonIrishRegionWorldWide.IsChecked = true;
+            }
+            else
+            {
+                RadioButtonIrishRegionIrish.IsChecked = true;
+            }
+            TextBoxSwedishHTTPProxy.Text = Properties.Settings.Default.HTTPSwedish;
+
+            
+            //Below
             CheckBoxDownloadWindowClose.IsChecked = Properties.Settings.Default.ExitDLOnDownload;
             CheckBoxSubtitleDownloadSetting.IsChecked = Properties.Settings.Default.DownloadSubtitlesSetting;
             if (!(CheckBoxSubtitleConvertSetting.IsChecked = Properties.Settings.Default.ConvertSubtitle) ?? false)
@@ -59,7 +72,10 @@ namespace CatchupGrabber
             SpanishSettingsSave();
             //Get RTE proxy
             Properties.Settings.Default.HTTPIrish = TextBoxIrishHTTPProxy.Text;
+            Properties.Settings.Default.IrishRegionOption = (RadioButtonIrishRegionIrish.IsChecked ?? false) ? "ie" : "us";
+
             Properties.Settings.Default.HTTPSwedish =  TextBoxSwedishHTTPProxy.Text;
+
             Properties.Settings.Default.ExitDLOnDownload = CheckBoxDownloadWindowClose.IsChecked ?? false;
 
             //Checkbox for sub download

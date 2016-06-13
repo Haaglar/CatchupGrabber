@@ -32,5 +32,8 @@
     <Setting Name="SubtitleFormat" Type="System.String" Scope="User">
       <Value Profile="(Default)">.srt</Value>
     </Setting>
+    <Setting Name="IrishRegionOption" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ie</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -78,6 +78,7 @@
             <TabItem Header="Misc">
                 <Grid>
                     <CheckBox x:Name="CheckBoxDownloadWindowClose" Content="Close download window after successful download" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="CheckBoxSpaceReplace" Content="Replace spaces in filename with fullstops" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="289"/>
                 </Grid>
             </TabItem>
         </TabControl>

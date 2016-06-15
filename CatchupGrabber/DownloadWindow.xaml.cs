@@ -54,7 +54,11 @@ namespace CatchupGrabber
             {
                 fileName = fileName.Replace(c, '-');
             }
-
+            //Replace spaces if required
+            if(Properties.Settings.Default.SpaceReplace)
+            {
+                fileName = fileName.Replace(" ", ".");
+            }
             if (!subtitle.Equals("") && Properties.Settings.Default.DownloadSubtitlesSetting)
                 Task.Factory.StartNew(() => DownloadSubtitle(subtitle,fileName,Properties.Settings.Default.SubtitleFormat)); //Run the downloadsub in a background thread
             DownloadShow();

@@ -154,5 +154,17 @@ namespace CatchupGrabber.Properties {
                 this["IrishRegionOption"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SpaceReplace {
+            get {
+                return ((bool)(this["SpaceReplace"]));
+            }
+            set {
+                this["SpaceReplace"] = value;
+            }
+        }
     }
 }

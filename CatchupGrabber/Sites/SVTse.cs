@@ -34,26 +34,13 @@ namespace CatchupGrabber
                 webClient.Encoding = Encoding.UTF8; //Webpage encoding
                 websiteShowList = webClient.DownloadString(showsSVT[selectedIndex].url);
             }
-            Regex showsSearch = new Regex(@"<a href=""([^""].*)"" class=""play_vertical-list__header-link"">([^<]*)</a>");
+            //Regex the json data
+            Regex showsSearch = new Regex(@"""url"":""([^""]*)"",""programVersionId"".*?""title"":""([^""]*)""");
             MatchCollection matchesOne = showsSearch.Matches(websiteShowList);
             foreach (Match match in matchesOne)
             {
                 episodesSVT.Add(new EpisodesGeneric( WebUtility.HtmlDecode(match.Groups[2].Value), BaseURL + match.Groups[1].Value));
             }
-            //If theres more we have to do it again
-            if (websiteShowList.IndexOf("play_title-page__pagination-button-thin-labe") != -1)
-            {
-                using (WebClient webClient = new WebClient())
-                {
-                    webClient.Encoding = Encoding.UTF8; //Webpage encoding
-                    websiteShowList = webClient.DownloadString(showsSVT[selectedIndex].url + AdditionalEpisodes);
-                    MatchCollection matchesTwo = showsSearch.Matches(websiteShowList);
-                    foreach (Match match in matchesTwo)
-                    {
-                        episodesSVT.Add(new EpisodesGeneric( WebUtility.HtmlDecode(match.Groups[2].Value), BaseURL + match.Groups[1].Value));
-                    }
-                }
-            }            
         }
         public override void FillShowsList()
         {
@@ -66,13 +53,12 @@ namespace CatchupGrabber
             websiteShowList = WebUtility.HtmlDecode(websiteShowList);// Since its got swedish characterse
             // Theres some json in the page that contains usefull information about the shows
             // But it has wierdly named attributes, and will require regex editing to remove it
-            // So the question is should I either, abuse regex on html to get the shows or index out and cut the json, modifiy it, generate an object, and concat the various list (for the letters).
-            // I use the regex is faster so ill continue doing it
-            Regex abuseShows = new Regex(@"<a href=""([^""]*)"" class=""play_link-list__link"" [^>]*>([^<]*)</a>");
+            //So i just regex to get the data from it           
+            Regex abuseShows = new Regex(@"""title"":""([^""]*)"",""urlFriendlyTitle"":""([^""]*)""");
             MatchCollection showsCol = abuseShows.Matches(websiteShowList);
             foreach(Match match in showsCol)
             {
-                showsSVT.Add(new ShowsGeneric( match.Groups[2].Value,BaseURL + match.Groups[1].Value));
+                showsSVT.Add(new ShowsGeneric( match.Groups[1].Value,BaseURL + "/"+ match.Groups[2].Value));
             }
             RequestedSiteData = true;
         }

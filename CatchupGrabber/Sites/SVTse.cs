@@ -14,11 +14,9 @@ namespace CatchupGrabber
     {
         private static string BaseURL = "http://www.svtplay.se";
         private static string ShowListURL = "/program";
-        private static string AdditionalEpisodes = @"?sida=2&tab=helaprogram&embed=true";
         
         private List<ShowsGeneric> showsSVT = new List<ShowsGeneric>();
         private List<EpisodesGeneric> episodesSVT = new List<EpisodesGeneric>();
-        private SVTJson episodeData;
         private CUNetworkAssist netAssist = new CUNetworkAssist();
 
         public SVTse(){ }
@@ -64,19 +62,15 @@ namespace CatchupGrabber
         }
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            string jsonData;
-            Regex regRefId = new Regex(@"/([0-9]+)/");
-            string value = regRefId.Match(episodesSVT[selectedIndex].EpisodeID).Groups[1].Value;
+            string pageData;
+           
             using (WebClient webClient = new WebClient())
             {
                 webClient.Encoding = Encoding.UTF8; //Webpage encoding Get some Json Data
-                string d = BaseURL + @"/video/" + value + "?output=json";
-                jsonData = webClient.DownloadString(d);
+                pageData = webClient.DownloadString(episodesSVT[selectedIndex].EpisodeID);
             }
-            JavaScriptSerializer jss = new JavaScriptSerializer();
-            episodeData = jss.Deserialize<SVTJson>(jsonData);
-            string url = episodeData.video.videoReferences.Single(v => v.playerType.Equals("ios")).url;
-            url = url.Substring(0, url.IndexOf("m3u8") + 4);
+            Regex findm3u8 = new Regex(@"""url"":""(.*?m3u8)""",RegexOptions.RightToLeft);
+            string url = findm3u8.Match(pageData).Groups[1].Value;
             string urlnew = netAssist.GetHighestM3U8Address(url);
             url = new Uri(new Uri(url), urlnew).ToString();
             return new DownloadObject(url,GetSubtitles(), Country.Sweden,DownloadMethod.HLS);
@@ -88,16 +82,6 @@ namespace CatchupGrabber
 
         public override string GetSubtitles()
         {
-            if (episodeData.video.subtitleReferences != null)
-            {
-                string full = episodeData.video.subtitleReferences[0].url;
-                if (!string.IsNullOrEmpty(full))
-                {
-                    int end = full.LastIndexOf("/");
-                    full = full.Substring(0, end) + "/all.vtt"; ;
-                }
-                return full;
-            }
             return "";
         }
 

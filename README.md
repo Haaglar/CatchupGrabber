@@ -1,8 +1,9 @@
 # CatchupGrabber
 Grabs videos from some tv catchup / on demand services.
+Also downloads subtitles if available.
 
 Supports:
-+ RTVEClan
++ Clan RTVE
 + Tenplay
 + Plus7
 + RTE (HLS only)

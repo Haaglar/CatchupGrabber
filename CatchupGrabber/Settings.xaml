@@ -9,62 +9,57 @@
             <RowDefinition Height="70" />
         </Grid.RowDefinitions>
         <!--Proxy Settings Box Start-->
-        <TabControl Grid.Row="0" Height="400" x:Name="tabControl" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="390">
+        <TabControl Grid.Row="0" Height="400" x:Name="tabControl" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Width="390">
             <TabItem Header="Site">
-                <GroupBox Margin="10,10,10,10">
-                    <GroupBox.Header>
-                        <Label ToolTip="Set the proxy settings for the application here.">Proxy Settings</Label>
-                    </GroupBox.Header>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="23*"/>
-                            <ColumnDefinition Width="164*"/>
-                            <ColumnDefinition Width="175*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="130" />
-                            <RowDefinition Height="110" />
-                            <RowDefinition Height="100" />
-                        </Grid.RowDefinitions>
-                        <!-- Spanish option-->
-                        <GroupBox Grid.Row="0" Margin="0,0,0,0" Grid.ColumnSpan="3">
-                            <GroupBox.Header>
-                                <Label ToolTip="Sites that uses this setting: &#x0a;RTVEClan &#x0a;TV3 (CAT) &#x0a;Super3">Spanish</Label>
-                            </GroupBox.Header>
-                            <Grid>
-                                <TextBlock HorizontalAlignment="Left" Margin="10,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12" Text="Glype Proxy URL:"/>
-                                <TextBox x:Name="TextBoxSpanishGlypeProxy" HorizontalAlignment="Left" Height="25" Margin="149,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189"/>
-                                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,10,0,0" FontSize="12" Text="HTTP Proxy Address:" />
-                                <TextBox x:Name="TextBoxSpanishHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="149,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189"/>
-                                <RadioButton x:Name="RadioSpanishUseNone" Content="Don't use proxy" HorizontalAlignment="Left" Margin="10,74,0,0" VerticalAlignment="Top" GroupName="Spanish"/>
-                                <RadioButton x:Name="RadioSpanishUseHTTP" Content="Use HTTP" HorizontalAlignment="Left" Margin="135,74,0,0" VerticalAlignment="Top" GroupName="Spanish"/>
-                                <RadioButton x:Name="RadioSpanishUseGlype" Content="Use Glype" HorizontalAlignment="Left" Margin="256,74,0,0" VerticalAlignment="Top" GroupName="Spanish"/>
-                            </Grid>
-                        </GroupBox>
-                        <!--Irish Group-->
-                        <GroupBox Grid.Row="1" Margin="0,0,0,0" Grid.ColumnSpan="3">
-                            <GroupBox.Header>
-                                <Label ToolTip="Site(s) that use this setting: &#x0a;RTE">Irish</Label>
-                            </GroupBox.Header>
-                            <Grid>
-                                <TextBox x:Name="TextBoxIrishHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="148,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
-                                <TextBlock HorizontalAlignment="Left" Margin="10,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12" Text="HTTP Proxy Address:"/>
-                                <TextBlock x:Name="labelIrishRF" Text="Region Filter:" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Width="134" ToolTip="Applied on first open of RTE."/>
-                                <RadioButton x:Name="RadioButtonIrishRegionIrish" Content="Irish" HorizontalAlignment="Left" Margin="149,40,0,0" VerticalAlignment="Top" GroupName="RegionIrish"/>
-                                <RadioButton x:Name="RadioButtonIrishRegionWorldWide" Content="WorldWide" HorizontalAlignment="Left" Margin="253,40,0,0" VerticalAlignment="Top" GroupName="RegionIrish"/>
-                            </Grid>
-                        </GroupBox>
-                        <GroupBox Grid.Row="2" Margin="0,0,0,10" Grid.ColumnSpan="3">
-                            <GroupBox.Header>
-                                <Label ToolTip="Site(s) that use this setting: &#x0a;SVT.se">Swedish</Label>
-                            </GroupBox.Header>
-                            <Grid>
-                                <TextBox x:Name="TextBoxSwedishHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="148,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190" IsEnabled="False"/>
-                                <TextBlock HorizontalAlignment="Left" Margin="10,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12" Text="HTTP Proxy Address:"/>
-                            </Grid>
-                        </GroupBox>
-                    </Grid>
-                </GroupBox>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="23*"/>
+                        <ColumnDefinition Width="164*"/>
+                        <ColumnDefinition Width="175*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="130" />
+                        <RowDefinition Height="110" />
+                        <RowDefinition Height="100" />
+                    </Grid.RowDefinitions>
+                    <!-- Spanish option-->
+                    <GroupBox Grid.Row="0" Margin="0,0,0,0" Grid.ColumnSpan="3">
+                        <GroupBox.Header>
+                            <Label ToolTip="Sites that uses this setting: &#x0a;Clan RTVE&#x0a;TV3 (CAT) &#x0a;Super3">Spanish</Label>
+                        </GroupBox.Header>
+                        <Grid>
+                            <TextBlock HorizontalAlignment="Left" Margin="10,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12" Text="Glype Proxy URL:"/>
+                            <TextBox x:Name="TextBoxSpanishGlypeProxy" HorizontalAlignment="Left" Height="25" Margin="149,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189"/>
+                            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,10,0,0" FontSize="12" Text="HTTP Proxy Address:" />
+                            <TextBox x:Name="TextBoxSpanishHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="149,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189"/>
+                            <RadioButton x:Name="RadioSpanishUseNone" Content="Don't use proxy" HorizontalAlignment="Left" Margin="10,74,0,0" VerticalAlignment="Top" GroupName="Spanish"/>
+                            <RadioButton x:Name="RadioSpanishUseHTTP" Content="Use HTTP" HorizontalAlignment="Left" Margin="135,74,0,0" VerticalAlignment="Top" GroupName="Spanish"/>
+                            <RadioButton x:Name="RadioSpanishUseGlype" Content="Use Glype" HorizontalAlignment="Left" Margin="256,74,0,0" VerticalAlignment="Top" GroupName="Spanish"/>
+                        </Grid>
+                    </GroupBox>
+                    <!--Irish Group-->
+                    <GroupBox Grid.Row="1" Margin="0,0,0,0" Grid.ColumnSpan="3">
+                        <GroupBox.Header>
+                            <Label ToolTip="Site(s) that use this setting: &#x0a;RTE">Irish</Label>
+                        </GroupBox.Header>
+                        <Grid>
+                            <TextBox x:Name="TextBoxIrishHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="148,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190"/>
+                            <TextBlock HorizontalAlignment="Left" Margin="10,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12" Text="HTTP Proxy Address:"/>
+                            <TextBlock x:Name="labelIrishRF" Text="Region Filter:" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Width="134" ToolTip="Applied on first open of RTE."/>
+                            <RadioButton x:Name="RadioButtonIrishRegionIrish" Content="Irish" HorizontalAlignment="Left" Margin="149,40,0,0" VerticalAlignment="Top" GroupName="RegionIrish"/>
+                            <RadioButton x:Name="RadioButtonIrishRegionWorldWide" Content="WorldWide" HorizontalAlignment="Left" Margin="253,40,0,0" VerticalAlignment="Top" GroupName="RegionIrish"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="2" Margin="0,0,0,10" Grid.ColumnSpan="3">
+                        <GroupBox.Header>
+                            <Label ToolTip="Site(s) that use this setting: &#x0a;SVT.se">Swedish</Label>
+                        </GroupBox.Header>
+                        <Grid>
+                            <TextBox x:Name="TextBoxSwedishHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="148,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190" IsEnabled="False"/>
+                            <TextBlock HorizontalAlignment="Left" Margin="10,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12" Text="HTTP Proxy Address:"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
             </TabItem>
             <TabItem Header="Subtitle">
                 <Grid>

@@ -41,7 +41,7 @@
             <!--Buttons section-->
             <Grid Grid.Row="2" x:Name="ButtonSegment" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button x:Name="buttonTenplay" Content="Tenplay" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonTenplay_Click" Margin="-211,-21,0,0" FontSize="14" />
-                <Button x:Name="buttonRTVEClan" Content="RTVEClan" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonRTVEC_Click" Margin="-211,13,0,-11" FontSize="14"/>
+                <Button x:Name="buttonRTVEClan" Content="Clan RTVE" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonRTVEC_Click" Margin="-211,13,0,-11" FontSize="14"/>
                 <Button x:Name="buttonPlus7" Content="Plus7" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonPlus7_Click" Margin="-106,-21,0,0" FontSize="14"/>
                 <Button x:Name="buttonRTE" Content="RTE" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonRTE_Click" Margin="-106,14,0,-12" FontSize="14"/>
                 <Button x:Name="buttonDPlay" Content="DPlay (ITA)" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonDPlay_Click" Margin="-1,-21,0,0" FontSize="14"/>

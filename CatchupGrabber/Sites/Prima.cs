@@ -38,7 +38,11 @@ namespace CatchupGrabber
             RequestedSiteData = true;
         }
 
-        public async Task HandleData()
+        /// <summary>
+        /// Handles treading of the requests and setting the show list
+        /// </summary>
+        /// <returns></returns>
+        private async Task HandleData()
         {
 
             Task<string> req1 = RequestShowsJson("https://api.play-backend.iprima.cz/api/v1/products/filter?limit=100");
@@ -90,6 +94,11 @@ namespace CatchupGrabber
             return "";
         }
 
+        /// <summary>
+        /// Request a json from the specified url
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         private Task<string> RequestShowsJson(string url)
         {
             return Task.Run(() =>
@@ -100,7 +109,7 @@ namespace CatchupGrabber
                 //?offset=100
                 using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
-                    string json = "{\"order\":[\"title\"]}";
+                    string json = "{\"order\":[\"title\"]}";    //POST data for requesting the shows in a-z order
                     streamWriter.Write(json);
                 }
                 HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
@@ -112,6 +121,10 @@ namespace CatchupGrabber
                 return result;
             });
         }
+        /// <summary>
+        /// Creates or appeneds JSON request to the show list
+        /// </summary>
+        /// <param name="result">The JSON in string form</param>
         private void CreateEpisodeList(string result)
         {
             JavaScriptSerializer jss = new JavaScriptSerializer();

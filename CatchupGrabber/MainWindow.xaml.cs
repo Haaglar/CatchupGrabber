@@ -73,6 +73,7 @@ namespace CatchupGrabber
             if (e.OriginalSource is TextBlock || e.OriginalSource is Border) //Make sure that we double click an item not the scrollbar
             {
                 int selected = objectList.SelectedIndex;
+                sBinds.Error = ""; //Clear the error
                 switch (curState)
                 {
                     // Get episodes for the selected show
@@ -125,6 +126,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void Shows_Pressed(object sender, RoutedEventArgs e)
         {
+            sBinds.Error = "";
             bool check;
             try
             {
@@ -247,6 +249,7 @@ namespace CatchupGrabber
             sBinds.SelectedShow = "";
             sBinds.SelectedSite = url;
             sBinds.SelectedDescription = "";
+            sBinds.Error = "";
             //First time selecting site
             if (!websiteStore[site].RequestedSiteData)
             {

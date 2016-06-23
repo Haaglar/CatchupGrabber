@@ -156,7 +156,7 @@ namespace CatchupGrabber
         }
 
         /// <summary>
-        /// Handles the action for when the RTVEClan button is pressed
+        /// Handles the action for when the Clan RTVE button is pressed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -314,7 +314,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void About_Pressed(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Catchup Grabber 2.0.1 by Haaglar 2015-2016\r\nDownload video from certain TV-Catchup services for offline viewing\r\nProject page: https://github.com/Haaglar/CatchupGrabber", "About");
+            MessageBox.Show("Catchup Grabber 2.0.1 by Haaglar 2015-2016\r\nDownload video from certain TV-Catchup services for offline viewing\r\nProject page: https://github.com/Haaglar/CatchupGrabber \r\nReport issues and request features here https://github.com/Haaglar/CatchupGrabber/issues", "About");
         }
 
         /// <summary>

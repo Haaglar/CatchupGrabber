@@ -166,5 +166,17 @@ namespace CatchupGrabber.Properties {
                 this["SpaceReplace"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool OverwriteFile {
+            get {
+                return ((bool)(this["OverwriteFile"]));
+            }
+            set {
+                this["OverwriteFile"] = value;
+            }
+        }
     }
 }

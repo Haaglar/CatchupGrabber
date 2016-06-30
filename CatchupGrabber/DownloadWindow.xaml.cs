@@ -78,6 +78,15 @@ namespace CatchupGrabber
                     RunFFmpeg(url, fileName);
                     break;
                 case DownloadMethod.HTTP:
+                    if(!Properties.Settings.Default.OverwriteFile)
+                    {
+                        MessageBoxResult mBox = MessageBox.Show("Overwrite existing file?", "File exists", MessageBoxButton.YesNo);
+                        if(mBox == MessageBoxResult.No)
+                        {
+                            dwBinding.DownloadProgress = "Download cancelled";
+                            return;
+                        }
+                    }
                     ProgressDL.Visibility = Visibility.Visible;
                     switch(cnt)
                     {
@@ -128,8 +137,14 @@ namespace CatchupGrabber
             ProcessStartInfo ffmpeg = new ProcessStartInfo();
             proc = new Process();
             ffmpeg.FileName = "ffmpeg.exe";
-            ffmpeg.Arguments = " -i " + url + " -acodec copy -vcodec copy -bsf:a aac_adtstoasc " + '"' + nameLocation + '"' + ".mp4";
-            
+            if (Properties.Settings.Default.OverwriteFile)
+            {
+                ffmpeg.Arguments = "-y -i " + url + " -acodec copy -vcodec copy -bsf:a aac_adtstoasc " + '"' + nameLocation + '"' + ".mp4";
+            }
+            else
+            {
+                ffmpeg.Arguments = " -i " + url + " -acodec copy -vcodec copy -bsf:a aac_adtstoasc " + '"' + nameLocation + '"' + ".mp4";
+            }
             proc.StartInfo = ffmpeg;
             proc.EnableRaisingEvents = true;
             proc.Exited += FFmpeg_Exited;

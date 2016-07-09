@@ -78,7 +78,7 @@ namespace CatchupGrabber
             showsS3.resposta.items.num += tmp.resposta.items.num;
 
             showsS3.resposta.items.item = showsS3.resposta.items.item.OrderBy(x => x.titol).ToList();
-            RequestedSiteData = true;
+            ShowListCacheValid = true;
         }
         public override string GetSelectedEpisodeName(int selectedIndex)
         {

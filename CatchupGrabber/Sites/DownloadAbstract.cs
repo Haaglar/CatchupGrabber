@@ -4,7 +4,14 @@ namespace CatchupGrabber
 {
     abstract public class DownloadAbstract
     {
-        public bool RequestedSiteData = false; //true after FillShowsList() is called
+        public bool ShowListCacheValid = false; //true after FillShowsList() is called
+        /// <summary>
+        /// Invalidates the showlistcache
+        /// </summary>
+        public void InvalidateShowListCache()
+        {
+            ShowListCacheValid = false;
+        }
         /// <summary>
         /// Handles requesting data for a show and creating a list containing the show's episodes 
         /// </summary>

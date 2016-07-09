@@ -41,7 +41,7 @@ namespace CatchupGrabber
                 rteShows = rteShows.OrderBy(x => x.v).ToList(); //Order By name 
             }
             resSearchJs.Close();
-            RequestedSiteData = true;
+            ShowListCacheValid = true;
         }
 
         /// <summary>

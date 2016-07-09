@@ -40,7 +40,7 @@ namespace CatchupGrabber
                 value.infoBuscador = value.infoBuscador.OrderBy(x => x.titulo).ToList(); //Maybe change to date published 
             }
             resSearchJs.Close();
-            RequestedSiteData = true;
+            ShowListCacheValid = true;
         }
 
         /// <summary>

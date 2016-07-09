@@ -9,7 +9,7 @@ namespace CatchupGrabber
 {
     class TV3Cat : DownloadAbstract
     {
-        public List<ShowsGeneric> showList {get;private set;} 
+        private List<ShowsGeneric> showList;
         private List<EpisodesGeneric> episodeList = new List<EpisodesGeneric>();
 
         private static string EpisodeJsonUrl = @"http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
@@ -43,7 +43,7 @@ namespace CatchupGrabber
                 if (entry.Groups[1].Value.StartsWith(@"http://www.super3.cat/")) continue;
                 showList.Add(new ShowsGeneric(entry.Groups[2].Value.Trim(), entry.Groups[1].Value));
             }
-            RequestedSiteData = true;
+            ShowListCacheValid = true;
         }
 
         public override void ClickDisplayedShow(int selectedIndex)

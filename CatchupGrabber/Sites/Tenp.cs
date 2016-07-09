@@ -37,7 +37,7 @@ namespace CatchupGrabber
                 shows.Shows = shows.Shows.OrderBy(x => x.Name).ToList();    
             }
             resSearchJs.Close();
-            RequestedSiteData = true;
+            ShowListCacheValid = true;
         }
         /// <summary>
         /// Handles clicking of a show

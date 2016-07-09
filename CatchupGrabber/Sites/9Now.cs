@@ -40,7 +40,7 @@ namespace CatchupGrabber
 
         public override void FillShowsList()
         {
-            //Device can be anything, but the android app uses android so we'll aswell
+            //Device can be anything, but the android app uses android so we'll aswell, 99999 is also what the android app does
             string address = "https://tv-api.9now.com.au/v1/tv-series?device=android&take=99999";
             string jsonContent;
             using (WebClient webClient = new WebClient())
@@ -50,7 +50,7 @@ namespace CatchupGrabber
             }
             JavaScriptSerializer jss = new JavaScriptSerializer();
             shows9N = jss.Deserialize<Shows9Now>(jsonContent);
-            RequestedSiteData = true;
+            ShowListCacheValid = true;
         }
 
         public override DownloadObject GetDownloadObject(int selectedIndex)

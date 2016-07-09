@@ -43,7 +43,7 @@ namespace CatchupGrabber
                 showsP7 = showsP7.OrderBy(x => x.title).ToList(); 
             }
             resSearchJs.Close();
-            RequestedSiteData = true;
+            ShowListCacheValid = true;
         }
         /// <summary>
         /// Fills selectedShowEpisodes with episdes from the selected show

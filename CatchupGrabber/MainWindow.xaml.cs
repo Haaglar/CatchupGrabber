@@ -131,7 +131,7 @@ namespace CatchupGrabber
             bool check;
             try
             {
-                check = websiteStore[curSite].RequestedSiteData;
+                check = websiteStore[curSite].ShowListCacheValid;
             }
             catch(KeyNotFoundException)
             {
@@ -252,7 +252,7 @@ namespace CatchupGrabber
             sBinds.SelectedDescription = "";
             sBinds.Error = "";
             //First time selecting site
-            if (!websiteStore[site].RequestedSiteData)
+            if (!websiteStore[site].ShowListCacheValid)
             {
                 objectList.ItemsSource = new List<string> {"Loading..." + url};
                 DisableButtonsSites();

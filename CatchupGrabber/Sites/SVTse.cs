@@ -15,7 +15,7 @@ namespace CatchupGrabber
         private static string BaseURL = "http://www.svtplay.se";
         private static string ShowListURL = "/program";
         
-        private List<ShowsGeneric> showsSVT = new List<ShowsGeneric>();
+        private List<ShowsGeneric> showsSVT;
         private List<EpisodesGeneric> episodesSVT = new List<EpisodesGeneric>();
         private CUNetworkAssist netAssist = new CUNetworkAssist();
 
@@ -43,6 +43,7 @@ namespace CatchupGrabber
         public override void FillShowsList()
         {
             string websiteShowList;
+            showsSVT = new List<ShowsGeneric>();
             using (WebClient webClient = new WebClient())
             {
                 webClient.Encoding = Encoding.UTF8; //Webpage encoding
@@ -58,7 +59,7 @@ namespace CatchupGrabber
             {
                 showsSVT.Add(new ShowsGeneric( match.Groups[1].Value,BaseURL + "/"+ match.Groups[2].Value));
             }
-            RequestedSiteData = true;
+            ShowListCacheValid = true;
         }
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {

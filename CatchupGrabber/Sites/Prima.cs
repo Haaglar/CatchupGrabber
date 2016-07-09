@@ -35,7 +35,7 @@ namespace CatchupGrabber
         public override void FillShowsList()
         {
             HandleData().Wait();
-            RequestedSiteData = true;
+            ShowListCacheValid = true;
         }
 
         /// <summary>
@@ -97,8 +97,8 @@ namespace CatchupGrabber
         /// <summary>
         /// Request a json from the specified url
         /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
+        /// <param name="url">Url to download from</param>
+        /// <returns>A task containing the resulting json as a string</returns>
         private Task<string> RequestShowsJson(string url)
         {
             return Task.Run(() =>

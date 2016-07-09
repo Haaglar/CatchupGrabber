@@ -50,7 +50,7 @@ namespace CatchupGrabber
             //showsDPlay.data.RemoveAll(x => x.taxonomy_items[2].metadata.episodes == "0");
             resSearchJs.Close();
             rse.Close();
-            RequestedSiteData = true;
+            ShowListCacheValid = true;
         }
 
 

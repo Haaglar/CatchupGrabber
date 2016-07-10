@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace CatchupGrabber.EpisodeObjects.Super3
 {
@@ -16,7 +12,7 @@ namespace CatchupGrabber.EpisodeObjects.Super3
 
     public class Canals
     {
-        public Canal canal { get; set; }
+        public List<Canal> canal { get; set; }
     }
 
     public class Bband
@@ -87,7 +83,7 @@ namespace CatchupGrabber.EpisodeObjects.Super3
 
     public class Targets
     {
-        public Target target { get; set; }
+        public List<Target> target { get; set; }
     }
 
     public class Item
@@ -98,28 +94,28 @@ namespace CatchupGrabber.EpisodeObjects.Super3
         public int versio { get; set; }
         public string durada { get; set; }
         public string data_publicacio { get; set; }
-        public Bband bband { get; set; }
-        public Idioma idioma { get; set; }
+        public List<Bband> bband { get; set; }
+        public List<Idioma> idioma { get; set; }
         public string domini { get; set; }
         public string tipus_contingut { get; set; }
         public string avantitol { get; set; }
-        public Geolocalitzacio geolocalitzacio { get; set; }
+        public List<Geolocalitzacio> geolocalitzacio { get; set; }
         public Programes programes { get; set; }
         public Imatges imatges { get; set; }
         public int id { get; set; }
         public string programa { get; set; }
-        public Puidioma puidioma { get; set; }
+        public List<Puidioma> puidioma { get; set; }
         public int produccio { get; set; }
         public string data_modificacio { get; set; }
         public string titol { get; set; }
         public string data_emissio { get; set; }
-        public CodiEtic codi_etic { get; set; }
+        public List<CodiEtic> codi_etic { get; set; }
         public int capitol { get; set; }
         public Targets targets { get; set; }
         public override string ToString()
         {
             return titol;
-        }
+        }   
     }
 
     public class Items

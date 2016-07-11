@@ -126,7 +126,6 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void Shows_Pressed(object sender, RoutedEventArgs e)
         {
-            sBinds.Error = "";
             bool check;
             try
             {

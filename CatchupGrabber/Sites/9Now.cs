@@ -28,7 +28,7 @@ namespace CatchupGrabber
         public override void ClickDisplayedShow(int selectedIndex)
         {
             string jsonContentEpisodes;
-            string slug = shows9N.items[selectedIndex].slug;
+            string slug = shows9N.items[selectedIndex].slug; //slug is the unique identifier
             using (WebClient webClient = new WebClient())
             {
                 webClient.Encoding = System.Text.Encoding.UTF8;
@@ -67,6 +67,7 @@ namespace CatchupGrabber
             string fullLengthURL = json.HLSURL;
             int oldSize = 0;
 
+            //Find the highest quality redition in the json data here so we dont need to make a request on the m3u8 later
             foreach (IOSRendition redition in json.IOSRenditions)
             {
                 if (oldSize < redition.encodingRate)

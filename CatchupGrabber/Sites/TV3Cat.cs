@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace CatchupGrabber
 {
+    //TODO: rewrite to use api
     class TV3Cat : DownloadAbstract
     {
         private List<ShowsGeneric> showList;

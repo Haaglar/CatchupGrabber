@@ -44,7 +44,7 @@ namespace CatchupGrabber
             //Yep every time you want to load all shows there its a ~3.6MB download, split into ~555kB chunks, and thats just text.
             //Full of useless information such as image metadata and links for 10 different images for a single show, all linking the same image
             //Like dimensitions and crop, absolute waste of resources
-            jss.MaxJsonLength = 20097152; 
+            jss.MaxJsonLength = 20097152; //Large engough number so it will parse correctly but not waste too much space
             showsDPlay = jss.Deserialize<ShowsDPlay>(pageContent);
             //Remove all 0 episode shows, dont work, based on some value but in this area
             //showsDPlay.data.RemoveAll(x => x.taxonomy_items[2].metadata.episodes == "0");

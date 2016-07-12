@@ -75,7 +75,15 @@ namespace CatchupGrabber
             switch (dlMethod)
             {
                 case DownloadMethod.HLS:
-                    RunFFmpeg(url, fileName);
+                    if(File.Exists("FFmpeg.exe"))
+                    {
+                        RunFFmpeg(url, fileName);
+                    }
+                    else
+                    {
+                        dwBinding.DownloadProgress = "FFMpeg required to download from here";
+                        ButtonRetry.Visibility = Visibility.Visible;
+                    }
                     break;
                 case DownloadMethod.HTTP:
                     if(!Properties.Settings.Default.OverwriteFile)

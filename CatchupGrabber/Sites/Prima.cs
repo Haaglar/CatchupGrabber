@@ -44,7 +44,7 @@ namespace CatchupGrabber
         /// <returns></returns>
         private async Task HandleData()
         {
-
+            ///iPrima api has a max limit of 100 "products" (shows) per api request
             Task<string> req1 = RequestShowsJson("https://api.play-backend.iprima.cz/api/v1/products/filter?limit=100");
             Task<string> req2 = RequestShowsJson("https://api.play-backend.iprima.cz/api/v1/products/filter?offset=100&limit=100");
             Task<string> req3 = RequestShowsJson("https://api.play-backend.iprima.cz/api/v1/products/filter?offset=200&limit=100");

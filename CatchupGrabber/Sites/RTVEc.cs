@@ -25,7 +25,7 @@ namespace CatchupGrabber
         public RTVEc() { }
 
         /// <summary>
-        /// Fills the listbox with the JSON from RTVEClan search 
+        /// Fills the listbox with the JSON from Clan RTVE search 
         /// </summary>
         public override void FillShowsList()
         {

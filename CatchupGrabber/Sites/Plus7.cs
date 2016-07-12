@@ -126,26 +126,13 @@ namespace CatchupGrabber
         /// <returns>An object containing the download instructions</returns>
         public override DownloadObject GetDownloadObject(int selectedIndex) 
         {
-            //Get episode page data
-            string pageContent;
+            //Get episode id
             string url = selectedShowEpisodes[selectedIndex].EpisodeID;
-            WebRequest reqShow = HttpWebRequest.Create("https://" + url);
-            using (WebResponse resShowUrl = reqShow.GetResponse())
-            {
-                using (Stream responseStreamUrl = resShowUrl.GetResponseStream())
-                {
-                    using (StreamReader srShowUrl = new StreamReader(responseStreamUrl, System.Text.Encoding.UTF8))
-                    {
-                        pageContent = srShowUrl.ReadToEnd();
-                    }
-                }
-            }
             //Get Id from Url
             Regex regRefId = new Regex(@"/([0-9]+)/");
             string refID = regRefId.Matches(url)[0].Groups[1].Value;
-            // Get playerkey from page
-            Regex regPlayerKey = new Regex(@"rKey"" value=""(.*)""");
-            string playerKey = regPlayerKey.Matches(pageContent)[0].Groups[1].Value;
+            // Playerkey from episode video page
+            string playerKey = "AQ~~,AAACKW9LG-E~,UJVysOuwpLSTwV9EBab-3q-xJRGA2_qN";
             string jsonUrl = apiUrl + "&playerKey=" + playerKey + "&pubId=" + publisherIdMain + "&refId=" + refID;
 
             //Get and store the json data   

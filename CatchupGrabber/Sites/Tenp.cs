@@ -74,7 +74,7 @@ namespace CatchupGrabber
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
             string BC_URL = "http://c.brightcove.com/services/mobile/streaming/index/master.m3u8?videoId="; //url taken from and m3u8
-            string PUB_ID = "&pubId=2376984108001"; //ID taken from any m3u8, same as plus7 for some reason
+            string PUB_ID = "&pubId=2199827728001";
             // Get standard m3u8 from
             string url = netAssist.GetHighestM3U8Address(BC_URL + selectedShowEpisodes[selectedIndex].EpisodeID + PUB_ID);
             return new DownloadObject(url, GetSubtitles(), Country.Aus, DownloadMethod.HLS);

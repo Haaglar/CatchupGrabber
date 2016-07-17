@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CatchupGrabber.MiscObjects.EnumValues;
+
 namespace CatchupGrabber
 {
     /* Note: Requires FFmpeg
@@ -21,12 +23,10 @@ namespace CatchupGrabber
     public partial class MainWindow : Window
     {
         StringBindings sBinds = new StringBindings();
-        enum State {DisplayingNone, DisplayingShows, DisplayingEpisodes};
-        enum Site {None, TenP, Plus7, RTVEClan, RTE, DPlay, TV3Cat, Super3, SVTPlay, _9Now, Prima}
         State curState = State.DisplayingNone;
         Site curSite = Site.None;
         Dictionary<Site, DownloadAbstract> websiteStore = new Dictionary<Site, DownloadAbstract>();
-
+        Dictionary<Site, string> addressStore = new Dictionary<Site, string>();
         public MainWindow()
         {
             InitializeComponent();
@@ -36,11 +36,12 @@ namespace CatchupGrabber
             }
             DataContext = sBinds;
             SetupSites();
+            SetupAddress();
         }
         /// <summary>
         /// Setup the dictionary for all the sites
         /// </summary>
-        public void SetupSites()
+        private void SetupSites()
         {
             Tenp tenPlay;
             RTVEc rtveClan;
@@ -62,6 +63,23 @@ namespace CatchupGrabber
             websiteStore.Add(Site.SVTPlay, svtplay = new SVTse());
             websiteStore.Add(Site._9Now, nNow = new _9Now());
             websiteStore.Add(Site.Prima, prima = new Prima());
+        }
+        /// <summary>
+        /// Setup the dictionary for all the site's addresses
+        /// </summary>
+        private void SetupAddress()
+        {
+            addressStore.Add(Site.None, "");
+            addressStore.Add(Site.TenP, "tenplay.com.au");
+            addressStore.Add(Site.Plus7, "au.tv.yahoo.com/plus7");
+            addressStore.Add(Site.RTVEClan, "rtve.es/infantil/");
+            addressStore.Add(Site.RTE, "RTE.ie");
+            addressStore.Add(Site.DPlay, "it.dplay.com");
+            addressStore.Add(Site.TV3Cat, "ccma.cat/tv3/");
+            addressStore.Add(Site.Super3, "super3.cat");
+            addressStore.Add(Site.SVTPlay, "SVTPlay.se");
+            addressStore.Add(Site._9Now, "9now.com.au");
+            addressStore.Add(Site.Prima, "play.iprima.cz");
         }
         /// <summary>
         /// Double click of list item
@@ -126,21 +144,21 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void Shows_Pressed(object sender, RoutedEventArgs e)
         {
-            bool check;
-            try
+            if(curSite == Site.None)
             {
-                check = websiteStore[curSite].ShowListCacheValid;
+                return;
             }
-            catch(KeyNotFoundException)
-            {
-                check = false;
-            }
+            bool check = websiteStore[curSite].ShowListCacheValid;
             if (check)
             {
                 websiteStore[curSite].CleanEpisodes();
                 objectList.ItemsSource = websiteStore[curSite].GetShowsList();
                 curState = State.DisplayingShows;
                 sBinds.SelectedShow = "";
+            }
+            else
+            {
+                MakeRequest(curSite);
             }
             ResetView();
         }
@@ -151,7 +169,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void ButtonTenplay_Click(object sender, RoutedEventArgs e)
         {
-            HandleSiteSelection(Site.TenP, "tenplay.com.au");
+            HandleSiteSelection(Site.TenP);
         }
 
         /// <summary>
@@ -161,7 +179,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void ButtonRTVEC_Click(object sender, RoutedEventArgs e)
         {
-            HandleSiteSelection(Site.RTVEClan, "rtve.es/infantil/");
+            HandleSiteSelection(Site.RTVEClan);
         }
         /// <summary>
         /// Handles the actions for when the Plus7 button is pressed
@@ -170,7 +188,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void ButtonPlus7_Click(object sender, RoutedEventArgs e)
         {
-            HandleSiteSelection(Site.Plus7, "au.tv.yahoo.com/plus7");
+            HandleSiteSelection(Site.Plus7);
         }
 
         /// <summary>
@@ -180,7 +198,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void ButtonRTE_Click(object sender, RoutedEventArgs e)
         {
-            HandleSiteSelection(Site.RTE, "RTE.ie");
+            HandleSiteSelection(Site.RTE);
         }
         /// <summary>
         /// Handles the actions for when the DPlay (ITA) button is pressed
@@ -189,7 +207,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void ButtonDPlay_Click(object sender, RoutedEventArgs e)
         {
-            HandleSiteSelection(Site.DPlay, "it.dplay.com");
+            HandleSiteSelection(Site.DPlay);
         }
         /// <summary>
         /// Handles the actions for when the TV3 (CAT) button is pressed
@@ -198,7 +216,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void ButtonCCMA_Click(object sender, RoutedEventArgs e)
         {
-             HandleSiteSelection(Site.TV3Cat, "ccma.cat/tv3/");
+             HandleSiteSelection(Site.TV3Cat);
         }
         /// <summary>
         /// Handles the actions for when the Super3 button is pressed
@@ -207,7 +225,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void ButtonSuper3_Click(object sender, RoutedEventArgs e)
         {
-             HandleSiteSelection(Site.Super3, "super3.cat");
+             HandleSiteSelection(Site.Super3);
         }
         /// <summary>
         /// Handles the actions for when the SVTPlay button is pressed
@@ -216,7 +234,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void ButtonSVTPlay_Click(object sender, RoutedEventArgs e)
         {
-             HandleSiteSelection(Site.SVTPlay, "SVTPlay.se");
+             HandleSiteSelection(Site.SVTPlay);
         }
 
         /// <summary>
@@ -226,7 +244,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void Button9Now_Click(object sender, RoutedEventArgs e)
         {
-            HandleSiteSelection(Site._9Now, "9now.com.au");
+            HandleSiteSelection(Site._9Now);
         }
         /// <summary>
         /// Handles the actions for when the Prima button is pressed
@@ -235,7 +253,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void ButtonPrima_Click(object sender, RoutedEventArgs e)
         {
-            HandleSiteSelection(Site.Prima, "play.iprima.cz");
+            HandleSiteSelection(Site.Prima);
         }
 
         /// <summary>
@@ -243,39 +261,16 @@ namespace CatchupGrabber
         /// </summary>
         /// <param name="site">The selected site identifier</param>
         /// <param name="url">The url for site display</param>
-        private void HandleSiteSelection(Site site, string url) 
+        private void HandleSiteSelection(Site site) 
         {
             sBinds.SelectedShow = "";
-            sBinds.SelectedSite = url;
+            sBinds.SelectedSite = addressStore[site];
             sBinds.SelectedDescription = "";
             sBinds.Error = "";
             //First time selecting site
             if (!websiteStore[site].ShowListCacheValid)
             {
-                objectList.ItemsSource = new List<string> {"Loading..." + url};
-                DisableButtonsSites();
-                //Fetch and handle the result on a background thread/task
-                Task.Factory.StartNew(()=>
-                {
-                    websiteStore[site].FillShowsList();
-                }).ContinueWith(x=>
-                {
-                    if(x.IsFaulted || x.IsCanceled)
-                    {
-                        sBinds.Error = "Failed to get episode listings for " + url;
-                        curState = State.DisplayingNone;
-                        objectList.ItemsSource = null;
-                        curSite = Site.None;
-                        sBinds.SelectedSite = "";
-                    }
-                    else
-                    {
-                        objectList.ItemsSource = websiteStore[site].GetShowsList();
-                        curState = State.DisplayingShows;
-                        curSite = site;
-                    }
-                    EnableButtonsSites();
-                }, TaskScheduler.FromCurrentSynchronizationContext());
+                MakeRequest(site);
             }
             // If they select it while we are currently on it just return to shows
             else if (curSite == site)
@@ -304,6 +299,11 @@ namespace CatchupGrabber
         {
             Settings settingsWindow = new Settings();
             settingsWindow.ShowDialog();
+            //Clear cache if changed
+            foreach(Site s in settingsWindow.cacheClear)
+            {
+                websiteStore[s].InvalidateShowListCache();
+            }
         }
 
         /// <summary>
@@ -333,6 +333,38 @@ namespace CatchupGrabber
             ButtonSegment.IsEnabled = true;
             objectList.IsEnabled = true;
             toShows.IsEnabled = true;
+        }
+
+        /// <summary>
+        /// Makes the request to the specifed site
+        /// </summary>
+        /// <param name="site"></param>
+        private void MakeRequest(Site site)
+        {
+            objectList.ItemsSource = new List<string> { "Loading..." + addressStore[site] };
+            DisableButtonsSites();
+            //Fetch and handle the result on a background thread/task
+            Task.Factory.StartNew(() =>
+            {
+                websiteStore[site].FillShowsList();
+            }).ContinueWith(x =>
+            {
+                if (x.IsFaulted || x.IsCanceled)
+                {
+                    sBinds.Error = "Failed to get episode listings for " + addressStore[site];
+                    curState = State.DisplayingNone;
+                    objectList.ItemsSource = null;
+                    curSite = Site.None;
+                    sBinds.SelectedSite = "";
+                }
+                else
+                {
+                    objectList.ItemsSource = websiteStore[site].GetShowsList();
+                    curState = State.DisplayingShows;
+                    curSite = site;
+                }
+                EnableButtonsSites();
+            }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         /// <summary>

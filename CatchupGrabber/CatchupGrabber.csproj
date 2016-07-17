@@ -79,6 +79,7 @@
     <Compile Include="MiscObjects\BCoveJson.cs" />
     <Compile Include="CUNetworkAssist.cs" />
     <Compile Include="MiscObjects\BCoveJson9N.cs" />
+    <Compile Include="MiscObjects\EnumValues.cs" />
     <Compile Include="MiscObjects\PrimaJson.cs" />
     <Compile Include="MiscObjects\SVTJson.cs" />
     <Compile Include="ShowObjects\Shows9Now.cs" />

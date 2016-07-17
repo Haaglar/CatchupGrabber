@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using CatchupGrabber.MiscObjects.EnumValues;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 
 namespace CatchupGrabber
@@ -8,10 +10,13 @@ namespace CatchupGrabber
     /// </summary>
     public partial class Settings : Window
     {
+        private string oldValRegionIrish; //Need to check if change if so clear cache
+        public List<Site> cacheClear;     //Return value
+
         public Settings()
         {
             InitializeComponent();
-
+            cacheClear = new List<Site>();
             //Spanish
             TextBoxSpanishHTTPProxy.Text = Properties.Settings.Default.HTTPSpanish;
             TextBoxSpanishGlypeProxy.Text = Properties.Settings.Default.GlypeSpanish;
@@ -30,7 +35,8 @@ namespace CatchupGrabber
 
             //Irish
             TextBoxIrishHTTPProxy.Text = Properties.Settings.Default.HTTPIrish;
-            if(!Properties.Settings.Default.IrishRegionOption.Equals("ie")) //If not ie then its world wide
+            oldValRegionIrish = Properties.Settings.Default.IrishRegionOption;
+            if (!oldValRegionIrish.Equals("ie")) //If not ie then its world wide
             {
                 RadioButtonIrishRegionWorldWide.IsChecked = true;
             }
@@ -76,7 +82,11 @@ namespace CatchupGrabber
             //Get RTE proxy
             Properties.Settings.Default.HTTPIrish = TextBoxIrishHTTPProxy.Text;
             Properties.Settings.Default.IrishRegionOption = (RadioButtonIrishRegionIrish.IsChecked ?? false) ? "ie" : "us";
-
+            if(!oldValRegionIrish.Equals(Properties.Settings.Default.IrishRegionOption))
+            {
+                cacheClear.Add(Site.RTE);
+            }
+            //Swe
             Properties.Settings.Default.HTTPSwedish =  TextBoxSwedishHTTPProxy.Text;
 
             //Misc settings

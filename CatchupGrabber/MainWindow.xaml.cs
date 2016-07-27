@@ -76,7 +76,7 @@ namespace CatchupGrabber
             addressStore.Add(Site.RTE, "RTE.ie");
             addressStore.Add(Site.DPlay, "it.dplay.com");
             addressStore.Add(Site.TV3Cat, "ccma.cat/tv3/");
-            addressStore.Add(Site.Super3, "super3.cat");
+            addressStore.Add(Site.Super3, "ccma.cat/tv3/super3/");
             addressStore.Add(Site.SVTPlay, "SVTPlay.se");
             addressStore.Add(Site._9Now, "9now.com.au");
             addressStore.Add(Site.Prima, "play.iprima.cz");

@@ -15,3 +15,6 @@ Supports:
 + Prima (Cz)
 
 Requires .NET 4.5 and FFmpeg to run
+
+#Compiling
+Can be compiled by Visual Studio 2013 and later. No additional libraries are required to compile.

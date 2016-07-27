@@ -67,7 +67,9 @@ namespace CatchupGrabber
             {
                 RadioButtonASS.IsChecked = true;
             }
-            this.PreviewKeyDown += EscExit_PreviewKeyDown;
+
+            //Setup Key handler
+            this.PreviewKeyDown += Exit_PreviewKeyDown;
         }
 
         /// <summary>
@@ -108,14 +110,18 @@ namespace CatchupGrabber
         }
 
         /// <summary>
-        /// Key handler that closes the settings window on Escape pressed
+        /// Key handler that closes the settings window on key pressed
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void EscExit_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void Exit_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
                 this.Close();
+            if (e.Key == Key.S && (e.KeyboardDevice.Modifiers == ModifierKeys.Control))
+            {
+                ButtonSaveSettings_Click(sender, null);
+            }
         }
 
         /// <summary>

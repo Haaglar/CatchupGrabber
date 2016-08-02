@@ -40,9 +40,10 @@ namespace CatchupGrabber
             XmlNodeList series = root.SelectNodes("//series");
             foreach(XmlNode node in series)
             {
-                string name = node.SelectSingleNode("/series/titlefull").InnerText;
-                string desc = node.SelectSingleNode("/series/summaryfull").InnerText;
-                string id = node.SelectSingleNode("/series/links/link[1]").Attributes["href"].Value;
+
+                string name = node["titlefull"].InnerText;
+                string desc = node["summaryfull"].InnerText;
+                string id =  node.SelectNodes("//link")[1].Attributes["href"].Value;
                 showList.Add(new ShowsGeneric(name, id, desc));
             }
             ShowListCacheValid = true;

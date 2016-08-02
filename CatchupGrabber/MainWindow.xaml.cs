@@ -53,6 +53,7 @@ namespace CatchupGrabber
             SVTse svtplay;
             _9Now nNow;
             Prima prima;
+            AmebaTV amebaTV;
             websiteStore.Add(Site.TenP, tenPlay = new Tenp());
             websiteStore.Add(Site.Plus7, plus7 = new Plus7());
             websiteStore.Add(Site.RTVEClan, rtveClan = new RTVEc());
@@ -63,6 +64,7 @@ namespace CatchupGrabber
             websiteStore.Add(Site.SVTPlay, svtplay = new SVTse());
             websiteStore.Add(Site._9Now, nNow = new _9Now());
             websiteStore.Add(Site.Prima, prima = new Prima());
+            websiteStore.Add(Site.AmebaTV, amebaTV = new AmebaTV());
         }
         /// <summary>
         /// Setup the dictionary for all the site's addresses
@@ -80,6 +82,7 @@ namespace CatchupGrabber
             addressStore.Add(Site.SVTPlay, "SVTPlay.se");
             addressStore.Add(Site._9Now, "9now.com.au");
             addressStore.Add(Site.Prima, "play.iprima.cz");
+            addressStore.Add(Site.AmebaTV, "amebatv.com");
         }
         /// <summary>
         /// Double click of list item
@@ -255,7 +258,15 @@ namespace CatchupGrabber
         {
             HandleSiteSelection(Site.Prima);
         }
-
+        /// <summary>
+        /// Handles the actions for when the AbemaTV button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AmebaTV_Click(object sender, RoutedEventArgs e)
+        {
+            HandleSiteSelection(Site.AmebaTV);
+        }
         /// <summary>
         /// Handles the actions for site show data and switching between. 
         /// </summary>

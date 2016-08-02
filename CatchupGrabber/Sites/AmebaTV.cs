@@ -94,7 +94,7 @@ namespace CatchupGrabber
                 string proxy = Properties.Settings.Default.HTTPUSA;
                 if(!string.IsNullOrWhiteSpace(proxy))
                 {
-                    webClient.Proxy = new WebProxy(proxy)
+                    webClient.Proxy = new WebProxy(proxy);
                 }
                 xmlData = webClient.DownloadString(addressEpisodep1 + showList[selectedIndex].url + addressEpisodep2);
             }

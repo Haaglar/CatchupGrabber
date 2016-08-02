@@ -1,5 +1,5 @@
 # CatchupGrabber
-Grabs videos from some tv catchup / on demand services.
+Grabs videos from some free tv catchup / on demand services.
 Also downloads subtitles if available.
 
 Supports:
@@ -13,6 +13,7 @@ Supports:
 + SVTPlay
 + 9Now
 + Prima (Cz)
++ Ameba
 
 Requires .NET 4.5 and FFmpeg to run
 

@@ -46,7 +46,9 @@ namespace CatchupGrabber
             }
             TextBoxSwedishHTTPProxy.Text = Properties.Settings.Default.HTTPSwedish;
 
-            
+            //USA
+            TextBoxUSAHTTPProxy.Text = Properties.Settings.Default.HTTPUSA;
+
             //Misc
             CheckBoxDownloadWindowClose.IsChecked = Properties.Settings.Default.ExitDLOnDownload;
             CheckBoxSpaceReplace.IsChecked = Properties.Settings.Default.SpaceReplace;
@@ -90,6 +92,9 @@ namespace CatchupGrabber
             }
             //Swe
             Properties.Settings.Default.HTTPSwedish =  TextBoxSwedishHTTPProxy.Text;
+
+            //USA
+            Properties.Settings.Default.HTTPUSA = TextBoxUSAHTTPProxy.Text;
 
             //Misc settings
             Properties.Settings.Default.ExitDLOnDownload = CheckBoxDownloadWindowClose.IsChecked ?? false;

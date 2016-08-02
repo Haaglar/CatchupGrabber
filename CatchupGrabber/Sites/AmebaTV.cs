@@ -14,6 +14,13 @@ namespace CatchupGrabber
         private List<EpisodesGeneric> episodesList;
 
         private string addressShows = "http://www.amebatv.com/AmebaProxy?apireq=/catalog/videos/shows?pagesize=500&orderby=name";
+        //Gets episodes of show
+        private string addressEpisodep1 = "http://www.amebatv.com/AmebaProxy?apireq=/catalog/videos/series/";
+        private string addressEpisodep2 = "/episodes?pagesize=52";
+
+        //On episode click
+        private string episodeMetap1 = "/http://www.amebatv.com/AmebaProxy?apireq=catalog/videos/index/";
+        private string episodeMetap2 = "/streams?lang=en";
 
         public override void CleanEpisodes()
         {
@@ -22,7 +29,26 @@ namespace CatchupGrabber
 
         public override void ClickDisplayedShow(int selectedIndex)
         {
-            throw new NotImplementedException();
+            string xmlData;
+            episodesList = new List<EpisodesGeneric>();
+            using (WebClient webClient = new WebClient())
+            {
+                xmlData = webClient.DownloadString(addressEpisodep1 + showList[selectedIndex].url + addressEpisodep2);
+            }
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xmlData);
+
+            XmlNode root = doc.DocumentElement;
+            XmlNodeList episodes = root.SelectNodes("//video");
+
+            foreach (XmlNode node in episodes)
+            {
+                string name = node["titlefull"].InnerText;
+                string desc = node["summaryfull"].InnerText;
+                string id = node.Attributes["id"].Value;
+                episodesList.Add(new EpisodesGeneric(name,id,desc));
+            }
+
         }
 
         public override void FillShowsList()
@@ -43,7 +69,7 @@ namespace CatchupGrabber
 
                 string name = node["titlefull"].InnerText;
                 string desc = node["summaryfull"].InnerText;
-                string id =  node.SelectNodes("//link")[1].Attributes["href"].Value;
+                string id = node.Attributes["id"].Value;
                 showList.Add(new ShowsGeneric(name, id, desc));
             }
             ShowListCacheValid = true;
@@ -51,7 +77,7 @@ namespace CatchupGrabber
 
         public override string GetDescriptionEpisode(int selectedIndex)
         {
-            throw new NotImplementedException();
+            return episodesList[selectedIndex].Description;
         }
 
         public override string GetDescriptionShow(int selectedIndex)
@@ -61,7 +87,35 @@ namespace CatchupGrabber
 
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            throw new NotImplementedException();
+            string xmlData;
+            episodesList = new List<EpisodesGeneric>();
+            using (WebClient webClient = new WebClient())
+            {
+                string proxy = Properties.Settings.Default.HTTPUSA;
+                if(!string.IsNullOrWhiteSpace(proxy))
+                {
+                    webClient.Proxy = new WebProxy(proxy)
+                }
+                xmlData = webClient.DownloadString(addressEpisodep1 + showList[selectedIndex].url + addressEpisodep2);
+            }
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xmlData);
+
+            XmlNode root = doc.DocumentElement;
+            XmlNodeList episodes = root.SelectNodes("//videostream[@deliverymethod=\"httpdownload\"]");
+            int bitrate = 0;
+            string dlurl = "";
+            foreach(XmlNode vs in episodes)
+            {
+                int curBR = int.Parse(vs.Attributes["videobitrate"].Value);
+                if (curBR > bitrate)
+                {
+                    bitrate = curBR;
+                    dlurl = vs.Attributes["href"].Value;
+                }
+            }
+
+            return new DownloadObject(dlurl,GetSubtitles(), Country.USA, DownloadMethod.HTTP);
         }
 
         public override List<object> GetEpisodesList()

@@ -178,5 +178,17 @@ namespace CatchupGrabber.Properties {
                 this["OverwriteFile"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HTTPUSA {
+            get {
+                return ((string)(this["HTTPUSA"]));
+            }
+            set {
+                this["HTTPUSA"] = value;
+            }
+        }
     }
 }

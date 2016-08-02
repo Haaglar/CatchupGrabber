@@ -19,8 +19,9 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="130" />
-                        <RowDefinition Height="110" />
-                        <RowDefinition Height="100" />
+                        <RowDefinition Height="90" />
+                        <RowDefinition Height="70" />
+                        <RowDefinition Height="70" />
                     </Grid.RowDefinitions>
                     <!-- Spanish option-->
                     <GroupBox Grid.Row="0" Margin="0,0,0,0" Grid.ColumnSpan="3">
@@ -57,6 +58,15 @@
                         <Grid>
                             <TextBox x:Name="TextBoxSwedishHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="148,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190" IsEnabled="False"/>
                             <TextBlock HorizontalAlignment="Left" Margin="10,6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="134" FontSize="12" Text="HTTP Proxy Address:"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Grid.Row="3" Margin="0,0,0,10" Grid.ColumnSpan="3">
+                        <GroupBox.Header>
+                            <Label ToolTip="Site(s) that use this setting: &#x0a;Ameba TV">USA</Label>
+                        </GroupBox.Header>
+                        <Grid HorizontalAlignment="Right" Width="372">
+                            <TextBlock HorizontalAlignment="Left" Margin="10,6,0,0" TextWrapping="Wrap" Text="HTTP Proxy Address:" VerticalAlignment="Top"/>
+                            <TextBox x:Name="TextBoxUSAHTTPProxy" HorizontalAlignment="Left" Height="25" Margin="148,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="190" />
                         </Grid>
                     </GroupBox>
                 </Grid>

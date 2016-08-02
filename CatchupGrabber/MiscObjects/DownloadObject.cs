@@ -1,6 +1,6 @@
 ﻿namespace CatchupGrabber
 {
-    public enum Country { Aus,Ireland,Italy,Spain, Sweden, Czech}
+    public enum Country { Aus,Ireland,Italy,Spain, Sweden, Czech, USA}
     public enum DownloadMethod {HTTP, HLS}
 
     /// <summary>

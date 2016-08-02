@@ -85,6 +85,7 @@
     <Compile Include="ShowObjects\Shows9Now.cs" />
     <Compile Include="ShowObjects\ShowsPrima.cs" />
     <Compile Include="Sites\9Now.cs" />
+    <Compile Include="Sites\AmebaTV.cs" />
     <Compile Include="Sites\DownloadAbstract.cs" />
     <Compile Include="MiscObjects\DownloadObject.cs" />
     <Compile Include="DownloadWindow.xaml.cs">

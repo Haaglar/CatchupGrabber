@@ -73,6 +73,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EpisodeObjects\Episodes3Now.cs" />
     <Compile Include="EpisodeObjects\Episodes9Now.cs" />
     <Compile Include="EpisodeObjects\EpisodesPrima.cs" />
     <Compile Include="EpisodeObjects\EpisodesSuper3.cs" />
@@ -82,8 +83,10 @@
     <Compile Include="MiscObjects\EnumValues.cs" />
     <Compile Include="MiscObjects\PrimaJson.cs" />
     <Compile Include="MiscObjects\SVTJson.cs" />
+    <Compile Include="ShowObjects\Shows3Now.cs" />
     <Compile Include="ShowObjects\Shows9Now.cs" />
     <Compile Include="ShowObjects\ShowsPrima.cs" />
+    <Compile Include="Sites\3Now.cs" />
     <Compile Include="Sites\9Now.cs" />
     <Compile Include="Sites\AmebaTV.cs" />
     <Compile Include="Sites\DownloadAbstract.cs" />

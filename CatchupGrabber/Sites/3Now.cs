@@ -1,11 +1,9 @@
 ﻿using CatchupGrabber.EpisodeObjects._3Now;
+using CatchupGrabber.NetworkAssister;
 using CatchupGrabber.ShowObjects._3Now;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
 namespace CatchupGrabber
@@ -60,7 +58,8 @@ namespace CatchupGrabber
 
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            return new DownloadObject(episodes.show.episodes[selectedIndex].videoRenditions.videoCloud.hlsUrl,GetSubtitles(),Country.NewZealand, DownloadMethod.HLS);
+            CUNetworkAssist cuA = new CUNetworkAssist(); 
+            return new DownloadObject(cuA.GetHighestM3U8Address(episodes.show.episodes[selectedIndex].videoRenditions.videoCloud.hlsUrl),GetSubtitles(),Country.NewZealand, DownloadMethod.HLS);
         }
 
         public override List<object> GetEpisodesList()

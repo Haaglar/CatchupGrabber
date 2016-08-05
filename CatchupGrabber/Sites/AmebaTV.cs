@@ -19,7 +19,7 @@ namespace CatchupGrabber
         private string addressEpisodep2 = "/episodes?pagesize=52";
 
         //On episode click
-        private string episodeMetap1 = "/http://www.amebatv.com/AmebaProxy?apireq=catalog/videos/index/";
+        private string episodeMetap1 = "http://www.amebatv.com/AmebaProxy?apireq=/catalog/videos/index/";
         private string episodeMetap2 = "/streams?lang=en";
 
         public override void CleanEpisodes()
@@ -88,7 +88,6 @@ namespace CatchupGrabber
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
             string xmlData;
-            episodesList = new List<EpisodesGeneric>();
             using (WebClient webClient = new WebClient())
             {
                 string proxy = Properties.Settings.Default.HTTPUSA;
@@ -96,7 +95,7 @@ namespace CatchupGrabber
                 {
                     webClient.Proxy = new WebProxy(proxy);
                 }
-                xmlData = webClient.DownloadString(episodeMetap1 + showList[selectedIndex].url + episodeMetap2);
+                xmlData = webClient.DownloadString(episodeMetap1 + episodesList[selectedIndex].EpisodeID + episodeMetap2);
             }
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xmlData);

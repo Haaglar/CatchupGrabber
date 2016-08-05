@@ -50,7 +50,9 @@
                 <Button x:Name="buttonSVTPlay" Content="SVTPlay" HorizontalAlignment="Left" Margin="104,-3,-104,-2" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonSVTPlay_Click" FontSize="14"/>
                 <Button x:Name="button9Now" Content="9Now" HorizontalAlignment="Left" Margin="209,-38,-209,0" VerticalAlignment="Top" Width="100" Height="30" Click="Button9Now_Click" FontSize="14"/>
                 <Button x:Name="buttonPrima" Content="Prima" HorizontalAlignment="Left" Margin="209,-3,-209,-2" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonPrima_Click" FontSize="14"/>
-                <Button x:Name="buttonAmeba" Content="Ameba TV" HorizontalAlignment="Left" Margin="-211,32,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14" Click="AmebaTV_Click"/>
+                <Button x:Name="buttonAmeba" Content="Ameba TV" HorizontalAlignment="Left" Margin="-211,32,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14" Click="ButtonAmebaTV_Click"/>
+                <Button x:Name="button3Now" Content="3Now" HorizontalAlignment="Left" Margin="-106,32,0,0" VerticalAlignment="Top" Width="100" Height="30"  FontSize="14" Click="Button3Now_Click"/>
+                
             </Grid>
             
 

@@ -54,6 +54,7 @@ namespace CatchupGrabber
             _9Now nNow;
             Prima prima;
             AmebaTV amebaTV;
+            _3Now threeNow;
             websiteStore.Add(Site.TenP, tenPlay = new Tenp());
             websiteStore.Add(Site.Plus7, plus7 = new Plus7());
             websiteStore.Add(Site.RTVEClan, rtveClan = new RTVEc());
@@ -65,6 +66,7 @@ namespace CatchupGrabber
             websiteStore.Add(Site._9Now, nNow = new _9Now());
             websiteStore.Add(Site.Prima, prima = new Prima());
             websiteStore.Add(Site.AmebaTV, amebaTV = new AmebaTV());
+            websiteStore.Add(Site._3Now, threeNow = new _3Now());
         }
         /// <summary>
         /// Setup the dictionary for all the site's addresses
@@ -83,6 +85,7 @@ namespace CatchupGrabber
             addressStore.Add(Site._9Now, "9now.com.au");
             addressStore.Add(Site.Prima, "play.iprima.cz");
             addressStore.Add(Site.AmebaTV, "amebatv.com");
+            addressStore.Add(Site._3Now, "3now.co.nz");
         }
         /// <summary>
         /// Double click of list item
@@ -263,10 +266,21 @@ namespace CatchupGrabber
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AmebaTV_Click(object sender, RoutedEventArgs e)
+        private void ButtonAmebaTV_Click(object sender, RoutedEventArgs e)
         {
             HandleSiteSelection(Site.AmebaTV);
         }
+
+        /// <summary>
+        /// Handles the actions for when the 3Now button is pressed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button3Now_Click(object sender, RoutedEventArgs e)
+        {
+            HandleSiteSelection(Site._3Now);
+        }
+
         /// <summary>
         /// Handles the actions for site show data and switching between. 
         /// </summary>
@@ -397,7 +411,7 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void OL_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(objectList.SelectedIndex != -1)
+            if (objectList.SelectedIndex != -1)
             {
                 if (curState == State.DisplayingShows)
                 {
@@ -407,7 +421,7 @@ namespace CatchupGrabber
                         sBinds.SelectedDescription = tmp;
                     }
                 }
-                else if(curState == State.DisplayingEpisodes)
+                else if (curState == State.DisplayingEpisodes)
                 {
                     string tmp = websiteStore[curSite].GetDescriptionEpisode(objectList.SelectedIndex);
                     if (tmp != null)

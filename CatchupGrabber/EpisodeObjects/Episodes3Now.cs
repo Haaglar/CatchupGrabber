@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CatchupGrabber.EpisodeObjects
+namespace CatchupGrabber.EpisodeObjects._3Now
 {
 
     public class Images

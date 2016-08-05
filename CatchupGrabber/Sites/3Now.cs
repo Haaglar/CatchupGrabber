@@ -20,12 +20,19 @@ namespace CatchupGrabber
 
         public override void CleanEpisodes()
         {
-            throw new NotImplementedException();
+            episodes = null;
         }
 
         public override void ClickDisplayedShow(int selectedIndex)
         {
-            throw new NotImplementedException();
+            //Stock standard request
+            string jsonContent;
+            using (WebClient webClient = new WebClient())
+            {
+                jsonContent = webClient.DownloadString(EPISODES_URL + shows.shows[selectedIndex].showId);
+            }
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            episodes = jss.Deserialize<Episodes3Now>(jsonContent);
         }
 
         public override void FillShowsList()
@@ -43,7 +50,7 @@ namespace CatchupGrabber
 
         public override string GetDescriptionEpisode(int selectedIndex)
         {
-            throw new NotImplementedException();
+            return episodes.show.episodes[selectedIndex].synopsis;
         }
 
         public override string GetDescriptionShow(int selectedIndex)
@@ -53,17 +60,17 @@ namespace CatchupGrabber
 
         public override DownloadObject GetDownloadObject(int selectedIndex)
         {
-            throw new NotImplementedException();
+            return new DownloadObject(episodes.show.episodes[selectedIndex].videoRenditions.videoCloud.hlsUrl,GetSubtitles(),Country.NewZealand, DownloadMethod.HLS);
         }
 
         public override List<object> GetEpisodesList()
         {
-            throw new NotImplementedException();
+            return episodes.show.episodes.ToList<object>();
         }
 
         public override string GetSelectedEpisodeName(int selectedIndex)
         {
-            throw new NotImplementedException();
+            return episodes.show.episodes[selectedIndex].name;
         }
 
         public override string GetSelectedShowName(int selectedIndex)

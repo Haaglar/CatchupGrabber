@@ -96,7 +96,7 @@ namespace CatchupGrabber
                 {
                     webClient.Proxy = new WebProxy(proxy);
                 }
-                xmlData = webClient.DownloadString(addressEpisodep1 + showList[selectedIndex].url + addressEpisodep2);
+                xmlData = webClient.DownloadString(episodeMetap1 + showList[selectedIndex].url + episodeMetap2);
             }
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xmlData);

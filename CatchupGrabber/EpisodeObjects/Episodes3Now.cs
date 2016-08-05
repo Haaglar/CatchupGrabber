@@ -74,6 +74,10 @@ namespace CatchupGrabber.EpisodeObjects._3Now
         public Images2 images { get; set; }
         public string externalMediaId { get; set; }
         public List<CuePoint> cuePoints { get; set; }
+        public override string ToString()
+        {
+            return name;
+        }
     }
 
     public class HeroEpisode

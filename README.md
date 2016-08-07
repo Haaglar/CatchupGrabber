@@ -14,6 +14,7 @@ Supports:
 + 9Now
 + Prima (Cz)
 + Ameba
++ 3Now
 
 Requires .NET 4.5 and FFmpeg to run
 

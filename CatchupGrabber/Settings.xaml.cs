@@ -81,30 +81,14 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void ButtonSaveSettings_Click(object sender, RoutedEventArgs e)
         {
-
+            //Sites options
             SpanishSettingsSave();
-            //Get RTE proxy
-            Properties.Settings.Default.HTTPIrish = TextBoxIrishHTTPProxy.Text;
-            Properties.Settings.Default.IrishRegionOption = (RadioButtonIrishRegionIrish.IsChecked ?? false) ? "ie" : "us";
-            if(!oldValRegionIrish.Equals(Properties.Settings.Default.IrishRegionOption))
-            {
-                cacheClear.Add(Site.RTE);
-            }
-            //Swe
+            IrishSettingsSave();
             Properties.Settings.Default.HTTPSwedish =  TextBoxSwedishHTTPProxy.Text;
-
-            //USA
             Properties.Settings.Default.HTTPUSA = TextBoxUSAHTTPProxy.Text;
 
-            //Misc settings
-            Properties.Settings.Default.ExitDLOnDownload = CheckBoxDownloadWindowClose.IsChecked ?? false;
-            Properties.Settings.Default.SpaceReplace = CheckBoxSpaceReplace.IsChecked ?? false;
-            Properties.Settings.Default.OverwriteFile = CheckBoxOverwrite.IsChecked ?? false;
-            //Checkbox for sub download
-            Properties.Settings.Default.DownloadSubtitlesSetting = CheckBoxSubtitleDownloadSetting.IsChecked ?? false;
-            Properties.Settings.Default.ConvertSubtitle = CheckBoxSubtitleConvertSetting.IsChecked ?? false;
-            Properties.Settings.Default.SubtitleFormat = (RadioButtonSRT.IsChecked ?? false) ? ".srt" : ".ass";
-
+            SubtitleSettingsSave();
+            MiscSettingsSave();
             Properties.Settings.Default.Save();
             this.Close();
         }
@@ -130,7 +114,7 @@ namespace CatchupGrabber
         }
 
         /// <summary>
-        /// Handles saving settings for the spanish website s
+        /// Handles saving settings for the spanish websites
         /// </summary>
         private void SpanishSettingsSave()
         {
@@ -160,6 +144,41 @@ namespace CatchupGrabber
             {
                 Properties.Settings.Default.ProxyOptionSpanish = "None";
             }
+        }
+
+
+        /// <summary>
+        /// Handles saving settings for the irish websites
+        /// </summary>
+        private void IrishSettingsSave()
+        {
+            //Get RTE proxy
+            Properties.Settings.Default.HTTPIrish = TextBoxIrishHTTPProxy.Text;
+            Properties.Settings.Default.IrishRegionOption = (RadioButtonIrishRegionIrish.IsChecked ?? false) ? "ie" : "us";
+            if (!oldValRegionIrish.Equals(Properties.Settings.Default.IrishRegionOption))
+            {
+                cacheClear.Add(Site.RTE);
+            }
+        }
+
+        /// <summary>
+        /// Handles subtitle options
+        /// </summary>
+        private void SubtitleSettingsSave()
+        {
+            Properties.Settings.Default.DownloadSubtitlesSetting = CheckBoxSubtitleDownloadSetting.IsChecked ?? false;
+            Properties.Settings.Default.ConvertSubtitle = CheckBoxSubtitleConvertSetting.IsChecked ?? false;
+            Properties.Settings.Default.SubtitleFormat = (RadioButtonSRT.IsChecked ?? false) ? ".srt" : ".ass";
+        }
+
+        /// <summary>
+        /// Handles the misc options
+        /// </summary>
+        private void MiscSettingsSave()
+        {
+            Properties.Settings.Default.ExitDLOnDownload = CheckBoxDownloadWindowClose.IsChecked ?? false;
+            Properties.Settings.Default.SpaceReplace = CheckBoxSpaceReplace.IsChecked ?? false;
+            Properties.Settings.Default.OverwriteFile = CheckBoxOverwrite.IsChecked ?? false;
         }
 
         /// <summary>

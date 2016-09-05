@@ -1,4 +1,5 @@
 ﻿using CatchupGrabber.EpisodeObjects.Super3;
+using CatchupGrabber.MiscObjects.Super3;
 using CatchupGrabber.Shows.Super3;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace CatchupGrabber
     {
         private ShowsSuper3 showsS3;
         private EpisodesSuper3 episodesS3;
+        //Contains the current download urls
+        private Super3Json dlJSON;
         //private List<EpisodesGeneric> episodesS3 = new List<EpisodesGeneric>();
         private static string jsonMP4Url = "http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
         //private static string searchUrlP1 = "http://www.super3.cat/searcher/super3/searching.jsp?format=MP4&catBusca=";
@@ -22,6 +25,7 @@ namespace CatchupGrabber
         public override void CleanEpisodes()
         {
             episodesS3 = null;
+            dlJSON = null;
         }
         /// <summary>
         /// Gets The displayed episodes for the clicked show
@@ -86,7 +90,15 @@ namespace CatchupGrabber
         }
         public override string GetSubtitles()
         {
-            return "";
+            if(dlJSON == null)
+            {
+                return "";
+            }
+            else if(dlJSON.subtitols == null || dlJSON.subtitols.url == null)
+            {
+                return "";
+            }
+            return dlJSON.subtitols.url;
         }
         /// <summary>
         /// Gets the url
@@ -97,12 +109,13 @@ namespace CatchupGrabber
             string jsonMP4;
             using (WebClient wc = new WebClient())
             {
-                //Last bit not actually needed but whatever
+                //Last bit not actually needed but whatever, it uses android on the app
                 jsonMP4 = wc.DownloadString(jsonMP4Url + episodesS3.resposta.items.item[selectedIndex].id + "&profile=pc");
             }
-            Regex getMp4 = new Regex(@"""(.*?\.mp4)""", RegexOptions.RightToLeft); //Cause this way is the best
-            Match mp4 = getMp4.Match(jsonMP4);
-            return new DownloadObject( mp4.Groups[1].Value, GetSubtitles(), Country.Spain,DownloadMethod.HTTP);
+
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+            dlJSON = jss.Deserialize<Super3Json>(jsonMP4);
+            return new DownloadObject(dlJSON.media.url, GetSubtitles() , Country.Spain,DownloadMethod.HTTP);
         }
 
         public override List<object> GetShowsList()

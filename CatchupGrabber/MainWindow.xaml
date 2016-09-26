@@ -30,8 +30,9 @@
                         <TextBlock x:Name="textBlockSite" HorizontalAlignment="Left" Margin="10,31,0,0" TextWrapping="Wrap" Text="{Binding SelectedSite}" VerticalAlignment="Top" Width="70"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,89,0,0" TextWrapping="Wrap" Text="Show Selected:" VerticalAlignment="Top" Width="84"/>
                         <TextBlock x:Name="textBlockShow" HorizontalAlignment="Left" Margin="10,110,0,0" TextWrapping="Wrap" Text="{Binding SelectedShow}" VerticalAlignment="Top" RenderTransformOrigin="0.58,0"/>
-                        <TextBlock x:Name="errorLabel" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="65" TextWrapping="Wrap" Width="100" Text="{Binding Error}" Margin="10,214,0,0"/>
+                        <TextBlock x:Name="errorLabel" HorizontalAlignment="Left"  VerticalAlignment="Top" RenderTransformOrigin="0.628,0.369" Height="64" TextWrapping="Wrap" Width="100" Text="{Binding Error}" Margin="10,162,0,0"/>
                         <Button x:Name="buttonAbout" Content="About" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="100" Height="30" Click="About_Pressed" Margin="10,0,0,80" FontSize="14"/>
+                        <Button x:Name="buttonLiveStream" Content="Live Stream" HorizontalAlignment="Left" Margin="10,0,0,115" VerticalAlignment="Bottom"  Width="100" Height="30" FontSize="14" Click="ButtonLiveStream_Click"/>
                     </Grid>
                 </Grid>
             </Grid>
@@ -52,9 +53,9 @@
                 <Button x:Name="buttonPrima" Content="Prima" HorizontalAlignment="Left" Margin="209,-3,-209,-2" VerticalAlignment="Top" Width="100" Height="30" Click="ButtonPrima_Click" FontSize="14"/>
                 <Button x:Name="buttonAmeba" Content="Ameba TV" HorizontalAlignment="Left" Margin="-211,32,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14" Click="ButtonAmebaTV_Click"/>
                 <Button x:Name="button3Now" Content="3Now" HorizontalAlignment="Left" Margin="-106,32,0,0" VerticalAlignment="Top" Width="100" Height="30"  FontSize="14" Click="Button3Now_Click"/>
-                
+
             </Grid>
-            
+
 
         </Grid>
     </Grid>

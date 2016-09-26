@@ -77,6 +77,9 @@
     <Compile Include="EpisodeObjects\Episodes9Now.cs" />
     <Compile Include="EpisodeObjects\EpisodesPrima.cs" />
     <Compile Include="EpisodeObjects\EpisodesSuper3.cs" />
+    <Compile Include="LiveStream.xaml.cs">
+      <DependentUpon>LiveStream.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MiscObjects\BCoveJson.cs" />
     <Compile Include="CUNetworkAssist.cs" />
     <Compile Include="MiscObjects\BCoveJson9N.cs" />
@@ -119,6 +122,10 @@
     <Compile Include="Sites\Tenp.cs" />
     <Compile Include="Sites\TV3Cat.cs" />
     <Page Include="DownloadWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LiveStream.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

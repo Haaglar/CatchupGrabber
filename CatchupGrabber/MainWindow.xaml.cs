@@ -431,5 +431,11 @@ namespace CatchupGrabber
                 }
             }
         }
+
+        private void ButtonLiveStream_Click(object sender, RoutedEventArgs e)
+        {
+            LiveStream lsWin = new LiveStream();
+            lsWin.Show();
+        }
     }
 }

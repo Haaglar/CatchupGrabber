@@ -1,4 +1,5 @@
 ﻿using CatchupGrabber.EpisodeObjects._3Now;
+using CatchupGrabber.MiscObjects.EnumValues;
 using CatchupGrabber.NetworkAssister;
 using CatchupGrabber.ShowObjects._3Now;
 using System.Collections.Generic;

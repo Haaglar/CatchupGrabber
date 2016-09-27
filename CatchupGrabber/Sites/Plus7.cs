@@ -1,4 +1,5 @@
-﻿using CatchupGrabber.MiscObjects.Plus7;
+﻿using CatchupGrabber.MiscObjects.EnumValues;
+using CatchupGrabber.MiscObjects.Plus7;
 using System;
 using System.Collections.Generic;
 using System.IO;

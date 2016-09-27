@@ -1,4 +1,5 @@
 ﻿using CatchupGrabber.EpisodeObjects.RTVEc;
+using CatchupGrabber.MiscObjects.EnumValues;
 using System;
 using System.Collections.Generic;
 using System.IO;

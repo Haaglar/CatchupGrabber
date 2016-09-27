@@ -1,4 +1,5 @@
 ﻿using CatchupGrabber.Downloader.RTE;
+using CatchupGrabber.MiscObjects.EnumValues;
 using CatchupGrabber.NetworkAssister;
 using System;
 using System.Collections.Generic;

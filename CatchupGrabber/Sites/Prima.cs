@@ -1,4 +1,5 @@
 ﻿using CatchupGrabber.EpisodeObjects.Prima;
+using CatchupGrabber.MiscObjects.EnumValues;
 using CatchupGrabber.MiscObjects.Prima;
 using CatchupGrabber.NetworkAssister;
 using CatchupGrabber.Shows.Prima;

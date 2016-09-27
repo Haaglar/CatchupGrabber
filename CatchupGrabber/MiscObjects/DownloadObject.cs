@@ -1,7 +1,8 @@
-﻿namespace CatchupGrabber
+﻿using CatchupGrabber.MiscObjects.EnumValues;
+
+namespace CatchupGrabber
 {
     public enum Country { Aus,Ireland,Italy,Spain, Sweden, Czech, USA, NewZealand}
-    public enum DownloadMethod {HTTP, HLS}
 
     /// <summary>
     /// Used to handle download types and methods yadda

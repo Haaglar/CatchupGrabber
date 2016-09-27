@@ -1,4 +1,5 @@
-﻿using CatchupGrabber.NetworkAssister;
+﻿using CatchupGrabber.MiscObjects.EnumValues;
+using CatchupGrabber.NetworkAssister;
 using SubCSharp;
 using System;
 using System.Collections.Generic;

@@ -7,6 +7,7 @@ using System.Web.Script.Serialization;
 using System.Text.RegularExpressions;
 using CatchupGrabber.Shows.DPlay;
 using CatchupGrabber.NetworkAssister;
+using CatchupGrabber.MiscObjects.EnumValues;
 
 namespace CatchupGrabber
 {

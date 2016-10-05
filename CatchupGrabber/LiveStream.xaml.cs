@@ -26,6 +26,8 @@ namespace CatchupGrabber
             sites.Add(new LSSites() { Name = "Channel 7 Two Australia", URL = "https://sevenwestmedia01-i.akamaihd.net/hls/live/224826/MEL2/master_high.m3u8", RequiresInitialRequest = false, Method = DownloadMethod.HLS });
             sites.Add(new LSSites() { Name = "Channel 7 Mate Australia", URL = "https://sevenwestmedia01-i.akamaihd.net/hls/live/224839/MEL3/master_high.m3u8", RequiresInitialRequest = false, Method = DownloadMethod.HLS });
             sites.Add(new LSSites() { Name = "Channel 7 Flix Australia", URL = "https://sevenwestmedia01-i.akamaihd.net/hls/live/224856/MEL6/master_high.m3u8", RequiresInitialRequest = false, Method = DownloadMethod.HLS });
+            sites.Add(new LSSites() { Name = "TV3 Catalunya", URL = "http://ccma-tva-int-abertis-live.hls.adaptive.level3.net/int/ngrp:tv3_web/chunklist_b798000.m3u8", RequiresInitialRequest = false, Method = DownloadMethod.HLS });
+            sites.Add(new LSSites() { Name = "3/24 Catalunya", URL = "http://ccma-tva-int-abertis-live.hls.adaptive.level3.net/int/ngrp:324_web/chunklist_b798000.m3u8", RequiresInitialRequest = false, Method = DownloadMethod.HLS });
             comboBoxSites.ItemsSource = sites;
             comboBoxSites.SelectedIndex = 0;
         }

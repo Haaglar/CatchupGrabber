@@ -11,7 +11,7 @@
         <TextBlock x:Name="textBlockDesc" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Select livestream site:" VerticalAlignment="Top"/>
         <ComboBox x:Name="comboBoxSites" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top" Width="164"/>
         <Button x:Name="buttonLogStream" Content="Rip live stream" HorizontalAlignment="Left" Margin="43,70,0,0" VerticalAlignment="Top" Width="100" Height="30" FontSize="14" Click="buttonLogStream_Click"/>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,105,0,0" TextWrapping="Wrap" Text="Exit FFmpeg using CTRL + C and not by pressing the X Icon" VerticalAlignment="Top" Width="164"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,105,0,0" TextWrapping="Wrap" Text="Exit FFmpeg bby pressing q and not by clicking the X Icon." VerticalAlignment="Top" Width="164"/>
 
     </Grid>
 </Window>

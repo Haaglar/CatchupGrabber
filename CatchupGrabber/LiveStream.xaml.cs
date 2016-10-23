@@ -29,6 +29,8 @@ namespace CatchupGrabber
             sites.Add(new LSSites() { Name = "TV3 Catalunya", URL = "http://ccma-tva-int-abertis-live.hls.adaptive.level3.net/int/ngrp:tv3_web/chunklist_b798000.m3u8", RequiresInitialRequest = false, Method = DownloadMethod.HLS });
             sites.Add(new LSSites() { Name = "3/24 Catalunya", URL = "http://ccma-tva-int-abertis-live.hls.adaptive.level3.net/int/ngrp:324_web/chunklist_b798000.m3u8", RequiresInitialRequest = false, Method = DownloadMethod.HLS });
             sites.Add(new LSSites() { Name = "Rai Gulp", URL = "http://b2everyrai-lh.akamaihd.net/i/raigulp_1@66350/index_1800_av-b.m3u8?sd=10&rebase=on", RequiresInitialRequest = false, Method = DownloadMethod.HLS });
+            sites.Add(new LSSites() { Name = "3Now", URL = "http://mworks-i.akamaihd.net/hls/live/247858/AES128/3812193411001/tv3_live/master_2000.m3u8", RequiresInitialRequest = false, Method = DownloadMethod.HLS });
+            sites.Add(new LSSites() { Name = "Bravo (NZ)", URL = "http://mworks-i.akamaihd.net/hls/live/251979/AES128/3812193411001/Bravo_Live/master_1500.m3u8", RequiresInitialRequest = false, Method = DownloadMethod.HLS });
             comboBoxSites.ItemsSource = sites;
             comboBoxSites.SelectedIndex = 0;
         }

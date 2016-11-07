@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using CatchupGrabber.MiscObjects.EnumValues;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace CatchupGrabber
 {
@@ -28,8 +29,10 @@ namespace CatchupGrabber
         Site curSite = Site.None;
         Dictionary<Site, DownloadAbstract> websiteStore = new Dictionary<Site, DownloadAbstract>();
         Dictionary<Site, string> addressStore = new Dictionary<Site, string>();
+        BitmapSource emptyImage = BitmapSource.Create(2, 2, 96, 96, PixelFormats.Indexed1, new BitmapPalette(new List<Color> { Colors.Transparent }), new byte[] { 0, 0, 0, 0 }, 1);
         public MainWindow()
         {
+            
             InitializeComponent();
             if(!File.Exists("FFmpeg.exe"))
             {
@@ -162,6 +165,7 @@ namespace CatchupGrabber
                 objectList.ItemsSource = websiteStore[curSite].GetShowsList();
                 curState = State.DisplayingShows;
                 sBinds.SelectedShow = "";
+                imageInformation.Source = emptyImage;
             }
             else
             {
@@ -293,6 +297,7 @@ namespace CatchupGrabber
             sBinds.SelectedSite = addressStore[site];
             sBinds.SelectedDescription = "";
             sBinds.Error = "";
+            imageInformation.Source = emptyImage;
             //First time selecting site
             if (!websiteStore[site].ShowListCacheValid)
             {
@@ -412,24 +417,28 @@ namespace CatchupGrabber
         /// <param name="e"></param>
         private void OL_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (objectList.SelectedIndex != -1)
+            if (objectList.SelectedIndex != -1) //Not out of bounds
             {
+                //Update text & image descripition
+                string desc = null;
+                string img = null;
                 if (curState == State.DisplayingShows)
                 {
-                    string tmp = websiteStore[curSite].GetDescriptionShow(objectList.SelectedIndex);
-                    if (tmp != null)
-                    {
-                        sBinds.SelectedDescription = tmp;
-                    }
+                    desc = websiteStore[curSite].GetDescriptionShow(objectList.SelectedIndex);
+                    img = websiteStore[curSite].GetImageURLShow(objectList.SelectedIndex);
                 }
                 else if (curState == State.DisplayingEpisodes)
                 {
-                    string tmp = websiteStore[curSite].GetDescriptionEpisode(objectList.SelectedIndex);
-                    if (tmp != null)
-                    {
-                        sBinds.SelectedDescription = tmp;
-                    }
+                    desc = websiteStore[curSite].GetDescriptionEpisode(objectList.SelectedIndex);
+                    img = websiteStore[curSite].GetImageURLEpisosde(objectList.SelectedIndex);
                 }
+                if (desc != null)
+                {
+                    sBinds.SelectedDescription = desc;
+                    imageInformation.Source = new BitmapImage(new Uri(img));
+                }
+
+
             }
         }
 

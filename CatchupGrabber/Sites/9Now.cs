@@ -114,5 +114,30 @@ namespace CatchupGrabber
         {
             return shows9N.items[selectedIndex].name;
         }
+
+        public override string GetImageURLShow(int index)
+        {
+            //Not sure if it always exist
+            if (shows9N.items[index].image != null && shows9N.items[index].image.sizes != null && shows9N.items[index].image.sizes.w320 != null)
+            {
+                return shows9N.items[index].image.sizes.w320;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public override string GetImageURLEpisosde(int index)
+        {
+            //Not sure if it always exist
+            if (episodes9N.items[0].items[index].image != null && episodes9N.items[0].items[index].image.sizes != null && episodes9N.items[0].items[index].image.sizes.w320 != null)
+            {
+                return episodes9N.items[0].items[index].image.sizes.w320;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

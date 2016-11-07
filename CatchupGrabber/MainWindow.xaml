@@ -30,7 +30,7 @@
                         <TextBlock x:Name="textBlockSite" HorizontalAlignment="Left" Margin="10,26,0,0" TextWrapping="Wrap" Text="{Binding SelectedSite}" VerticalAlignment="Top" Width="140" Height="21"/>
                         <TextBlock HorizontalAlignment="Left" Margin="10,52,0,0" TextWrapping="Wrap" Text="Show Selected:" VerticalAlignment="Top" Width="84"/>
                         <TextBlock x:Name="textBlockShow" HorizontalAlignment="Left" Margin="10,73,0,0" TextWrapping="Wrap" Text="{Binding SelectedShow}" VerticalAlignment="Top" Width="140" Height="42"/>
-                        <Image x:Name="imageInformation" Margin="0,120,0,150"></Image>
+                        <Image x:Name="imageInformation" Margin="10,120,10,150" ></Image>
                         <Button x:Name="buttonAbout" Content="About" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="140" Height="30" Click="About_Pressed" Margin="10,0,0,80" FontSize="14"/>
                         <Button x:Name="buttonLiveStream" Content="Live Stream" HorizontalAlignment="Left" Margin="10,0,0,115" VerticalAlignment="Bottom"  Width="140" Height="30" FontSize="14" Click="ButtonLiveStream_Click"/>
                     </Grid>

@@ -75,7 +75,7 @@ namespace CatchupGrabber
         /// </summary>
         /// <param name="index">The shows index in the list</param>
         /// <returns>A string contain the url</returns>
-        public string GetImageURLShow(int index)
+        public virtual string GetImageURLShow(int index)
         {
             return null;
         }
@@ -84,7 +84,7 @@ namespace CatchupGrabber
         /// </summary>
         /// <param name="index">The shows index in the list</param>
         /// <returns>A string contain the url</returns>
-        public string GetImageUrlEpisosde(int index)
+        public virtual string GetImageURLEpisosde(int index)
         {
             return null;
         }

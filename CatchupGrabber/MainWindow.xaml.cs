@@ -435,10 +435,16 @@ namespace CatchupGrabber
                 if (desc != null)
                 {
                     sBinds.SelectedDescription = desc;
-                    imageInformation.Source = new BitmapImage(new Uri(img));
                 }
-
-
+                if (img != null)
+                {
+                    BitmapImage imga = new BitmapImage();
+                    imga.BeginInit();
+                    imga.CreateOptions |= BitmapCreateOptions.IgnoreColorProfile; //Due to 'broken' color profile information contained in the some images
+                    imga.UriSource = new Uri(img);
+                    imga.EndInit();
+                    imageInformation.Source = imga;
+                }               
             }
         }
 

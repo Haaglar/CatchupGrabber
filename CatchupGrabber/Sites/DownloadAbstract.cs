@@ -70,5 +70,23 @@ namespace CatchupGrabber
         /// <param name="selectedIndex">The index in the show list</param>
         /// <returns>THe name of the show</returns>
         abstract public string GetSelectedShowName(int selectedIndex);
+        /// <summary>
+        /// Gets the image for the selected show
+        /// </summary>
+        /// <param name="index">The shows index in the list</param>
+        /// <returns>A string contain the url</returns>
+        public string GetImageURLShow(int index)
+        {
+            return null;
+        }
+        /// <summary>
+        /// Gets the image for the selected episode
+        /// </summary>
+        /// <param name="index">The shows index in the list</param>
+        /// <returns>A string contain the url</returns>
+        public string GetImageUrlEpisosde(int index)
+        {
+            return null;
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using CatchupGrabber.MiscObjects.EnumValues;
+using System.Windows.Media.Imaging;
 
 namespace CatchupGrabber
 {
@@ -119,7 +120,7 @@ namespace CatchupGrabber
                             else
                             {
                                 Console.WriteLine(x.Exception.ToString());
-                                sBinds.Error = "Failed to get episode list for selected show";
+                                sBinds.Error = "Failed to get episode list for selected show: " + websiteStore[curSite].GetShowsList()[selected];
                                 Shows_Pressed(null, null);
                             }
                             EnableButtonsSites();
@@ -136,7 +137,7 @@ namespace CatchupGrabber
                         catch(Exception eDl)
                         {
                             Console.WriteLine(eDl.ToString());
-                            sBinds.Error = "Failed to download episode";
+                            sBinds.Error = "Failed to download episode: " + websiteStore[curSite].GetEpisodesList()[selected];
                         }
                         break;
                 }

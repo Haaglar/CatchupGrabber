@@ -142,5 +142,14 @@ namespace CatchupGrabber
         {
             return value.infoBuscador[selectedIndex].titulo;
         }
+
+        public override string GetImageURLShow(int index)
+        {
+            return "http://img.rtve.es/p/" + value.infoBuscador[index].id +"?w=250";
+        }
+        public override string GetImageURLEpisosde(int index)
+        {
+            return episodesClan.page.items[index].imageSEO;
+        }
     }
 }

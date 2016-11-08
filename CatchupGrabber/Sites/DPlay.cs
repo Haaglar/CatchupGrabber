@@ -19,7 +19,9 @@ namespace CatchupGrabber
         private static string EpisodeAjaxAddrp2 = @"/seasons/?show_id=";
         private static string EpisodeAjaxAddrp3 = @"&items=52&sort=episode_number_desc&video_types=-clip"; //52 is the average episodes for a show
         private static string ShowsUrl = @"http://it.dplay.com/api/v2/ajax/modules?items=400&page_id=32&module_id=26&page=0"; //Show list
-        private CUNetworkAssist netAssist = new CUNetworkAssist(); 
+        private CUNetworkAssist netAssist = new CUNetworkAssist();
+
+        private string baseImageURL = "http://a3.res.cloudinary.com/db79cecgq/image/upload/c_crop,h_939,w_1408,x_292,y_1/c_fill,h_245,w_368/";
 
         /// <summary>
         /// Defualt constructor
@@ -135,6 +137,10 @@ namespace CatchupGrabber
         public override string GetSelectedShowName(int selectedIndex)
         {
             return showsDPlay.data[selectedIndex].title;
+        }
+        public override string GetImageURLShow(int index)
+        {
+            return baseImageURL + showsDPlay.data[index].image_data.file;
         }
     }
 }

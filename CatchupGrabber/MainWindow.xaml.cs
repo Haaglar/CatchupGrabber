@@ -419,7 +419,7 @@ namespace CatchupGrabber
         {
             if (objectList.SelectedIndex != -1) //Not out of bounds
             {
-                //Update text & image descripition
+                //Get text & image descripition
                 string desc = null;
                 string img = null;
                 if (curState == State.DisplayingShows)
@@ -432,11 +432,17 @@ namespace CatchupGrabber
                     desc = websiteStore[curSite].GetDescriptionEpisode(objectList.SelectedIndex);
                     img = websiteStore[curSite].GetImageURLEpisosde(objectList.SelectedIndex);
                 }
+                //Update description
                 if (desc != null)
                 {
                     sBinds.SelectedDescription = desc;
                 }
-                if (img != null)
+                //Update image
+                if (!Properties.Settings.Default.LoadImages)
+                {
+                    imageInformation.Source = emptyImage;
+                }
+                else if (img != null)
                 {
                     BitmapImage imga = new BitmapImage();
                     imga.BeginInit();
@@ -444,10 +450,15 @@ namespace CatchupGrabber
                     imga.UriSource = new Uri(img);
                     imga.EndInit();
                     imageInformation.Source = imga;
-                }               
+                }
             }
         }
 
+        /// <summary>
+        /// Handles the Livestream button press
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonLiveStream_Click(object sender, RoutedEventArgs e)
         {
             LiveStream lsWin = new LiveStream();

@@ -190,5 +190,17 @@ namespace CatchupGrabber.Properties {
                 this["HTTPUSA"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool LoadImages {
+            get {
+                return ((bool)(this["LoadImages"]));
+            }
+            set {
+                this["LoadImages"] = value;
+            }
+        }
     }
 }

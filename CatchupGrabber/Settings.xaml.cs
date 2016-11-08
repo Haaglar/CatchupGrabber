@@ -53,6 +53,7 @@ namespace CatchupGrabber
             CheckBoxDownloadWindowClose.IsChecked = Properties.Settings.Default.ExitDLOnDownload;
             CheckBoxSpaceReplace.IsChecked = Properties.Settings.Default.SpaceReplace;
             CheckBoxOverwrite.IsChecked = Properties.Settings.Default.OverwriteFile;
+            CheckBoxLoadImages.IsChecked = Properties.Settings.Default.LoadImages;
             //Sub
             CheckBoxSubtitleDownloadSetting.IsChecked = Properties.Settings.Default.DownloadSubtitlesSetting;
             if (!(CheckBoxSubtitleConvertSetting.IsChecked = Properties.Settings.Default.ConvertSubtitle) ?? false)
@@ -179,6 +180,7 @@ namespace CatchupGrabber
             Properties.Settings.Default.ExitDLOnDownload = CheckBoxDownloadWindowClose.IsChecked ?? false;
             Properties.Settings.Default.SpaceReplace = CheckBoxSpaceReplace.IsChecked ?? false;
             Properties.Settings.Default.OverwriteFile = CheckBoxOverwrite.IsChecked ?? false;
+            Properties.Settings.Default.LoadImages = CheckBoxLoadImages.IsChecked ?? false;
         }
 
         /// <summary>

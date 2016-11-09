@@ -87,5 +87,28 @@ namespace CatchupGrabber
         {
             return "";
         }
+
+        public override string GetImageURLShow(int index)
+        {
+            try
+            {
+                return shows.shows[index].images.dashboardHero.Replace("[width]", "381").Replace("[height]", "286"); //Res of whats on the site
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public override string GetImageURLEpisosde(int index)
+        {
+            try
+            {
+                return episodes.show.episodes[index].images.videoTile.Replace("[width]", "602").Replace("[height]", "340"); //Res of episodes
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

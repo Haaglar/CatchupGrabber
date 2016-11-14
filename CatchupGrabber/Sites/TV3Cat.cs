@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Xml;
 
 namespace CatchupGrabber
 {
@@ -12,9 +13,13 @@ namespace CatchupGrabber
     class TV3Cat : DownloadAbstract
     {
         private List<ShowsGeneric> showList;
-        private List<EpisodesGeneric> episodeList = new List<EpisodesGeneric>();
+        private List<EpisodesGeneric> episodeList;
 
         private static string EpisodeJsonUrl = @"http://dinamics.ccma.cat/pvideo/media.jsp?media=video&version=0s&idint=";
+        private static string ShowListing = @"http://dinamics.ccma.cat/feeds/programes/llistatProgramesPU.jsp?page=1&pageItems=1000&device=and-xh";
+        private static string EpisodeURLP1 = @"http://dinamics.ccma.cat/feeds/videos/llistatVideosServeiPU.jsp?type=videosprog&id=";
+        private static string EpisodeURLP2 = @"&page=1&pageItems=1000&device=and-xh&range=24h";
+
         private static string EpisodeJsonUrlGet = @"&profile=pc";
 
         public TV3Cat ()  { }
@@ -28,53 +33,47 @@ namespace CatchupGrabber
             string websiteShowList;
             using (WebClient webClient = new WebClient())
             {
-                webClient.Encoding = Encoding.UTF8; //Cause its system ansi by defualt and that screws up the text
-                websiteShowList = webClient.DownloadString("http://www.ccma.cat/tv3/programes/");
+                webClient.Encoding = Encoding.GetEncoding("iso-8859-1"); //Non english encoding so qw use Latin alphabet no. 1
+                websiteShowList = webClient.DownloadString(ShowListing);
             }
-            Regex getContents = new Regex(@"a href=""(.*?)"">(.*?)<", RegexOptions.Singleline);
-            //Cut the string from where the show list starts and ends
-            //So we can abuse regex
-            int beginIndex = websiteShowList.IndexOf(@"div class=""span9""");
-            int endIndex = websiteShowList.IndexOf(@"project_id: modul-programesaz") - beginIndex;
-            string cut = websiteShowList.Substring(beginIndex, endIndex); 
-            MatchCollection entries = getContents.Matches(cut);
-            foreach(Match entry in entries)
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(websiteShowList); // Load the XML 
+
+            XmlNodeList titleList = xmlDoc.GetElementsByTagName("item");
+            foreach(XmlNode item in titleList)
             {
-                //We dont want super3.cat videos, handlethem elsewhere.
-                //Cause the super3 videos here is incomplete and harder to handle
-                if (entry.Groups[1].Value.StartsWith(@"http://www.super3.cat/")) continue;
-                showList.Add(new ShowsGeneric(entry.Groups[2].Value.Trim(), entry.Groups[1].Value));
+                string name = item.SelectSingleNode("titol").InnerText;
+                string id  = item.Attributes["idint"].Value;
+                string url = item.SelectSingleNode("url").InnerText;
+                if(url.Contains("/super3/")) // We handle super3 elsewhere
+                {
+                    continue;
+                }
+                showList.Add(new ShowsGeneric(name, id));
             }
             ShowListCacheValid = true;
         }
 
         public override void ClickDisplayedShow(int selectedIndex)
         {
-            string urlSelectedTmp = showList[selectedIndex].url;
+            episodeList = new List<EpisodesGeneric>();
             string showEpisodeList;
-            //Its a relative url
-            if (urlSelectedTmp.StartsWith("/tv3/")) //TV3 Download
+            using (WebClient webClient = new WebClient())
             {
-                string urlFull = @"http://www.ccma.cat" + urlSelectedTmp;
-                using (WebClient webClient = new WebClient())
-                {
-                    webClient.Encoding = Encoding.UTF8; //Cause its system ansi by defualt and that screws up the text
-                    showEpisodeList = webClient.DownloadString(urlFull);
-                }
-                //:) so wrong
-                Regex episodeSearch = new Regex(@"<div class=""F-itemContenidorIntern C-destacatVideo"">.*?<a title=""(.*?)"" href=""(.*?)""", RegexOptions.Singleline);
-                //Cut it so we got episodes segment only
-                showEpisodeList = showEpisodeList.Substring(showEpisodeList.IndexOf("F-cos"));
-                MatchCollection episodes = episodeSearch.Matches(showEpisodeList);
-                foreach (Match entry in episodes)
-                {
-                    //Decoding cause of &#039; need to be '
-                    episodeList.Add(new EpisodesGeneric(WebUtility.HtmlDecode(entry.Groups[1].Value), entry.Groups[2].Value));
-                }
+                webClient.Encoding = Encoding.GetEncoding("iso-8859-1"); //Non english encoding so qw use Latin alphabet no. 1
+                showEpisodeList = webClient.DownloadString(EpisodeURLP1 + showList[selectedIndex].url +EpisodeURLP2);
             }
-            else
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(showEpisodeList); // Load the XML 
+
+            XmlNodeList itemList = xmlDoc.GetElementsByTagName("item");
+            foreach (XmlNode item in itemList)
             {
-                throw new ArgumentException("Not supported");
+                string name = item.SelectSingleNode("titol").InnerText;
+                string id = item.Attributes["idint"].Value;
+                string description = item.SelectSingleNode("entradeta").InnerText;
+                episodeList.Add(new EpisodesGeneric(name,id,description));
             }
         }
 
@@ -82,9 +81,7 @@ namespace CatchupGrabber
         {
             string pageJson;
 
-            string episodeUrl = episodeList[selectedIndex].EpisodeID;
-            Regex regRefId = new Regex(@"/([0-9]+)/");
-            string refID = regRefId.Matches(episodeUrl)[0].Groups[1].Value;
+            string refID = episodeList[selectedIndex].EpisodeID;
 
             //Download json
             using (WebClient webClient = new WebClient())
@@ -129,7 +126,7 @@ namespace CatchupGrabber
 
         public override string GetDescriptionEpisode(int selectedIndex)
         {
-            return null;
+            return episodeList[selectedIndex].Description;
         }
 
         public override string GetSelectedShowName(int selectedIndex)

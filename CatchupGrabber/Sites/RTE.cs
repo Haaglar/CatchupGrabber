@@ -149,5 +149,9 @@ namespace CatchupGrabber
         {
             return rteShows[selectedIndex].v;
         }
+        public override string GetImageURLShow(int index)
+        {
+            return "https://img.rasset.ie/" + rteShows[index].i+ "-261.jpg";
+        }
     }
 }

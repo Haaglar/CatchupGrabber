@@ -52,7 +52,7 @@ namespace CatchupGrabber
             // Theres some json in the page that contains usefull information about the shows
             // But it has wierdly named attributes, and will require regex editing to remove it
             //So i just regex to get the data from it           
-            Regex abuseShows = new Regex(@"""title"":""([^""]*)"",""urlFriendlyTitle"":""([^""]*)""");
+            Regex abuseShows = new Regex(@"""programTitle"":""([^""]*)"",""contentUrl"":""([^""]*)""");
             MatchCollection showsCol = abuseShows.Matches(websiteShowList);
             foreach(Match match in showsCol)
             {
@@ -69,7 +69,7 @@ namespace CatchupGrabber
                 webClient.Encoding = Encoding.UTF8; //Webpage encoding Get some Json Data
                 pageData = webClient.DownloadString(episodesSVT[selectedIndex].EpisodeID);
             }
-            Regex findm3u8 = new Regex(@"""url"":""(.*?m3u8)""",RegexOptions.RightToLeft);
+            Regex findm3u8 = new Regex(@"""url"":""(http.*?master\.m3u8)", RegexOptions.RightToLeft);
             string url = findm3u8.Match(pageData).Groups[1].Value;
             string urlnew = netAssist.GetHighestM3U8Address(url);
             url = new Uri(new Uri(url), urlnew).ToString();
